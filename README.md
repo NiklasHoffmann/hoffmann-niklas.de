@@ -397,7 +397,7 @@ Contributions sind willkommen! Bitte erstelle ein Issue oder Pull Request.
 **Niklas Hoffmann**
 - Website: [hoffmann-niklas.de](https://hoffmann-niklas.de)
 - GitHub: [@NiklasHoffmann](https://github.com/NiklasHoffmann)
-- Email: kontakt@hoffmann-niklas.de
+- Email: mail@hoffmann-niklas.de
 
 ---
 
