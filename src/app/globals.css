@@ -1,26 +1,119 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.6%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.6%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --accent: 0 84.2% 60.2%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.6%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.6%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.6%;
+    --card-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 3.6%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --accent: 0 84.2% 60.2%;
+    --accent-foreground: 0 0% 3.6%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 3.6%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 84.2% 60.2%;
   }
 }
 
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Sanfteres Scrolling mit reduzierter Snap-Stärke */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* Snap Scroll Sections - proximity statt mandatory für sanfteres Scrolling */
+.scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+  /* Erlaubt sanfteres Durchscrollen */
+}
+
+/* Hero Section - muss exakt bei scrollY = 0 starten */
+#hero.scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-margin-top: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  scroll-padding-top: 0 !important;
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+}
+
+body {
+  overflow-x: hidden;
+  /* Nur body, nicht html */
+}
+
+html {
+  /* mandatory für sicheres Snapping zur nächsten Section */
+  scroll-snap-type: y mandatory;
+
+  /* Smooth scrolling - Browser optimiert die Geschwindigkeit */
+  scroll-behavior: smooth;
+
+  /* Reduziert die "Härte" des Snappings */
+  scroll-padding: 0;
+}
+
+/* Sanfteres Snapping durch delayed snap alignment */
+.scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  /* Stoppt bei jeder Section */
+}
+
+/* Optimierung für sanfteres Scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

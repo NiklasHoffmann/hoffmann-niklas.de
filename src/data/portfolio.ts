@@ -1,0 +1,67 @@
+import { Project } from '@/types';
+
+export const projects: Project[] = [
+    {
+        id: '1',
+        title: 'web3wallet',
+        description: 'web3wallet',
+        image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop&q=80',
+        tags: ['Web3', 'Wagmi', 'WalletConnect', 'React', 'TypeScript'],
+        link: 'https://example.com',
+        github: 'https://github.com',
+    },
+    {
+        id: '2',
+        title: 'nftmarketplace',
+        description: 'nftmarketplace',
+        image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&h=600&fit=crop&q=80',
+        tags: ['Next.js', 'IPFS', 'Web3', 'NFT', 'React'],
+        link: 'https://example.com',
+        github: 'https://github.com',
+    },
+    {
+        id: '3',
+        title: 'defi',
+        description: 'defi',
+        image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop&q=80',
+        tags: ['DeFi', 'Web3.js', 'React', 'Ethers.js', 'TypeScript'],
+        link: 'https://example.com',
+        github: 'https://github.com',
+    },
+    {
+        id: '4',
+        title: 'ecommerce',
+        description: 'ecommerce',
+        image: 'https://images.unsplash.com/photo-1460925895917-adf4ea918635?w=800&h=600&fit=crop&q=80',
+        tags: ['Next.js', 'React', 'Stripe', 'MongoDB', 'Tailwind'],
+        link: 'https://example.com',
+        github: 'https://github.com',
+    },
+    {
+        id: '5',
+        title: 'saas',
+        description: 'saas',
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&q=80',
+        tags: ['React', 'TypeScript', 'Chart.js', 'API', 'PostgreSQL'],
+        link: 'https://example.com',
+        github: 'https://github.com',
+    },
+    {
+        id: '6',
+        title: 'blogplatform',
+        description: 'blogplatform',
+        image: 'https://images.unsplash.com/photo-1521747116042-5a810fda9664?w=800&h=600&fit=crop&q=80',
+        tags: ['Next.js', 'Sanity', 'React', 'TypeScript'],
+        link: 'https://example.com',
+        github: 'https://github.com',
+    },
+    {
+        id: '7',
+        title: 'projectplaceholder1',
+        description: 'projectplaceholder1',
+        image: 'https://images.unsplash.com/photo-1521747116042-5a810fda9664?w=800&h=600&fit=crop&q=80',
+        tags: ['Next.js', 'Sanity', 'React', 'TypeScript'],
+        link: 'https://example.com',
+        github: 'https://github.com',
+    }
+];
