@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { Metadata } from 'next';
 import { ChatProvider } from '@/contexts/ChatContext';
-import ChatWidget from '@/components/ChatWidget';
+import ClientChatWidget from '@/components/ClientChatWidget';
 import { AnalyticsProvider } from '@/components/AnalyticsProvider';
 import { StructuredData } from '@/components/StructuredData';
 import { locales } from '@/i18n/config';
@@ -125,7 +125,7 @@ export default async function LocaleLayout({
             <ChatProvider>
                 <AnalyticsProvider />
                 {children}
-                <ChatWidget />
+                <ClientChatWidget />
             </ChatProvider>
         </NextIntlClientProvider>
     );
