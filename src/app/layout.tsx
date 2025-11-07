@@ -5,6 +5,7 @@ import { getRequestConfig } from "next-intl/server";
 import "./globals.css";
 import { ClientProviders } from "@/components/ClientProviders";
 import { ConditionalChainBackground } from "@/components/ConditionalChainBackground";
+import { DynamicFavicon } from "@/components/DynamicFavicon";
 import { locales, defaultLocale } from "@/i18n/config";
 
 const geistSans = Geist({
@@ -72,6 +73,7 @@ export default async function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ClientProviders>
+          <DynamicFavicon />
           <div className="relative min-h-screen">
             {/* Chain Background Layer - z-1 (zwischen Background und Content) */}
             <div className="absolute inset-0 pointer-events-none z-[1]">
