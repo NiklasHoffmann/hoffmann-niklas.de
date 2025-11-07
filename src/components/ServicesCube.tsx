@@ -41,7 +41,7 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
             {/* Dynamic floating shadow/glow - changes based on theme */}
             {mounted && (
                 <div
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 pointer-events-none transition-all duration-700 ease-in-out"
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 pointer-events-none"
                     style={{
                         width: 'min(55vw, 280px)',
                         height: 'min(55vw, 280px)',
@@ -59,6 +59,7 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
                         backfaceVisibility: 'hidden',
                         WebkitBackfaceVisibility: 'hidden',
                         zIndex: -1,
+                        transition: 'none', // No transition for transform - move with cube
                     }}
                 />
             )}
