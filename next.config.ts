@@ -14,10 +14,27 @@ const nextConfig: NextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
+  // Production-only optimizations
+  ...(process.env.NODE_ENV === 'production' && {
+    productionBrowserSourceMaps: false, // Disable source maps in production
+  }),
+
   // Optimize CSS loading
   experimental: {
     optimizeCss: true, // Enable CSS optimization
-    optimizePackageImports: ['@iconify/react', 'lucide-react'],
+    optimizePackageImports: ['@iconify/react', 'lucide-react', 'next-intl'],
+  },
+
+  // Webpack optimizations
+  webpack: (config, { isServer }) => {
+    // Enable tree shaking
+    config.optimization = {
+      ...config.optimization,
+      usedExports: true,
+      sideEffects: false,
+    };
+
+    return config;
   },
 
   // Cache headers for better performance

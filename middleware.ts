@@ -10,7 +10,7 @@ const intlMiddleware = createMiddleware({
 
 export default function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
-    
+
     // Debug logs (werden in production nicht entfernt wenn wir sie brauchen)
     if (process.env.NODE_ENV !== 'production') {
         console.log('🔍 Middleware called for:', pathname);
