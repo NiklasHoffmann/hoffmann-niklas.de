@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import {
     ArrowLeft, TrendingUp, Users, Clock, Eye, MousePointerClick,
     Monitor, Smartphone, Globe, BarChart3, Activity, Tablet, Moon, Sun
@@ -54,12 +55,15 @@ interface AnalyticsData {
 
 export default function AnalyticsPage() {
     const router = useRouter();
+    const { theme } = useTheme();
+    const [mounted, setMounted] = useState(false);
     const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
     const [loading, setLoading] = useState(true);
     const [isChecking, setIsChecking] = useState(true);
     const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d' | '90d'>('7d');
 
     useEffect(() => {
+        setMounted(true);
         checkAuth();
     }, []);
 
@@ -109,7 +113,7 @@ export default function AnalyticsPage() {
         return `${minutes}m ${secs}s`;
     };
 
-    if (isChecking || loading) {
+    if (!mounted || isChecking || loading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-6">
                 <div className="max-w-7xl mx-auto">
