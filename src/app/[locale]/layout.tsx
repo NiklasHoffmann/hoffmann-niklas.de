@@ -5,6 +5,12 @@ import { ChatProvider } from '@/contexts/ChatContext';
 import ChatWidget from '@/components/ChatWidget';
 import { AnalyticsProvider } from '@/components/AnalyticsProvider';
 import { StructuredData } from '@/components/StructuredData';
+import { locales } from '@/i18n/config';
+
+// Generate static params for all locales
+export function generateStaticParams() {
+    return locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({
     params,
