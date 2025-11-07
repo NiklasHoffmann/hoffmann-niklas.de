@@ -8,7 +8,7 @@ interface IconProps {
 
 // Wrapper für konsistente Icon-Props
 function BrandIcon({ icon, className = 'w-6 h-6' }: IconProps & { icon: string }) {
-    return <Icon icon={icon} className={className} />;
+    return <Icon icon={icon} className={className} ssr={true} />;
 }
 
 export function ReactIcon({ className }: IconProps) {

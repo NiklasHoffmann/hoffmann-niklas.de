@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+/* CSS Custom Properties für animierbare Scrollbar-Farben */
+@property --scrollbar-track {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+@property --scrollbar-thumb {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #000000;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -20,6 +33,18 @@
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.6%;
     --radius: 0.5rem;
+
+    /* Transition Durations - zentral verwaltet */
+    --transition-fast: 300ms;
+    /* Schnelle Interaktionen (Hover, Header) */
+    --transition-standard: 500ms;
+    /* Standard UI Elemente */
+    --transition-slow: 700ms;
+    /* Theme, Language, Interactive Toggle */
+
+    /* Scrollbar Farben für Light Mode */
+    --scrollbar-track: #ffffff;
+    --scrollbar-thumb: #090909;
   }
 
   .dark {
@@ -40,6 +65,10 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 84.2% 60.2%;
+
+    /* Scrollbar Farben für Dark Mode */
+    --scrollbar-track: #090909;
+    --scrollbar-thumb: #fafafa;
   }
 }
 
@@ -48,9 +77,66 @@
     border-color: hsl(var(--border));
   }
 
+  /* HTML Element mit Transition für Custom Properties (wo .dark Klasse getoggled wird) */
+  html {
+    transition:
+      --scrollbar-track var(--transition-slow) ease-in-out,
+      --scrollbar-thumb var(--transition-slow) ease-in-out;
+  }
+
+  /* Überschreibe Tailwinds transition-colors Standard-Duration */
+  .transition-colors {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: var(--transition-slow) !important;
+  }
+
+  /* Spezielle Transition für Tailwinds transition-all */
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: var(--transition-slow) !important;
+  }
+
+  /* Explizite Transition für box-shadow (wichtig für Toggle Buttons) */
+  .transition-shadow {
+    transition-property: box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: var(--transition-slow) !important;
+  }
+
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    /* Body kümmert sich nur um eigene Farben; die Custom-Props animieren über :root */
+    transition:
+      background-color var(--transition-slow) ease-in-out,
+      color var(--transition-slow) ease-in-out !important;
+  }
+
+  /* Scrollbar Styling mit animierbaren Custom Properties (Chromium/Safari) */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 6px;
+    border: 2px solid var(--scrollbar-track);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    opacity: 0.8;
+  }
+
+  /* Firefox Scrollbar (ohne Animation) */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
 
   html {
@@ -62,6 +148,17 @@
     html {
       scroll-behavior: smooth;
     }
+  }
+
+  /* Hide Next.js dev indicators */
+  #__next-build-watcher,
+  nextjs-portal,
+  [data-nextjs-toast-wrapper],
+  [id^="__next"],
+  div[style*="position: fixed"][style*="bottom"][style*="left"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
   }
 }
 
@@ -93,9 +190,90 @@ body {
   /* Nur body, nicht html */
 }
 
+/* Tablet Orientation Handling - verhindert Layout-Sprünge beim Drehen */
+@media screen and (min-width: 600px) and (max-width: 1200px) {
+
+  html,
+  body {
+    /* Stabile Höhe während Rotation */
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Dynamic viewport height */
+  }
+
+  /* Sections passen sich besser an Tablet-Querformat an */
+  .scroll-snap-section {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
+
+/* Portrait-Modus - Dynamisch via Body-Klasse */
+body.is-portrait .scroll-snap-section {
+  height: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Landscape-Modus - Dynamisch via Body-Klasse */
+body.is-landscape .scroll-snap-section {
+  height: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body.is-landscape .scroll-snap-section .max-w-7xl {
+  max-width: 85% !important;
+}
+
+body.is-landscape .scroll-snap-section .max-w-6xl {
+  max-width: 85% !important;
+}
+
+body.is-landscape .scroll-snap-section .max-w-5xl {
+  max-width: 82% !important;
+}
+
+body.is-landscape .scroll-snap-section .max-w-4xl {
+  max-width: 78% !important;
+}
+
+/* Fallback: Media Query basiert (falls Body-Klassen nicht greifen) */
+@media screen and (orientation: portrait) and (max-width: 1200px) {
+  .scroll-snap-section {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
+
+@media screen and (orientation: landscape) and (min-width: 768px) and (max-width: 1536px) {
+  .scroll-snap-section {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .scroll-snap-section .max-w-7xl {
+    max-width: 85% !important;
+  }
+
+  .scroll-snap-section .max-w-6xl {
+    max-width: 85% !important;
+  }
+
+  .scroll-snap-section .max-w-5xl {
+    max-width: 82% !important;
+  }
+
+  .scroll-snap-section .max-w-4xl {
+    max-width: 78% !important;
+  }
+}
+
 html {
-  /* mandatory für sicheres Snapping zur nächsten Section */
-  scroll-snap-type: y mandatory;
+  /* Proximity statt mandatory = nur sanftes Snapping wenn nahe an Section */
+  scroll-snap-type: y proximity;
 
   /* Smooth scrolling - Browser optimiert die Geschwindigkeit */
   scroll-behavior: smooth;
@@ -104,7 +282,7 @@ html {
   scroll-padding: 0;
 }
 
-/* Sanfteres Snapping durch delayed snap alignment */
+/* Sanfteres Snapping - nur wenn direkt an Section */
 .scroll-snap-section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -115,5 +293,36 @@ html {
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
+  }
+}
+
+/* Neon Aufleuchten Animation für Navigation */
+@keyframes glow-pulse {
+  0% {
+    filter: brightness(1);
+    text-shadow: 0 0 0px currentColor;
+  }
+
+  50% {
+    filter: brightness(1.5);
+    text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+
+  100% {
+    filter: brightness(1);
+    text-shadow: 0 0 10px currentColor;
+  }
+}
+
+/* Fade In Animation für Language Toggle */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }

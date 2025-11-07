@@ -21,10 +21,10 @@ export function ProjectCard({
     codeText,
     maxTags = 3,
     priority = false,
-    sizes = '100vw',
+    sizes = '(max-width: 768px) 45vw, (max-width: 1536px) 330px, 384px',
 }: ProjectCardProps) {
     return (
-        <div className="group rounded-lg overflow-hidden border border-border hover:border-accent/50 transition-all hover:shadow-lg hover:shadow-accent/20 bg-card h-full flex flex-col">
+        <div className="group rounded-lg overflow-hidden border border-border hover:border-accent/50 hover:shadow-lg hover:shadow-accent/20 bg-card h-full flex flex-col" style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
             {/* Image */}
             <div className="relative aspect-[4/3] bg-muted overflow-hidden flex-shrink-0">
                 <Image
@@ -34,9 +34,8 @@ export function ProjectCard({
                     sizes={sizes}
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     loading={priority ? "eager" : "lazy"}
-                    quality={80}
+                    quality={70}
                     priority={priority}
-                    unoptimized={false}
                 />
             </div>
 
@@ -55,7 +54,7 @@ export function ProjectCard({
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xs sm:text-sm font-bold mb-1 group-hover:text-accent transition-colors">
+                <h3 className="text-xs sm:text-sm font-bold mb-1 group-hover:text-accent" style={{ transition: 'color 700ms ease-in-out' }}>
                     {titleText}
                 </h3>
 
@@ -71,7 +70,10 @@ export function ProjectCard({
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 text-[9px] sm:text-[10px] bg-accent/10 text-accent rounded hover:bg-accent hover:text-accent-foreground transition-colors font-semibold"
+                            className="flex-1 flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 text-[9px] sm:text-[10px] bg-accent/10 text-accent rounded hover:bg-accent hover:text-accent-foreground font-semibold"
+                            style={{
+                                transition: 'background-color 700ms ease-in-out, color 0ms'
+                            }}
                             aria-label={`View ${titleText} demo`}
                         >
                             <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
@@ -83,7 +85,8 @@ export function ProjectCard({
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 text-[9px] sm:text-[10px] border border-border rounded hover:bg-secondary transition-colors font-semibold"
+                            className="flex-1 flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 text-[9px] sm:text-[10px] border border-border rounded hover:bg-secondary font-semibold"
+                            style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out' }}
                             aria-label={`View ${titleText} source code`}
                         >
                             <Github className="w-2.5 h-2.5 sm:w-3 sm:h-3" />

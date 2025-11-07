@@ -139,30 +139,26 @@ export default function ChatWindow() {
     };
 
     // Don't render until mounted to avoid hydration mismatch
-    if (!mounted) {
-        return null;
-    }
+    // But don't return null completely - just use safe defaults
+    const safeIsDark = mounted ? isDark : false;
 
     // Name Input Modal
     if (showNameInput) {
         return (
             <div
                 className="flex-1 flex flex-col items-center justify-center p-6"
-                style={{ backgroundColor: isDark ? '#090909' : '#ffffff' }}
+                style={{
+                    backgroundColor: safeIsDark ? '#090909' : '#ffffff',
+                    transition: 'background-color 700ms ease-in-out'
+                }}
             >
                 <div className="w-full max-w-sm space-y-4">
                     <div className="text-center space-y-2">
-                        <Icon icon="mdi:account-circle" className="w-16 h-16 mx-auto text-accent" />
-                        <h3
-                            className="text-xl font-semibold"
-                            style={{ color: isDark ? '#ffffff' : '#111827' }}
-                        >
+                        <Icon icon="mdi:account-circle" className="w-16 h-16 mx-auto text-accent" ssr={true} />
+                        <h3 className="text-xl font-semibold text-foreground">
                             {t('welcome')}
                         </h3>
-                        <p
-                            className="text-sm"
-                            style={{ color: isDark ? '#d1d5db' : '#4b5563' }}
-                        >
+                        <p className="text-sm text-muted-foreground">
                             {t('enterName')}
                         </p>
                         <form onSubmit={handleSetName} className="space-y-3">
@@ -171,22 +167,30 @@ export default function ChatWindow() {
                                 value={tempName}
                                 onChange={(e) => setTempName(e.target.value)}
                                 placeholder={t('namePlaceholder')}
-                                className="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent shadow-sm"
+                                className="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent shadow-sm text-foreground placeholder:text-muted-foreground"
                                 style={{
-                                    backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
-                                    borderColor: isDark ? '#262626' : '#d1d5db',
-                                    color: isDark ? '#ffffff' : '#111827'
+                                    backgroundColor: safeIsDark ? '#090909' : '#ffffff',
+                                    borderColor: safeIsDark ? '#1a1a1a' : '#d1d5db',
+                                    transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                                 }}
                                 autoFocus
                             />
                             <button
                                 type="submit"
                                 disabled={!tempName.trim()}
-                                className="w-full px-4 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                                className="w-full px-4 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed bg-card/80 backdrop-blur-md border border-border"
+                                style={{
+                                    boxShadow: safeIsDark 
+                                        ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)' 
+                                        : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
+                                    transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
+                                }}
                             >
-                                {t('startChat')}
+                                <span className="text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
+                                    {t('startChat')}
+                                </span>
                             </button>
-                            <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+                            <p className="text-xs text-center text-muted-foreground">
                                 {t('privacyNotice')}
                             </p>
                         </form>
@@ -200,12 +204,18 @@ export default function ChatWindow() {
     return (
         <div
             className="flex-1 flex flex-col overflow-hidden"
-            style={{ backgroundColor: isDark ? '#090909' : '#ffffff' }}
+            style={{
+                backgroundColor: isDark ? '#090909' : '#ffffff',
+                transition: 'background-color 700ms ease-in-out'
+            }}
         >
             {/* Messages Area */}
             <div
                 className="flex-1 overflow-y-auto p-4 space-y-4"
-                style={{ backgroundColor: isDark ? '#090909' : '#ffffff' }}
+                style={{
+                    backgroundColor: isDark ? '#090909' : '#ffffff',
+                    transition: 'background-color 700ms ease-in-out'
+                }}
                 onClick={handleInputFocus}
             >
                 {/* Welcome Message */}
@@ -213,16 +223,10 @@ export default function ChatWindow() {
                     <div className="flex flex-col items-center justify-center h-full text-center space-y-3">
                         <Icon icon="mdi:chat-outline" className="w-16 h-16 text-accent/40" />
                         <div>
-                            <h4
-                                className="text-lg font-medium"
-                                style={{ color: isDark ? '#ffffff' : '#111827' }}
-                            >
+                            <h4 className="text-lg font-medium text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
                                 {t('greeting', { userName: userName || '' })}
                             </h4>
-                            <p
-                                className="text-sm mt-1"
-                                style={{ color: isDark ? '#d1d5db' : '#4b5563' }}
-                            >
+                            <p className="text-sm mt-1 text-muted-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
                                 {t('howCanWeHelp')}
                             </p>
                         </div>
@@ -243,7 +247,8 @@ export default function ChatWindow() {
                                     className="text-xs font-semibold px-3 py-1 rounded-full"
                                     style={{
                                         backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)',
-                                        color: '#3b82f6'
+                                        color: '#3b82f6',
+                                        transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out'
                                     }}
                                 >
                                     New Messages
@@ -263,18 +268,25 @@ export default function ChatWindow() {
                                     }`}
                                 style={message.sender === 'user' ? {
                                     backgroundColor: isDark ? '#e5e7eb' : '#4b5563',
-                                    color: isDark ? '#111827' : '#ffffff'
+                                    color: isDark ? '#111827' : '#ffffff',
+                                    transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out'
                                 } : {
                                     backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                                     borderColor: isDark ? '#262626' : '#d1d5db',
-                                    color: isDark ? '#ffffff' : '#111827'
+                                    color: isDark ? '#ffffff' : '#111827',
+                                    transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out'
                                 }}
                             >
                                 {/* Admin Name */}
                                 {message.sender === 'admin' && (
                                     <div className="flex items-center gap-1.5 mb-1">
-                                        <Icon icon="mdi:shield-account" className="w-4 h-4 text-accent" />
-                                        <span className="text-xs font-medium text-accent">{t('supportTeam')}</span>
+                                        <Icon icon="mdi:shield-account" className="w-4 h-4 text-accent" ssr={true} />
+                                        <span
+                                            className="text-xs font-medium text-accent"
+                                            style={{ transition: 'color 700ms ease-in-out' }}
+                                        >
+                                            {t('supportTeam')}
+                                        </span>
                                     </div>
                                 )}
 
@@ -289,7 +301,8 @@ export default function ChatWindow() {
                                     style={{
                                         color: message.sender === 'user'
                                             ? 'rgba(17, 24, 39, 0.7)'
-                                            : isDark ? '#9ca3af' : '#6b7280'
+                                            : isDark ? '#9ca3af' : '#6b7280',
+                                        transition: 'color 700ms ease-in-out'
                                     }}
                                 >
                                     {new Date(message.timestamp).toLocaleTimeString('de-DE', {
@@ -311,7 +324,8 @@ export default function ChatWindow() {
                             style={{
                                 backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                                 borderColor: isDark ? '#262626' : '#d1d5db',
-                                color: isDark ? '#ffffff' : '#111827'
+                                color: isDark ? '#ffffff' : '#111827',
+                                transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out'
                             }}
                         >
                             <div className="flex items-center gap-1.5">
@@ -320,7 +334,15 @@ export default function ChatWindow() {
                                     <div className="w-2 h-2 bg-accent/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
                                     <div className="w-2 h-2 bg-accent/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                                 </div>
-                                <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">{t('typing')}</span>
+                                <span
+                                    className="text-xs ml-1"
+                                    style={{
+                                        color: isDark ? '#9ca3af' : '#6b7280',
+                                        transition: 'color 700ms ease-in-out'
+                                    }}
+                                >
+                                    {t('typing')}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -332,8 +354,17 @@ export default function ChatWindow() {
 
             {/* Connection Status */}
             {!isConnected && (
-                <div className="px-4 py-2.5 bg-yellow-500/10 border-t border-yellow-500/30">
-                    <p className="text-xs text-yellow-700 dark:text-yellow-300 flex items-center gap-2">
+                <div
+                    className="px-4 py-2.5 bg-yellow-500/10 border-t border-yellow-500/30"
+                    style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out' }}
+                >
+                    <p
+                        className="text-xs flex items-center gap-2"
+                        style={{
+                            color: isDark ? '#fcd34d' : '#b45309',
+                            transition: 'color 700ms ease-in-out'
+                        }}
+                    >
                         <Icon icon="mdi:wifi-off" className="w-4 h-4" />
                         {t('reconnecting')}
                     </p>
@@ -342,8 +373,17 @@ export default function ChatWindow() {
 
             {/* Admin Online Status */}
             {isAdminOnline && (
-                <div className="px-4 py-2.5 bg-green-500/10 border-t border-green-500/30">
-                    <p className="text-xs text-green-700 dark:text-green-300 flex items-center gap-2">
+                <div
+                    className="px-4 py-2.5 bg-green-500/10 border-t border-green-500/30"
+                    style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out' }}
+                >
+                    <p
+                        className="text-xs flex items-center gap-2"
+                        style={{
+                            color: isDark ? '#86efac' : '#15803d',
+                            transition: 'color 700ms ease-in-out'
+                        }}
+                    >
                         <Icon icon="mdi:check-circle" className="w-4 h-4" />
                         {t('adminOnline')}
                     </p>
@@ -354,7 +394,10 @@ export default function ChatWindow() {
             <form
                 onSubmit={handleSendMessage}
                 className="p-4 border-t"
-                style={{ borderColor: isDark ? '#1a1a1a' : '#d1d5db' }}
+                style={{
+                    borderColor: isDark ? '#1a1a1a' : '#d1d5db',
+                    transition: 'border-color 700ms ease-in-out'
+                }}
             >
                 <div className="flex gap-2">
                     <input
@@ -363,29 +406,37 @@ export default function ChatWindow() {
                         onChange={handleInputChange}
                         onFocus={handleInputFocus}
                         placeholder={t('inputPlaceholder')}
-                        className="flex-1 px-4 py-2.5 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-sm shadow-sm transition-shadow"
+                        className="flex-1 px-4 py-2.5 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-sm shadow-sm text-foreground placeholder:text-muted-foreground"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#d1d5db',
-                            color: isDark ? '#ffffff' : '#111827'
+                            transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                         }}
                         disabled={!isConnected}
                     />
                     <button
                         type="submit"
                         disabled={!inputMessage.trim() || !isConnected}
-                        className="px-4 py-2.5 rounded-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-md hover:shadow-lg"
+                        className="px-4 py-2.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 bg-card/80 backdrop-blur-md border border-border"
                         style={{
-                            backgroundColor: isDark ? '#e5e7eb' : '#4b5563',
-                            color: isDark ? '#111827' : '#ffffff'
+                            boxShadow: isDark 
+                                ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)' 
+                                : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
+                            transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                         }}
                     >
-                        <Icon icon="mdi:send" className="w-5 h-5" />
+                        <Icon icon="mdi:send" className="w-5 h-5 text-foreground" ssr={true} style={{ transition: 'color 700ms ease-in-out' }} />
                     </button>
                 </div>
 
-                <p className="text-xs text-muted-foreground mt-2.5 flex items-center gap-1.5">
-                    <Icon icon="mdi:lock" className="w-3 h-3" />
+                <p
+                    className="text-xs mt-2.5 flex items-center gap-1.5"
+                    style={{
+                        color: isDark ? '#9ca3af' : '#6b7280',
+                        transition: 'color 700ms ease-in-out'
+                    }}
+                >
+                    <Icon icon="mdi:lock" className="w-3 h-3" ssr={true} />
                     {t('securityNotice')}
                 </p>
             </form>

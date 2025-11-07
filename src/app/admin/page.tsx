@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
@@ -10,6 +10,7 @@ export default function AdminPage() {
     const { theme } = useTheme();
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
+    const [isChecking, setIsChecking] = useState(true);
     const [stats, setStats] = useState({
         totalSessions: 0,
         messagesToday: 0,
@@ -20,23 +21,54 @@ export default function AdminPage() {
 
     useEffect(() => {
         setMounted(true);
-        fetchStats();
-        
-        // Auto-refresh alle 30 Sekunden
-        const interval = setInterval(fetchStats, 30000);
-        return () => clearInterval(interval);
+        checkAuth();
     }, []);
+
+    const checkAuth = async () => {
+        try {
+            const response = await fetch('/api/auth/check');
+            const data = await response.json();
+            
+            if (!data.authenticated) {
+                router.push('/admin/login');
+                return;
+            }
+            
+            setIsChecking(false);
+        } catch (error) {
+            console.error('Auth check failed:', error);
+            router.push('/admin/login');
+        }
+    };
+
+    useEffect(() => {
+        if (!isChecking) {
+            fetchStats();
+
+            const interval = setInterval(fetchStats, 30000);
+            return () => clearInterval(interval);
+        }
+    }, [isChecking]);
 
     const fetchStats = async () => {
         try {
             const response = await fetch('/api/chat/stats');
             const data = await response.json();
-            
+
             if (data.success && data.data) {
                 setStats(data.data);
             }
         } catch (error) {
             console.error('Failed to fetch stats:', error);
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            router.push('/admin/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
         }
     };
 
@@ -75,7 +107,7 @@ export default function AdminPage() {
         }
     ];
 
-    if (!mounted) {
+    if (!mounted || isChecking) {
         return null;
     }
 
@@ -85,16 +117,28 @@ export default function AdminPage() {
             style={{ backgroundColor: isDark ? '#090909' : '#f9fafb' }}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                {/* Header */}
                 <div className="mb-8">
-                    <div className="flex items-center gap-3 mb-2">
-                        <Icon icon="mdi:shield-account" className="w-10 h-10 text-accent" />
-                        <h1
-                            className="text-4xl font-bold"
-                            style={{ color: isDark ? '#ffffff' : '#111827' }}
+                    <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-3">
+                            <Icon icon="mdi:shield-account" className="w-10 h-10 text-accent" />
+                            <h1
+                                className="text-4xl font-bold"
+                                style={{ color: isDark ? '#ffffff' : '#111827' }}
+                            >
+                                Admin Dashboard
+                            </h1>
+                        </div>
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg border-2 hover:bg-red-500/10 transition-all"
+                            style={{
+                                borderColor: isDark ? '#262626' : '#e5e7eb',
+                                color: isDark ? '#ef4444' : '#dc2626'
+                            }}
                         >
-                            Admin Dashboard
-                        </h1>
+                            <Icon icon="mdi:logout" className="w-5 h-5" />
+                            <span className="font-medium">Logout</span>
+                        </button>
                     </div>
                     <p
                         className="text-lg"
@@ -104,7 +148,6 @@ export default function AdminPage() {
                     </p>
                 </div>
 
-                {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                     <div
                         className="p-6 rounded-xl border-2"
@@ -211,7 +254,6 @@ export default function AdminPage() {
                     </div>
                 </div>
 
-                {/* Admin Modules */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {adminModules.map((module) => (
                         <Link
@@ -284,7 +326,6 @@ export default function AdminPage() {
                     ))}
                 </div>
 
-                {/* Footer Info */}
                 <div className="mt-12 text-center">
                     <p
                         className="text-sm"

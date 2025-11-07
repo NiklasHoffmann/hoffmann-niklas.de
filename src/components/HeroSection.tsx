@@ -4,23 +4,61 @@ import { useTranslations } from 'next-intl';
 import { Icon } from '@iconify/react';
 import { HeroButtons } from './HeroButtons';
 import { useChat } from '@/contexts/ChatContext';
+import { useOrientationResize } from '@/hooks/useOrientationResize';
+import { useMemo, useState } from 'react';
+import { useTheme } from 'next-themes';
+import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+
+// Define tech icons outside component to prevent re-mounting
+const TechIcons = () => (
+    <div className="flex items-center justify-center gap-3 mb-8 sm:mb-10 opacity-100 transition-opacity duration-300">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <Icon icon="logos:react" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
+            <Icon icon="logos:nextjs-icon" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
+            <Icon icon="logos:typescript-icon" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
+            <Icon icon="logos:tailwindcss-icon" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
+            <Icon icon="logos:nodejs-icon" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
+            <Icon icon="logos:ethereum" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
+        </div>
+    </div>
+);
 
 interface HeroSectionProps {
     onCTAClick?: () => void;
 }
 
-export function HeroSection({ onCTAClick }: HeroSectionProps) {
+export function HeroSection({ }: HeroSectionProps) {
     const t = useTranslations('hero');
     const { openChat } = useChat();
+    const { key } = useOrientationResize();
+    const { theme } = useTheme();
+    const { mounted } = useInteractiveMode();
+    const [isHovered, setIsHovered] = useState(false);
+
+    // Theme-adaptive shadow
+    const getBaseShadow = () => {
+        if (!mounted) return '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)';
+        return theme === 'dark'
+            ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)'
+            : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)';
+    };
+
+    const getHoverShadow = () => {
+        if (!mounted) return '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)';
+        return theme === 'dark'
+            ? '0 20px 25px -5px rgba(255, 255, 255, 0.15), 0 8px 10px -6px rgba(255, 255, 255, 0.15)'
+            : '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)';
+    };
 
     return (
         <section
             id="hero"
-            className="scroll-snap-section relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 overflow-hidden"
+            key={key}
+            className="scroll-snap-section relative w-full h-screen max-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 overflow-hidden py-20 md:py-0"
             style={{ scrollMarginTop: '0px' }}
         >
             {/* Animated background elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
                 <div className="absolute top-10 sm:top-20 right-10 sm:right-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full blur-3xl animate-pulse" />
                 <div className="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[600px] h-96 sm:h-[600px] bg-gradient-to-br from-accent/5 to-primary/5 rounded-full blur-3xl" />
@@ -31,16 +69,22 @@ export function HeroSection({ onCTAClick }: HeroSectionProps) {
                 {/* Professional Badge */}
                 <button
                     onClick={openChat}
-                    className="mb-6 sm:mb-8 inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-card/80 backdrop-blur-md border border-border shadow-lg hover:shadow-xl hover:border-accent/50 transition-all duration-300 group"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    className="mb-6 sm:mb-8 inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-card/80 backdrop-blur-md border border-border group"
+                    style={{
+                        boxShadow: isHovered ? getHoverShadow() : getBaseShadow(),
+                        transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
+                    }}
                 >
                     <div className="relative flex items-center justify-center">
                         <div className="absolute w-3 h-3 bg-green-500/30 rounded-full animate-ping" />
                         <div className="relative w-2 h-2 bg-green-500 rounded-full" />
                     </div>
-                    <span className="text-xs sm:text-sm font-semibold text-foreground">
-                        Available for Projects
+                    <span className="text-xs sm:text-sm font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
+                        {t('cta')}
                     </span>
-                    <Icon icon="mdi:chevron-right" className="w-4 h-4 text-accent group-hover:translate-x-1 transition-transform" />
+                    <Icon icon="mdi:chevron-right" className="w-4 h-4 text-accent group-hover:translate-x-1 transition-transform transition-opacity duration-200" ssr={true} />
                 </button>
 
                 {/* Title with better gradient */}
@@ -58,18 +102,9 @@ export function HeroSection({ onCTAClick }: HeroSectionProps) {
                 </div>
 
                 {/* Tech Stack Icons */}
-                <div className="flex items-center justify-center gap-3 mb-8 sm:mb-10">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Icon icon="logos:react" className="w-6 h-6" />
-                        <Icon icon="logos:nextjs-icon" className="w-6 h-6" />
-                        <Icon icon="logos:typescript-icon" className="w-6 h-6" />
-                        <Icon icon="logos:tailwindcss-icon" className="w-6 h-6" />
-                        <Icon icon="logos:nodejs-icon" className="w-6 h-6" />
-                        <Icon icon="logos:ethereum" className="w-6 h-6" />
-                    </div>
-                </div>
+                <TechIcons />
 
-                <HeroButtons cta={t('cta')} viewPortfolio={t('viewPortfolio')} onCTAClick={onCTAClick} />
+                <HeroButtons viewPortfolio={t('viewPortfolio')} viewContact={t('viewContact')} />
             </div>
         </section>
     );

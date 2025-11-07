@@ -3,45 +3,123 @@
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
+import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+import { useTheme } from 'next-themes';
 
 export function LanguageToggle() {
     const locale = useLocale();
     const pathname = usePathname();
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
+    const { showActive, mounted } = useInteractiveMode();
+    const { theme } = useTheme();
 
     const handleLocaleChange = () => {
-        const newLocale = locale === 'de' ? 'en' : 'de';
+        // Cycle through DE -> EN -> ES -> DE
+        const newLocale = locale === 'de' ? 'en' : locale === 'en' ? 'es' : 'de';
 
-        // Remove current locale from pathname
         const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
-
-        // Create new path with new locale
         const newPath = `/${newLocale}${pathnameWithoutLocale}`;
 
-        // Get current hash and scroll position
         const currentHash = window.location.hash;
         const currentScrollY = window.scrollY;
 
-        // Use startTransition for smooth update without blinking
         startTransition(() => {
             router.replace(newPath + currentHash, { scroll: false });
-
-            // Restore scroll position after navigation
             setTimeout(() => {
                 window.scrollTo(0, currentScrollY);
             }, 0);
         });
     };
 
+    // Shadow color based on theme - only after mount to avoid hydration mismatch
+    const getBaseShadow = () => {
+        if (!mounted) return '0 2px 8px rgba(0, 0, 0, 0.15)';
+        return theme === 'dark'
+            ? '0 2px 8px rgba(255, 255, 255, 0.15)'
+            : '0 2px 8px rgba(0, 0, 0, 0.15)';
+    };
+
+    // Hover shadow styles
+    const getHoverShadow = () => {
+        if (showActive) {
+            if (locale === 'de') {
+                return '0 20px 25px -5px rgba(220, 38, 38, 0.6), 0 8px 10px -6px rgba(220, 38, 38, 0.6)';
+            } else if (locale === 'en') {
+                return '0 20px 25px -5px rgba(29, 78, 216, 0.6), 0 8px 10px -6px rgba(29, 78, 216, 0.6)';
+            } else {
+                return '0 20px 25px -5px rgba(234, 179, 8, 0.6), 0 8px 10px -6px rgba(234, 179, 8, 0.6)';
+            }
+        }
+        return 'none';
+    };
+
     return (
         <button
             onClick={handleLocaleChange}
             disabled={isPending}
-            className="px-3 py-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors font-medium text-sm disabled:opacity-50"
-            aria-label={`Switch to ${locale === 'de' ? 'English' : 'German'}`}
+            onMouseEnter={(e) => {
+                if (showActive) {
+                    e.currentTarget.style.boxShadow = getHoverShadow();
+                }
+            }}
+            onMouseLeave={(e) => {
+                if (showActive) {
+                    const shadow = locale === 'de'
+                        ? '0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.5)'
+                        : locale === 'en'
+                            ? '0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.5)'
+                            : '0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.5)';
+                    e.currentTarget.style.boxShadow = shadow;
+                } else {
+                    e.currentTarget.style.boxShadow = getBaseShadow();
+                }
+            }}
+            style={{
+                position: 'relative',
+                backgroundColor: 'transparent',
+                boxShadow: showActive
+                    ? locale === 'de'
+                        ? '0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.5)'
+                        : locale === 'en'
+                            ? '0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.5)'
+                            : '0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.5)'
+                    : getBaseShadow(),
+                transition: 'all 700ms ease-in-out, box-shadow 700ms ease-in-out',
+            }}
+            className={`
+                px-3 py-2 rounded-lg font-medium text-sm disabled:opacity-50 relative
+                w-[60px] h-[36px] flex items-center justify-center
+                overflow-hidden
+            `}
+            aria-label={`Switch to ${locale === 'de' ? 'English' : locale === 'en' ? 'Spanish' : 'German'}`}
+            title={locale === 'de' ? 'Sprache auf Englisch wechseln' : locale === 'en' ? 'Switch language to Spanish' : 'Cambiar idioma a Alemán'}
         >
-            {locale === 'de' ? '🇬🇧 EN' : '🇩🇪 DE'}
+            {/* Gradient Background - Always rendered, opacity controlled */}
+            <span
+                className="absolute inset-0 rounded-lg transition-opacity duration-700 ease-in-out"
+                style={{
+                    backgroundImage:
+                        locale === 'de'
+                            ? 'linear-gradient(to bottom right, #000000, #dc2626, #eab308)'
+                            : locale === 'en'
+                                ? 'linear-gradient(to bottom right, #1d4ed8, #ffffff, #dc2626)'
+                                : 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)',
+                    opacity: showActive ? 1 : 0,
+                }}
+            />
+
+            {/* Current language text */}
+            <span
+                className={`relative z-10 font-bold ${showActive ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-foreground'
+                    }`}
+            >
+                {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : 'ES'}
+            </span>
+
+            {showActive && (
+                <span className="absolute inset-0 rounded-lg bg-white/10 blur-sm transition-opacity duration-700 ease-in-out" />
+            )}
         </button>
     );
 }

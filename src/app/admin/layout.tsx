@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ThemeProvider } from '@/components/ThemeProvider';
+import { ThemeProvider } from 'next-themes';
 
 export const metadata: Metadata = {
     title: 'Admin Dashboard | Niklas Hoffmann',
@@ -13,7 +13,12 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <ThemeProvider>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            disableTransitionOnChange={false}
+        >
             {children}
         </ThemeProvider>
     );

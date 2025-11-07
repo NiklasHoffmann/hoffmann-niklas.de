@@ -32,8 +32,19 @@ interface ChatContextType {
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 export function ChatProvider({ children }: { children: React.ReactNode }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isMinimized, setIsMinimized] = useState(false);
+    // Initialize state from localStorage to persist across language changes
+    const [isOpen, setIsOpen] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('chatIsOpen') === 'true';
+        }
+        return false;
+    });
+    const [isMinimized, setIsMinimized] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('chatIsMinimized') === 'true';
+        }
+        return false;
+    });
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [userName, setUserName] = useState<string | null>(null);
@@ -208,6 +219,10 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         setIsMinimized(false);
         setUnreadCount(0); // Reset unread when opening
 
+        // Persist to localStorage
+        localStorage.setItem('chatIsOpen', 'true');
+        localStorage.setItem('chatIsMinimized', 'false');
+
         // Create session if doesn't exist
         if (!sessionId) {
             await createSession();
@@ -218,11 +233,20 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     const closeChat = useCallback(() => {
         setIsOpen(false);
         setIsMinimized(false);
+
+        // Persist to localStorage
+        localStorage.setItem('chatIsOpen', 'false');
+        localStorage.setItem('chatIsMinimized', 'false');
     }, []);
 
     // Toggle minimize
     const toggleMinimize = useCallback(() => {
-        setIsMinimized((prev) => !prev);
+        setIsMinimized((prev) => {
+            const newMinimized = !prev;
+            // Persist to localStorage
+            localStorage.setItem('chatIsMinimized', String(newMinimized));
+            return newMinimized;
+        });
         if (isMinimized) {
             setUnreadCount(0); // Reset unread when maximizing
         }

@@ -74,6 +74,12 @@ const config: Config = {
                 "accordion-up": "accordion-up 0.3s ease-out",
                 "scroll-chain": "scroll-chain 0.6s ease-out",
             },
+            transitionDuration: {
+                '700': '700ms',
+            },
+            transitionTimingFunction: {
+                'smooth': 'ease-in-out',
+            },
         },
     },
     plugins: [require("tailwindcss/plugin")],

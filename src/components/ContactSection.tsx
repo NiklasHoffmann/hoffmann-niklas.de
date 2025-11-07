@@ -1,12 +1,13 @@
 ﻿'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { contactApi } from '@/lib/api';
 import { ContactFormData } from '@/types';
 import { Mail, MapPin, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
+import { useOrientationResize } from '@/hooks/useOrientationResize';
 
 export function ContactSection() {
   const t = useTranslations('contact');
@@ -14,6 +15,7 @@ export function ContactSection() {
   const [loading, setLoading] = useState(false);
   const [submitState, setSubmitState] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const { key } = useOrientationResize();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -36,8 +38,8 @@ export function ContactSection() {
   };
 
   return (
-    <section id='contact' className='scroll-snap-section w-full h-screen flex items-center justify-center bg-secondary/30 pt-16 sm:pt-20 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-12 overflow-hidden'>
-      <div className='max-w-6xl mx-auto w-full h-full flex flex-col justify-center overflow-y-auto'>
+    <section id='contact' key={key} className='scroll-snap-section w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30 pt-20 md:pt-24 pb-12 md:pb-16 px-6 sm:px-12 lg:px-16 xl:px-20'>
+      <div className='max-w-6xl mx-auto w-full'>
         {/* Header */}
         <SectionHeader
           title={t('title')}
@@ -48,7 +50,7 @@ export function ContactSection() {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8'>
           {/* Contact Info */}
           <div className='space-y-3 sm:space-y-4'>
-            <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 transition-all hover:shadow-lg hover:shadow-accent/10 group'>
+            <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 transition-all duration-700 hover:shadow-lg hover:shadow-accent/10 group' style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
               <div className='flex items-start gap-2 sm:gap-3'>
                 <div className='p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
                   <Mail className='w-4 h-4 sm:w-5 sm:h-5 text-accent' />
@@ -58,6 +60,7 @@ export function ContactSection() {
                   <a
                     href='mailto:hoffmann.niklas@googlemail.com'
                     className='text-xs sm:text-sm text-muted-foreground hover:text-accent transition-colors break-all'
+                    style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
                     aria-label="Send email to hoffmann.niklas@googlemail.com"
                   >
                     hoffmann.niklas@googlemail.com
@@ -66,7 +69,7 @@ export function ContactSection() {
               </div>
             </div>
 
-            <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 transition-all hover:shadow-lg hover:shadow-accent/10 group'>
+            <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10 group' style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
               <div className='flex items-start gap-2 sm:gap-3'>
                 <div className='p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
                   <MapPin className='w-4 h-4 sm:w-5 sm:h-5 text-accent' />
@@ -78,7 +81,7 @@ export function ContactSection() {
               </div>
             </div>
 
-            <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 transition-all hover:shadow-lg hover:shadow-accent/10 group'>
+            <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10 group' style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
               <div className='flex items-start gap-2 sm:gap-3'>
                 <div className='p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
                   <Icon icon="mdi:lightbulb-on" className='w-4 h-4 sm:w-5 sm:h-5 text-accent' />
@@ -92,7 +95,7 @@ export function ContactSection() {
           </div>
 
           {/* Contact Form */}
-          <div className='bg-card p-4 sm:p-5 md:p-6 rounded-xl border border-border shadow-lg'>
+          <div className='bg-card p-4 sm:p-5 md:p-6 rounded-xl border border-border hover:border-accent/50 shadow-lg hover:shadow-accent/10' style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
             <h3 className='text-lg sm:text-xl font-bold mb-3 sm:mb-4'>{t('writeMe')}</h3>
             <form onSubmit={handleSubmit} className='space-y-3 sm:space-y-4' aria-label="Contact form">
               <div>
@@ -105,7 +108,8 @@ export function ContactSection() {
                   onChange={handleChange}
                   required
                   placeholder={t('form.namePlaceholder')}
-                  className='w-full px-3 py-2 sm:px-3.5 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent transition-all outline-none'
+                  className='w-full px-3 py-2 sm:px-3.5 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
+                  style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
                   aria-required="true"
                 />
               </div>
@@ -120,7 +124,8 @@ export function ContactSection() {
                   onChange={handleChange}
                   required
                   placeholder={t('form.emailPlaceholder')}
-                  className='w-full px-3 py-2 sm:px-3.5 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent transition-all outline-none'
+                  className='w-full px-3 py-2 sm:px-3.5 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
+                  style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
                   aria-required="true"
                 />
               </div>
@@ -135,7 +140,8 @@ export function ContactSection() {
                   required
                   rows={3}
                   placeholder={t('form.messagePlaceholder')}
-                  className='w-full px-3 py-2 sm:px-3.5 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent transition-all outline-none resize-none'
+                  className='w-full px-3 py-2 sm:px-3.5 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none'
+                  style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
                   aria-required="true"
                 />
               </div>

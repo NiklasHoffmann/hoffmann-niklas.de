@@ -1,6 +1,6 @@
 // Chain-Konfigurationstypen
 
-export type ChainStyle = 'panzer' | 'classic' | 'minimal' | 'bold' | 'line';
+export type ChainStyle = 'panzer' | 'classic' | 'minimal' | 'bold' | 'line' | 'cubic';
 
 export interface ChainPathConfig {
     // Layout
@@ -54,6 +54,17 @@ export interface ChainColorConfig {
         stroke: string;
         width: number;
         shadow?: string;
+    };
+
+    // Cubic Style (3D Würfel)
+    cubic: {
+        sideDark: string;       // Dunkelste Seite (links)
+        sideMedium: string;     // Mittlere Seite (rechts)
+        sideLight: string;      // Helle Seite
+        topLight: string;       // Oberseite hell
+        topHighlight: string;   // Oberseite Glanz
+        outline: string;        // Umriss
+        string: string;         // Schnur-Farbe
     };
 }
 
@@ -124,6 +135,17 @@ export const CHAIN_PRESETS: Record<string, ChainPathConfig> = {
         spacing: 0,     // Durchgehende Linie
         style: 'line',
     },
+
+    // 3D Würfel an Schnur
+    cubic: {
+        horizontalOffset: 200,
+        curveSize: 125,
+        sectionPadding: 80,
+        linkWidth: 7,    // Breite (für spacing)
+        linkHeight: 7,   // Würfelgröße
+        spacing: 16,     // Kleinerer Abstand zwischen Würfeln
+        style: 'cubic',
+    },
 };
 
 // Farb-Konfigurationen
@@ -159,5 +181,15 @@ export const CHAIN_COLORS: ChainColorConfig = {
         stroke: '#d4d4d8',
         width: 2,
         shadow: 'rgba(0, 0, 0, 0.05)',
+    },
+
+    cubic: {
+        sideDark: '#52525b',        // Linke Seite (dunkel)
+        sideMedium: '#71717a',      // Rechte Seite (medium)
+        sideLight: '#a1a1aa',       // Rechte Seite hell
+        topLight: '#d4d4d8',        // Oberseite
+        topHighlight: '#e4e4e7',    // Glanz auf Oberseite
+        outline: '#27272a',         // Schwarzer Umriss
+        string: '#7c3aed',          // Dunkleres Lila für Light-Theme (mehr Kontrast)
     },
 };

@@ -27,11 +27,11 @@ export function useAdminChat() {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             notificationSoundRef.current = createNotificationSound();
-            
+
             // Auto-enable audio on first user interaction with the page
             const enableAudio = async () => {
                 if (audioContextInitializedRef.current) return;
-                
+
                 if (notificationSoundRef.current?.audioContext) {
                     try {
                         if (notificationSoundRef.current.audioContext.state === 'suspended') {
@@ -127,13 +127,13 @@ export function useAdminChat() {
         // Listen for new messages to update unread counts (ALL sessions)
         newSocket.on('admin:new-message', (data: { sessionId: string }) => {
             console.log('💬 New message in session:', data.sessionId);
-            
+
             // Play sound for ANY new user message (not just in selected chat)
             if (notificationSoundRef.current && !isInitialLoadRef.current) {
                 console.log('🔔 Playing notification sound for new message in session:', data.sessionId);
                 notificationSoundRef.current.play().catch(err => console.log('Could not play sound:', err));
             }
-            
+
             fetchSessions();
         });
 
@@ -370,7 +370,7 @@ export function useAdminChat() {
         inputMessage,
         isTyping,
         loadingMessages,
-        
+
         // Actions
         sendMessage,
         handleInputChange,

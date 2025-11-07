@@ -11,24 +11,32 @@ export function ChainNavigation({ sections }: ChainNavigationProps) {
     const [scrollProgress, setScrollProgress] = useState(0);
     const [windowHeight, setWindowHeight] = useState(800);
     const animationFrameRef = useRef<number | null>(null);
+    // OPTIMIZATION: Cache scrollHeight to avoid layout thrashing
+    const scrollHeightCache = useRef(0);
 
     // Scroll tracking
     useEffect(() => {
         const handleScroll = () => {
             if (typeof window === 'undefined') return;
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
+            // Use cached scrollHeight instead of recalculating
+            const progress = scrollHeightCache.current > 0 ? window.scrollY / scrollHeightCache.current : 0;
             setScrollProgress(Math.min(progress, 1));
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
     useEffect(() => {
-        setWindowHeight(window.innerHeight);
-        const handleResize = () => setWindowHeight(window.innerHeight);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        const updateDimensions = () => {
+            setWindowHeight(window.innerHeight);
+            // OPTIMIZATION: Update scrollHeight cache on resize
+            scrollHeightCache.current = document.documentElement.scrollHeight - window.innerHeight;
+        };
+
+        updateDimensions();
+        window.addEventListener('resize', updateDimensions);
+        return () => window.removeEventListener('resize', updateDimensions);
     }, []);
 
     // Draw chain line with bezier curves
@@ -135,8 +143,11 @@ export function ChainNavigation({ sections }: ChainNavigationProps) {
             const canvas = canvasRef.current;
             if (!canvas) return;
 
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
+            // OPTIMIZATION: Use requestAnimationFrame to batch layout reads
+            requestAnimationFrame(() => {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            });
         };
 
         handleResize();

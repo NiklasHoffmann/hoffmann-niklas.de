@@ -11,9 +11,10 @@
   },
   "hero": {
     "title": "Modern Web & Web3 Development",
+    "cta": "Available for Projects",
     "subtitle": "Full-Stack & Blockchain Developer – From traditional web apps to decentralized applications",
-    "cta": "Start your Project",
-    "viewPortfolio": "View Portfolio"
+    "viewPortfolio": "View Portfolio",
+    "viewContact": "View Contact"
   },
   "about": {
     "title": "About Me",
@@ -36,6 +37,7 @@
   "services": {
     "title": "My Expertise",
     "subtitle": "Cutting-edge technologies for future-proof solutions",
+    "cubeHint": "Roll the dice & discover services!",
     "techStack": "Tech Stack",
     "servicesTitle": "Services",
     "frontend": "Frontend Development",
@@ -44,15 +46,23 @@
     "database": "Databases",
     "tools": "Tools & DevOps",
     "design": "Design & UX",
-    "photography": "Photography & Video",
     "webDev": "Web Apps",
     "backendService": "APIs",
-    "web3Service": "dApps & Smart Contracts",
+    "web3Service": "Web3 Frontend & Wallet Integration",
     "uiux": "UI/UX",
     "databaseService": "Database",
     "photo": "Photo",
     "video": "Video",
-    "web3Tech": "Web3 Technologies"
+    "web3Tech": "Web3 Technologies",
+    "descriptions": {
+      "webDev": "Modern Web Applications",
+      "web3Service": "Blockchain Integration",
+      "uiux": "Design Systems",
+      "photo": "Product Photography",
+      "databaseService": "Data Management",
+      "backendService": "Server & APIs",
+      "video": "Video Production & Editing"
+    }
   },
   "portfolio": {
     "title": "Portfolio",

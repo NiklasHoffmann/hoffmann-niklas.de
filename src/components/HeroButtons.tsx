@@ -1,36 +1,41 @@
 'use client';
 
-import { ArrowRight } from 'lucide-react';
-
 interface HeroButtonsProps {
-    cta: string;
     viewPortfolio: string;
-    onCTAClick?: () => void;
+    viewContact: string;
 }
 
-export function HeroButtons({ cta, viewPortfolio, onCTAClick }: HeroButtonsProps) {
+export function HeroButtons({ viewPortfolio, viewContact }: HeroButtonsProps) {
     const scrollToPortfolio = () => {
         const element = document.getElementById('portfolio');
         element?.scrollIntoView({ behavior: 'smooth' });
     };
+    const scrollToContact = () => {
+        const element = document.getElementById('contact');
+        element?.scrollIntoView({ behavior: 'smooth' });
+    }
 
     return (
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <button
-                onClick={onCTAClick}
-                className="group px-6 sm:px-8 py-3 sm:py-4 bg-accent hover:bg-accent/90 text-accent-foreground rounded-lg font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-lg hover:shadow-accent/20 text-sm sm:text-base"
-                aria-label={cta}
-            >
-                {cta}
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-            </button>
-
-            <button
                 onClick={scrollToPortfolio}
-                className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-border hover:bg-secondary/50 text-foreground rounded-lg font-semibold transition-colors text-sm sm:text-base"
+                className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-border hover:bg-secondary/50 text-foreground rounded-lg font-semibold text-sm sm:text-base"
+                style={{
+                    transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, color 700ms ease-in-out'
+                }}
                 aria-label={viewPortfolio}
             >
                 {viewPortfolio}
+            </button>
+            <button
+                onClick={scrollToContact}
+                className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-border hover:bg-secondary/50 text-foreground rounded-lg font-semibold text-sm sm:text-base"
+                style={{
+                    transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, color 700ms ease-in-out'
+                }}
+                aria-label={viewContact}
+            >
+                {viewContact}
             </button>
         </div>
     );

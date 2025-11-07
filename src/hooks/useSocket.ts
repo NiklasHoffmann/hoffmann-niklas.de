@@ -165,6 +165,39 @@ export function useSocket(options: UseSocketOptions = {}) {
         };
     }, [sessionId, userName, isAdmin]); // Removed callback dependencies!
 
+    // bfcache optimization: Disconnect on pagehide, reconnect on pageshow
+    useEffect(() => {
+        const handlePageHide = (event: PageTransitionEvent) => {
+            if (event.persisted && socketRef.current) {
+                console.log('📦 Page going into bfcache, disconnecting socket');
+                socketRef.current.disconnect();
+            }
+        };
+
+        const handlePageShow = (event: PageTransitionEvent) => {
+            if (event.persisted && socketRef.current) {
+                console.log('📦 Page restored from bfcache, reconnecting socket');
+                socketRef.current.connect();
+
+                // Rejoin session if we have one
+                if (sessionId) {
+                    socketRef.current.emit('join-session', { sessionId, userName });
+                    if (isAdmin) {
+                        socketRef.current.emit('admin-online', sessionId);
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('pagehide', handlePageHide);
+        window.addEventListener('pageshow', handlePageShow);
+
+        return () => {
+            window.removeEventListener('pagehide', handlePageHide);
+            window.removeEventListener('pageshow', handlePageShow);
+        };
+    }, [sessionId, userName, isAdmin]);
+
     // Send message
     const sendMessage = (message: string, sender: 'user' | 'admin' = 'user') => {
         if (!socketRef.current || !sessionId) {

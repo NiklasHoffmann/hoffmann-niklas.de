@@ -2,10 +2,11 @@
 
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { projects } from '@/data/portfolio';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { ProjectCard } from '@/components/ui/ProjectCard';
+import { useOrientationResize } from '@/hooks/useOrientationResize';
 
 export function PortfolioSection() {
     const t = useTranslations('portfolio');
@@ -14,13 +15,24 @@ export function PortfolioSection() {
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
+    const { key } = useOrientationResize();
 
     const itemsPerPage = 3;
     const totalPages = Math.ceil(projects.length / itemsPerPage);
 
     const checkScrollPosition = () => {
         if (scrollContainerRef.current) {
-            const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+            // OPTIMIZATION: Batch all layout reads together to avoid forced reflow
+            const container = scrollContainerRef.current;
+            const { scrollLeft, scrollWidth, clientWidth } = container;
+
+            // Cache offset values once
+            const containerOffset = container.offsetLeft;
+            const cards = Array.from(container.children) as HTMLElement[];
+            const cardMetrics = cards.map(card => ({
+                left: card.offsetLeft - containerOffset,
+                width: card.offsetWidth
+            }));
 
             const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 20;
             setCanScrollLeft(scrollLeft > 10);
@@ -34,19 +46,15 @@ export function PortfolioSection() {
 
             // Find the third visible card (index 2 of visible cards)
             // This represents which "page" of 3 we're showing
-            const cards = scrollContainerRef.current.children;
             const visibleCards: number[] = [];
 
-            for (let i = 0; i < cards.length; i++) {
-                const card = cards[i] as HTMLElement;
-                const cardLeft = card.offsetLeft - scrollContainerRef.current.offsetLeft;
-                const cardRight = cardLeft + card.offsetWidth;
-
+            cardMetrics.forEach((metric, i) => {
+                const cardRight = metric.left + metric.width;
                 // Card is visible if it's in the viewport
-                if (cardRight > scrollLeft && cardLeft < scrollLeft + clientWidth) {
+                if (cardRight > scrollLeft && metric.left < scrollLeft + clientWidth) {
                     visibleCards.push(i);
                 }
-            }
+            });
 
             // Take the third visible card (index 2), or the last if less than 3 visible
             const referenceIndex = visibleCards.length >= 3
@@ -67,22 +75,31 @@ export function PortfolioSection() {
 
     const scrollLeft = () => {
         if (scrollContainerRef.current) {
+            // OPTIMIZATION: Cache clientWidth before scroll operation
             const pageWidth = scrollContainerRef.current.clientWidth;
             scrollContainerRef.current.scrollBy({ left: -pageWidth, behavior: 'smooth' });
-            setTimeout(checkScrollPosition, 300);
+            // Use requestAnimationFrame to check position after smooth scroll finishes
+            requestAnimationFrame(() => {
+                setTimeout(checkScrollPosition, 300);
+            });
         }
     };
 
     const scrollRight = () => {
         if (scrollContainerRef.current) {
+            // OPTIMIZATION: Cache clientWidth before scroll operation
             const pageWidth = scrollContainerRef.current.clientWidth;
             scrollContainerRef.current.scrollBy({ left: pageWidth, behavior: 'smooth' });
-            setTimeout(checkScrollPosition, 300);
+            // Use requestAnimationFrame to check position after smooth scroll finishes
+            requestAnimationFrame(() => {
+                setTimeout(checkScrollPosition, 300);
+            });
         }
     };
 
     const scrollToPage = (pageIndex: number) => {
         if (scrollContainerRef.current) {
+            // OPTIMIZATION: Cache clientWidth before scroll operation
             const pageWidth = scrollContainerRef.current.clientWidth;
             scrollContainerRef.current.scrollTo({
                 left: pageWidth * pageIndex,
@@ -97,7 +114,8 @@ export function PortfolioSection() {
     return (
         <section
             id="portfolio"
-            className="scroll-snap-section w-full h-screen flex items-center justify-center bg-secondary/30 pt-16 sm:pt-20 pb-8 sm:pb-12 px-4 sm:px-6 lg:px-12 overflow-hidden"
+            key={key}
+            className="scroll-snap-section w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30 pt-20 md:pt-24 pb-12 md:pb-16 px-6 sm:px-12 lg:px-16 xl:px-20"
         >
             <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center">
                 {/* Header */}
@@ -123,8 +141,8 @@ export function PortfolioSection() {
                                         demoText={t('demo')}
                                         codeText={t('code')}
                                         maxTags={3}
-                                        priority={true}
-                                        sizes="100vw"
+                                        priority={index === 0}
+                                        sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 768px) 80vw, 50vw"
                                     />
                                 </div>
                             ))}
@@ -135,7 +153,7 @@ export function PortfolioSection() {
                     {currentSlide > 0 && (
                         <button
                             onClick={prevSlide}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-accent hover:text-accent-foreground transition-all z-10"
+                            className="absolute left-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out z-10"
                             aria-label="Previous project"
                         >
                             <ChevronLeft className="w-5 h-5" />
@@ -144,7 +162,7 @@ export function PortfolioSection() {
                     {currentSlide < projects.length - 1 && (
                         <button
                             onClick={nextSlide}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-accent hover:text-accent-foreground transition-all z-10"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out z-10"
                             aria-label="Next project"
                         >
                             <ChevronRight className="w-5 h-5" />
@@ -158,10 +176,11 @@ export function PortfolioSection() {
                                 <button
                                     key={index}
                                     onClick={() => setCurrentSlide(index)}
-                                    className={`h-3 rounded-full transition-all border ${index === currentSlide
+                                    className={`h-3 rounded-full border ${index === currentSlide
                                         ? 'bg-accent border-accent w-12'
                                         : 'bg-secondary border-border w-3 hover:border-accent/50'
                                         }`}
+                                    style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, width 700ms ease-in-out' }}
                                     aria-label={`Go to project ${index + 1}`}
                                 />
                             ))}
@@ -179,8 +198,8 @@ export function PortfolioSection() {
                             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                             onScroll={checkScrollPosition}
                         >
-                            {projects.map((project) => (
-                                <div key={project.id} className="flex-shrink-0 w-[calc(33.333%-12px)] snap-start">
+                            {projects.map((project, index) => (
+                                <div key={project.id} className="flex-shrink-0 w-[calc(50%-8px)] xl:w-[calc(33.333%-11px)] snap-start">
                                     <ProjectCard
                                         project={project}
                                         titleText={t(`projects.${project.title}.title`)}
@@ -188,8 +207,8 @@ export function PortfolioSection() {
                                         demoText={t('demo')}
                                         codeText={t('code')}
                                         maxTags={2}
-                                        priority={true}
-                                        sizes="33vw"
+                                        priority={index < 3}
+                                        sizes="(max-width: 768px) 45vw, (max-width: 1536px) 330px, 384px"
                                     />
                                 </div>
                             ))}
@@ -199,7 +218,7 @@ export function PortfolioSection() {
                         {canScrollLeft && (
                             <button
                                 onClick={scrollLeft}
-                                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all shadow-lg z-10"
+                                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
                                 aria-label="Scroll left"
                             >
                                 <ChevronLeft className="w-6 h-6" />
@@ -208,7 +227,7 @@ export function PortfolioSection() {
                         {canScrollRight && (
                             <button
                                 onClick={scrollRight}
-                                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all shadow-lg z-10"
+                                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
                                 aria-label="Scroll right"
                             >
                                 <ChevronRight className="w-6 h-6" />
@@ -222,10 +241,11 @@ export function PortfolioSection() {
                                     <button
                                         key={pageIndex}
                                         onClick={() => scrollToPage(pageIndex)}
-                                        className={`h-3 rounded-full transition-all border ${pageIndex === currentPage
-                                                ? 'bg-accent border-accent w-12'
-                                                : 'bg-secondary border-border w-3 hover:border-accent/50'
+                                        className={`h-3 rounded-full border ${pageIndex === currentPage
+                                            ? 'bg-accent border-accent w-12'
+                                            : 'bg-secondary border-border w-3 hover:border-accent/50'
                                             }`}
+                                        style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, width 700ms ease-in-out' }}
                                         aria-label={`Go to page ${pageIndex + 1}`}
                                     />
                                 ))}
@@ -233,8 +253,8 @@ export function PortfolioSection() {
                         </div>
                     </div>
                 ) : (
-                    <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
-                        {projects.map((project) => (
+                    <div className="hidden sm:grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto">
+                        {projects.map((project, index) => (
                             <ProjectCard
                                 key={project.id}
                                 project={project}
@@ -243,8 +263,8 @@ export function PortfolioSection() {
                                 demoText={t('demo')}
                                 codeText={t('code')}
                                 maxTags={2}
-                                priority={true}
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                priority={index < 3}
+                                sizes="(max-width: 768px) 45vw, (max-width: 1536px) 330px, 384px"
                             />
                         ))}
                     </div>

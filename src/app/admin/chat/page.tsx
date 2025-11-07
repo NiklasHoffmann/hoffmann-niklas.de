@@ -17,6 +17,7 @@ export default function AdminChatPage() {
     const { theme } = useTheme();
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
+    const [isChecking, setIsChecking] = useState(true);
     const isDark = theme === 'dark';
 
     // Confirmation states
@@ -40,6 +41,28 @@ export default function AdminChatPage() {
         deleteSession,
         blockUser,
     } = useAdminChat();
+
+    // Auth check
+    useEffect(() => {
+        checkAuth();
+    }, []);
+
+    const checkAuth = async () => {
+        try {
+            const response = await fetch('/api/auth/check');
+            const data = await response.json();
+            
+            if (!data.authenticated) {
+                router.push('/admin/login');
+                return;
+            }
+            
+            setIsChecking(false);
+        } catch (error) {
+            console.error('Auth check failed:', error);
+            router.push('/admin/login');
+        }
+    };
 
     // Prevent hydration mismatch
     useEffect(() => {
@@ -66,7 +89,7 @@ export default function AdminChatPage() {
     };
 
     // Prevent flash during hydration
-    if (!mounted) {
+    if (!mounted || isChecking) {
         return null;
     }
 

@@ -1,0 +1,157 @@
+{
+  "header": {
+    "nav": {
+      "start": "Inicio",
+      "about": "Sobre mí",
+      "services": "Servicios",
+      "portfolio": "Portfolio",
+      "videos": "Videos",
+      "contact": "Contacto"
+    }
+  },
+  "hero": {
+    "title": "Desarrollo Web & Web3 Moderno",
+    "cta": "Disponible para Proyectos",
+    "subtitle": "Desarrollador Full-Stack & Blockchain – Desde aplicaciones web clásicas hasta aplicaciones descentralizadas",
+    "viewPortfolio": "Ver Portfolio",
+    "viewContact": "Ver Contacto"
+  },
+  "about": {
+    "title": "Sobre mí",
+    "description": "Desarrollador Full-Stack especializado en tecnologías web modernas e integración frontend Web3. Desarrollo aplicaciones web de alto rendimiento e implemento conectividad blockchain – desde la idea hasta el lanzamiento.",
+    "services": {
+      "webdev": "Desarrollo Web",
+      "web3": "Frontend Web3",
+      "design": "Diseño UI/UX",
+      "photography": "Fotografía",
+      "fotografie": "Fotografía",
+      "videografie": "Videografía"
+    },
+    "stats": {
+      "projects": "Proyectos",
+      "clients": "Clientes Satisfechos",
+      "experience": "Años de Experiencia",
+      "passion": "Pasión"
+    }
+  },
+  "services": {
+    "title": "Mi Experiencia",
+    "subtitle": "Tecnologías de vanguardia para soluciones preparadas para el futuro",
+    "cubeHint": "¡Gira el cubo y descubre los servicios!",
+    "techStack": "Stack Tecnológico",
+    "servicesTitle": "Servicios",
+    "frontend": "Desarrollo Frontend",
+    "backend": "Desarrollo Backend",
+    "web3": "Integración Web3",
+    "database": "Bases de Datos",
+    "tools": "Herramientas & DevOps",
+    "design": "Diseño & UX",
+    "webDev": "Aplicaciones Web",
+    "backendService": "APIs",
+    "web3Service": "Frontend Web3 & Integración de Wallets",
+    "uiux": "UI/UX",
+    "databaseService": "Base de Datos",
+    "photo": "Fotografía",
+    "video": "Video",
+    "web3Tech": "Tecnologías Web3",
+    "descriptions": {
+      "webDev": "Aplicaciones Web Modernas",
+      "web3Service": "Integración Blockchain",
+      "uiux": "Sistemas de Diseño",
+      "photo": "Fotografía de Producto",
+      "databaseService": "Gestión de Datos",
+      "backendService": "Servidor & APIs",
+      "video": "Producción & Edición de Video"
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Selección de mis mejores proyectos – desde Web-Apps hasta Web3",
+    "viewProject": "Ver Proyecto",
+    "liveDemo": "Demo en Vivo",
+    "demo": "Demo",
+    "code": "Código",
+    "github": "GitHub",
+    "projects": {
+      "web3wallet": {
+        "title": "Integración Web3 Wallet",
+        "description": "Conector Multi-Chain Wallet con soporte para WalletConnect, MetaMask & Coinbase Wallet"
+      },
+      "nftmarketplace": {
+        "title": "Frontend NFT Marketplace",
+        "description": "Frontend para mercado NFT con integración de wallet y conexión IPFS"
+      },
+      "defi": {
+        "title": "Panel DeFi",
+        "description": "Panel de Análisis DeFi en tiempo real con soporte Multi-Wallet"
+      },
+      "ecommerce": {
+        "title": "Plataforma E-Commerce",
+        "description": "Plataforma E-Commerce moderna con Next.js, Stripe Payment y MongoDB"
+      },
+      "saas": {
+        "title": "Panel SaaS",
+        "description": "Panel empresarial con analíticas en tiempo real, integración de gráficos y API"
+      },
+      "blogplatform": {
+        "title": "Plataforma de Blog",
+        "description": "Plataforma de blogging moderna con integración CMS y diseño responsive"
+      },
+      "projectplaceholder1": {
+        "title": "Proyecto Placeholder 1",
+        "description": "Descripción para Proyecto Placeholder 1"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Hablemos sobre tu proyecto",
+    "email": "Email",
+    "location": "Ubicación",
+    "germany": "Alemania",
+    "quickResponse": "¡Respuesta rápida garantizada!",
+    "quickResponseText": "Normalmente respondo en un plazo de 24 horas.",
+    "writeMe": "Escríbeme",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre",
+      "email": "Email",
+      "emailPlaceholder": "tu@email.com",
+      "message": "Mensaje",
+      "messagePlaceholder": "Cuéntame sobre tu proyecto...",
+      "submit": "Enviar Mensaje",
+      "sending": "Enviando...",
+      "success": "¡Mensaje enviado exitosamente!",
+      "error": "Ha ocurrido un error"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 Niklas Hoffmann. Todos los derechos reservados.",
+    "quickLinks": "Enlaces Rápidos",
+    "brand": "Desarrollador Full-Stack – Aplicaciones Web Modernas & Integración Frontend Web3",
+    "navigation": "Navegación",
+    "followMe": "Sígueme",
+    "madeWith": "Hecho con ❤️ usando Next.js, TypeScript & Tech Web3"
+  },
+  "youtube": {
+    "title": "Videos de YouTube",
+    "subtitle": "Tutoriales, estudios de caso e insights de mis proyectos"
+  },
+  "chat": {
+    "welcome": "¡Bienvenido a nuestro chat!",
+    "enterName": "Por favor ingrese su nombre para comenzar",
+    "namePlaceholder": "Su nombre...",
+    "startChat": "Iniciar Chat",
+    "privacyNotice": "Respetamos su privacidad. Sus datos están seguros.",
+    "greeting": "¡Hola {userName}! 👋",
+    "howCanWeHelp": "¿Cómo podemos ayudarte hoy?",
+    "supportTeam": "Equipo de Soporte",
+    "typing": "escribiendo...",
+    "reconnecting": "Reconectando...",
+    "adminOnline": "El administrador está en línea y listo para ayudar",
+    "inputPlaceholder": "Escribe tu mensaje...",
+    "securityNotice": "Tus mensajes están cifrados y seguros",
+    "chatSupport": "Soporte por Chat",
+    "replyInstantly": "Normalmente respondemos de inmediato"
+  }
+}

@@ -47,13 +47,13 @@ export async function GET(request: NextRequest) {
         // Overview Stats
         const totalSessions = await ChatSession.countDocuments();
         const totalMessages = await ChatMessage.countDocuments();
-        
+
         // Count unique users (by unique emails, or sessions if no email)
-        const uniqueEmails = await ChatSession.distinct('email', { 
-            email: { $exists: true, $nin: [null, ''] } 
+        const uniqueEmails = await ChatSession.distinct('email', {
+            email: { $exists: true, $nin: [null, ''] }
         });
-        const sessionsWithoutEmail = await ChatSession.countDocuments({ 
-            $or: [{ email: null }, { email: '' }, { email: { $exists: false } }] 
+        const sessionsWithoutEmail = await ChatSession.countDocuments({
+            $or: [{ email: null }, { email: '' }, { email: { $exists: false } }]
         });
         const totalUsers = uniqueEmails.length + sessionsWithoutEmail;
 
@@ -80,8 +80,8 @@ export async function GET(request: NextRequest) {
         // Message Stats
         const userMessages = await ChatMessage.countDocuments({ sender: 'user' });
         const adminMessages = await ChatMessage.countDocuments({ sender: 'admin' });
-        const avgMessagesPerSession = totalSessions > 0 
-            ? totalMessages / totalSessions 
+        const avgMessagesPerSession = totalSessions > 0
+            ? totalMessages / totalSessions
             : 0;
 
         // Time Stats
@@ -110,7 +110,7 @@ export async function GET(request: NextRequest) {
 
         const avgDurationMs = sessionsWithDuration[0]?.avgDuration || 0;
         const avgDurationMinutes = Math.round(avgDurationMs / 1000 / 60);
-        const avgSessionDuration = avgDurationMinutes > 60 
+        const avgSessionDuration = avgDurationMinutes > 60
             ? `${Math.floor(avgDurationMinutes / 60)}h ${avgDurationMinutes % 60}m`
             : `${avgDurationMinutes}m`;
 
@@ -180,7 +180,7 @@ export async function GET(request: NextRequest) {
         for (let i = activityDays - 1; i >= 0; i--) {
             const dayStart = new Date(today);
             dayStart.setDate(dayStart.getDate() - i);
-            
+
             const dayEnd = new Date(dayStart);
             dayEnd.setDate(dayEnd.getDate() + 1);
 

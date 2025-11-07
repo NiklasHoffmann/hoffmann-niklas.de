@@ -3,6 +3,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { Metadata } from 'next';
 import { ChatProvider } from '@/contexts/ChatContext';
 import ChatWidget from '@/components/ChatWidget';
+import { AnalyticsProvider } from '@/components/AnalyticsProvider';
+import { StructuredData } from '@/components/StructuredData';
 
 export async function generateMetadata({
     params,
@@ -21,16 +23,30 @@ export async function generateMetadata({
         : 'Full-Stack Developer – Specialized in modern web apps, Web3 frontend integration and wallet connectivity. React, Next.js, TypeScript, Wagmi, MetaMask, Ethereum.';
 
     const keywords = locale === 'de'
-        ? 'Web Developer, Full-Stack Developer, Web3 Frontend, Wallet Integration, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Fotografie, Webentwicklung, Deutschland'
-        : 'Web Developer, Full-Stack Developer, Web3 Frontend, Wallet Integration, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Photography, Web Development, Germany';
+        ? 'Web Developer, Full-Stack Developer, Web3 Frontend, Wallet Integration, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Fotografie, Webentwicklung, Deutschland, Blockchain Developer, Smart Contract Integration'
+        : 'Web Developer, Full-Stack Developer, Web3 Frontend, Wallet Integration, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Photography, Web Development, Germany, Blockchain Developer, Smart Contract Integration';
+
+    // Verwende statisches OG-Image aus /public
+    // OG Image: Screenshot der chain-preview Route (Section 1 mit Hero-Text)
+    // Zum Erstellen: /chain-preview aufrufen, Section 1 auf 1200x630 zuschneiden
+    const ogImageUrl = 'https://hoffmann-niklas.de/og-image.jpg';
 
     return {
         metadataBase: new URL('https://hoffmann-niklas.de'),
-        title,
+        title: {
+            default: title,
+            template: '%s | Niklas Hoffmann'
+        },
         description,
         keywords,
-        authors: [{ name: 'Niklas Hoffmann' }],
+        authors: [{ name: 'Niklas Hoffmann', url: 'https://hoffmann-niklas.de' }],
         creator: 'Niklas Hoffmann',
+        publisher: 'Niklas Hoffmann',
+        formatDetection: {
+            email: false,
+            address: false,
+            telephone: false,
+        },
         openGraph: {
             type: 'website',
             locale: locale === 'de' ? 'de_DE' : 'en_US',
@@ -40,7 +56,7 @@ export async function generateMetadata({
             siteName: 'Niklas Hoffmann Portfolio',
             images: [
                 {
-                    url: '/og-image.jpg',
+                    url: ogImageUrl,
                     width: 1200,
                     height: 630,
                     alt: 'Niklas Hoffmann - Full-Stack & Web3 Frontend Developer',
@@ -51,7 +67,8 @@ export async function generateMetadata({
             card: 'summary_large_image',
             title,
             description,
-            images: ['/og-image.jpg'],
+            images: [ogImageUrl],
+            creator: '@NiklasHoffmann', // Falls du einen Twitter-Account hast
         },
         robots: {
             index: true,
@@ -69,7 +86,12 @@ export async function generateMetadata({
             languages: {
                 'de': 'https://hoffmann-niklas.de/de',
                 'en': 'https://hoffmann-niklas.de/en',
+                'es': 'https://hoffmann-niklas.de/es',
+                'x-default': 'https://hoffmann-niklas.de/en',
             },
+        },
+        verification: {
+            // google: 'deine-google-verification-id', // Wenn du Google Search Console nutzt
         },
     };
 }
@@ -93,7 +115,9 @@ export default async function LocaleLayout({
 
     return (
         <NextIntlClientProvider locale={locale} messages={messages}>
+            <StructuredData locale={locale} />
             <ChatProvider>
+                <AnalyticsProvider />
                 {children}
                 <ChatWidget />
             </ChatProvider>
