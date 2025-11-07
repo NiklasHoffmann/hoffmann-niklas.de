@@ -74,8 +74,8 @@ export default function AdminLogin() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background">
-            <div className="max-w-md w-full p-8 bg-card rounded-lg border border-border shadow-lg">
+        <div className="min-h-[600px] flex items-center justify-center bg-background py-12">
+            <div className="max-w-md w-full mx-4 p-8 bg-card rounded-lg border border-border shadow-lg">
                 <h1 className="text-2xl font-bold text-foreground mb-6 text-center">
                     Admin Login
                 </h1>

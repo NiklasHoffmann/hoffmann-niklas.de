@@ -22,6 +22,8 @@ export default function AdminPage() {
     useEffect(() => {
         setMounted(true);
         checkAuth();
+        // Scroll to top when component mounts
+        window.scrollTo(0, 0);
     }, []);
 
     const checkAuth = async () => {
@@ -113,11 +115,11 @@ export default function AdminPage() {
 
     return (
         <div
-            className="min-h-screen"
+            className="min-h-[400px]"
             style={{ backgroundColor: isDark ? '#090909' : '#f9fafb' }}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="mb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="mb-6">
                     <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-3">
                             <Icon icon="mdi:shield-account" className="w-10 h-10 text-accent" />
@@ -148,9 +150,9 @@ export default function AdminPage() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <div
-                        className="p-6 rounded-xl border-2"
+                        className="p-4 rounded-xl border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
@@ -176,7 +178,7 @@ export default function AdminPage() {
                     </div>
 
                     <div
-                        className="p-6 rounded-xl border-2"
+                        className="p-4 rounded-xl border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
@@ -202,7 +204,7 @@ export default function AdminPage() {
                     </div>
 
                     <div
-                        className="p-6 rounded-xl border-2"
+                        className="p-4 rounded-xl border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
@@ -228,7 +230,7 @@ export default function AdminPage() {
                     </div>
 
                     <div
-                        className="p-6 rounded-xl border-2"
+                        className="p-4 rounded-xl border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
@@ -254,7 +256,7 @@ export default function AdminPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {adminModules.map((module) => (
                         <Link
                             key={module.href}
@@ -262,7 +264,7 @@ export default function AdminPage() {
                             className="group"
                         >
                             <div
-                                className="p-8 rounded-2xl border-2 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                                className="p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                                 style={{
                                     backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                                     borderColor: isDark ? '#262626' : '#e5e7eb'
