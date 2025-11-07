@@ -3,10 +3,15 @@
 import { useTranslations } from 'next-intl';
 import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
 import { Icon } from '@iconify/react';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 
 export function Footer() {
     const t = useTranslations('footer');
     const tNav = useTranslations('header.nav');
+    const params = useParams();
+    const router = useRouter();
+    const locale = params.locale as string;
     const currentYear = new Date().getFullYear();
     const socialLinks = [
         { icon: Github, href: 'https://github.com/hoffmannniklas', label: 'GitHub' },
@@ -57,9 +62,36 @@ export function Footer() {
                 {/* Divider */}
                 <div className="border-t border-border mb-6" style={{ transition: 'border-color 700ms ease-in-out' }} />
 
-                {/* Copyright - Centered */}
-                <div className="text-center text-xs sm:text-sm text-muted-foreground space-y-1">
-                    <p>{t('copyright').replace('2025', currentYear.toString())}</p>
+                {/* Copyright & Legal Links - Centered */}
+                <div className="text-center text-xs sm:text-sm text-muted-foreground space-y-2">
+                    <div className="flex items-center justify-center gap-4 mb-2">
+                        <Link
+                            href={`/${locale}/impressum`}
+                            className="hover:text-accent"
+                            style={{ transition: 'color 0ms' }}
+                        >
+                            {locale === 'de' ? 'Impressum' : locale === 'es' ? 'Aviso Legal' : 'Legal Notice'}
+                        </Link>
+                        <span className="text-muted-foreground/40">•</span>
+                        <Link
+                            href={`/${locale}/datenschutz`}
+                            className="hover:text-accent"
+                            style={{ transition: 'color 0ms' }}
+                        >
+                            {locale === 'de' ? 'Datenschutz' : locale === 'es' ? 'Privacidad' : 'Privacy'}
+                        </Link>
+                    </div>
+                    <p>
+                        {t('copyright').split(currentYear.toString())[0]}
+                        <span
+                            onClick={() => router.push('/admin')}
+                            className="cursor-default hover:text-primary transition-colors"
+                            title=""
+                        >
+                            {currentYear}
+                        </span>
+                        {t('copyright').split(currentYear.toString())[1] || ` Niklas Hoffmann. ${t('copyright').includes('All rights reserved') ? 'All rights reserved.' : 'Alle Rechte vorbehalten.'}`}
+                    </p>
                     <p className="text-muted-foreground/60 flex items-center justify-center gap-1">
                         {t('madeWith').split('❤️')[0]}
                         <Icon icon="mdi:heart" className="text-red-500 w-4 h-4 animate-pulse" ssr={true} />
