@@ -9,14 +9,24 @@ const intlMiddleware = createMiddleware({
 });
 
 export default function middleware(request: NextRequest) {
-    console.log('🔍 Middleware called for:', request.nextUrl.pathname);
+    const pathname = request.nextUrl.pathname;
+    
+    // Debug logs (werden in production nicht entfernt wenn wir sie brauchen)
+    if (process.env.NODE_ENV !== 'production') {
+        console.log('🔍 Middleware called for:', pathname);
+    }
+
+    // Explizite Root-Weiterleitung
+    if (pathname === '/') {
+        const url = request.nextUrl.clone();
+        url.pathname = `/${defaultLocale}`;
+        return NextResponse.redirect(url);
+    }
 
     const response = intlMiddleware(request);
 
-    if (response) {
+    if (process.env.NODE_ENV !== 'production' && response) {
         console.log('✅ Middleware response:', response.status, response.headers.get('location'));
-    } else {
-        console.log('⚠️ Middleware returned nothing');
     }
 
     return response;
