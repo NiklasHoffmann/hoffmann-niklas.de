@@ -168,3 +168,38 @@ export async function PATCH(request: NextRequest) {
         );
     }
 }
+
+// DELETE - Alle Chat Sessions löschen (nur für Admin)
+export async function DELETE(request: NextRequest) {
+    try {
+        await connectDB();
+
+        // Lösche alle Nachrichten
+        const messagesResult = await ChatMessage.deleteMany({});
+
+        // Lösche alle Sessions
+        const sessionsResult = await ChatSession.deleteMany({});
+
+        console.log(`🗑️ Admin: Alle Chats gelöscht - ${sessionsResult.deletedCount} Sessions, ${messagesResult.deletedCount} Messages`);
+
+        return NextResponse.json({
+            success: true,
+            message: 'All chat sessions and messages deleted',
+            data: {
+                deletedSessions: sessionsResult.deletedCount,
+                deletedMessages: messagesResult.deletedCount,
+            },
+        });
+    } catch (error) {
+        console.error('❌ Delete All Sessions Error:', error);
+
+        return NextResponse.json(
+            {
+                success: false,
+                message: 'Failed to delete all sessions',
+                error: error instanceof Error ? error.message : 'Unknown error',
+            },
+            { status: 500 }
+        );
+    }
+}

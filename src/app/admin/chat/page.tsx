@@ -23,6 +23,7 @@ export default function AdminChatPage() {
     // Confirmation states
     const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
     const [confirmBlock, setConfirmBlock] = useState<string | null>(null);
+    const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
 
     // Use admin chat hook
     const {
@@ -88,6 +89,26 @@ export default function AdminChatPage() {
         }
     };
 
+    // Delete all sessions handler
+    const handleDeleteAllSessions = async () => {
+        try {
+            const response = await fetch('/api/chat/sessions', {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                // Optionally reload sessions or clear local state
+                window.location.reload();
+            } else {
+                console.error('Failed to delete all sessions');
+            }
+        } catch (error) {
+            console.error('Error deleting all sessions:', error);
+        } finally {
+            setConfirmDeleteAll(false);
+        }
+    };
+
     // Prevent flash during hydration
     if (!mounted || isChecking) {
         return null;
@@ -141,7 +162,18 @@ export default function AdminChatPage() {
                                 </h1>
                             </div>
 
-                            <ConnectionStatus isConnected={socket?.connected || false} isDark={isDark} />
+                            <div className="flex items-center gap-2">
+                                {sessions.length > 0 && (
+                                    <button
+                                        onClick={() => setConfirmDeleteAll(true)}
+                                        className="p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors"
+                                        title="Alle Chats löschen"
+                                    >
+                                        <Icon icon="mdi:delete-sweep" className="w-5 h-5 text-red-600" />
+                                    </button>
+                                )}
+                                <ConnectionStatus isConnected={socket?.connected || false} isDark={isDark} />
+                            </div>
                         </div>
 
                         <SessionStats sessions={sessions} isDark={isDark} />
@@ -237,6 +269,20 @@ export default function AdminChatPage() {
                 confirmButtonClass="bg-yellow-600 hover:bg-yellow-700"
                 icon="mdi:block-helper"
                 iconBgClass="bg-yellow-100 dark:bg-yellow-900/20 text-yellow-600"
+                isDark={isDark}
+            />
+
+            {/* Delete All Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={confirmDeleteAll}
+                onClose={() => setConfirmDeleteAll(false)}
+                onConfirm={handleDeleteAllSessions}
+                title="Alle Chats löschen?"
+                message="Dies wird ALLE Chat-Sessions und Nachrichten unwiderruflich löschen. Diese Aktion kann nicht rückgängig gemacht werden!"
+                confirmText="Alle löschen"
+                confirmButtonClass="bg-red-600 hover:bg-red-700"
+                icon="mdi:delete-sweep"
+                iconBgClass="bg-red-100 dark:bg-red-900/20 text-red-600"
                 isDark={isDark}
             />
         </div>
