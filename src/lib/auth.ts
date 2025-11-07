@@ -42,7 +42,7 @@ export async function isAuthenticated(): Promise<boolean> {
 
     try {
         const session: AuthSession = JSON.parse(authCookie.value);
-        
+
         // Check if session expired
         if (Date.now() - session.timestamp > AUTH_EXPIRY) {
             return false;

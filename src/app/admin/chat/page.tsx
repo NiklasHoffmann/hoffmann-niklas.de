@@ -51,12 +51,12 @@ export default function AdminChatPage() {
         try {
             const response = await fetch('/api/auth/check');
             const data = await response.json();
-            
+
             if (!data.authenticated) {
                 router.push('/admin/login');
                 return;
             }
-            
+
             setIsChecking(false);
         } catch (error) {
             console.error('Auth check failed:', error);

@@ -25,7 +25,7 @@ export function YouTubeSlider() {
                     className="mb-4 sm:mb-6 flex-shrink-0"
                 />
                 <div className="relative w-full max-w-full flex-shrink" style={{ aspectRatio: '16/9', maxHeight: 'calc(100vh - 280px)' }}>
-                    <div 
+                    <div
                         className="absolute inset-0 rounded-lg overflow-hidden bg-secondary border border-border"
                         style={{ transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out' }}
                     >

@@ -67,12 +67,12 @@ export default function AnalyticsPage() {
         try {
             const response = await fetch('/api/auth/check');
             const data = await response.json();
-            
+
             if (!data.authenticated) {
                 router.push('/admin/login');
                 return;
             }
-            
+
             setIsChecking(false);
         } catch (error) {
             console.error('Auth check failed:', error);
@@ -169,8 +169,8 @@ export default function AnalyticsPage() {
                                     key={range}
                                     onClick={() => setTimeRange(range)}
                                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${timeRange === range
-                                            ? 'bg-blue-600 text-white'
-                                            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                                         }`}
                                 >
                                     {range === '24h' ? 'Last 24h' : range === '7d' ? 'Last 7 Days' :

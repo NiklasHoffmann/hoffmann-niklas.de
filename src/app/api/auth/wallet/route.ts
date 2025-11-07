@@ -24,7 +24,7 @@ export async function POST(request: Request) {
         // Verify the signature
         try {
             const recoveredAddress = ethers.verifyMessage(message, signature);
-            
+
             // Check if recovered address matches admin wallet
             if (recoveredAddress.toLowerCase() !== ADMIN_WALLET) {
                 return NextResponse.json(
