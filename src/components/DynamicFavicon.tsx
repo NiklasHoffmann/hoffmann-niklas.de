@@ -62,15 +62,9 @@ export function DynamicFavicon() {
         const themePrefix = resolvedTheme === 'dark' ? 'cube-black' : 'cube-white';
         
         // Special case: in light mode with interactive off, use black cube
-        let finalPath = '';
-        if (resolvedTheme === 'light' && !isInteractive) {
-            finalPath = 'cube-white-black';
-        } else if (resolvedTheme === 'dark' && colorName === 'cyan') {
-            // Special case for typo in filename: cube-blach-cyan instead of cube-black-cyan
-            finalPath = 'cube-blach-cyan';
-        } else {
-            finalPath = `${themePrefix}-${colorName}`;
-        }
+        const finalPath = resolvedTheme === 'light' && !isInteractive 
+            ? 'cube-white-black' 
+            : `${themePrefix}-${colorName}`;
 
         const faviconPath = `/favicons/${finalPath}.svg`;
 
