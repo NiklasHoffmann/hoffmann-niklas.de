@@ -107,6 +107,7 @@
     "title": "Contacto",
     "subtitle": "Hablemos sobre tu proyecto",
     "email": "Email",
+    "emailAddress": "mail@hoffmann-niklas.de",
     "location": "Ubicación",
     "germany": "Alemania",
     "quickResponse": "¡Respuesta rápida garantizada!",
@@ -153,5 +154,73 @@
     "securityNotice": "Tus mensajes están cifrados y seguros",
     "chatSupport": "Soporte por Chat",
     "replyInstantly": "Normalmente respondemos de inmediato"
+  },
+  "impressum": {
+    "title": "Aviso Legal",
+    "subtitle": "Información según § 5 TMG (Ley alemana de telemedios)",
+    "backToHome": "Volver al inicio",
+    "contact": {
+      "title": "Información de contacto",
+      "name": "Niklas Hoffmann",
+      "address": {
+        "street": "Fröbelstraße 20",
+        "city": "67433 Neustadt an der Weinstraße",
+        "country": "Alemania"
+      },
+      "email": "mail@hoffmann-niklas.de",
+      "phone": ""
+    },
+    "responsible": {
+      "title": "Responsable del contenido según § 55 Abs. 2 RStV",
+      "content": "Niklas Hoffmann, Fröbelstraße 20, 67433 Neustadt an der Weinstraße"
+    },
+    "disclaimer": {
+      "title": "Descargo de responsabilidad",
+      "liability": {
+        "title": "Responsabilidad por el contenido",
+        "content": "El contenido de nuestras páginas se creó con el mayor cuidado. Sin embargo, no podemos garantizar la exactitud, integridad y actualidad del contenido. Como proveedor de servicios, somos responsables de nuestro propio contenido en estas páginas de acuerdo con las leyes generales."
+      },
+      "links": {
+        "title": "Responsabilidad por enlaces",
+        "content": "Nuestra oferta contiene enlaces a sitios web externos de terceros, sobre cuyo contenido no tenemos influencia. Por lo tanto, no podemos asumir ninguna responsabilidad por estos contenidos externos. El respectivo proveedor u operador de las páginas es siempre responsable del contenido de las páginas vinculadas."
+      },
+      "copyright": {
+        "title": "Derechos de autor",
+        "content": "El contenido y las obras creadas por los operadores del sitio en estas páginas están sujetos a la ley de derechos de autor alemana. La duplicación, procesamiento, distribución y cualquier tipo de explotación fuera de los límites de los derechos de autor requieren el consentimiento por escrito del respectivo autor o creador."
+      }
+    },
+    "dispute": {
+      "title": "Resolución de disputas en línea",
+      "content": "La Comisión Europea proporciona una plataforma para la resolución de disputas en línea (OS). Nuestra dirección de correo electrónico se puede encontrar arriba en el aviso legal. No estamos dispuestos ni obligados a participar en procedimientos de resolución de disputas ante una junta de arbitraje de consumidores."
+    },
+    "lastUpdated": "Última actualización"
+  },
+  "datenschutz": {
+    "title": "Política de Privacidad",
+    "subtitle": "Información sobre el procesamiento de sus datos",
+    "backToHome": "Volver al inicio",
+    "dataCollection": {
+      "title": "Recopilación de datos en este sitio web",
+      "content": "Este sitio web no recopila ningún dato personal a menos que se ponga en contacto con nosotros voluntariamente a través del formulario de contacto o por correo electrónico. El procesamiento de datos se realiza únicamente con el fin de responder a su consulta."
+    },
+    "contact": {
+      "title": "Formulario de contacto",
+      "content": "Si nos envía consultas a través del formulario de contacto, sus datos del formulario de consulta, incluidos los datos de contacto que proporcione allí, serán almacenados por nosotros con el fin de procesar la consulta y en caso de preguntas de seguimiento."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Este sitio web solo utiliza cookies técnicamente necesarias (por ejemplo, para la configuración del tema). No se utilizan cookies de seguimiento ni herramientas de análisis de terceros."
+    },
+    "rights": {
+      "title": "Sus derechos",
+      "content": "Usted tiene derecho en cualquier momento a:",
+      "access": "Obtener información sobre sus datos almacenados",
+      "correction": "Solicitar la corrección de datos incorrectos",
+      "deletion": "Solicitar la eliminación de sus datos",
+      "restriction": "Solicitar la restricción del procesamiento",
+      "portability": "Solicitar la portabilidad de datos",
+      "objection": "Oponerse al procesamiento"
+    },
+    "lastUpdated": "Última actualización"
   }
 }

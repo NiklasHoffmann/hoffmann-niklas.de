@@ -41,5 +41,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 }
             }
         },
+        {
+            url: `${baseUrl}/de/impressum`,
+            lastModified,
+            changeFrequency: 'monthly',
+            priority: 0.5,
+            alternates: {
+                languages: {
+                    en: `${baseUrl}/en/impressum`,
+                    es: `${baseUrl}/es/impressum`,
+                }
+            }
+        },
+        {
+            url: `${baseUrl}/de/datenschutz`,
+            lastModified,
+            changeFrequency: 'monthly',
+            priority: 0.5,
+            alternates: {
+                languages: {
+                    en: `${baseUrl}/en/datenschutz`,
+                    es: `${baseUrl}/es/datenschutz`,
+                }
+            }
+        },
     ];
 }

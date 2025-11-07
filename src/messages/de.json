@@ -107,6 +107,7 @@
     "title": "Kontakt",
     "subtitle": "Lass uns über dein Projekt sprechen",
     "email": "Email",
+    "emailAddress": "mail@hoffmann-niklas.de",
     "location": "Standort",
     "germany": "Deutschland",
     "quickResponse": "Schnelle Antwort garantiert!",
@@ -153,5 +154,73 @@
     "securityNotice": "Ihre Nachrichten sind verschlüsselt und sicher",
     "chatSupport": "Chat Support",
     "replyInstantly": "Wir antworten in der Regel sofort"
+  },
+  "impressum": {
+    "title": "Impressum",
+    "subtitle": "Angaben gemäß § 5 TMG",
+    "backToHome": "Zurück zur Startseite",
+    "contact": {
+      "title": "Kontaktinformationen",
+      "name": "Niklas Hoffmann",
+      "address": {
+        "street": "Fröbelstraße 20",
+        "city": "67433 Neustadt an der Weinstraße",
+        "country": "Deutschland"
+      },
+      "email": "mail@hoffmann-niklas.de",
+      "phone": ""
+    },
+    "responsible": {
+      "title": "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV",
+      "content": "Niklas Hoffmann, Fröbelstraße 20, 67433 Neustadt an der Weinstraße"
+    },
+    "disclaimer": {
+      "title": "Haftungsausschluss",
+      "liability": {
+        "title": "Haftung für Inhalte",
+        "content": "Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich."
+      },
+      "links": {
+        "title": "Haftung für Links",
+        "content": "Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich."
+      },
+      "copyright": {
+        "title": "Urheberrecht",
+        "content": "Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers."
+      }
+    },
+    "dispute": {
+      "title": "Online-Streitbeilegung",
+      "content": "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Unsere E-Mail-Adresse finden Sie oben im Impressum. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
+    },
+    "lastUpdated": "Stand"
+  },
+  "datenschutz": {
+    "title": "Datenschutzerklärung",
+    "subtitle": "Informationen zur Verarbeitung Ihrer Daten",
+    "backToHome": "Zurück zur Startseite",
+    "dataCollection": {
+      "title": "Datenerfassung auf dieser Website",
+      "content": "Diese Website erhebt keine personenbezogenen Daten, außer Sie kontaktieren uns freiwillig über das Kontaktformular oder per E-Mail. Die Datenverarbeitung erfolgt ausschließlich zur Beantwortung Ihrer Anfrage."
+    },
+    "contact": {
+      "title": "Kontaktformular",
+      "content": "Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Diese Website verwendet nur technisch notwendige Cookies (z.B. für Theme-Einstellungen). Es werden keine Tracking-Cookies oder Analytics-Tools von Drittanbietern eingesetzt."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "content": "Sie haben jederzeit das Recht:",
+      "access": "Auskunft über Ihre gespeicherten Daten zu erhalten",
+      "correction": "Berichtigung unrichtiger Daten zu verlangen",
+      "deletion": "Löschung Ihrer Daten zu verlangen",
+      "restriction": "Einschränkung der Verarbeitung zu verlangen",
+      "portability": "Datenübertragbarkeit zu verlangen",
+      "objection": "Widerspruch gegen die Verarbeitung einzulegen"
+    },
+    "lastUpdated": "Stand"
   }
 }
