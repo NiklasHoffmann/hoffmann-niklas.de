@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getRequestConfig } from "next-intl/server";
 import "./globals.css";
 import { ClientProviders } from "@/components/ClientProviders";
-import { ChainBackground } from "@/components/ChainBackground";
+import { ConditionalChainBackground } from "@/components/ConditionalChainBackground";
 import { locales, defaultLocale } from "@/i18n/config";
 
 const geistSans = Geist({
@@ -73,7 +73,7 @@ export default async function RootLayout({
           <div className="relative min-h-screen">
             {/* Chain Background Layer - z-1 (zwischen Background und Content) */}
             <div className="absolute inset-0 pointer-events-none z-[1]">
-              <ChainBackground />
+              <ConditionalChainBackground />
             </div>
 
             {/* Content Layer - z-10 */}

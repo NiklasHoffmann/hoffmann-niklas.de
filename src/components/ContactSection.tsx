@@ -58,12 +58,12 @@ export function ContactSection() {
                 <div className='min-w-0'>
                   <h3 className='font-semibold text-sm sm:text-base mb-0.5'>{t('email')}</h3>
                   <a
-                    href='mailto:hoffmann.niklas@googlemail.com'
+                    href={`mailto:${t('emailAddress')}`}
                     className='text-xs sm:text-sm text-muted-foreground hover:text-accent transition-colors break-all'
                     style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
-                    aria-label="Send email to hoffmann.niklas@googlemail.com"
+                    aria-label={`Send email to ${t('emailAddress')}`}
                   >
-                    hoffmann.niklas@googlemail.com
+                    {t('emailAddress')}
                   </a>
                 </div>
               </div>
