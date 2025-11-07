@@ -5,6 +5,7 @@ import { ChatProvider } from '@/contexts/ChatContext';
 import ClientChatWidget from '@/components/ClientChatWidget';
 import { AnalyticsProvider } from '@/components/AnalyticsProvider';
 import { StructuredData } from '@/components/StructuredData';
+import { DynamicFavicon } from '@/components/DynamicFavicon';
 import { locales } from '@/i18n/config';
 
 // Generate static params for all locales
@@ -122,6 +123,7 @@ export default async function LocaleLayout({
     return (
         <NextIntlClientProvider locale={locale} messages={messages}>
             <StructuredData locale={locale} />
+            <DynamicFavicon />
             <ChatProvider>
                 <AnalyticsProvider />
                 {children}
