@@ -10,15 +10,17 @@ import { locales, defaultLocale } from "@/i18n/config";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap", // Optimize font loading
+  display: "optional", // Best performance: use fallback if font not cached
   preload: true,
+  adjustFontFallback: true, // Reduce layout shift with font metric override
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: "swap", // Optimize font loading
+  display: "optional", // Best performance: use fallback if font not cached
   preload: true,
+  adjustFontFallback: true, // Reduce layout shift with font metric override
 });
 
 export const metadata: Metadata = {

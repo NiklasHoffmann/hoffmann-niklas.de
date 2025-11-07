@@ -113,15 +113,19 @@ interface CubeFaceProps {
 const CubeFace = memo(function CubeFace({ service, transform, t }: CubeFaceProps) {
     return (
         <div
-            className="absolute inset-0 p-6 md:p-8 bg-card rounded-sm border-2 border-border select-none transition-colors duration-700"
+            className="absolute inset-0 p-6 md:p-8 bg-card rounded-sm border-2 border-border select-none"
             style={{
                 transform,
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
+                transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out',
             }}
         >
             <div
-                className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-10 rounded-sm transition-opacity duration-700`}
+                className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-10 rounded-sm`}
+                style={{
+                    transition: 'opacity 700ms ease-in-out',
+                }}
             />
             <div className="relative z-10 h-full flex flex-col">
                 <Icon

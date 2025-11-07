@@ -30,6 +30,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   const transitionIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const previousInteractiveRef = useRef(isInteractive);
   const previousThemeRef = useRef(theme);
+  const needsRedrawRef = useRef(true); // Flag für Redraw
   // OPTIMIZATION: Cache scrollHeight to avoid recalculation on every scroll event
   const scrollHeightCache = useRef(0);
 
@@ -65,6 +66,9 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     // Update refs
     previousInteractiveRef.current = isInteractive;
     previousThemeRef.current = theme;
+
+    // Force redraw on theme/interactive mode change
+    needsRedrawRef.current = true;
 
     // Clear any existing intervals/timeouts
     if (transitionTimeoutRef.current) {
@@ -159,11 +163,10 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       setScrollProgress(Math.min(Math.max(progress, 0), 1));
     }, 16); // ~60fps
 
-    // Mouse move handler - nur für cubic style
+    // Mouse move handler - KOMPLETT DEAKTIVIERT für maximale Cube-Performance
+    // Hover-Effekte sind das Opfer für flüssigen Cube
     const handleMouseMove = (e: MouseEvent) => {
-      if (config.style === 'cubic' && isInteractive) {
-        mousePosRef.current = { x: e.clientX, y: e.clientY + window.scrollY };
-      }
+      // Komplett deaktiviert
     };
 
     // Device orientation handler - für mobile/tablet
@@ -242,11 +245,28 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Force initial draw
+    needsRedrawRef.current = true;
+
     // Prevent flickering: keep canvas visible during resize
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
 
+    let lastScrollProgress = scrollProgress;
+
     const draw = () => {
+      // Nur neu zeichnen bei Scroll-Änderungen
+      // Maus komplett ignoriert für maximale Performance
+      const scrollChanged = Math.abs(scrollProgress - lastScrollProgress) > 0.001;
+
+      if (!needsRedrawRef.current && !scrollChanged) {
+        animationFrameRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
+      needsRedrawRef.current = false;
+      lastScrollProgress = scrollProgress;
+
       const width = canvas.width;
       const height = canvas.height;
       ctx.clearRect(0, 0, width, height);
@@ -469,7 +489,23 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       animationFrameRef.current = requestAnimationFrame(draw);
     };
 
-    draw();
+    // FPS Limiter für bessere Performance (30fps statt 60fps)
+    let lastFrameTime = 0;
+    const targetFPS = 30;
+    const frameInterval = 1000 / targetFPS;
+
+    const limitedDraw = (currentTime: number) => {
+      const elapsed = currentTime - lastFrameTime;
+
+      if (elapsed > frameInterval) {
+        lastFrameTime = currentTime - (elapsed % frameInterval);
+        draw();
+      } else {
+        animationFrameRef.current = requestAnimationFrame(limitedDraw);
+      }
+    };
+
+    animationFrameRef.current = requestAnimationFrame(limitedDraw);
 
     return () => {
       if (animationFrameRef.current) {
@@ -495,7 +531,10 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       style={{
         opacity: finalOpacity,
         transition: 'none', // No CSS transition, we handle it in JS
-        willChange: 'opacity'
+        willChange: 'opacity',
+        transform: 'translateZ(0)', // Force GPU acceleration
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden'
       }}
       suppressHydrationWarning
     />

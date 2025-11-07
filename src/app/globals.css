@@ -82,6 +82,9 @@
     transition:
       --scrollbar-track var(--transition-slow) ease-in-out,
       --scrollbar-thumb var(--transition-slow) ease-in-out;
+
+    /* Kein CSS smooth scrolling - wird via JavaScript gesteuert */
+    scroll-behavior: auto;
   }
 
   /* Überschreibe Tailwinds transition-colors Standard-Duration */
@@ -146,7 +149,8 @@
   /* Sanfteres Scrolling mit reduzierter Snap-Stärke */
   @media (prefers-reduced-motion: no-preference) {
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
+      /* JavaScript übernimmt Scroll-Control */
     }
   }
 
@@ -162,16 +166,8 @@
   }
 }
 
-/* Snap Scroll Sections - proximity statt mandatory für sanfteres Scrolling */
-.scroll-snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-  /* Erlaubt sanfteres Durchscrollen */
-}
-
-/* Hero Section - muss exakt bei scrollY = 0 starten */
+/* Hero Section */
 #hero.scroll-snap-section {
-  scroll-snap-align: start;
   scroll-margin-top: 0 !important;
   margin-top: 0 !important;
   padding-top: 0 !important;
@@ -272,27 +268,31 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
 }
 
 html {
-  /* Proximity statt mandatory = nur sanftes Snapping wenn nahe an Section */
-  scroll-snap-type: y proximity;
+  /* Scroll-Snap deaktiviert - wird jetzt via JavaScript gesteuert */
+  scroll-snap-type: none;
 
-  /* Smooth scrolling - Browser optimiert die Geschwindigkeit */
-  scroll-behavior: smooth;
+  /* Smooth scrolling DEAKTIVIERT - wird via JavaScript gesteuert */
+  scroll-behavior: auto;
 
-  /* Reduziert die "Härte" des Snappings */
   scroll-padding: 0;
 }
 
-/* Sanfteres Snapping - nur wenn direkt an Section */
-.scroll-snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  /* Stoppt bei jeder Section */
+/* JavaScript Scroll-Control - kein CSS smooth scrolling */
+* {
+  scroll-behavior: auto !important;
+}
+
+/* CSS Scroll-Timing anpassen (funktioniert in manchen Browsern) */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Optimierung für sanfteres Scrolling */
 @media (prefers-reduced-motion: no-preference) {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
 }
 

@@ -20,6 +20,30 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['@iconify/react', 'lucide-react'],
   },
 
+  // Cache headers for better performance
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|jpeg|png|webp|avif|ico|woff|woff2)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable', // 1 year cache
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable', // 1 year cache for Next.js static files
+          },
+        ],
+      },
+    ];
+  },
+
   images: {
     remotePatterns: [
       {
@@ -30,8 +54,8 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [330, 384, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 330],
-    qualities: [75, 85, 95],
-    minimumCacheTTL: 60,
+    qualities: [70, 75, 85, 95],
+    minimumCacheTTL: 31536000, // 1 year cache for Next.js Image Optimization
   },
 };
 

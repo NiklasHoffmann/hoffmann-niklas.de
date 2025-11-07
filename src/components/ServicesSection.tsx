@@ -158,18 +158,18 @@ export function ServicesSection() {
             techStack: techStack.filter((tech) => tech.category === 'web3'),
         },
         {
-            title: t('backendService'),
-            icon: 'vscode-icons:file-type-node',
-            description: t('descriptions.backendService'),
-            color: 'from-green-500 to-emerald-500',
-            techStack: techStack.filter((tech) => tech.category === 'backend'),
-        },
-        {
             title: t('uiux'),
             icon: 'logos:figma',
             description: t('descriptions.uiux'),
             color: 'from-orange-500 to-red-500',
             techStack: techStack.filter((tech) => tech.category === 'tools'),
+        },
+        {
+            title: t('photo'),
+            icon: 'mdi:camera-outline',
+            description: t('descriptions.photo'),
+            color: 'from-pink-500 to-rose-500',
+            techStack: [],
         },
         {
             title: t('databaseService'),
@@ -179,18 +179,18 @@ export function ServicesSection() {
             techStack: techStack.filter((tech) => tech.category === 'database'),
         },
         {
-            title: t('photo'),
-            icon: 'mdi:camera-outline',
-            description: t('descriptions.photo'),
-            color: 'from-pink-500 to-rose-500',
-            techStack: [],
+            title: t('backendService'),
+            icon: 'vscode-icons:file-type-node',
+            description: t('descriptions.backendService'),
+            color: 'from-green-500 to-emerald-500',
+            techStack: techStack.filter((tech) => tech.category === 'backend'),
         },
     ], [t]);
 
     return (
         <section
             id="services"
-            className="scroll-snap-section w-full min-h-screen flex items-center justify-center bg-background pt-20 sm:pt-24 pb-8 sm:pb-12 px-6 sm:px-8 lg:px-12 overflow-y-auto"
+            className="scroll-snap-section w-full min-h-screen flex items-center justify-center bg-background pt-20 sm:pt-24 pb-8 sm:pb-12 px-6 sm:px-8 lg:px-12"
         >
             <div className="max-w-7xl mx-auto w-full relative">
                 {/* Mode Toggle - Only visible in interactive mode */}
@@ -260,11 +260,17 @@ export function ServicesSection() {
                                 {serviceCategories.map((service, i) => (
                                     <div
                                         key={i}
-                                        className="group relative p-6 bg-card rounded-xl border border-border hover:border-accent/50 transition-all duration-500 hover:shadow-xl hover:shadow-accent/10 overflow-hidden cursor-pointer hover:scale-[1.02] hover:z-10"
+                                        className="group relative p-6 bg-card rounded-xl border border-border hover:border-accent/50 overflow-hidden cursor-pointer"
+                                        style={{
+                                            transition: 'all 0.7s ease-in-out, background-color 700ms ease-in-out, border-color 700ms ease-in-out, box-shadow 0.7s ease-in-out',
+                                        }}
                                     >
                                         {/* Gradient Background on Hover */}
                                         <div
-                                            className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                                            className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10`}
+                                            style={{
+                                                transition: 'opacity 700ms ease-in-out',
+                                            }}
                                         />
 
                                         {/* Hover Indicator - Pulsing Dot */}

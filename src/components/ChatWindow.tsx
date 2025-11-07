@@ -178,7 +178,7 @@ export default function ChatWindow() {
                             <button
                                 type="submit"
                                 disabled={!tempName.trim()}
-                                className="w-full px-4 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed bg-card/80 backdrop-blur-md border border-border"
+                                className="w-full px-4 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed bg-background border border-border"
                                 style={{
                                     boxShadow: safeIsDark
                                         ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)'
@@ -417,7 +417,7 @@ export default function ChatWindow() {
                     <button
                         type="submit"
                         disabled={!inputMessage.trim() || !isConnected}
-                        className="px-4 py-2.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 bg-card/80 backdrop-blur-md border border-border"
+                        className="px-4 py-2.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 bg-background border border-border"
                         style={{
                             boxShadow: isDark
                                 ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)'

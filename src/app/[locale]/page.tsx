@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
+import { SectionScrollController } from "@/components/SectionScrollController";
 
 // Lazy load below-the-fold components for better FCP/LCP
 const AboutSection = dynamic(() => import("@/components/AboutSection").then(mod => ({ default: mod.AboutSection })), {
@@ -31,6 +32,7 @@ const Footer = dynamic(() => import("@/components/Footer").then(mod => ({ defaul
 export default function HomePage() {
     return (
         <>
+            <SectionScrollController />
             <Header />
 
             <main className="relative z-10">

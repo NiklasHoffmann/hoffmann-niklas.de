@@ -193,8 +193,15 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
     }, []);
 
     // DeviceMotion (Beschleunigungssensor) - Würfel durch Handy-Neigung steuern
+    // NUR auf Mobile/Touch-Geräten aktivieren
     useEffect(() => {
-        if (typeof window === 'undefined' || !window.DeviceMotionEvent) return;
+        // Check if device is mobile/tablet with touch support
+        const isMobileDevice = typeof window !== 'undefined' && (
+            'ontouchstart' in window ||
+            navigator.maxTouchPoints > 0
+        );
+
+        if (!isMobileDevice || typeof window === 'undefined' || !window.DeviceMotionEvent) return;
 
         let calibrationX = 0;
         let calibrationY = 0;

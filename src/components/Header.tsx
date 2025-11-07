@@ -41,36 +41,55 @@ export function Header() {
 
     // Track active section
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const newSection = entry.target.id;
-                        cachedActiveSection = newSection; // Update global cache
-                        setActiveSection(newSection);
+        const updateActiveSection = () => {
+            const sections = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact'];
+            const scrollPosition = window.scrollY + window.innerHeight / 2; // Mitte des Viewports
+
+            let currentSection = 'hero';
+
+            for (const sectionId of sections) {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    const sectionTop = rect.top + window.scrollY;
+                    const sectionBottom = sectionTop + rect.height;
+
+                    // Section ist aktiv wenn Viewport-Mitte innerhalb der Section ist
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        currentSection = sectionId;
+                        break;
                     }
-                });
-            },
-            {
-                threshold: 0.5, // Section muss zu 50% sichtbar sein
-                rootMargin: '-100px 0px -100px 0px' // Berücksichtigt Header-Höhe
+                }
             }
-        );
 
-        // Use static section IDs instead of sections array to avoid dependency issues
-        const sectionIds = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact'];
-
-        sectionIds.forEach((sectionId) => {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                observer.observe(element);
+            if (currentSection !== cachedActiveSection) {
+                console.log('🎯 Header: Active section changed to', currentSection);
+                cachedActiveSection = currentSection;
+                setActiveSection(currentSection);
             }
-        });
+        };
 
-        return () => observer.disconnect();
-    }, []); // Empty dependencies - only run once on mount
+        // Initial check
+        updateActiveSection();
 
-    const scrollToSection = (sectionId: string) => {
+        // Update on scroll
+        let rafId: number;
+        const handleScroll = () => {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+            rafId = requestAnimationFrame(updateActiveSection);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
+        };
+    }, []); const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId);
         if (element) {
             // OPTIMIZATION: Use requestAnimationFrame to batch layout read
@@ -98,7 +117,7 @@ export function Header() {
                     {/* Logo */}
                     <Link
                         href="/"
-                        className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+                        className="text-lg sm:text-xl text-white font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
                     >
                         NH
                     </Link>

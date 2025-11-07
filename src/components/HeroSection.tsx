@@ -2,7 +2,6 @@
 
 import { useTranslations } from 'next-intl';
 import { Icon } from '@iconify/react';
-import { HeroButtons } from './HeroButtons';
 import { useChat } from '@/contexts/ChatContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useMemo, useState } from 'react';
@@ -71,7 +70,7 @@ export function HeroSection({ }: HeroSectionProps) {
                     onClick={openChat}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    className="mb-6 sm:mb-8 inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-card/80 backdrop-blur-md border border-border group"
+                    className="mb-6 sm:mb-8 inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-background border border-border group"
                     style={{
                         boxShadow: isHovered ? getHoverShadow() : getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
@@ -103,8 +102,6 @@ export function HeroSection({ }: HeroSectionProps) {
 
                 {/* Tech Stack Icons */}
                 <TechIcons />
-
-                <HeroButtons viewPortfolio={t('viewPortfolio')} viewContact={t('viewContact')} />
             </div>
         </section>
     );

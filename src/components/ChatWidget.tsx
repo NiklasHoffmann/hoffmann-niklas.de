@@ -57,18 +57,17 @@ export default function ChatWidget() {
 
                     {/* Main Button */}
                     <div
-                        className="relative flex items-center justify-center w-16 h-16 rounded-full shadow-xl border-2 bg-card border-border group-hover:scale-105"
+                        className="relative flex items-center justify-center w-16 h-16 rounded-full shadow-xl border-2 group-hover:scale-105"
                         style={{
-                            transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, transform 700ms ease-in-out'
+                            backgroundColor: isDark ? '#090909' : '#ffffff',
+                            borderColor: isDark ? '#1a1a1a' : '#d1d5db',
+                            transition: 'transform 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                         }}
                     >
                         {/* Icon */}
                         <Icon
                             icon="mdi:chat"
-                            className="w-8 h-8 relative z-10 text-foreground"
-                            style={{
-                                transition: 'color 700ms ease-in-out'
-                            }}
+                            className="w-8 h-8 relative z-10 text-foreground transition-colors"
                             ssr={true}
                         />
                     </div>
@@ -87,21 +86,15 @@ export default function ChatWidget() {
                     style={{
                         backgroundColor: isDark ? '#090909' : '#ffffff',
                         borderColor: isDark ? '#1a1a1a' : '#d1d5db',
-                        transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out'
+                        transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
                 >
                     <div
                         className="flex items-center justify-between p-4 cursor-pointer border-b-2"
                         style={{
-                            backgroundColor: isDark ? 'rgba(13, 13, 13, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                            backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#1a1a1a' : '#d1d5db',
-                            transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = isDark ? '#1a1a1a' : '#f3f4f6';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = isDark ? 'rgba(13, 13, 13, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+                            transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out'
                         }}
                     >
                         <button
@@ -110,13 +103,10 @@ export default function ChatWidget() {
                         >
                             <Icon
                                 icon="mdi:chat"
-                                className="w-5 h-5 text-foreground"
-                                style={{
-                                    transition: 'color 700ms ease-in-out'
-                                }}
+                                className="w-5 h-5 text-foreground transition-colors"
                                 ssr={true}
                             />
-                            <span className="font-medium text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
+                            <span className="font-medium text-foreground transition-colors">
                                 Chat Support
                             </span>
                             {unreadCount > 0 && (
@@ -126,35 +116,17 @@ export default function ChatWidget() {
                             )}
                         </button>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2" style={{ transition: 'none' }}>
                             <button
                                 onClick={toggleMinimize}
-                                className="p-1 rounded text-foreground"
-                                style={{
-                                    transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.2)' : '#f3f4f6';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                }}
+                                className="p-1 rounded text-foreground transition-colors"
                                 aria-label="Maximize"
                             >
                                 <Icon icon="mdi:window-maximize" className="w-5 h-5" ssr={true} />
                             </button>
                             <button
                                 onClick={closeChat}
-                                className="p-1 rounded text-foreground"
-                                style={{
-                                    transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.2)' : '#f3f4f6';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                }}
+                                className="p-1 rounded text-foreground transition-colors"
                                 aria-label="Close"
                             >
                                 <Icon icon="mdi:close" className="w-5 h-5" ssr={true} />
@@ -169,75 +141,55 @@ export default function ChatWidget() {
                     style={{
                         backgroundColor: isDark ? '#090909' : '#ffffff',
                         borderColor: isDark ? '#1a1a1a' : '#d1d5db',
-                        transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out'
+                        transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
                 >
                     {/* Header - Theme-aware */}
                     <div
                         className="flex items-center justify-between p-4 shadow-md border-b-2"
                         style={{
-                            backgroundColor: isDark ? 'rgba(13, 13, 13, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                            backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#1a1a1a' : '#d1d5db',
-                            transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out'
+                            transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                         }}
                     >
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3" style={{ transition: 'none' }}>
                             <div className="relative">
                                 <Icon
                                     icon="mdi:chat"
-                                    className="w-6 h-6 text-foreground"
-                                    style={{
-                                        transition: 'color 700ms ease-in-out'
-                                    }}
+                                    className="w-6 h-6 text-foreground transition-colors"
                                     ssr={true}
                                 />
                                 {/* Online Indicator */}
                                 <div
-                                    className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-card"
+                                    className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2"
                                     style={{
+                                        borderColor: isDark ? '#090909' : '#ffffff',
                                         transition: 'border-color 700ms ease-in-out'
                                     }}
                                 ></div>
                             </div>
                             <div>
-                                <h3 className="font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
+                                <h3 className="font-semibold text-foreground transition-colors">
                                     {t('chatSupport')}
                                 </h3>
-                                <p className="text-xs text-muted-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
+                                <p className="text-xs text-muted-foreground transition-colors">
                                     {t('replyInstantly')}
                                 </p>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2" style={{ transition: 'none' }}>
                             <button
                                 onClick={toggleMinimize}
-                                className="p-1.5 rounded text-foreground"
-                                style={{
-                                    transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.2)' : '#f3f4f6';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                }}
+                                className="p-1.5 rounded text-foreground transition-colors"
                                 aria-label="Minimize"
                             >
                                 <Icon icon="mdi:window-minimize" className="w-5 h-5" ssr={true} />
                             </button>
                             <button
                                 onClick={closeChat}
-                                className="p-1.5 rounded text-foreground"
-                                style={{
-                                    transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.backgroundColor = isDark ? 'rgba(255,255,255,0.2)' : '#f3f4f6';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                }}
+                                className="p-1.5 rounded text-foreground transition-colors"
                                 aria-label="Close"
                             >
                                 <Icon icon="mdi:close" className="w-5 h-5" ssr={true} />
