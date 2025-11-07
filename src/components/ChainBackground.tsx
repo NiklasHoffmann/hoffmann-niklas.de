@@ -126,6 +126,15 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       }, 50);
     };
 
+    // Handle visibility change (wichtig für Navigation zurück zur Seite)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        // Page is visible again - force recalculation
+        console.log('🎨 ChainBackground: Page visible again, recalculating dimensions');
+        handleResize();
+      }
+    };
+
     // Handle orientation change on tablets
     const handleOrientationChange = () => {
       // Wait for browser to finish orientation change UI updates
@@ -138,7 +147,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
             setIsReady(true);
           });
         });
-      }, 150); // Etwas längerer Delay für große Tablets
+      }, 300);
     };
 
     // Throttled scroll handler
@@ -203,6 +212,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     window.addEventListener('orientationchange', handleOrientationChange);
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // Device Orientation nur auf Mobile
     if (isMobile) {
@@ -215,6 +225,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('deviceorientation', handleDeviceOrientation);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       clearTimeout(timeoutId);
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
