@@ -57,7 +57,7 @@ export function ChainNavigation({ sections }: ChainNavigationProps) {
             // Zeichne eine durchgehende Kette mit Bezier-Kurven
             // Die Kette wechselt die Seiten in sanften Kurven
 
-            const sections = 6;
+            const sections = 7; // 7 sections: hero, about, services, portfolio, videos, contact, footer
             const sectionHeight = height / sections;
 
             // Starte links, wechsle die Seiten

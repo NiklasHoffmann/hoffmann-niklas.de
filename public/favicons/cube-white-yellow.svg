@@ -1,16 +1,9 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="-4.8 -4.8 57.60 57.60" xmlns="http://www.w3.org/2000/svg" fill="#" stroke="#">
-<g id="SVGRepo_bgCarrier" stroke-width="0">
-<rect x="-4.8" y="-4.8" width="57.60" height="57.60" rx="28.8" fill="#ffffff" strokewidth="0"/>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-76.8 -76.8 665.60 665.60" xml:space="preserve" width="800px" height="800px" fill="#090909" stroke="#090909">
+<g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)">
+<rect x="-76.8" y="-76.8" width="665.60" height="665.60" rx="332.8" fill="#ffffff" strokewidth="0"/>
 </g>
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier">
-<defs>
-<style>.a{fill:none;stroke:#ffff00;stroke-linecap:round;stroke-linejoin:round;}</style>
-</defs>
-<polygon class="a" points="40.86 14.3 23.89 4.5 7.03 14.23 24 24.03 40.86 14.3"/>
-<polygon class="a" points="24 24.03 7.03 14.23 7.03 33.7 24 43.5 24 24.03"/>
-<polygon class="a" points="40.86 14.3 24 24.03 24 43.5 40.86 33.77 40.86 14.3"/>
-</g>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#ffff00CCCCCC" stroke-width="1.024"/>
+<g id="SVGRepo_iconCarrier"> <polygon style="fill:#ffff00;" points="240.988,12.877 13.76,107.164 13.76,412.378 256.008,499.259 498.264,412.378 498.264,107.164 "/> <g> <path style="fill:#ffff00090909;" d="M256.008,512L1.764,420.824V99.15L240.708,0l269.528,98.782v322.042L256.008,512z M25.757,403.933 l230.251,82.586l230.251-82.586V115.545L241.252,25.729l-215.495,89.44V403.933z"/> <polygon style="fill:#ffff00090909;" points="256.008,211.936 9.705,123.599 17.815,101.005 256.008,186.438 494.209,101.005 502.319,123.599 "/> <rect x="244.011" y="199.187" style="fill:#ffff00090909;" width="23.994" height="300.08"/> </g> </g>
 </svg>

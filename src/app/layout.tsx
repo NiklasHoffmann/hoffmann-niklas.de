@@ -46,10 +46,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-icon.png",
-  },
+  // Icons werden dynamisch via DynamicFavicon Component gesetzt
 };
 
 export function generateStaticParams() {

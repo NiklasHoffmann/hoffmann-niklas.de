@@ -46,6 +46,7 @@ export const NEON_COLORS = {
         YELLOW: '#ffff00',
         HOT_PINK: '#ff0080',
         BLUE: '#0080ff',
+        ORANGE: '#ff8000',
     },
     /** Darker neon colors for better contrast in light theme */
     LIGHT: {
@@ -55,5 +56,6 @@ export const NEON_COLORS = {
         YELLOW: '#cccc00',
         HOT_PINK: '#cc0066',
         BLUE: '#0066cc',
+        ORANGE: '#cc6600',
     },
 } as const;

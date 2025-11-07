@@ -42,7 +42,7 @@ export function Header() {
     // Track active section
     useEffect(() => {
         const updateActiveSection = () => {
-            const sections = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact'];
+            const sections = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact', 'footer'];
             const scrollPosition = window.scrollY + window.innerHeight / 2; // Mitte des Viewports
 
             let currentSection = 'hero';

@@ -21,7 +21,7 @@ export function Footer() {
     ];
 
     return (
-        <footer className="scroll-snap-section bg-secondary/50 h-screen max-h-screen flex items-center overflow-hidden">
+        <footer id="footer" className="scroll-snap-section bg-secondary/50 h-screen max-h-screen flex items-center overflow-hidden">
             <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-8 sm:py-12 w-full">
                 {/* Content Stack */}
                 <div className="flex flex-col items-center text-center space-y-6 sm:space-y-8 mb-8 sm:mb-10">

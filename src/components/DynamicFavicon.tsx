@@ -12,6 +12,7 @@ const SECTION_COLOR_MAP: Record<string, string> = {
     'portfolio': 'yellow',
     'videos': 'hotpink',
     'contact': 'blue',
+    'footer': 'orange',
 };
 
 export function DynamicFavicon() {
@@ -22,7 +23,7 @@ export function DynamicFavicon() {
     // Track current section via scroll position
     useEffect(() => {
         const updateCurrentSection = () => {
-            const sections = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact'];
+            const sections = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact', 'footer'];
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
             

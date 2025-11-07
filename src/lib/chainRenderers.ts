@@ -212,12 +212,13 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
 
     // Neon-Farben für den Glow-Effekt
     const neonColors = [
-        '#00ffff', // Cyan - Section 0
-        '#ff00ff', // Magenta - Section 1
-        '#00ff00', // Lime - Section 2
-        '#ffff00', // Yellow - Section 3
-        '#ff0080', // Hot Pink - Section 4
-        '#0080ff', // Blue - Section 5
+        '#00ffff', // Cyan - Section 0 (Hero)
+        '#ff00ff', // Magenta - Section 1 (About)
+        '#00ff00', // Lime - Section 2 (Services)
+        '#ffff00', // Yellow - Section 3 (Portfolio)
+        '#ff0080', // Hot Pink - Section 4 (Videos)
+        '#0080ff', // Blue - Section 5 (Contact)
+        '#ff8000', // Orange - Section 6 (Footer)
     ];
 
     // Jede Section hat ihre eigene Farbe
