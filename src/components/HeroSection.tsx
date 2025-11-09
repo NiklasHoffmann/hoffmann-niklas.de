@@ -53,7 +53,7 @@ export function HeroSection({ }: HeroSectionProps) {
         <section
             id="hero"
             key={key}
-            className="scroll-snap-section relative w-full h-screen max-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 overflow-hidden py-20 md:py-0"
+            className="scroll-snap-section relative w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-8"
             style={{ scrollMarginTop: '0px' }}
         >
             {/* Animated background elements */}
@@ -64,7 +64,7 @@ export function HeroSection({ }: HeroSectionProps) {
             </div>
 
             {/* Content */}
-            <div className="relative z-10 text-center px-6 sm:px-8 lg:px-12 max-w-5xl mx-auto">
+            <div className="relative z-10 text-center max-w-5xl mx-auto w-full">
                 {/* Professional Badge */}
                 <button
                     onClick={openChat}

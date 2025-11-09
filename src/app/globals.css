@@ -326,3 +326,52 @@ html {
     transform: scale(1);
   }
 }
+
+/* Link Styles mit feinem Underline und Glow-Effekt */
+@layer components {
+  /* Base link style - feine Unterstreichung */
+  .link-underline {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-color 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55), color 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  /* Interactive mode ON - Glow-Effekt auf Underline */
+  .link-underline-glow {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+    transition: all 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .link-underline-glow:hover {
+    text-decoration-thickness: 2px;
+    filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 12px currentColor);
+  }
+
+  /* Sliding underline for navigation */
+  .nav-link {
+    position: relative;
+    text-decoration: none;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background-color: currentColor;
+    transition: width 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55), background-color 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  .nav-link.active-glow::after {
+    box-shadow: 0 0 8px currentColor, 0 0 12px currentColor;
+  }
+}

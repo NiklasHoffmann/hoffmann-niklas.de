@@ -26,22 +26,22 @@ export function DynamicFavicon() {
             const sections = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact', 'footer'];
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
-            
+
             let activeSection = 'hero';
-            
+
             for (const sectionId of sections) {
                 const element = document.getElementById(sectionId);
                 if (element) {
                     const rect = element.getBoundingClientRect();
                     const elementTop = rect.top + scrollY;
-                    
+
                     // Section is active if its top is above middle of viewport
                     if (scrollY >= elementTop - windowHeight / 2) {
                         activeSection = sectionId;
                     }
                 }
             }
-            
+
             setCurrentSection(activeSection);
         };
 
@@ -61,10 +61,10 @@ export function DynamicFavicon() {
 
         // Determine theme prefix (cube-black or cube-white)
         const themePrefix = resolvedTheme === 'dark' ? 'cube-black' : 'cube-white';
-        
+
         // Special case: in light mode with interactive off, use black cube
-        const finalPath = resolvedTheme === 'light' && !isInteractive 
-            ? 'cube-white-black' 
+        const finalPath = resolvedTheme === 'light' && !isInteractive
+            ? 'cube-white-black'
             : `${themePrefix}-${colorName}`;
 
         const faviconPath = `/favicons/${finalPath}.svg`;

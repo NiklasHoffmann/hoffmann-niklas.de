@@ -35,37 +35,65 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     // Initialize state from localStorage to persist across language changes
     const [isOpen, setIsOpen] = useState(() => {
         if (typeof window !== 'undefined') {
-            return localStorage.getItem('chatIsOpen') === 'true';
+            const stored = localStorage.getItem('chatIsOpen');
+            return stored === 'true';
         }
         return false;
     });
     const [isMinimized, setIsMinimized] = useState(() => {
         if (typeof window !== 'undefined') {
-            return localStorage.getItem('chatIsMinimized') === 'true';
+            const stored = localStorage.getItem('chatIsMinimized');
+            return stored === 'true';
         }
         return false;
     });
-    const [messages, setMessages] = useState<ChatMessage[]>([]);
-    const [sessionId, setSessionId] = useState<string | null>(null);
-    const [userName, setUserName] = useState<string | null>(null);
+    const [messages, setMessages] = useState<ChatMessage[]>(() => {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem('chatMessages');
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (err) {
+                    console.error('Failed to parse stored messages:', err);
+                    return [];
+                }
+            }
+        }
+        return [];
+    });
+    const [sessionId, setSessionId] = useState<string | null>(() => {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem('chatSessionId');
+            return stored;
+        }
+        return null;
+    });
+    const [userName, setUserName] = useState<string | null>(() => {
+        if (typeof window !== 'undefined') {
+            const stored = localStorage.getItem('chatUserName');
+            return stored;
+        }
+        return null;
+    });
     const [isTyping, setIsTyping] = useState(false);
     const [isAdminOnline, setIsAdminOnline] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
     const typingTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
-    // Initialize sessionId from localStorage
+    // Persist messages to localStorage whenever they change
     useEffect(() => {
-        const storedSessionId = localStorage.getItem('chatSessionId');
-        const storedUserName = localStorage.getItem('chatUserName');
+        if (typeof window !== 'undefined' && messages.length > 0) {
+            localStorage.setItem('chatMessages', JSON.stringify(messages));
+        }
+    }, [messages]);
 
-        if (storedSessionId) {
+    // Validate session on mount
+    useEffect(() => {
+        if (sessionId) {
             // Validate session exists in database
-            validateSession(storedSessionId);
+            validateSession(sessionId);
         }
-        if (storedUserName) {
-            setUserName(storedUserName);
-        }
-    }, []);
+    }, []); // Run only once on mount
 
     // Validate if session still exists in database
     const validateSession = async (sessionId: string) => {
@@ -157,8 +185,14 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     // Load chat history when session is created/loaded
     useEffect(() => {
         if (!sessionId) {
-            // Clear messages when no session
-            setMessages([]);
+            // Don't clear messages immediately - they might be restored from localStorage
+            // Only clear if we're sure there's no session
+            if (typeof window !== 'undefined') {
+                const hasStoredSession = localStorage.getItem('chatSessionId');
+                if (!hasStoredSession) {
+                    setMessages([]);
+                }
+            }
             return;
         }
 
@@ -168,14 +202,17 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
                 const data = await response.json();
 
                 if (data.success && data.data.messages) {
-                    setMessages(data.data.messages);
+                    // Only update messages if server has messages
+                    // This preserves localStorage messages during language toggle
+                    if (data.data.messages.length > 0) {
+                        setMessages(data.data.messages);
+                    }
                 } else {
-                    // Session not found or error - clear messages
-                    setMessages([]);
+                    // Session not found - only clear if we have no local messages
+                    setMessages((prev) => prev.length === 0 ? [] : prev);
                 }
             } catch (error) {
                 console.error('Failed to load chat history:', error);
-                setMessages([]);
             }
         };
 

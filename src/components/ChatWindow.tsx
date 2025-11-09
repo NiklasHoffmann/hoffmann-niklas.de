@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useTheme } from 'next-themes';
 import { useTranslations } from 'next-intl';
+import { TRANSITIONS } from '@/lib/transitions';
 
 export default function ChatWindow() {
     const t = useTranslations('chat');
@@ -149,7 +150,7 @@ export default function ChatWindow() {
                 className="flex-1 flex flex-col items-center justify-center p-6"
                 style={{
                     backgroundColor: safeIsDark ? '#090909' : '#ffffff',
-                    transition: 'background-color 700ms ease-in-out'
+                    transition: TRANSITIONS.background
                 }}
             >
                 <div className="w-full max-w-sm space-y-4">
@@ -171,7 +172,7 @@ export default function ChatWindow() {
                                 style={{
                                     backgroundColor: safeIsDark ? '#090909' : '#ffffff',
                                     borderColor: safeIsDark ? '#1a1a1a' : '#d1d5db',
-                                    transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
+                                    transition: TRANSITIONS.card
                                 }}
                                 autoFocus
                             />
@@ -183,10 +184,10 @@ export default function ChatWindow() {
                                     boxShadow: safeIsDark
                                         ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)'
                                         : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
-                                    transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
+                                    transition: TRANSITIONS.button
                                 }}
                             >
-                                <span className="text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
+                                <span className="text-foreground" style={{ transition: TRANSITIONS.text }}>
                                     {t('startChat')}
                                 </span>
                             </button>
@@ -206,7 +207,7 @@ export default function ChatWindow() {
             className="flex-1 flex flex-col overflow-hidden"
             style={{
                 backgroundColor: isDark ? '#090909' : '#ffffff',
-                transition: 'background-color 700ms ease-in-out'
+                transition: TRANSITIONS.background
             }}
         >
             {/* Messages Area */}
@@ -214,19 +215,19 @@ export default function ChatWindow() {
                 className="flex-1 overflow-y-auto p-4 space-y-4"
                 style={{
                     backgroundColor: isDark ? '#090909' : '#ffffff',
-                    transition: 'background-color 700ms ease-in-out'
+                    transition: TRANSITIONS.background
                 }}
                 onClick={handleInputFocus}
             >
                 {/* Welcome Message */}
                 {messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full text-center space-y-3">
-                        <Icon icon="mdi:chat-outline" className="w-16 h-16 text-accent/40" />
+                        <Icon icon="mdi:chat-outline" className="w-16 h-16 text-accent/40" ssr={true} />
                         <div>
-                            <h4 className="text-lg font-medium text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
+                            <h4 className="text-lg font-medium text-foreground" style={{ transition: TRANSITIONS.text }}>
                                 {t('greeting', { userName: userName || '' })}
                             </h4>
-                            <p className="text-sm mt-1 text-muted-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
+                            <p className="text-sm mt-1 text-muted-foreground" style={{ transition: TRANSITIONS.text }}>
                                 {t('howCanWeHelp')}
                             </p>
                         </div>
@@ -248,7 +249,7 @@ export default function ChatWindow() {
                                     style={{
                                         backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.1)',
                                         color: '#3b82f6',
-                                        transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out'
+                                        transition: TRANSITIONS.backgroundAndText
                                     }}
                                 >
                                     New Messages
@@ -269,12 +270,12 @@ export default function ChatWindow() {
                                 style={message.sender === 'user' ? {
                                     backgroundColor: isDark ? '#e5e7eb' : '#4b5563',
                                     color: isDark ? '#111827' : '#ffffff',
-                                    transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out'
+                                    transition: TRANSITIONS.backgroundAndText
                                 } : {
                                     backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                                     borderColor: isDark ? '#262626' : '#d1d5db',
                                     color: isDark ? '#ffffff' : '#111827',
-                                    transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out'
+                                    transition: TRANSITIONS.colors
                                 }}
                             >
                                 {/* Admin Name */}
@@ -283,7 +284,7 @@ export default function ChatWindow() {
                                         <Icon icon="mdi:shield-account" className="w-4 h-4 text-accent" ssr={true} />
                                         <span
                                             className="text-xs font-medium text-accent"
-                                            style={{ transition: 'color 700ms ease-in-out' }}
+                                            style={{ transition: TRANSITIONS.text }}
                                         >
                                             {t('supportTeam')}
                                         </span>
@@ -302,7 +303,7 @@ export default function ChatWindow() {
                                         color: message.sender === 'user'
                                             ? 'rgba(17, 24, 39, 0.7)'
                                             : isDark ? '#9ca3af' : '#6b7280',
-                                        transition: 'color 700ms ease-in-out'
+                                        transition: TRANSITIONS.text
                                     }}
                                 >
                                     {new Date(message.timestamp).toLocaleTimeString('de-DE', {
@@ -325,7 +326,7 @@ export default function ChatWindow() {
                                 backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                                 borderColor: isDark ? '#262626' : '#d1d5db',
                                 color: isDark ? '#ffffff' : '#111827',
-                                transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out'
+                                transition: TRANSITIONS.colors
                             }}
                         >
                             <div className="flex items-center gap-1.5">
@@ -338,7 +339,7 @@ export default function ChatWindow() {
                                     className="text-xs ml-1"
                                     style={{
                                         color: isDark ? '#9ca3af' : '#6b7280',
-                                        transition: 'color 700ms ease-in-out'
+                                        transition: TRANSITIONS.text
                                     }}
                                 >
                                     {t('typing')}
@@ -356,13 +357,13 @@ export default function ChatWindow() {
             {!isConnected && (
                 <div
                     className="px-4 py-2.5 bg-yellow-500/10 border-t border-yellow-500/30"
-                    style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out' }}
+                    style={{ transition: TRANSITIONS.backgroundAndBorder }}
                 >
                     <p
                         className="text-xs flex items-center gap-2"
                         style={{
                             color: isDark ? '#fcd34d' : '#b45309',
-                            transition: 'color 700ms ease-in-out'
+                            transition: TRANSITIONS.text
                         }}
                     >
                         <Icon icon="mdi:wifi-off" className="w-4 h-4" />
@@ -375,13 +376,13 @@ export default function ChatWindow() {
             {isAdminOnline && (
                 <div
                     className="px-4 py-2.5 bg-green-500/10 border-t border-green-500/30"
-                    style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out' }}
+                    style={{ transition: TRANSITIONS.backgroundAndBorder }}
                 >
                     <p
                         className="text-xs flex items-center gap-2"
                         style={{
                             color: isDark ? '#86efac' : '#15803d',
-                            transition: 'color 700ms ease-in-out'
+                            transition: TRANSITIONS.text
                         }}
                     >
                         <Icon icon="mdi:check-circle" className="w-4 h-4" />
@@ -396,7 +397,7 @@ export default function ChatWindow() {
                 className="p-4 border-t"
                 style={{
                     borderColor: isDark ? '#1a1a1a' : '#d1d5db',
-                    transition: 'border-color 700ms ease-in-out'
+                    transition: TRANSITIONS.border
                 }}
             >
                 <div className="flex gap-2">
@@ -410,7 +411,7 @@ export default function ChatWindow() {
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#d1d5db',
-                            transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
+                            transition: TRANSITIONS.card
                         }}
                         disabled={!isConnected}
                     />
@@ -422,10 +423,10 @@ export default function ChatWindow() {
                             boxShadow: isDark
                                 ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)'
                                 : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
-                            transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
+                            transition: TRANSITIONS.button
                         }}
                     >
-                        <Icon icon="mdi:send" className="w-5 h-5 text-foreground" ssr={true} style={{ transition: 'color 700ms ease-in-out' }} />
+                        <Icon icon="mdi:send" className="w-5 h-5 text-foreground" ssr={true} style={{ transition: TRANSITIONS.text }} />
                     </button>
                 </div>
 
@@ -433,7 +434,7 @@ export default function ChatWindow() {
                     className="text-xs mt-2.5 flex items-center gap-1.5"
                     style={{
                         color: isDark ? '#9ca3af' : '#6b7280',
-                        transition: 'color 700ms ease-in-out'
+                        transition: TRANSITIONS.text
                     }}
                 >
                     <Icon icon="mdi:lock" className="w-3 h-3" ssr={true} />

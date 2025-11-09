@@ -32,7 +32,7 @@ export const projects: Project[] = [
         id: '4',
         title: 'ecommerce',
         description: 'ecommerce',
-        image: 'https://images.unsplash.com/photo-1460925895917-adf4ea918635?w=800&h=600&fit=crop&q=80',
+        image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop&q=80', // Tech workspace - replaced dead image
         tags: ['Next.js', 'React', 'Stripe', 'MongoDB', 'Tailwind'],
         link: 'https://example.com',
         github: 'https://github.com',

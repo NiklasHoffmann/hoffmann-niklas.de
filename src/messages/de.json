@@ -132,28 +132,28 @@
     "brand": "Full-Stack Developer – Moderne Web-Apps & Web3-Frontend-Integration",
     "navigation": "Navigation",
     "followMe": "Folge mir",
-    "madeWith": "Made with ❤️ using Next.js, TypeScript & Web3 Tech"
+    "madeWith": "Gemacht mit ❤️, Next.js, TypeScript & Web3 Tech"
   },
   "youtube": {
     "title": "YouTube Videos",
     "subtitle": "Tutorials, Case Studies und Insights aus meinen Projekten"
   },
   "chat": {
-    "welcome": "Willkommen in unserem Chat!",
+    "welcome": "Willkommen in meinem Chat!",
     "enterName": "Bitte geben Sie Ihren Namen ein, um zu starten",
     "namePlaceholder": "Ihr Name...",
     "startChat": "Chat starten",
     "privacyNotice": "Wir respektieren Ihre Privatsphäre. Ihre Daten sind sicher.",
     "greeting": "Hallo {userName}! 👋",
-    "howCanWeHelp": "Wie können wir Ihnen heute helfen?",
+    "howCanWeHelp": "Wie kann ich Ihnen heute helfen?",
     "supportTeam": "Support Team",
     "typing": "schreibt...",
     "reconnecting": "Verbindung wird wiederhergestellt...",
-    "adminOnline": "Admin ist online und bereit zu helfen",
+    "adminOnline": "Ich bin online und bereit zu helfen",
     "inputPlaceholder": "Schreiben Sie Ihre Nachricht...",
     "securityNotice": "Ihre Nachrichten sind verschlüsselt und sicher",
     "chatSupport": "Chat Support",
-    "replyInstantly": "Wir antworten in der Regel sofort"
+    "replyInstantly": "Ich antworte in der Regel sofort"
   },
   "impressum": {
     "title": "Impressum",

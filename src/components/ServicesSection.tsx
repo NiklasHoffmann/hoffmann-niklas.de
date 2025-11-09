@@ -190,7 +190,7 @@ export function ServicesSection() {
     return (
         <section
             id="services"
-            className="scroll-snap-section w-full min-h-screen flex items-center justify-center bg-background pt-20 sm:pt-24 pb-8 sm:pb-12 px-6 sm:px-8 lg:px-12"
+            className="scroll-snap-section w-full min-h-screen flex items-center justify-center bg-background pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 md:px-8 lg:px-12"
         >
             <div className="max-w-7xl mx-auto w-full relative">
                 {/* Mode Toggle - Only visible in interactive mode */}
@@ -222,10 +222,10 @@ export function ServicesSection() {
                 >
                     {displayContent && isInteractive ? (
                         /* 3D Cube Mode - Centered layout with text on sides */
-                        <div className="relative min-h-[600px] flex flex-col lg:flex-row items-center justify-center gap-32 lg:gap-0 py-24 lg:py-0">
+                        <div className="relative min-h-[500px] sm:min-h-[600px] flex flex-col lg:flex-row items-center justify-center gap-12 sm:gap-20 lg:gap-0 py-12 sm:py-16 lg:py-24">
                             {/* Header - Top center on mobile, left top on desktop */}
-                            <div className="lg:absolute lg:left-0 lg:top-28 space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none mt-20 lg:mt-0">
-                                <h2 className="text-xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">
+                            <div className="lg:absolute lg:left-0 lg:top-28 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none">
+                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">
                                     {t('title')}
                                 </h2>
                                 <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
@@ -234,7 +234,7 @@ export function ServicesSection() {
                             </div>
 
                             {/* Center - 3D Cube with extra bottom spacing on mobile */}
-                            <div className="flex items-center justify-center order-2 mb-44 lg:mb-0">
+                            <div className="flex items-center justify-center order-2 mb-8 sm:mb-12 lg:mb-0">
                                 <ServicesCube key="services-cube-stable" services={serviceCategories} t={t} />
                             </div>
 

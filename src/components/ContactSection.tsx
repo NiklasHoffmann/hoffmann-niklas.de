@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
@@ -8,6 +8,7 @@ import { Mail, MapPin, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
+import { TRANSITIONS } from '@/lib/transitions';
 
 export function ContactSection() {
   const t = useTranslations('contact');
@@ -38,7 +39,7 @@ export function ContactSection() {
   };
 
   return (
-    <section id='contact' key={key} className='scroll-snap-section w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30 pt-20 md:pt-24 pb-12 md:pb-16 px-6 sm:px-12 lg:px-16 xl:px-20'>
+    <section id='contact' key={key} className='scroll-snap-section w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30 pt-16 sm:pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16'>
       <div className='max-w-6xl mx-auto w-full'>
         {/* Header */}
         <SectionHeader
@@ -50,7 +51,7 @@ export function ContactSection() {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8'>
           {/* Contact Info */}
           <div className='space-y-3 sm:space-y-4'>
-            <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 transition-all duration-700 hover:shadow-lg hover:shadow-accent/10 group' style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
+            <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 transition-all duration-700 hover:shadow-lg hover:shadow-accent/10 group' style={{ transition: TRANSITIONS.borderAndShadow }}>
               <div className='flex items-start gap-2 sm:gap-3'>
                 <div className='p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
                   <Mail className='w-4 h-4 sm:w-5 sm:h-5 text-accent' />
@@ -60,7 +61,7 @@ export function ContactSection() {
                   <a
                     href={`mailto:${t('emailAddress')}`}
                     className='text-xs sm:text-sm text-muted-foreground hover:text-accent transition-colors break-all'
-                    style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
+                    style={{ transition: TRANSITIONS.borderAndShadow }}
                     aria-label={`Send email to ${t('emailAddress')}`}
                   >
                     {t('emailAddress')}
@@ -84,7 +85,7 @@ export function ContactSection() {
             <div className='p-3 sm:p-4 bg-card rounded-xl border border-border hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10 group' style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
               <div className='flex items-start gap-2 sm:gap-3'>
                 <div className='p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
-                  <Icon icon="mdi:lightbulb-on" className='w-4 h-4 sm:w-5 sm:h-5 text-accent' />
+                  <Icon icon="mdi:lightbulb-on" className='w-4 h-4 sm:w-5 sm:h-5 text-accent' ssr={true} />
                 </div>
                 <div>
                   <h3 className='font-semibold text-sm sm:text-base mb-0.5'>{t('quickResponse')}</h3>
@@ -182,3 +183,4 @@ export function ContactSection() {
     </section>
   );
 }
+

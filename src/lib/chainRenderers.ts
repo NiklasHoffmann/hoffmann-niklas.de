@@ -341,13 +341,14 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
 
     // Schatten - für Neon-Würfel: leuchtender Neon-Schatten
     if (hasNeonGlow) {
-        // Pulsierender Neon-Schatten
+        // Pulsierender Neon-Schatten - EXTREM VERSTÄRKT
         const time = Date.now() / 1000;
-        const pulse = Math.sin(time * 3 + linkIndex * 0.5) * 0.5 + 0.5; // 0 bis 1
+        const pulse = Math.sin(time * 2 + linkIndex * 0.3) * 0.5 + 0.5; // 0 bis 1
         const glowIntensity = 0.8 + pulse * 0.2; // 0.8 bis 1.0
 
+        // Mehrfacher Glow für intensiveren Effekt
         ctx.shadowColor = neonColor;
-        ctx.shadowBlur = 50 + pulse * 30; // 50-80px pulsierender Glow (verstärkt)
+        ctx.shadowBlur = 150 + pulse * 100; // 150-250px pulsierender Glow (ultra stark)
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
     } else {
@@ -484,6 +485,80 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
     ctx.moveTo(0, 0);
     ctx.lineTo(0, -cubeSize);
     ctx.stroke();
+
+    // Extra Glow-Layer für Neon-Würfel (ähnlich wie bei den Links)
+    if (hasNeonGlow) {
+        const time = Date.now() / 1000;
+        const pulse = Math.sin(time * 2 + linkIndex * 0.3) * 0.5 + 0.5;
+        
+        // Zweiter Glow-Layer für noch intensiveren Effekt
+        ctx.shadowColor = neonColor;
+        ctx.shadowBlur = 180 + pulse * 120; // 180-300px für ultra starken Glow
+        ctx.globalAlpha = 0.8 + pulse * 0.2; // Sehr stark sichtbar (0.8-1.0)
+        
+        // Zeichne eine transparente Kopie für den zusätzlichen Glow
+        ctx.fillStyle = 'transparent';
+        
+        // Linke Seite
+        ctx.beginPath();
+        ctx.moveTo(0, -cubeSize);
+        ctx.lineTo(-w, -h - cubeSize);
+        ctx.lineTo(-w, -h);
+        ctx.lineTo(0, 0);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Rechte Seite
+        ctx.beginPath();
+        ctx.moveTo(0, -cubeSize);
+        ctx.lineTo(w, -h - cubeSize);
+        ctx.lineTo(w, -h);
+        ctx.lineTo(0, 0);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Obere Seite
+        ctx.beginPath();
+        ctx.moveTo(0, -cubeSize);
+        ctx.lineTo(-w, -h - cubeSize);
+        ctx.lineTo(0, -cubeSize - 2 * h);
+        ctx.lineTo(w, -h - cubeSize);
+        ctx.closePath();
+        ctx.fill();
+        
+        // DRITTER Glow-Layer für maximale Strahlkraft
+        ctx.shadowBlur = 250 + pulse * 150; // 250-400px für extremen Hintergrund-Glow
+        ctx.globalAlpha = 0.5 + pulse * 0.3; // 0.5-0.8
+        
+        // Nochmal alle Seiten für dritten Layer
+        ctx.beginPath();
+        ctx.moveTo(0, -cubeSize);
+        ctx.lineTo(-w, -h - cubeSize);
+        ctx.lineTo(-w, -h);
+        ctx.lineTo(0, 0);
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.beginPath();
+        ctx.moveTo(0, -cubeSize);
+        ctx.lineTo(w, -h - cubeSize);
+        ctx.lineTo(w, -h);
+        ctx.lineTo(0, 0);
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.beginPath();
+        ctx.moveTo(0, -cubeSize);
+        ctx.lineTo(-w, -h - cubeSize);
+        ctx.lineTo(0, -cubeSize - 2 * h);
+        ctx.lineTo(w, -h - cubeSize);
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.globalAlpha = 1;
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+    }
 
     ctx.restore();
 }

@@ -5,6 +5,7 @@ import { useCubeDrag } from '@/hooks/useCubeDrag';
 import { Icon } from '@iconify/react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useMemo, memo } from 'react';
+import { TRANSITIONS } from '@/lib/transitions';
 
 interface TechItem {
     name: string;
@@ -114,39 +115,38 @@ interface CubeFaceProps {
 const CubeFace = memo(function CubeFace({ service, transform, t }: CubeFaceProps) {
     return (
         <div
-            className="absolute inset-0 p-6 md:p-8 bg-card rounded-sm border-2 border-border select-none"
+            className="absolute inset-0 p-3.5 md:p-4 bg-card rounded-sm border-2 border-border select-none overflow-hidden"
             style={{
                 transform,
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
-                transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out',
+                transition: TRANSITIONS.colors,
             }}
         >
             <div
                 className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-10 rounded-sm`}
                 style={{
-                    transition: 'opacity 700ms ease-in-out',
+                    transition: TRANSITIONS.opacity,
                 }}
             />
             <div className="relative z-10 h-full flex flex-col">
                 <Icon
                     icon={service.icon}
-                    className="text-5xl md:text-6xl mb-3"
+                    className="text-4xl md:text-5xl mb-2 flex-shrink-0"
                     ssr={true}
                     key={service.icon}
                 />
-                <h3 className="text-xl md:text-2xl font-bold mb-2">{service.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{service.description}</p>
+                <h3 className="text-base md:text-lg font-bold mb-1.5 leading-tight">{service.title}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mb-2.5 leading-tight flex-shrink-0">{service.description}</p>
                 {service.techStack.length > 0 && (
-                    <div className="mt-auto">
-                        <p className="text-xs font-semibold text-muted-foreground mb-2">{t('techStack')}:</p>
-                        <div className="flex flex-wrap gap-2">
-                            {service.techStack.map((tech) => {
+                    <div className="mt-auto overflow-y-auto flex-shrink min-h-0 scrollbar-thin">
+                        <p className="text-xs font-semibold text-muted-foreground mb-1.5 flex-shrink-0">{t('techStack')}:</p>
+                        <div className="flex flex-wrap gap-1.5">{service.techStack.map((tech) => {
                                 const TechIcon = tech.icon;
                                 return (
                                     <div
                                         key={tech.name}
-                                        className="flex items-center gap-1 px-2 py-1 bg-secondary/50 rounded-md"
+                                        className="flex items-center gap-1 px-2 py-1 bg-secondary/50 rounded-md flex-shrink-0"
                                     >
                                         <TechIcon className="w-4 h-4" />
                                         <span className="text-xs">{tech.name}</span>

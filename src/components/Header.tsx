@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, memo, useRef, useLayoutEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
@@ -10,6 +10,7 @@ import { NEON_COLORS } from '@/config/ui.constants';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import { InteractiveToggle } from './InteractiveToggle';
+import { scrollToSectionById } from '@/hooks/useSectionScroll';
 
 // Convert neon color objects to arrays for easy indexing
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);
@@ -18,12 +19,14 @@ const NEON_COLORS_LIGHT = Object.values(NEON_COLORS.LIGHT);
 // Global cache to persist active section across re-renders/language changes
 let cachedActiveSection = 'hero';
 
-export function Header() {
+function HeaderComponent() {
     const t = useTranslations('header.nav');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState(() => cachedActiveSection);
     const { showActive, mounted } = useInteractiveMode();
     const { theme } = useTheme();
+    const navRef = useRef<HTMLElement>(null);
+    const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0, color: '' });
 
     // Memoize neon colors based on theme (prevent recalculation on every render)
     const neonColors = useMemo(() => {
@@ -89,20 +92,34 @@ export function Header() {
                 cancelAnimationFrame(rafId);
             }
         };
-    }, []); const scrollToSection = (sectionId: string) => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-            // OPTIMIZATION: Use requestAnimationFrame to batch layout read
-            requestAnimationFrame(() => {
-                const targetPosition = element.getBoundingClientRect().top + window.pageYOffset;
+    }, []);
 
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                setIsMenuOpen(false);
+    // Update underline position based on active section
+    useLayoutEffect(() => {
+        if (!navRef.current) return;
+
+        const activeIndex = sections.findIndex(s => s.id === activeSection);
+        if (activeIndex === -1) return;
+
+        const buttons = navRef.current.querySelectorAll('button');
+        const activeButton = buttons[activeIndex] as HTMLElement;
+
+        if (activeButton) {
+            const navRect = navRef.current.getBoundingClientRect();
+            const buttonRect = activeButton.getBoundingClientRect();
+
+            setUnderlineStyle({
+                left: buttonRect.left - navRect.left,
+                width: buttonRect.width,
+                color: sections[activeIndex].color
             });
         }
+    }, [activeSection, sections]);
+
+    const scrollToSection = (sectionId: string) => {
+        // Use the global scroll function from useSectionScroll
+        scrollToSectionById(sectionId);
+        setIsMenuOpen(false);
     };
 
     return (
@@ -115,28 +132,31 @@ export function Header() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-14 sm:h-16">
                     {/* Logo */}
-                    <Link
-                        href="/"
-                        className="text-lg sm:text-xl text-white font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+                    <button
+                        onClick={() => scrollToSection('hero')}
+                        className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text cursor-pointer"
+                        aria-label="Scroll to top"
                     >
                         NH
-                    </Link>
+                    </button>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center gap-4 lg:gap-6" aria-label="Main navigation">
+                    <nav
+                        ref={navRef}
+                        className="hidden md:flex items-center gap-4 lg:gap-6 relative"
+                        style={{ paddingBottom: '3px' }}
+                        aria-label="Main navigation"
+                    >
                         {sections.map((section) => {
                             const isActive = activeSection === section.id;
                             return (
                                 <button
                                     key={section.id}
                                     onClick={() => scrollToSection(section.id)}
-                                    className="text-xs lg:text-sm font-bold whitespace-nowrap"
+                                    className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10"
                                     style={isActive && showActive ? {
                                         color: section.color,
-                                        textShadow: `0 0 10px ${section.color}80`,
-                                        transform: 'scale(1.1)',
-                                        transition: 'all 0.7s ease-out, text-shadow 0.7s ease-out',
-                                        animation: 'glow-pulse 0.7s ease-out'
+                                        transition: 'all 0.7s ease-out',
                                     } : {
                                         transition: 'all 0.7s ease-out'
                                     }}
@@ -147,6 +167,20 @@ export function Header() {
                                 </button>
                             );
                         })}
+
+                        {/* Sliding underline */}
+                        {underlineStyle.width > 0 && (
+                            <div
+                                className="absolute bottom-0 h-[2px] pointer-events-none"
+                                style={{
+                                    left: `${underlineStyle.left}px`,
+                                    width: `${underlineStyle.width}px`,
+                                    backgroundColor: showActive ? underlineStyle.color : 'currentColor',
+                                    transition: 'all 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                                    boxShadow: showActive ? `0 0 8px ${underlineStyle.color}, 0 0 12px ${underlineStyle.color}` : 'none',
+                                }}
+                            />
+                        )}
                     </nav>
 
                     {/* Controls */}
@@ -188,11 +222,12 @@ export function Header() {
                                 <button
                                     key={section.id}
                                     onClick={() => scrollToSection(section.id)}
-                                    className="block w-full text-left px-4 py-2 text-sm font-bold transition-all duration-300"
+                                    className={`block w-full text-left px-4 py-2 text-sm font-bold transition-all duration-300 nav-link ${isActive ? 'active' : ''} ${isActive && showActive ? 'active-glow' : ''}`}
                                     style={isActive && showActive ? {
                                         color: section.color,
-                                        textShadow: `0 0 10px ${section.color}80`,
                                         borderLeft: `3px solid ${section.color}`
+                                    } : isActive ? {
+                                        borderLeft: '3px solid currentColor'
                                     } : undefined}
                                     aria-label={`Navigate to ${section.label}`}
                                     aria-current={isActive ? 'page' : undefined}
@@ -207,3 +242,6 @@ export function Header() {
         </header>
     );
 }
+
+// Memoize to prevent unnecessary re-renders on scroll
+export const Header = memo(HeaderComponent);

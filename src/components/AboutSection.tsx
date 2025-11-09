@@ -34,17 +34,17 @@ export function AboutSection() {
         <section
             id="about"
             key={key}
-            className="scroll-snap-section w-full h-screen max-h-screen overflow-hidden bg-secondary/30 px-6 sm:px-8 lg:px-12 flex items-center"
+            className="scroll-snap-section w-full min-h-screen bg-secondary/30 px-4 sm:px-6 md:px-8 lg:px-12 flex items-center py-16 sm:py-20 md:py-0"
         >
-            <div className="max-w-7xl mx-auto w-full py-20 md:py-24">
+            <div className="max-w-7xl mx-auto w-full py-8 sm:py-12 md:py-16 lg:py-20">
                 {/* Header */}
                 <SectionHeader
                     title={t('title')}
-                    className="mb-6 sm:mb-8 lg:mb-10"
+                    className="mb-4 sm:mb-6 md:mb-8 lg:mb-10"
                 />
 
                 {/* Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center mb-6 sm:mb-8 lg:mb-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12 items-center mb-4 sm:mb-6 md:mb-8 lg:mb-10">
                     {/* Left: Avatar & Bio */}
                     <div className="flex flex-col items-center lg:items-start">
                         {/* Avatar */}

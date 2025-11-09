@@ -149,11 +149,11 @@
     "supportTeam": "Support Team",
     "typing": "typing...",
     "reconnecting": "Reconnecting...",
-    "adminOnline": "Admin is online and ready to help",
+    "adminOnline": "I'm online and ready to help",
     "inputPlaceholder": "Type your message...",
     "securityNotice": "Your messages are encrypted and secure",
     "chatSupport": "Chat Support",
-    "replyInstantly": "We typically reply instantly"
+    "replyInstantly": "I typically reply instantly"
   },
   "impressum": {
     "title": "Legal Notice",

@@ -115,7 +115,7 @@ export function PortfolioSection() {
         <section
             id="portfolio"
             key={key}
-            className="scroll-snap-section w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30 pt-20 md:pt-24 pb-12 md:pb-16 px-6 sm:px-12 lg:px-16 xl:px-20"
+            className="scroll-snap-section w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30 pt-16 sm:pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16"
         >
             <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center">
                 {/* Header */}

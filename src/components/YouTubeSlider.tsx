@@ -27,15 +27,15 @@ export function YouTubeSlider() {
         <section
             id="videos"
             key={key}
-            className="scroll-snap-section w-full h-screen max-h-screen flex items-center justify-center bg-background overflow-hidden px-6 sm:px-12 lg:px-16 xl:px-20"
+            className="scroll-snap-section w-full min-h-screen flex items-center justify-center bg-background py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16"
         >
-            <div className="max-w-2xl mx-auto w-full h-full max-h-screen flex flex-col justify-center py-20 md:py-24">
+            <div className="max-w-2xl mx-auto w-full h-full flex flex-col justify-center">
                 <SectionHeader
                     title={t('title')}
                     subtitle={t('subtitle')}
                     className="mb-4 sm:mb-6 flex-shrink-0"
                 />
-                <div className="relative w-full max-w-full flex-shrink" style={{ aspectRatio: '16/9', maxHeight: 'calc(100vh - 280px)' }}>
+                <div className="relative w-full max-w-full flex-shrink" style={{ aspectRatio: '16/9', maxHeight: 'min(calc(100vh - 200px), 600px)' }}>
                     <div
                         className="absolute inset-0 rounded-lg overflow-hidden bg-secondary border border-border"
                         style={{ transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out' }}
@@ -49,10 +49,11 @@ export function YouTubeSlider() {
                             >
                                 {/* YouTube Thumbnail */}
                                 <img
+                                    key={currentVideo.videoId}
                                     src={`https://img.youtube.com/vi/${currentVideo.videoId}/maxresdefault.jpg`}
                                     alt={currentVideo.title}
                                     className="absolute inset-0 w-full h-full object-cover"
-                                    loading="lazy"
+                                    loading="eager"
                                 />
                                 {/* Dark Overlay on Hover */}
                                 <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300" />
