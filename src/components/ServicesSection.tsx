@@ -23,11 +23,12 @@ import {
     MetaMaskIcon,
     IPFSIcon,
     GraphQLIcon,
+    TheGraphIcon,
 } from '@/components/icons/TechIcons';
 
 interface TechItem {
     name: string;
-    category: 'frontend' | 'backend' | 'web3' | 'database' | 'tools';
+    category: 'frontend' | 'backend' | 'web3-wallets' | 'web3-blockchain' | 'database' | 'tools';
     icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -46,13 +47,16 @@ const techStack: TechItem[] = [
     { name: 'TypeScript', category: 'frontend', icon: TypeScriptIcon },
     { name: 'Tailwind CSS', category: 'frontend', icon: TailwindIcon },
 
-    // Web3 Frontend & Integration
-    { name: 'Ethereum', category: 'web3', icon: EthereumIcon },
-    { name: 'Wagmi', category: 'web3', icon: WagmiIcon },
-    { name: 'MetaMask', category: 'web3', icon: MetaMaskIcon },
-    { name: 'Viem', category: 'web3', icon: ViemIcon },
-    { name: 'WalletConnect', category: 'web3', icon: WalletConnectIcon },
-    { name: 'IPFS', category: 'web3', icon: IPFSIcon },
+    // Web3 Wallets & Frontend Integration
+    { name: 'Wagmi', category: 'web3-wallets', icon: WagmiIcon },
+    { name: 'WalletConnect', category: 'web3-wallets', icon: WalletConnectIcon },
+    { name: 'MetaMask', category: 'web3-wallets', icon: MetaMaskIcon },
+    { name: 'Viem', category: 'web3-wallets', icon: ViemIcon },
+
+    // Blockchain & Data Infrastructure
+    { name: 'Ethereum', category: 'web3-blockchain', icon: EthereumIcon },
+    { name: 'The Graph', category: 'web3-blockchain', icon: TheGraphIcon },
+    { name: 'IPFS', category: 'web3-blockchain', icon: IPFSIcon },
 
     // Backend
     { name: 'Node.js', category: 'backend', icon: NodeIcon },
@@ -70,6 +74,7 @@ const techStack: TechItem[] = [
 export function ServicesSection() {
     const t = useTranslations('services');
     const { isInteractive, mounted } = useInteractiveMode();
+    const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
     // Initialize from localStorage immediately to prevent flash on language change
     // Default to true if no saved value (cube is default in interactive mode)
@@ -84,6 +89,7 @@ export function ServicesSection() {
     const [opacity, setOpacity] = useState(1);
     const [displayContent, setDisplayContent] = useState(showCube); // What to actually render
     const previousInteractiveRef = useRef(isInteractive);
+
 
     // Handle interactive mode changes with transition
     useEffect(() => {
@@ -151,11 +157,18 @@ export function ServicesSection() {
             techStack: techStack.filter((tech) => tech.category === 'frontend'),
         },
         {
-            title: t('web3Service'),
-            icon: 'cryptocurrency:eth',
-            description: t('descriptions.web3Service'),
+            title: t('web3Wallets'),
+            icon: 'token-branded:wallet-connect',
+            description: t('descriptions.web3Wallets'),
             color: 'from-purple-500 to-pink-500',
-            techStack: techStack.filter((tech) => tech.category === 'web3'),
+            techStack: techStack.filter((tech) => tech.category === 'web3-wallets'),
+        },
+        {
+            title: t('web3Blockchain'),
+            icon: 'cryptocurrency:eth',
+            description: t('descriptions.web3Blockchain'),
+            color: 'from-indigo-500 to-purple-500',
+            techStack: techStack.filter((tech) => tech.category === 'web3-blockchain'),
         },
         {
             title: t('uiux'),
@@ -163,13 +176,6 @@ export function ServicesSection() {
             description: t('descriptions.uiux'),
             color: 'from-orange-500 to-red-500',
             techStack: techStack.filter((tech) => tech.category === 'tools'),
-        },
-        {
-            title: t('photo'),
-            icon: 'mdi:camera-outline',
-            description: t('descriptions.photo'),
-            color: 'from-pink-500 to-rose-500',
-            techStack: [],
         },
         {
             title: t('databaseService'),
@@ -187,30 +193,33 @@ export function ServicesSection() {
         },
     ], [t]);
 
+    // Grid view uses same services as cube (6 items)
+    const gridServiceCategories: ServiceCategory[] = serviceCategories;
+
     return (
         <section
             id="services"
-            className="scroll-snap-section w-full min-h-screen flex items-center justify-center bg-background pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 md:px-8 lg:px-12"
+            className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-hidden flex items-center justify-center bg-background relative"
+            style={{ zIndex: 1 }}
         >
-            <div className="max-w-7xl mx-auto w-full relative">
-                {/* Mode Toggle - Only visible in interactive mode */}
+
+            <div className="max-w-6xl mx-auto w-full h-full flex flex-col relative">
+                {/* Mode Toggle - Absolutely positioned independent of content flow */}
                 {isInteractive && (
-                    <div className="absolute top-0 right-0 z-20">
-                        <button
-                            onClick={toggleView}
-                            disabled={isTransitioning}
-                            className="px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
-                            title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
-                            suppressHydrationWarning
-                        >
-                            <Icon
-                                icon={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
-                                className="w-5 h-5 text-accent"
-                                ssr={true}
-                                key={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
-                            />
-                        </button>
-                    </div>
+                    <button
+                        onClick={toggleView}
+                        disabled={isTransitioning}
+                        className="absolute top-20 sm:top-24 md:top-28 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                        title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
+                        suppressHydrationWarning
+                    >
+                        <Icon
+                            icon={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
+                            className="w-5 h-5 text-accent"
+                            ssr={true}
+                            key={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
+                        />
+                    </button>
                 )}
 
                 <div
@@ -219,10 +228,12 @@ export function ServicesSection() {
                         opacity: opacity,
                         transition: 'opacity 350ms ease-in-out'
                     }}
+                    className={`w-full h-full flex flex-col ${displayContent && isInteractive ? '' : 'justify-between'}`}
+
                 >
                     {displayContent && isInteractive ? (
                         /* 3D Cube Mode - Centered layout with text on sides */
-                        <div className="relative min-h-[500px] sm:min-h-[600px] flex flex-col lg:flex-row items-center justify-center gap-12 sm:gap-20 lg:gap-0 py-12 sm:py-16 lg:py-24">
+                        <div className="relative min-h-[500px] sm:min-h-[600px] flex flex-col lg:flex-row items-center justify-center gap-12 sm:gap-20 lg:gap-0 py-12 sm:py-16 lg:py-24 h-full">
                             {/* Header - Top center on mobile, left top on desktop */}
                             <div className="lg:absolute lg:left-0 lg:top-28 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">
@@ -250,92 +261,106 @@ export function ServicesSection() {
                             </div>
                         </div>
                     ) : (
-                        /* Classic Grid Mode */
+                        /* Classic Grid Mode - All devices */
                         <>
                             {/* Header */}
-                            <SectionHeader title={t('title')} subtitle={t('subtitle')} className="mb-8 sm:mb-12" />
+                            <SectionHeader title={t('title')} subtitle={t('subtitle')} className="mb-2 sm:mb-3 lg:mb-4 flex-shrink-0" />
 
-                            {/* Service Categories Grid */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-                                {serviceCategories.map((service, i) => (
-                                    <div
-                                        key={i}
-                                        className="group relative p-6 bg-card rounded-xl border border-border hover:border-accent/50 overflow-hidden cursor-pointer"
-                                        style={{
-                                            transition: 'all 0.7s ease-in-out, background-color 700ms ease-in-out, border-color 700ms ease-in-out, box-shadow 0.7s ease-in-out',
-                                        }}
-                                    >
-                                        {/* Gradient Background on Hover */}
-                                        <div
-                                            className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10`}
-                                            style={{
-                                                transition: 'opacity 700ms ease-in-out',
-                                            }}
-                                        />
+                            {/* Service Categories Grid - Portrait tablet uses 2 columns, landscape uses 3 */}
+                            <div className="flex-1 min-h-0 flex flex-col justify-end overflow-hidden">
+                                <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-3 lg:gap-4 sm:p-3">
+                                    {gridServiceCategories.map((service, i) => {
+                                        const isFlipped = flippedCard === i;
+                                        return (
+                                            <div key={i} className="perspective-1000">
+                                                <div
+                                                    onClick={() => setFlippedCard(isFlipped ? null : i)}
+                                                    onMouseEnter={() => setFlippedCard(i)}
+                                                    onMouseLeave={() => setFlippedCard(null)}
+                                                    className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d"
+                                                    style={{
+                                                        transformStyle: 'preserve-3d',
+                                                        transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                                                    }}
+                                                >
+                                                    {/* Front Side */}
+                                                    <div
+                                                        className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-card rounded-xl border border-border backface-hidden flex flex-col"
+                                                        style={{
+                                                            backfaceVisibility: 'hidden',
+                                                            transition: 'border-color 700ms ease-in-out'
+                                                        }}
+                                                    >
+                                                        {/* Flip Indicator - Pulsing Dot (Bottom Right) */}
+                                                        {service.techStack.length > 0 && (
+                                                            <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 pointer-events-none z-20">
+                                                                <div className="relative flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5">
+                                                                    {/* Outer pulsing ring */}
+                                                                    <div className="absolute inset-0 bg-blue-500/50 rounded-full animate-ping" />
+                                                                    {/* Inner solid dot */}
+                                                                    <div className="relative w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-full" />
+                                                                </div>
+                                                            </div>
+                                                        )}
 
-                                        {/* Hover Indicator - Pulsing Dot */}
-                                        {service.techStack.length > 0 && (
-                                            <div className="absolute bottom-4 right-4 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none z-20">
-                                                <div className="relative flex items-center justify-center w-5 h-5">
-                                                    {/* Outer pulsing ring */}
-                                                    <div className="absolute inset-0 bg-blue-500/50 rounded-full animate-ping" />
-                                                    {/* Inner solid dot */}
-                                                    <div className="relative w-3 h-3 bg-blue-500 rounded-full" />
-                                                </div>
-                                            </div>
-                                        )}
+                                                        {/* Icon */}
+                                                        <div className="mb-2 sm:mb-3 flex-shrink-0">
+                                                            <Icon
+                                                                icon={service.icon}
+                                                                className="text-3xl sm:text-4xl lg:text-5xl"
+                                                                key={service.icon}
+                                                                ssr={true}
+                                                            />
+                                                        </div>
 
-                                        {/* Content */}
-                                        <div className="relative z-10">
-                                            {/* Icon */}
-                                            <div className="mb-4">
-                                                <Icon
-                                                    icon={service.icon}
-                                                    className="text-5xl group-hover:scale-110 transition-transform duration-500"
-                                                    key={service.icon}
-                                                    ssr={true}
-                                                />
-                                            </div>
+                                                        {/* Title */}
+                                                        <h3 className="text-sm sm:text-base lg:text-lg font-bold mb-1 sm:mb-2 leading-tight flex-shrink-0">
+                                                            {service.title}
+                                                        </h3>
 
-                                            {/* Title */}
-                                            <h3 className="text-lg font-bold mb-2 group-hover:text-accent transition-colors">
-                                                {service.title}
-                                            </h3>
+                                                        {/* Description */}
+                                                        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1">{service.description}</p>
+                                                    </div>
 
-                                            {/* Description */}
-                                            <p className="text-sm text-muted-foreground mb-4">{service.description}</p>
+                                                    {/* Back Side */}
+                                                    <div
+                                                        className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-secondary/50 rounded-xl border border-accent/50 shadow-lg shadow-accent/10 backface-hidden overflow-hidden flex flex-col"
+                                                        style={{
+                                                            backfaceVisibility: 'hidden',
+                                                            transform: 'rotateY(180deg)',
+                                                            transition: 'border-color 700ms ease-in-out'
+                                                        }}
+                                                    >
+                                                        {/* Gradient background accent */}
+                                                        <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 rounded-xl`} />
 
-                                            {/* Tech Stack - Appears on Hover */}
-                                            {service.techStack.length > 0 && (
-                                                <div className="opacity-0 group-hover:opacity-100 transition-all duration-500 max-h-0 group-hover:max-h-40 overflow-hidden">
-                                                    <div className="pt-4 border-t border-border/50">
-                                                        <p className="text-xs font-semibold text-muted-foreground mb-2">Tech Stack:</p>
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {service.techStack.map((tech) => {
-                                                                const TechIcon = tech.icon;
-                                                                return (
-                                                                    <div
-                                                                        key={tech.name}
-                                                                        className="flex items-center gap-1 px-2 py-1 bg-secondary/50 rounded-md"
-                                                                        title={tech.name}
-                                                                    >
-                                                                        <TechIcon className="w-4 h-4" />
-                                                                        <span className="text-[10px]">{tech.name}</span>
-                                                                    </div>
-                                                                );
-                                                            })}
+                                                        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center overflow-hidden">
+                                                            <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center max-h-full overflow-y-auto">
+                                                                {service.techStack.map((tech) => {
+                                                                    const TechIcon = tech.icon;
+                                                                    return (
+                                                                        <div
+                                                                            key={tech.name}
+                                                                            className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 bg-accent/10 rounded-md flex-shrink-0"
+                                                                        >
+                                                                            <TechIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                                                                            <span className="text-[10px] sm:text-xs font-medium whitespace-nowrap">{tech.name}</span>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </>
                     )}
                 </div>
             </div>
-        </section>
+        </section >
     );
 }

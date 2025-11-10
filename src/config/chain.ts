@@ -8,6 +8,12 @@ export interface ResponsiveChainConfig {
         sectionPadding: number;
         opacity: number;
     };
+    tablet: {
+        horizontalOffset: number;
+        curveSize: number;
+        sectionPadding: number;
+        opacity: number;
+    };
     desktop: {
         horizontalOffset: number;
         curveSize: number;
@@ -18,15 +24,21 @@ export interface ResponsiveChainConfig {
 
 export const defaultChainConfig: ResponsiveChainConfig = {
     mobile: {
-        horizontalOffset: 10,
-        curveSize: 40,
-        sectionPadding: 30,
+        horizontalOffset: 20,
+        curveSize: 20,
+        sectionPadding: 20,
         opacity: 0.3,
+    },
+    tablet: {
+        horizontalOffset: 80,
+        curveSize: 60,
+        sectionPadding: 80,
+        opacity: 0.45,
     },
     desktop: {
         horizontalOffset: 150,
         curveSize: 100,
-        sectionPadding: 60,
+        sectionPadding: 100,
         opacity: 0.6,
     },
 };
@@ -34,6 +46,6 @@ export const defaultChainConfig: ResponsiveChainConfig = {
 /**
  * Get chain configuration based on screen width
  */
-export function getChainConfig(isMobile: boolean, config: ResponsiveChainConfig = defaultChainConfig) {
-    return isMobile ? config.mobile : config.desktop;
+export function getChainConfig(screenSize: 'mobile' | 'tablet' | 'desktop', config: ResponsiveChainConfig = defaultChainConfig) {
+    return config[screenSize];
 }

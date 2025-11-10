@@ -25,7 +25,7 @@ function FooterComponent() {
     ];
 
     return (
-        <footer id="footer" className="scroll-snap-section bg-secondary/50 min-h-screen flex items-center py-12 sm:py-16 px-4 sm:px-6 md:px-8 lg:px-12">
+        <footer id="footer" className="scroll-snap-section section-padding bg-secondary/50 h-screen max-h-screen overflow-hidden flex items-center">
             <div className="max-w-4xl mx-auto w-full">
                 {/* Content Stack */}
                 <div className="flex flex-col items-center text-center space-y-6 sm:space-y-8 mb-8 sm:mb-10">

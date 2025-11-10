@@ -9,24 +9,9 @@ interface LinkRenderParams {
     config: ChainPathConfig;
     colors: ChainColorConfig;
     isDark?: boolean;
-    mousePos?: { x: number; y: number }; // Mausposition für Hover-Effekt
-    time?: number; // Zeit für Animation
     sectionIndex?: number; // Section-Index für Neon-Farben
-    deviceTilt?: { x: number; y: number }; // Device Orientation für Mobile
     isInteractive?: boolean; // Interaktiver Modus an/aus
 }
-
-// Cache für Würfel-Animationszustände
-const cubeStates = new Map<number, {
-    currentOffset: number;
-    currentRotation: number;
-    currentScale: number;
-    targetOffset: number;
-    targetRotation: number;
-    targetScale: number;
-    velocity: number; // Für Bounce-Effekt
-    randomFactor: number; // Zufälliger Faktor pro Würfel
-}>();
 
 // Hilfsfunktion für Bounce-Easing
 function easeOutBounce(x: number): number {
@@ -206,7 +191,7 @@ export function renderLineLink({ ctx, x, y, angle, linkIndex, config, colors }: 
 }
 
 // Cubic-Stil (Coole 3D-Würfel mit Licht und Schatten)
-export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, isDark = true, mousePos, sectionIndex = 0, deviceTilt, isInteractive = true }: LinkRenderParams) {
+export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, isDark = true, sectionIndex = 0, isInteractive = true }: LinkRenderParams) {
     const { linkWidth, linkHeight } = config;
     const cubeSize = linkHeight || 20;
 
@@ -229,87 +214,10 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
     // Nur wenn Interactive Mode aktiv ist
     const hasNeonGlow = isInteractive && linkIndex >= 15 && linkIndex < 25;
 
-    // Initialisiere oder hole Zustand für diesen Würfel
-    if (!cubeStates.has(linkIndex)) {
-        cubeStates.set(linkIndex, {
-            currentOffset: 0,
-            currentRotation: 0,
-            currentScale: 1,
-            targetOffset: 0,
-            targetRotation: 0,
-            targetScale: 1,
-            velocity: 0,
-            randomFactor: Math.random() * 0.5 + 0.75, // 0.75 - 1.25
-        });
-    }
-
-    const state = cubeStates.get(linkIndex)!;
-
-    // Berechne Zielwerte basierend auf Mausposition
-    let targetOffset = 0;
-    let targetRotation = 0;
-    let targetScale = 1;
-
-    // Device Tilt für Mobile/Tablet
-    if (deviceTilt && (deviceTilt.x !== 0 || deviceTilt.y !== 0)) {
-        // Nutze Tilt für subtile Würfelbewegung
-        const tiltStrength = Math.sqrt(deviceTilt.x * deviceTilt.x + deviceTilt.y * deviceTilt.y);
-        const variation = Math.sin(linkIndex * 1.3) * 0.3 + state.randomFactor;
-        const rotationVariation = Math.cos(linkIndex * 0.7) * 0.6 + 0.4;
-
-        targetOffset = tiltStrength * 15 * variation; // Sanfte Bewegung
-        targetRotation = deviceTilt.x * 0.5 * rotationVariation; // Rotation basierend auf links/rechts Neigung
-        targetScale = 1 + tiltStrength * 0.1 * variation; // Leichte Vergrößerung
-    }
-
-    if (mousePos) {
-        const dx = x - mousePos.x;
-        const dy = y - mousePos.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const hoverRadius = 80; // Präziser Radius - nur direkt um Würfel
-
-        if (distance < hoverRadius) {
-            const rawStrength = 1 - (distance / hoverRadius);
-            const strength = 1 - Math.pow(1 - rawStrength, 3);
-
-            // Mehr Zufall durch mehrere Faktoren
-            const variation = Math.sin(linkIndex * 1.3) * 0.3 + state.randomFactor;
-            const rotationVariation = Math.cos(linkIndex * 0.7) * 0.6 + 0.4;
-
-            // Mouse hover überschreibt Device Tilt
-            targetOffset = strength * 35 * variation; // Bis zu 35px (statt 25px)
-            targetRotation = strength * 1.3 * rotationVariation; // Mehr Rotation (statt 0.9)
-            targetScale = 1 + strength * 0.5 * variation; // Bis zu 50% größer (statt 30%)
-        }
-    }
-
-    // Physics-based animation - kurzer Bounce, dann Stopp
-    const stiffness = 0.5;  // Hohe Federkraft = schnelle Reaktion
-    const damping = 0.6;    // Dämpfung = Bounce stoppt schnell
-
-    // Berechne Beschleunigung (Feder-Kraft)
-    const offsetForce = (targetOffset - state.currentOffset) * stiffness;
-    state.velocity = (state.velocity + offsetForce) * damping;
-    state.currentOffset += state.velocity;
-
-    // Bei sehr kleiner Velocity -> snap to target (kein endloses Nachschwingen)
-    if (Math.abs(state.velocity) < 0.05 && Math.abs(targetOffset - state.currentOffset) < 0.5) {
-        state.currentOffset = targetOffset;
-        state.velocity = 0;
-    }
-
-    // Rotation und Scale mit smooth interpolation
-    state.currentRotation += (targetRotation - state.currentRotation) * 0.5;
-    state.currentScale += (targetScale - state.currentScale) * 0.5;
-
-    // Wenn sehr nah an 0, snap to 0 für Performance
-    if (Math.abs(state.currentOffset) < 0.1) state.currentOffset = 0;
-    if (Math.abs(state.currentRotation) < 0.01) state.currentRotation = 0;
-    if (Math.abs(state.currentScale - 1) < 0.01) state.currentScale = 1;
-
-    const hoverOffset = state.currentOffset;
-    const hoverRotation = state.currentRotation;
-    const hoverScale = state.currentScale;
+    // Chain-Würfel sind statisch - kein Hover, kein Tilt
+    const hoverOffset = 0;
+    const hoverRotation = 0;
+    const hoverScale = 1;
 
     // Isometrische Projektion - alle 3 Seiten gleich groß
     // Verwende 30° Winkel (cos(30°) und sin(30°))
@@ -490,15 +398,15 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
     if (hasNeonGlow) {
         const time = Date.now() / 1000;
         const pulse = Math.sin(time * 2 + linkIndex * 0.3) * 0.5 + 0.5;
-        
+
         // Zweiter Glow-Layer für noch intensiveren Effekt
         ctx.shadowColor = neonColor;
         ctx.shadowBlur = 180 + pulse * 120; // 180-300px für ultra starken Glow
         ctx.globalAlpha = 0.8 + pulse * 0.2; // Sehr stark sichtbar (0.8-1.0)
-        
+
         // Zeichne eine transparente Kopie für den zusätzlichen Glow
         ctx.fillStyle = 'transparent';
-        
+
         // Linke Seite
         ctx.beginPath();
         ctx.moveTo(0, -cubeSize);
@@ -507,7 +415,7 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
         ctx.lineTo(0, 0);
         ctx.closePath();
         ctx.fill();
-        
+
         // Rechte Seite
         ctx.beginPath();
         ctx.moveTo(0, -cubeSize);
@@ -516,7 +424,7 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
         ctx.lineTo(0, 0);
         ctx.closePath();
         ctx.fill();
-        
+
         // Obere Seite
         ctx.beginPath();
         ctx.moveTo(0, -cubeSize);
@@ -525,11 +433,11 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
         ctx.lineTo(w, -h - cubeSize);
         ctx.closePath();
         ctx.fill();
-        
+
         // DRITTER Glow-Layer für maximale Strahlkraft
         ctx.shadowBlur = 250 + pulse * 150; // 250-400px für extremen Hintergrund-Glow
         ctx.globalAlpha = 0.5 + pulse * 0.3; // 0.5-0.8
-        
+
         // Nochmal alle Seiten für dritten Layer
         ctx.beginPath();
         ctx.moveTo(0, -cubeSize);
@@ -538,7 +446,7 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
         ctx.lineTo(0, 0);
         ctx.closePath();
         ctx.fill();
-        
+
         ctx.beginPath();
         ctx.moveTo(0, -cubeSize);
         ctx.lineTo(w, -h - cubeSize);
@@ -546,7 +454,7 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
         ctx.lineTo(0, 0);
         ctx.closePath();
         ctx.fill();
-        
+
         ctx.beginPath();
         ctx.moveTo(0, -cubeSize);
         ctx.lineTo(-w, -h - cubeSize);
@@ -554,7 +462,7 @@ export function renderCubicLink({ ctx, x, y, angle, linkIndex, config, colors, i
         ctx.lineTo(w, -h - cubeSize);
         ctx.closePath();
         ctx.fill();
-        
+
         ctx.globalAlpha = 1;
         ctx.shadowColor = 'transparent';
         ctx.shadowBlur = 0;

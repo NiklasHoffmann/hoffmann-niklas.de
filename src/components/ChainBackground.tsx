@@ -17,11 +17,9 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [isMobile, setIsMobile] = useState(false);
+  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
   const [isReady, setIsReady] = useState(false);
   const { isInteractive, mounted } = useInteractiveMode();
-  const mousePosRef = useRef({ x: -1000, y: -1000 }); // Ref statt State für bessere Performance
-  const deviceTiltRef = useRef({ x: 0, y: 0 }); // Für Device Orientation
   const animationFrameRef = useRef<number | null>(null);
   const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { theme } = useTheme();
@@ -35,7 +33,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   const scrollHeightCache = useRef(0);
 
   // Get responsive config
-  const responsiveConfig = getChainConfig(isMobile);
+  const responsiveConfig = getChainConfig(screenSize);
 
   // Dynamically select preset based on interactive mode - use useMemo to recalculate when isInteractive changes
   const config: ChainPathConfig = useMemo(() => {
@@ -121,7 +119,18 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       resizeTimeoutRef.current = setTimeout(() => {
         const width = window.innerWidth;
         const height = document.documentElement.scrollHeight;
-        setIsMobile(isMobileDevice(width));
+
+        // Determine screen size: mobile < 768px, tablet 768-1024px, desktop > 1024px
+        let newScreenSize: 'mobile' | 'tablet' | 'desktop';
+        if (width < 768) {
+          newScreenSize = 'mobile';
+        } else if (width < 1024) {
+          newScreenSize = 'tablet';
+        } else {
+          newScreenSize = 'desktop';
+        }
+
+        setScreenSize(newScreenSize);
         setDimensions({ width, height });
         // OPTIMIZATION: Update scrollHeight cache on resize
         scrollHeightCache.current = height - window.innerHeight;
@@ -163,48 +172,6 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       setScrollProgress(Math.min(Math.max(progress, 0), 1));
     }, 16); // ~60fps
 
-    // Mouse move handler - KOMPLETT DEAKTIVIERT für maximale Cube-Performance
-    // Hover-Effekte sind das Opfer für flüssigen Cube
-    const handleMouseMove = (e: MouseEvent) => {
-      // Komplett deaktiviert
-    };
-
-    // Device orientation handler - für mobile/tablet
-    const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
-      if (config.style === 'cubic' && isMobile && isInteractive) {
-        // beta: Neigung vorne/hinten (-180 bis 180)
-        // gamma: Neigung links/rechts (-90 bis 90)
-        const beta = e.beta || 0;
-        const gamma = e.gamma || 0;
-
-        // Normalisiere Werte zu -1 bis 1
-        const normalizedGamma = Math.max(-1, Math.min(1, gamma / 45)); // -45° bis +45°
-        const normalizedBeta = Math.max(-1, Math.min(1, (beta - 90) / 45)); // 45° bis 135° (90° ist aufrecht)
-
-        deviceTiltRef.current = {
-          x: normalizedGamma,
-          y: normalizedBeta
-        };
-      }
-    };
-
-    // Request permission für iOS 13+
-    const requestOrientationPermission = async () => {
-      if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-        try {
-          const permission = await (DeviceOrientationEvent as any).requestPermission();
-          if (permission === 'granted') {
-            window.addEventListener('deviceorientation', handleDeviceOrientation);
-          }
-        } catch (error) {
-          console.log('Device orientation permission denied');
-        }
-      } else {
-        // Nicht-iOS oder ältere Versionen
-        window.addEventListener('deviceorientation', handleDeviceOrientation);
-      }
-    };
-
     // Initial setup
     handleResize();
 
@@ -214,27 +181,19 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     window.addEventListener('resize', handleResize);
     window.addEventListener('orientationchange', handleOrientationChange);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    // Device Orientation nur auf Mobile
-    if (isMobile) {
-      requestOrientationPermission();
-    }
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('deviceorientation', handleDeviceOrientation);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       clearTimeout(timeoutId);
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }
     };
-  }, [config.style, isMobile, isInteractive]);
+  }, [config.style, screenSize, isInteractive]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -278,30 +237,25 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       const footer = document.querySelector('footer') as HTMLElement;
       const sections = footer ? [...mainSections, footer] : mainSections;
 
-      // Finde die breiteste Content-Box (max-w-* Container) und deren Position
-      let maxContentWidth = 0;
-      let contentOffsetLeft = 0;
+      // Nimm die zweite Section (About) als Referenz, da Hero spezielles Padding hat
+      let contentOffsetLeft = 150; // Default Desktop
+      let contentOffsetBottom = 100; // Default Desktop bottom
 
-      sections.forEach(section => {
-        const contentBox = section.querySelector('[class*="max-w-"]') as HTMLElement;
+      if (sections.length > 1) {
+        const referenceSection = sections[1]; // About Section statt Hero
+        const sectionRect = referenceSection.getBoundingClientRect();
+        const contentBox = referenceSection.querySelector('[class*="max-w-"]') as HTMLElement;
+        
         if (contentBox) {
-          const contentWidth = contentBox.offsetWidth;
-          if (contentWidth > maxContentWidth) {
-            maxContentWidth = contentWidth;
-            // Berechne die tatsächliche Position des Content-Containers vom linken Bildschirmrand
-            const rect = contentBox.getBoundingClientRect();
-            contentOffsetLeft = rect.left;
-          }
+          const contentRect = contentBox.getBoundingClientRect();
+          // Berechne das tatsächliche Padding der Section (nicht der zentrierte Container)
+          const computedStyle = window.getComputedStyle(referenceSection);
+          const paddingLeft = parseFloat(computedStyle.paddingLeft);
+          const paddingBottom = parseFloat(computedStyle.paddingBottom);
+          contentOffsetLeft = paddingLeft || 150;
+          contentOffsetBottom = paddingBottom || 100;
         }
-      });
-
-      // Fallback falls keine max-w-* Container gefunden wurden
-      if (maxContentWidth === 0 || contentOffsetLeft === 0) {
-        maxContentWidth = 1280;
-        contentOffsetLeft = (width - 1280) / 2;
-      }
-
-      const screenWidth = width;
+      }      const screenWidth = width;
       // Verfügbarer Platz vom Bildschirmrand bis zum Content-Anfang
       const availableSpace = contentOffsetLeft;
 
@@ -314,26 +268,41 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       } else if (availableSpace >= 40) {
         // Mittlerer Platz (Tablet): Chain in der Mitte
         horizontalOffset = availableSpace / 2;
-      } else if (availableSpace >= 20) {
-        // Wenig Platz: Chain bei 1/3 des verfügbaren Raums
-        horizontalOffset = availableSpace / 3;
       } else {
-        // Sehr wenig Platz: Chain ganz nah am Rand
-        horizontalOffset = 10;
+        // Wenig Platz (Mobile): Chain genau in der Mitte
+        horizontalOffset = availableSpace / 2;
       }
+
+      // Für die horizontale Linie: Volle Padding-Distanz minus halbe Padding-Distanz = Mitte
+      // sectionBottom - (paddingBottom - paddingBottom/2) = sectionBottom - paddingBottom/2
+      const dynamicSectionPadding = contentOffsetBottom / 2;
 
       const pathPoints: { x: number; y: number; sectionIndex: number }[] = [];
       pathPoints.push({ x: horizontalOffset, y: 0, sectionIndex: 0 });
 
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i] as HTMLElement;
+        
+        // Verwende offsetTop und offsetHeight für konsistente Berechnung
         const sectionTop = section.offsetTop;
         const sectionBottom = sectionTop + section.offsetHeight;
+        
+        // Lese bottom-padding für jede Section individuell aus
+        const sectionStyle = window.getComputedStyle(section);
+        let sectionBottomPadding = parseFloat(sectionStyle.paddingBottom);
+        
+        // Fallback wenn paddingBottom nicht ausgelesen werden kann
+        if (isNaN(sectionBottomPadding) || sectionBottomPadding === 0) {
+          sectionBottomPadding = contentOffsetBottom;
+        }
+        
+        // Mitte des Bottom-Paddings: halbe Distanz vom unteren Rand nach innen
+        const sectionDynamicPadding = sectionBottomPadding / 2;
 
         if (i % 2 === 0) {
           if (i < sections.length - 1) {
             const targetX = width - horizontalOffset;
-            const horizontalY = sectionBottom - sectionPadding;
+            const horizontalY = sectionBottom - sectionDynamicPadding;
             const verticalStart = pathPoints[pathPoints.length - 1].y;
             const verticalEnd = horizontalY - curveSize;
 
@@ -372,7 +341,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         } else {
           if (i < sections.length - 1) {
             const targetX = horizontalOffset;
-            const horizontalY = sectionBottom - sectionPadding;
+            const horizontalY = sectionBottom - sectionDynamicPadding;
             const verticalStart = pathPoints[pathPoints.length - 1].y;
             const verticalEnd = horizontalY - curveSize;
 
@@ -473,9 +442,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
               config,
               colors: CHAIN_COLORS,
               isDark: theme === 'dark',
-              mousePos: isInteractive ? mousePosRef.current : { x: -1000, y: -1000 },
               sectionIndex: p1.sectionIndex,
-              deviceTilt: isInteractive ? deviceTiltRef.current : { x: 0, y: 0 },
               isInteractive
             });
             currentDist += spacing;

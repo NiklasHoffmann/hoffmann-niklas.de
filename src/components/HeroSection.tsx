@@ -53,7 +53,7 @@ export function HeroSection({ }: HeroSectionProps) {
         <section
             id="hero"
             key={key}
-            className="scroll-snap-section relative w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20 py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-8"
+            className="scroll-snap-section section-padding relative w-full h-screen max-h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20"
             style={{ scrollMarginTop: '0px' }}
         >
             {/* Animated background elements */}

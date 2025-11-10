@@ -268,13 +268,84 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
 }
 
 html {
-  /* Scroll-Snap deaktiviert - wird jetzt via JavaScript gesteuert */
+  /* Scroll-Snap nur auf Mobile/Tablet (bis 1024px) */
   scroll-snap-type: none;
 
   /* Smooth scrolling DEAKTIVIERT - wird via JavaScript gesteuert */
   scroll-behavior: auto;
 
   scroll-padding: 0;
+}
+
+/* Scroll Snap für Mobile und Tablet */
+@media (max-width: 1023px) {
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 0;
+  }
+
+  .scroll-snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* Dynamic Viewport Height - passt sich an Browser-UI an */
+    min-height: 100dvh;
+    height: 100dvh;
+    /* Erlaubt vertikales Scrollen bei Overflow */
+    overflow-y: auto;
+    /* Smooth Scrolling innerhalb der Section */
+    scroll-behavior: smooth;
+  }
+
+  /* Überschreibe h-screen und max-h-screen auf Mobile/Tablet */
+  .h-screen {
+    height: 100dvh !important;
+  }
+
+  .max-h-screen {
+    max-height: 100dvh !important;
+  }
+
+  .min-h-screen {
+    min-height: 100dvh !important;
+  }
+
+  /* Kompaktere Schriftgrößen auf kleinen Screens */
+  @media (max-height: 700px) {
+    .scroll-snap-section {
+      font-size: 0.95rem;
+    }
+
+    h1 {
+      font-size: 1.75rem !important;
+    }
+
+    h2 {
+      font-size: 1.5rem !important;
+    }
+
+    h3 {
+      font-size: 1.25rem !important;
+    }
+  }
+
+  /* Noch kompakter auf sehr kleinen Screens */
+  @media (max-height: 600px) {
+    .scroll-snap-section {
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      font-size: 1.5rem !important;
+    }
+
+    h2 {
+      font-size: 1.25rem !important;
+    }
+
+    h3 {
+      font-size: 1.1rem !important;
+    }
+  }
 }
 
 /* JavaScript Scroll-Control - kein CSS smooth scrolling */
@@ -329,6 +400,36 @@ html {
 
 /* Link Styles mit feinem Underline und Glow-Effekt */
 @layer components {
+
+  /* Zentrale Section Paddings - basierend auf Chain-Offsets */
+  .section-padding {
+    /* Mobile: Top = Header (56px), Sides/Bottom = Chain (20px) */
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 56px;
+    padding-bottom: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .section-padding {
+      /* Tablet: Top = Header (64px), Sides/Bottom = Chain (80px) */
+      padding-left: 80px;
+      padding-right: 80px;
+      padding-top: 64px;
+      padding-bottom: 80px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-padding {
+      /* Desktop: Top = Header (64px), Sides = Chain (150px), Bottom = 100px */
+      padding-left: 150px;
+      padding-right: 150px;
+      padding-top: 64px;
+      padding-bottom: 100px;
+    }
+  }
+
   /* Base link style - feine Unterstreichung */
   .link-underline {
     text-decoration: underline;
@@ -373,5 +474,47 @@ html {
 
   .nav-link.active-glow::after {
     box-shadow: 0 0 8px currentColor, 0 0 12px currentColor;
+  }
+
+  /* 3D Perspective Carousel for Services */
+  .perspective-\[1200px\] {
+    perspective: 1200px;
+  }
+
+  /* 3D Flip Card Utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  /* Hide scrollbar for 3D carousel */
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Thin scrollbar for tech stack in cards */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 2px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
   }
 }

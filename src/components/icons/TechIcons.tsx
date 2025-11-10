@@ -95,3 +95,7 @@ export function IPFSIcon({ className }: IconProps) {
 export function GraphQLIcon({ className }: IconProps) {
     return <BrandIcon icon="logos:graphql" className={className} />;
 }
+
+export function TheGraphIcon({ className }: IconProps) {
+    return <BrandIcon icon="cryptocurrency:grt" className={className} />;
+}

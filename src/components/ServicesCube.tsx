@@ -30,7 +30,7 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
     const { mounted } = useInteractiveMode();
     const { rotation, containerRef, cubeRef } = useCubeDrag({
         autoRotate: true,
-        autoRotateSpeed: 0.3,
+        autoRotateSpeed: 0.15,
         initialRotation: { x: -10, y: 15 },
     });
 
@@ -84,22 +84,22 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
                     }}
                 >
                     {/* Front Face - Service 0 */}
-                    <CubeFace service={cubeServices[0]} transform="rotateY(0deg) translateZ(140px)" t={t} />
+                    <CubeFace service={cubeServices[0]} transform="rotateY(0deg) translateZ(min(27.5vw, 140px))" t={t} />
 
                     {/* Back Face - Service 1 */}
-                    <CubeFace service={cubeServices[1]} transform="rotateY(180deg) translateZ(140px)" t={t} />
+                    <CubeFace service={cubeServices[1]} transform="rotateY(180deg) translateZ(min(27.5vw, 140px))" t={t} />
 
                     {/* Top Face - Service 2 */}
-                    <CubeFace service={cubeServices[2]} transform="rotateX(90deg) translateZ(140px)" t={t} />
+                    <CubeFace service={cubeServices[2]} transform="rotateX(90deg) translateZ(min(27.5vw, 140px))" t={t} />
 
                     {/* Bottom Face - Service 3 */}
-                    <CubeFace service={cubeServices[3]} transform="rotateX(-90deg) translateZ(140px)" t={t} />
+                    <CubeFace service={cubeServices[3]} transform="rotateX(-90deg) translateZ(min(27.5vw, 140px))" t={t} />
 
                     {/* Left Face - Service 4 */}
-                    <CubeFace service={cubeServices[4]} transform="rotateY(-90deg) translateZ(140px)" t={t} />
+                    <CubeFace service={cubeServices[4]} transform="rotateY(-90deg) translateZ(min(27.5vw, 140px))" t={t} />
 
                     {/* Right Face - Service 5 */}
-                    <CubeFace service={cubeServices[5]} transform="rotateY(90deg) translateZ(140px)" t={t} />
+                    <CubeFace service={cubeServices[5]} transform="rotateY(90deg) translateZ(min(27.5vw, 140px))" t={t} />
                 </div>
             </div>
         </div>
@@ -132,27 +132,27 @@ const CubeFace = memo(function CubeFace({ service, transform, t }: CubeFaceProps
             <div className="relative z-10 h-full flex flex-col">
                 <Icon
                     icon={service.icon}
-                    className="text-4xl md:text-5xl mb-2 flex-shrink-0"
+                    className="text-3xl md:text-4xl mb-1.5 flex-shrink-0"
                     ssr={true}
                     key={service.icon}
                 />
-                <h3 className="text-base md:text-lg font-bold mb-1.5 leading-tight">{service.title}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground mb-2.5 leading-tight flex-shrink-0">{service.description}</p>
+                <h3 className="text-sm md:text-base font-bold mb-1 leading-tight">{service.title}</h3>
+                <p className="text-[10px] md:text-xs text-muted-foreground mb-2 leading-tight flex-shrink-0 line-clamp-2">{service.description}</p>
                 {service.techStack.length > 0 && (
-                    <div className="mt-auto overflow-y-auto flex-shrink min-h-0 scrollbar-thin">
-                        <p className="text-xs font-semibold text-muted-foreground mb-1.5 flex-shrink-0">{t('techStack')}:</p>
-                        <div className="flex flex-wrap gap-1.5">{service.techStack.map((tech) => {
-                                const TechIcon = tech.icon;
-                                return (
-                                    <div
-                                        key={tech.name}
-                                        className="flex items-center gap-1 px-2 py-1 bg-secondary/50 rounded-md flex-shrink-0"
-                                    >
-                                        <TechIcon className="w-4 h-4" />
-                                        <span className="text-xs">{tech.name}</span>
-                                    </div>
-                                );
-                            })}
+                    <div className="mt-auto overflow-hidden">
+                        <p className="text-[10px] font-semibold text-muted-foreground mb-1 flex-shrink-0">{t('techStack')}:</p>
+                        <div className="flex flex-wrap gap-1 max-h-[60px] overflow-hidden">{service.techStack.slice(0, 6).map((tech) => {
+                            const TechIcon = tech.icon;
+                            return (
+                                <div
+                                    key={tech.name}
+                                    className="flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/50 rounded-md flex-shrink-0"
+                                >
+                                    <TechIcon className="w-3 h-3" />
+                                    <span className="text-[9px]">{tech.name}</span>
+                                </div>
+                            );
+                        })}
                         </div>
                     </div>
                 )}

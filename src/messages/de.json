@@ -48,20 +48,20 @@
     "design": "Design & UX",
     "webDev": "Web Apps",
     "backendService": "Backend",
-    "web3Service": "Web3 Frontend & Wallet Integration",
+    "web3Wallets": "Web3 Wallets & Integration",
+    "web3Blockchain": "Blockchain & Data",
     "uiux": "UI/UX",
     "databaseService": "Database",
     "photo": "Fotografie",
-    "video": "Video",
     "web3Tech": "Web3 Technologien",
     "descriptions": {
       "webDev": "Moderne Web-Anwendungen",
-      "web3Service": "Blockchain-Integration",
+      "web3Wallets": "Wallet-Integration & Transaktionen",
+      "web3Blockchain": "Blockchain-Daten & Infrastructure",
       "uiux": "Design-Systeme",
       "photo": "Produkt-Fotografie",
       "databaseService": "Daten-Management",
-      "backendService": "Server & APIs",
-      "video": "Video-Produktion & Schnitt"
+      "backendService": "Server & APIs"
     }
   },
   "portfolio": {

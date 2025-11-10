@@ -32,20 +32,20 @@ export function useSectionScroll() {
         if (hasGloballyInitialized) {
             // Re-sync current section from URL hash on re-mount (e.g., after language toggle)
             const hash = window.location.hash.slice(1); // Remove '#'
-            
+
             if (hash) {
                 // Wait for sections to render, then scroll to hash
                 setTimeout(() => {
                     const targetSection = document.getElementById(hash);
-                    
+
                     if (targetSection && targetSection.classList.contains('scroll-snap-section')) {
                         const sections = document.querySelectorAll('.scroll-snap-section');
                         const targetIndex = Array.from(sections).indexOf(targetSection);
-                        
+
                         if (targetIndex !== -1) {
                             currentSectionIndex.current = targetIndex;
                             globalCurrentSectionIndex = targetIndex;
-                            
+
                             // Actually scroll to the section
                             const targetY = targetSection.offsetTop;
                             window.scrollTo(0, targetY);
@@ -75,10 +75,10 @@ export function useSectionScroll() {
                         globalCurrentSectionIndex = closestIndex;
                     }
                 }, 100);
-                
+
                 return () => clearTimeout(resyncTimeout);
             }
-            
+
             return;
         }
 
@@ -117,7 +117,7 @@ export function useSectionScroll() {
             const scrollToSection = (index: number) => {
                 // Always query sections fresh to handle re-renders (e.g., language toggle)
                 const sections = document.querySelectorAll('.scroll-snap-section');
-                
+
                 if (index < 0 || index >= sections.length) {
                     console.warn('⚠️ Invalid section index:', index);
                     return;
@@ -157,7 +157,7 @@ export function useSectionScroll() {
                         globalCurrentSectionIndex = index;
                         isScrolling.current = false;
                         globalIsScrolling = false;
-                        
+
                         // Update URL hash to match current section
                         const sectionId = section.id;
                         if (sectionId && sectionId !== 'hero') {
