@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { projects } from '@/data/portfolio';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { ProjectCard } from '@/components/ui/ProjectCard';
@@ -16,9 +16,38 @@ export function PortfolioSection() {
     const [canScrollRight, setCanScrollRight] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const { key } = useOrientationResize();
+    
+    // Touch swipe state
+    const touchStartX = useRef(0);
+    const touchEndX = useRef(0);
 
     const itemsPerPage = 3;
     const totalPages = Math.ceil(projects.length / itemsPerPage);
+
+    // Handle touch swipe for mobile slider
+    const handleTouchStart = useCallback((e: React.TouchEvent) => {
+        touchStartX.current = e.touches[0].clientX;
+        touchEndX.current = e.touches[0].clientX;
+    }, []);
+
+    const handleTouchMove = useCallback((e: React.TouchEvent) => {
+        touchEndX.current = e.touches[0].clientX;
+    }, []);
+
+    const handleTouchEnd = useCallback(() => {
+        const diff = touchStartX.current - touchEndX.current;
+        const threshold = 50; // Minimum swipe distance
+
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0 && currentSlide < projects.length - 1) {
+                // Swipe left - next slide
+                setCurrentSlide(prev => prev + 1);
+            } else if (diff < 0 && currentSlide > 0) {
+                // Swipe right - previous slide
+                setCurrentSlide(prev => prev - 1);
+            }
+        }
+    }, [currentSlide]);
 
     const checkScrollPosition = () => {
         if (scrollContainerRef.current) {
@@ -127,7 +156,12 @@ export function PortfolioSection() {
 
                 {/* Mobile: Slider */}
                 <div className="sm:hidden relative">
-                    <div className="overflow-hidden">
+                    <div 
+                        className="overflow-hidden touch-pan-y"
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                    >
                         <div
                             className="flex transition-transform duration-300 ease-out"
                             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
