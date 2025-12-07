@@ -180,9 +180,7 @@ export default function ChainPreviewPage() {
                         config,
                         colors: CHAIN_COLORS,
                         isDark,
-                        mousePos: { x: -1000, y: -1000 },
                         sectionIndex: colorSectionIndex,
-                        deviceTilt: { x: 0, y: 0 },
                         isInteractive: true
                     });
                     currentDist += spacing;
