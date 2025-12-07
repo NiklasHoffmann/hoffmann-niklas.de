@@ -27,7 +27,7 @@ export function YouTubeSlider() {
         <section
             id="videos"
             key={key}
-            className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-hidden flex items-center justify-center bg-background"
+            className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-y-auto overflow-x-hidden flex items-center justify-center bg-background"
         >
             <div className="max-w-2xl mx-auto w-full h-full flex flex-col justify-center">
                 <SectionHeader

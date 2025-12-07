@@ -37,10 +37,10 @@ export function PackagesSection() {
         <section
             id="packages"
             key={key}
-            className="scroll-snap-section section-padding w-full h-screen max-h-screen flex items-center justify-center bg-background relative"
+            className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-y-auto overflow-x-hidden flex items-center justify-center bg-background relative"
             style={{ zIndex: 1, transition: 'background-color 700ms ease-in-out' }}
         >
-            <div className="max-w-6xl mx-auto w-full h-full flex flex-col justify-center">
+            <div className="max-w-6xl mx-auto w-full min-h-full flex flex-col justify-center">
                 {/* Header */}
                 <SectionHeader
                     title={t('title')}
@@ -49,7 +49,7 @@ export function PackagesSection() {
                 />
 
                 {/* Cards */}
-                <div className="flex items-center justify-center overflow-hidden">
+                <div className="flex items-center justify-center">
                     <div className="w-full grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 md:grid-cols-2 xl:grid-cols-4">
                         {PACKAGE_KEYS.map((pkgKey, index) => {
                             const includes = t.raw(

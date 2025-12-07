@@ -351,6 +351,20 @@ html {
       font-size: 1.1rem !important;
     }
   }
+
+  /* Landscape Mode auf Mobile/Tablet - Content scrollbar machen */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .scroll-snap-section {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      height: auto !important;
+      min-height: 100dvh !important;
+    }
+
+    .scroll-snap-section.overflow-hidden {
+      overflow-y: auto !important;
+    }
+  }
 }
 
 /* JavaScript Scroll-Control - kein CSS smooth scrolling */

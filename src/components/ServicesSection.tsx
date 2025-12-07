@@ -203,10 +203,10 @@ export function ServicesSection() {
         <section
             id="services"
             key={key}
-            className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-hidden flex items-center justify-center bg-background relative"
+            className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-y-auto overflow-x-hidden flex items-center justify-center bg-background relative"
             style={{ zIndex: 1 }}
         >
-            <div className="max-w-6xl mx-auto w-full h-full flex flex-col relative">
+            <div className="max-w-6xl mx-auto w-full min-h-full flex flex-col relative">
                 {isInteractive && (
                     <button
                         onClick={toggleView}
