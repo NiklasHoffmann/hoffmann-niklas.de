@@ -28,7 +28,13 @@ import {
 
 interface TechItem {
     name: string;
-    category: 'frontend' | 'backend' | 'web3-wallets' | 'web3-blockchain' | 'database' | 'tools';
+    category:
+    | 'frontend'
+    | 'backend'
+    | 'web3-wallets'
+    | 'web3-blockchain'
+    | 'database'
+    | 'tools';
     icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -75,32 +81,28 @@ export function ServicesSection() {
     const t = useTranslations('services');
     const { isInteractive, mounted } = useInteractiveMode();
     const [flippedCard, setFlippedCard] = useState<number | null>(null);
+    const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Initialize from localStorage immediately to prevent flash on language change
-    // Default to true if no saved value (cube is default in interactive mode)
     const [showCube, setShowCube] = useState(() => {
         if (typeof window === 'undefined') return false;
         const saved = localStorage.getItem('services-show-cube');
-        // Default to true if nothing saved, otherwise use saved value
         return saved === null ? true : saved === 'true';
     });
 
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [opacity, setOpacity] = useState(1);
-    const [displayContent, setDisplayContent] = useState(showCube); // What to actually render
+    const [displayContent, setDisplayContent] = useState(showCube);
     const previousInteractiveRef = useRef(isInteractive);
 
-
-    // Handle interactive mode changes with transition
     useEffect(() => {
         if (!mounted) return;
 
-        const interactiveChanged = previousInteractiveRef.current !== isInteractive;
+        const interactiveChanged =
+            previousInteractiveRef.current !== isInteractive;
         previousInteractiveRef.current = isInteractive;
 
         if (!interactiveChanged) return;
 
-        // Trigger transition when interactive mode changes
         setIsTransitioning(true);
         setOpacity(0);
 
@@ -109,7 +111,6 @@ export function ServicesSection() {
                 setShowCube(false);
                 setDisplayContent(false);
             } else {
-                // When interactive mode turns on, always show cube
                 setShowCube(true);
                 setDisplayContent(true);
             }
@@ -121,79 +122,79 @@ export function ServicesSection() {
         }, 350);
     }, [isInteractive, mounted]);
 
-    // Save showCube to localStorage when it changes
     useEffect(() => {
         if (!mounted) return;
         localStorage.setItem('services-show-cube', String(showCube));
     }, [showCube, mounted]);
 
-    // Handle transition with toggle button
     const toggleView = () => {
         setIsTransitioning(true);
-
-        // Fade out (350ms)
         setOpacity(0);
 
-        // After fade out, switch view
         setTimeout(() => {
             const newShowCube = !showCube;
             setShowCube(newShowCube);
             setDisplayContent(newShowCube);
 
-            // Fade in (350ms)
             setTimeout(() => {
                 setOpacity(1);
                 setIsTransitioning(false);
-            }, 50); // Small delay to ensure state change is applied
+            }, 50);
         }, 350);
     };
 
-    const serviceCategories: ServiceCategory[] = useMemo(() => [
-        {
-            title: t('webDev'),
-            icon: 'vscode-icons:file-type-reactjs',
-            description: t('descriptions.webDev'),
-            color: 'from-blue-500 to-cyan-500',
-            techStack: techStack.filter((tech) => tech.category === 'frontend'),
-        },
-        {
-            title: t('web3Wallets'),
-            icon: 'token-branded:wallet-connect',
-            description: t('descriptions.web3Wallets'),
-            color: 'from-purple-500 to-pink-500',
-            techStack: techStack.filter((tech) => tech.category === 'web3-wallets'),
-        },
-        {
-            title: t('web3Blockchain'),
-            icon: 'cryptocurrency:eth',
-            description: t('descriptions.web3Blockchain'),
-            color: 'from-indigo-500 to-purple-500',
-            techStack: techStack.filter((tech) => tech.category === 'web3-blockchain'),
-        },
-        {
-            title: t('uiux'),
-            icon: 'logos:figma',
-            description: t('descriptions.uiux'),
-            color: 'from-orange-500 to-red-500',
-            techStack: techStack.filter((tech) => tech.category === 'tools'),
-        },
-        {
-            title: t('databaseService'),
-            icon: 'vscode-icons:file-type-mongo',
-            description: t('descriptions.databaseService'),
-            color: 'from-yellow-500 to-orange-500',
-            techStack: techStack.filter((tech) => tech.category === 'database'),
-        },
-        {
-            title: t('backendService'),
-            icon: 'vscode-icons:file-type-node',
-            description: t('descriptions.backendService'),
-            color: 'from-green-500 to-emerald-500',
-            techStack: techStack.filter((tech) => tech.category === 'backend'),
-        },
-    ], [t]);
+    const serviceCategories: ServiceCategory[] = useMemo(
+        () => [
+            {
+                title: t('webDev'),
+                icon: 'vscode-icons:file-type-reactjs',
+                description: t('descriptions.webDev'),
+                color: 'from-blue-500 to-cyan-500',
+                techStack: techStack.filter((tech) => tech.category === 'frontend'),
+            },
+            {
+                title: t('web3Wallets'),
+                icon: 'token-branded:wallet-connect',
+                description: t('descriptions.web3Wallets'),
+                color: 'from-purple-500 to-pink-500',
+                techStack: techStack.filter(
+                    (tech) => tech.category === 'web3-wallets',
+                ),
+            },
+            {
+                title: t('web3Blockchain'),
+                icon: 'cryptocurrency:eth',
+                description: t('descriptions.web3Blockchain'),
+                color: 'from-indigo-500 to-purple-500',
+                techStack: techStack.filter(
+                    (tech) => tech.category === 'web3-blockchain',
+                ),
+            },
+            {
+                title: t('uiux'),
+                icon: 'logos:figma',
+                description: t('descriptions.uiux'),
+                color: 'from-orange-500 to-red-500',
+                techStack: techStack.filter((tech) => tech.category === 'tools'),
+            },
+            {
+                title: t('databaseService'),
+                icon: 'vscode-icons:file-type-mongo',
+                description: t('descriptions.databaseService'),
+                color: 'from-yellow-500 to-orange-500',
+                techStack: techStack.filter((tech) => tech.category === 'database'),
+            },
+            {
+                title: t('backendService'),
+                icon: 'vscode-icons:file-type-node',
+                description: t('descriptions.backendService'),
+                color: 'from-green-500 to-emerald-500',
+                techStack: techStack.filter((tech) => tech.category === 'backend'),
+            },
+        ],
+        [t],
+    );
 
-    // Grid view uses same services as cube (6 items)
     const gridServiceCategories: ServiceCategory[] = serviceCategories;
 
     return (
@@ -202,9 +203,7 @@ export function ServicesSection() {
             className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-hidden flex items-center justify-center bg-background relative"
             style={{ zIndex: 1 }}
         >
-
             <div className="max-w-6xl mx-auto w-full h-full flex flex-col relative">
-                {/* Mode Toggle - Absolutely positioned independent of content flow */}
                 {isInteractive && (
                     <button
                         onClick={toggleView}
@@ -226,15 +225,13 @@ export function ServicesSection() {
                     suppressHydrationWarning
                     style={{
                         opacity: opacity,
-                        transition: 'opacity 350ms ease-in-out'
+                        transition: 'opacity 350ms ease-in-out',
                     }}
-                    className={`w-full h-full flex flex-col ${displayContent && isInteractive ? '' : 'justify-between'}`}
-
+                    className={`w-full h-full flex flex-col ${displayContent && isInteractive ? 'justify-around' : 'justify-center'
+                        }`}
                 >
                     {displayContent && isInteractive ? (
-                        /* 3D Cube Mode - Centered layout with text on sides */
                         <div className="relative min-h-[500px] sm:min-h-[600px] flex flex-col lg:flex-row items-center justify-center gap-12 sm:gap-20 lg:gap-0 py-12 sm:py-16 lg:py-24 h-full">
-                            {/* Header - Top center on mobile, left top on desktop */}
                             <div className="lg:absolute lg:left-0 lg:top-28 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">
                                     {t('title')}
@@ -244,12 +241,14 @@ export function ServicesSection() {
                                 </p>
                             </div>
 
-                            {/* Center - 3D Cube with extra bottom spacing on mobile */}
                             <div className="flex items-center justify-center order-2 mb-8 sm:mb-12 lg:mb-0">
-                                <ServicesCube key="services-cube-stable" services={serviceCategories} t={t} />
+                                <ServicesCube
+                                    key="services-cube-stable"
+                                    services={serviceCategories}
+                                    t={t}
+                                />
                             </div>
 
-                            {/* Hint - Bottom center on mobile, right bottom on desktop */}
                             <div className="lg:absolute lg:right-8 xl:right-12 lg:bottom-24 text-center lg:text-right max-w-xs order-3">
                                 <div className="relative mb-4">
                                     <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
@@ -261,49 +260,68 @@ export function ServicesSection() {
                             </div>
                         </div>
                     ) : (
-                        /* Classic Grid Mode - All devices */
                         <>
-                            {/* Header */}
-                            <SectionHeader title={t('title')} subtitle={t('subtitle')} className="mb-2 sm:mb-3 lg:mb-4 flex-shrink-0" />
+                            <SectionHeader
+                                title={t('title')}
+                                subtitle={t('subtitle')}
+                                className="text-center mb-2 sm:mb-3 lg:mb-4"
+                            />
 
-                            {/* Service Categories Grid - Portrait tablet uses 2 columns, landscape uses 3 */}
-                            <div className="flex-1 min-h-0 flex flex-col justify-end overflow-hidden">
+                            <div className="flex flex-col justify-center overflow-hidden">
                                 <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-3 lg:gap-4 sm:p-3">
                                     {gridServiceCategories.map((service, i) => {
                                         const isFlipped = flippedCard === i;
+
+                                        const handleMouseEnter = () => {
+                                            if (hoverTimeoutRef.current) {
+                                                clearTimeout(hoverTimeoutRef.current);
+                                            }
+                                            hoverTimeoutRef.current = setTimeout(() => {
+                                                setFlippedCard(i);
+                                            }, 50);
+                                        };
+
+                                        const handleMouseLeave = () => {
+                                            if (hoverTimeoutRef.current) {
+                                                clearTimeout(hoverTimeoutRef.current);
+                                            }
+                                            hoverTimeoutRef.current = setTimeout(() => {
+                                                setFlippedCard(null);
+                                            }, 50);
+                                        };
+
                                         return (
                                             <div key={i} className="perspective-1000">
                                                 <div
-                                                    onClick={() => setFlippedCard(isFlipped ? null : i)}
-                                                    onMouseEnter={() => setFlippedCard(i)}
-                                                    onMouseLeave={() => setFlippedCard(null)}
+                                                    onClick={() =>
+                                                        setFlippedCard(isFlipped ? null : i)
+                                                    }
+                                                    onMouseEnter={handleMouseEnter}
+                                                    onMouseLeave={handleMouseLeave}
                                                     className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d"
                                                     style={{
                                                         transformStyle: 'preserve-3d',
-                                                        transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                                                        transform: isFlipped
+                                                            ? 'rotateY(180deg)'
+                                                            : 'rotateY(0deg)',
                                                     }}
                                                 >
-                                                    {/* Front Side */}
                                                     <div
                                                         className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-card rounded-xl border border-border backface-hidden flex flex-col"
                                                         style={{
                                                             backfaceVisibility: 'hidden',
-                                                            transition: 'border-color 700ms ease-in-out'
+                                                            transition: 'border-color 700ms ease-in-out',
                                                         }}
                                                     >
-                                                        {/* Flip Indicator - Pulsing Dot (Bottom Right) */}
                                                         {service.techStack.length > 0 && (
                                                             <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 pointer-events-none z-20">
                                                                 <div className="relative flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5">
-                                                                    {/* Outer pulsing ring */}
                                                                     <div className="absolute inset-0 bg-blue-500/50 rounded-full animate-ping" />
-                                                                    {/* Inner solid dot */}
                                                                     <div className="relative w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-full" />
                                                                 </div>
                                                             </div>
                                                         )}
 
-                                                        {/* Icon */}
                                                         <div className="mb-2 sm:mb-3 flex-shrink-0">
                                                             <Icon
                                                                 icon={service.icon}
@@ -313,26 +331,26 @@ export function ServicesSection() {
                                                             />
                                                         </div>
 
-                                                        {/* Title */}
                                                         <h3 className="text-sm sm:text-base lg:text-lg font-bold mb-1 sm:mb-2 leading-tight flex-shrink-0">
                                                             {service.title}
                                                         </h3>
 
-                                                        {/* Description */}
-                                                        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1">{service.description}</p>
+                                                        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1">
+                                                            {service.description}
+                                                        </p>
                                                     </div>
 
-                                                    {/* Back Side */}
                                                     <div
                                                         className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-secondary/50 rounded-xl border border-accent/50 shadow-lg shadow-accent/10 backface-hidden overflow-hidden flex flex-col"
                                                         style={{
                                                             backfaceVisibility: 'hidden',
                                                             transform: 'rotateY(180deg)',
-                                                            transition: 'border-color 700ms ease-in-out'
+                                                            transition: 'border-color 700ms ease-in-out',
                                                         }}
                                                     >
-                                                        {/* Gradient background accent */}
-                                                        <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 rounded-xl`} />
+                                                        <div
+                                                            className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 rounded-xl`}
+                                                        />
 
                                                         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center overflow-hidden">
                                                             <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center max-h-full overflow-y-auto">
@@ -344,7 +362,9 @@ export function ServicesSection() {
                                                                             className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 bg-accent/10 rounded-md flex-shrink-0"
                                                                         >
                                                                             <TechIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                                                                            <span className="text-[10px] sm:text-xs font-medium whitespace-nowrap">{tech.name}</span>
+                                                                            <span className="text-[10px] sm:text-xs font-medium whitespace-nowrap">
+                                                                                {tech.name}
+                                                                            </span>
                                                                         </div>
                                                                     );
                                                                 })}
@@ -361,6 +381,6 @@ export function ServicesSection() {
                     )}
                 </div>
             </div>
-        </section >
+        </section>
     );
 }

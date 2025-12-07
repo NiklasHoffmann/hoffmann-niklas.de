@@ -92,13 +92,18 @@ export function HeroSection({ }: HeroSectionProps) {
                 </h1>
 
                 {/* Subtitle with icon */}
-                <div className="flex items-center justify-center gap-3 mb-6 sm:mb-8">
+                <div className="flex items-center justify-center gap-3 mb-4 sm:mb-5">
                     <div className="hidden sm:block w-12 h-[2px] bg-gradient-to-r from-transparent to-accent/50" />
                     <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
                         {t('subtitle')}
                     </p>
                     <div className="hidden sm:block w-12 h-[2px] bg-gradient-to-l from-transparent to-accent/50" />
                 </div>
+
+                {/* Price Note */}
+                <p className="text-sm sm:text-base text-accent font-medium mb-6 sm:mb-8">
+                    {t('priceNote')}
+                </p>
 
                 {/* Tech Stack Icons */}
                 <TechIcons />

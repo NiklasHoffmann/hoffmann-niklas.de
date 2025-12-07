@@ -22,6 +22,7 @@ let cachedActiveSection = 'hero';
 function HeaderComponent() {
     const t = useTranslations('header.nav');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMenuClosing, setIsMenuClosing] = useState(false);
     const [activeSection, setActiveSection] = useState(() => cachedActiveSection);
     const { showActive, mounted } = useInteractiveMode();
     const { theme } = useTheme();
@@ -37,15 +38,16 @@ function HeaderComponent() {
         { id: "hero", label: t('start'), color: neonColors[0] },
         { id: "about", label: t('about'), color: neonColors[1] },
         { id: "services", label: t('services'), color: neonColors[2] },
-        { id: "portfolio", label: t('portfolio'), color: neonColors[3] },
-        { id: "videos", label: t('videos'), color: neonColors[4] },
+        { id: "packages", label: t('packages'), color: neonColors[3] },
+        { id: "portfolio", label: t('portfolio'), color: neonColors[4] },
+        // { id: "videos", label: t('videos'), color: neonColors[5] },
         { id: "contact", label: t('contact'), color: neonColors[5] },
     ], [neonColors, t]);
 
     // Track active section
     useEffect(() => {
         const updateActiveSection = () => {
-            const sections = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact', 'footer'];
+            const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
             const scrollPosition = window.scrollY + window.innerHeight / 2; // Mitte des Viewports
 
             let currentSection = 'hero';
@@ -119,127 +121,196 @@ function HeaderComponent() {
     const scrollToSection = (sectionId: string) => {
         // Use the global scroll function from useSectionScroll
         scrollToSectionById(sectionId);
-        setIsMenuOpen(false);
+        handleCloseMenu();
+    };
+
+    const handleCloseMenu = () => {
+        setIsMenuClosing(true);
+        setTimeout(() => {
+            setIsMenuOpen(false);
+            setIsMenuClosing(false);
+        }, 500);
+    };
+
+    const handleToggleMenu = () => {
+        if (isMenuOpen || isMenuClosing) {
+            handleCloseMenu();
+        } else {
+            setIsMenuOpen(true);
+        }
     };
 
     return (
-        <header
-            className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
-            style={{
-                transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out'
-            }}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-14 sm:h-16">
-                    {/* Logo */}
-                    <button
-                        onClick={() => scrollToSection('hero')}
-                        className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text cursor-pointer"
-                        aria-label="Scroll to top"
-                    >
-                        NH
-                    </button>
+        <>
+            <header
+                className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
+                style={{
+                    transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out'
+                }}
+            >
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-14 sm:h-16">
+                        {/* Logo */}
+                        <button
+                            onClick={() => scrollToSection('hero')}
+                            className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text cursor-pointer"
+                            aria-label="Scroll to top"
+                        >
+                            NH
+                        </button>
 
-                    {/* Desktop Navigation */}
+                        {/* Desktop Navigation */}
+                        <nav
+                            ref={navRef}
+                            className="hidden md:flex items-center gap-4 lg:gap-6 relative"
+                            style={{ paddingBottom: '3px' }}
+                            aria-label="Main navigation"
+                        >
+                            {sections.map((section) => {
+                                const isActive = activeSection === section.id && activeSection !== 'footer';
+                                return (
+                                    <button
+                                        key={section.id}
+                                        onClick={() => scrollToSection(section.id)}
+                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10"
+                                        style={isActive && showActive ? {
+                                            color: section.color,
+                                            transition: 'all 0.7s ease-out',
+                                        } : {
+                                            transition: 'all 0.7s ease-out'
+                                        }}
+                                        aria-label={`Navigate to ${section.label}`}
+                                        aria-current={isActive ? 'page' : undefined}
+                                    >
+                                        {section.label}
+                                    </button>
+                                );
+                            })}
+
+                            {/* Sliding underline - hidden when on footer */}
+                            {underlineStyle.width > 0 && activeSection !== 'footer' && (
+                                <div
+                                    className="absolute bottom-0 h-[2px] pointer-events-none"
+                                    style={{
+                                        left: `${underlineStyle.left}px`,
+                                        width: `${underlineStyle.width}px`,
+                                        backgroundColor: showActive ? underlineStyle.color : 'currentColor',
+                                        transition: 'all 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                                        boxShadow: showActive ? `0 0 8px ${underlineStyle.color}, 0 0 12px ${underlineStyle.color}` : 'none',
+                                    }}
+                                />
+                            )}
+                        </nav>
+
+                        {/* Controls */}
+                        <div className="flex items-center gap-2 sm:gap-3">
+                            <InteractiveToggle />
+                            <ThemeToggle />
+                            <LanguageToggle />
+
+                            {/* Mobile Menu Button - Animated Icon */}
+                            <button
+                                onClick={handleToggleMenu}
+                                className="md:hidden p-2 rounded-lg hover:bg-secondary/50 transition-colors relative w-10 h-10 flex items-center justify-center"
+                                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                                aria-expanded={isMenuOpen}
+                                aria-controls="mobile-menu"
+                            >
+                                <div className="relative w-5 h-5">
+                                    {/* Top line */}
+                                    <span
+                                        className="absolute left-0 w-5 h-0.5 transition-all duration-300 ease-in-out"
+                                        style={{
+                                            backgroundColor: !mounted ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#000000'),
+                                            top: (isMenuOpen || isMenuClosing) ? '50%' : '20%',
+                                            transform: (isMenuOpen || isMenuClosing) ? 'translateY(-50%) rotate(45deg)' : 'translateY(-50%) rotate(0deg)'
+                                        }}
+                                    />
+                                    {/* Middle line */}
+                                    <span
+                                        className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-0.5 transition-all duration-300 ease-in-out"
+                                        style={{
+                                            backgroundColor: !mounted ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#000000'),
+                                            opacity: (isMenuOpen || isMenuClosing) ? 0 : 1
+                                        }}
+                                    />
+                                    {/* Bottom line */}
+                                    <span
+                                        className="absolute left-0 w-5 h-0.5 transition-all duration-300 ease-in-out"
+                                        style={{
+                                            backgroundColor: !mounted ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#000000'),
+                                            top: (isMenuOpen || isMenuClosing) ? '50%' : '80%',
+                                            transform: (isMenuOpen || isMenuClosing) ? 'translateY(-50%) rotate(-45deg)' : 'translateY(-50%) rotate(0deg)'
+                                        }}
+                                    />
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            {/* Full-Screen Mobile Navigation Overlay - Outside Header */}
+            {(isMenuOpen || isMenuClosing) && (
+                <div
+                    className="fixed left-0 right-0 bottom-0 md:hidden flex flex-col border-t border-border"
+                    style={{
+                        top: '56px',
+                        zIndex: 9999,
+                        backgroundColor: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                        opacity: isMenuClosing ? 0 : 1,
+                        transform: isMenuClosing ? 'translateY(20px)' : 'translateY(0)',
+                        transition: 'opacity 500ms ease-out, transform 500ms ease-out, background-color 700ms ease-in-out, border-color 700ms ease-in-out',
+                        pointerEvents: isMenuClosing ? 'none' : 'auto'
+                    }}
+                >
+                    {/* Centered Navigation */}
                     <nav
-                        ref={navRef}
-                        className="hidden md:flex items-center gap-4 lg:gap-6 relative"
-                        style={{ paddingBottom: '3px' }}
-                        aria-label="Main navigation"
+                        id="mobile-menu"
+                        className="flex-1 flex flex-col items-center justify-center gap-6 w-full px-8"
+                        aria-label="Mobile navigation"
                     >
-                        {sections.map((section) => {
-                            const isActive = activeSection === section.id;
+                        {sections.map((section, index) => {
+                            const isActive = activeSection === section.id && activeSection !== 'footer';
+                            const delay = isMenuClosing ? (sections.length - 1 - index) * 50 : index * 50;
                             return (
                                 <button
                                     key={section.id}
                                     onClick={() => scrollToSection(section.id)}
-                                    className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10"
-                                    style={isActive && showActive ? {
-                                        color: section.color,
-                                        transition: 'all 0.7s ease-out',
-                                    } : {
-                                        transition: 'all 0.7s ease-out'
+                                    className="text-2xl sm:text-3xl font-bold relative text-foreground"
+                                    style={{
+                                        color: isActive && showActive ? section.color : undefined,
+                                        textShadow: isActive && showActive ? `0 0 20px ${section.color}, 0 0 40px ${section.color}` : 'none',
+                                        opacity: isMenuClosing ? 0 : 1,
+                                        transform: isMenuClosing ? 'translateY(10px)' : 'translateY(0)',
+                                        transition: isMenuClosing
+                                            ? `opacity 500ms ease-out ${delay}ms, transform 500ms ease-out ${delay}ms, color 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55), text-shadow 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`
+                                            : `color 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55), text-shadow 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`,
+                                        animation: !isMenuClosing ? `slideInFromTop 300ms ease-out ${delay}ms backwards` : 'none'
                                     }}
                                     aria-label={`Navigate to ${section.label}`}
                                     aria-current={isActive ? 'page' : undefined}
                                 >
                                     {section.label}
+                                    {/* Active Indicator Dot */}
+                                    {isActive && (
+                                        <span
+                                            className="absolute -left-8 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
+                                            style={{
+                                                backgroundColor: showActive ? section.color : 'currentColor',
+                                                boxShadow: showActive ? `0 0 8px ${section.color}, 0 0 16px ${section.color}` : 'none',
+                                                animation: 'fadeIn 300ms ease-out'
+                                            }}
+                                            aria-hidden="true"
+                                        />
+                                    )}
                                 </button>
                             );
                         })}
-
-                        {/* Sliding underline */}
-                        {underlineStyle.width > 0 && (
-                            <div
-                                className="absolute bottom-0 h-[2px] pointer-events-none"
-                                style={{
-                                    left: `${underlineStyle.left}px`,
-                                    width: `${underlineStyle.width}px`,
-                                    backgroundColor: showActive ? underlineStyle.color : 'currentColor',
-                                    transition: 'all 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-                                    boxShadow: showActive ? `0 0 8px ${underlineStyle.color}, 0 0 12px ${underlineStyle.color}` : 'none',
-                                }}
-                            />
-                        )}
                     </nav>
-
-                    {/* Controls */}
-                    <div className="flex items-center gap-2 sm:gap-3">
-                        <InteractiveToggle />
-                        <ThemeToggle />
-                        <LanguageToggle />
-
-                        {/* Mobile Menu Button */}
-                        <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="md:hidden p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-                            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                            aria-expanded={isMenuOpen}
-                            aria-controls="mobile-menu"
-                        >
-                            {isMenuOpen ? (
-                                <X className="w-5 h-5" aria-hidden="true" />
-                            ) : (
-                                <Menu className="w-5 h-5" aria-hidden="true" />
-                            )}
-                        </button>
-                    </div>
                 </div>
-
-                {/* Mobile Navigation */}
-                {isMenuOpen && (
-                    <nav
-                        id="mobile-menu"
-                        className="md:hidden pb-4 border-t border-border"
-                        style={{
-                            transition: 'border-color 700ms ease-in-out'
-                        }}
-                        aria-label="Mobile navigation"
-                    >
-                        {sections.map((section) => {
-                            const isActive = activeSection === section.id;
-                            return (
-                                <button
-                                    key={section.id}
-                                    onClick={() => scrollToSection(section.id)}
-                                    className={`block w-full text-left px-4 py-2 text-sm font-bold transition-all duration-300 nav-link ${isActive ? 'active' : ''} ${isActive && showActive ? 'active-glow' : ''}`}
-                                    style={isActive && showActive ? {
-                                        color: section.color,
-                                        borderLeft: `3px solid ${section.color}`
-                                    } : isActive ? {
-                                        borderLeft: '3px solid currentColor'
-                                    } : undefined}
-                                    aria-label={`Navigate to ${section.label}`}
-                                    aria-current={isActive ? 'page' : undefined}
-                                >
-                                    {section.label}
-                                </button>
-                            );
-                        })}
-                    </nav>
-                )}
-            </div>
-        </header>
+            )}
+        </>
     );
 }
 

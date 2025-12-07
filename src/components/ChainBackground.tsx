@@ -245,7 +245,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         const referenceSection = sections[1]; // About Section statt Hero
         const sectionRect = referenceSection.getBoundingClientRect();
         const contentBox = referenceSection.querySelector('[class*="max-w-"]') as HTMLElement;
-        
+
         if (contentBox) {
           const contentRect = contentBox.getBoundingClientRect();
           // Berechne das tatsächliche Padding der Section (nicht der zentrierte Container)
@@ -255,7 +255,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           contentOffsetLeft = paddingLeft || 150;
           contentOffsetBottom = paddingBottom || 100;
         }
-      }      const screenWidth = width;
+      } const screenWidth = width;
       // Verfügbarer Platz vom Bildschirmrand bis zum Content-Anfang
       const availableSpace = contentOffsetLeft;
 
@@ -282,20 +282,20 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i] as HTMLElement;
-        
+
         // Verwende offsetTop und offsetHeight für konsistente Berechnung
         const sectionTop = section.offsetTop;
         const sectionBottom = sectionTop + section.offsetHeight;
-        
+
         // Lese bottom-padding für jede Section individuell aus
         const sectionStyle = window.getComputedStyle(section);
         let sectionBottomPadding = parseFloat(sectionStyle.paddingBottom);
-        
+
         // Fallback wenn paddingBottom nicht ausgelesen werden kann
         if (isNaN(sectionBottomPadding) || sectionBottomPadding === 0) {
           sectionBottomPadding = contentOffsetBottom;
         }
-        
+
         // Mitte des Bottom-Paddings: halbe Distanz vom unteren Rand nach innen
         const sectionDynamicPadding = sectionBottomPadding / 2;
 

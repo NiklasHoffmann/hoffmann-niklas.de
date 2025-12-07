@@ -4,109 +4,178 @@
       "start": "Start",
       "about": "Über mich",
       "services": "Leistungen",
+      "packages": "Pakete & Preise",
       "portfolio": "Portfolio",
       "videos": "Videos",
       "contact": "Kontakt"
     }
   },
   "hero": {
-    "title": "Moderne Web & Web3 Entwicklung",
-    "cta": "Verfügbar für Projekte",
-    "subtitle": "Full-Stack & Blockchain Developer – Von klassischen Web-Apps bis zu dezentralen Anwendungen",
+    "title": "Moderne Websites & Web-Apps für Unternehmen",
+    "cta": "Projekt anfragen",
+    "subtitle": "Ich entwickle performante Websites, Web-Apps und Web3-Frontends – für Selbstständige, kleine Unternehmen und Startups.",
+    "priceNote": "Websites ab 450 € · Web-Apps ab 1.500 €",
     "viewPortfolio": "Portfolio ansehen",
-    "viewContact": "Kontakt ansehen"
+    "viewContact": "Kontakt aufnehmen"
   },
   "about": {
     "title": "Über mich",
-    "description": "Full-Stack Developer mit Spezialisierung auf moderne Web-Technologien und Web3-Frontend-Integration. Ich entwickle performante Web-Anwendungen und implementiere Blockchain-Konnektivität – von der Idee bis zum Launch.",
-    "services": {
-      "webdev": "Web Development",
-      "web3": "Web3 Frontend",
-      "design": "UI/UX Design",
-      "photography": "Fotografie",
-      "fotografie": "Fotografie",
-      "videografie": "Videografie"
+    "description": "Ich bin Full-Stack Developer mit Fokus auf moderne Web-Technologien und Web3-Integration. Ich helfe Selbstständigen, kleinen Unternehmen und Startups dabei, performante Websites und Web-Apps umzusetzen – von der Idee bis zum Launch.",
+    "role": "Full-Stack Developer",
+    "whatIDoTitle": "Was ich mache",
+    "highlights": {
+      "fullstack": "Full-Stack Webentwicklung",
+      "web3": "Web3- & Blockchain-Integration",
+      "uiux": "UI/UX Design",
+      "apis": "RESTful- & GraphQL-APIs",
+      "database": "Datenbank-Architektur",
+      "responsive": "Responsives Design"
     },
     "stats": {
       "projects": "Projekte",
       "clients": "Zufriedene Kunden",
       "experience": "Jahre Erfahrung",
       "passion": "Begeisterung"
+    },
+    "timeline": {
+      "current": "Aktuell: Full-Stack Development",
+      "web3": "Vertiefung in Web3-Integration",
+      "freelance": "Freelance-Projekte",
+      "start": "Erste Schritte im Programmieren"
     }
   },
   "services": {
     "title": "Meine Expertise",
-    "subtitle": "Modernste Technologien für zukunftssichere Lösungen",
+    "subtitle": "Moderne Weblösungen, die dir echte Ergebnisse bringen",
     "cubeHint": "Würfel drehen & Services entdecken!",
     "techStack": "Tech Stack",
     "servicesTitle": "Services",
-    "frontend": "Frontend Development",
-    "backend": "Backend Development",
-    "web3": "Web3 Integration",
+    "frontend": "Frontend-Entwicklung",
+    "backend": "Backend-Entwicklung",
+    "web3": "Web3-Integration",
     "database": "Datenbanken",
     "tools": "Tools & DevOps",
     "design": "Design & UX",
-    "webDev": "Web Apps",
+    "webDev": "Web-Apps",
     "backendService": "Backend",
     "web3Wallets": "Web3 Wallets & Integration",
-    "web3Blockchain": "Blockchain & Data",
+    "web3Blockchain": "Blockchain & Daten",
     "uiux": "UI/UX",
-    "databaseService": "Database",
+    "databaseService": "Datenbank",
     "photo": "Fotografie",
-    "web3Tech": "Web3 Technologien",
+    "web3Tech": "Web3-Technologien",
     "descriptions": {
-      "webDev": "Moderne Web-Anwendungen",
-      "web3Wallets": "Wallet-Integration & Transaktionen",
-      "web3Blockchain": "Blockchain-Daten & Infrastructure",
-      "uiux": "Design-Systeme",
-      "photo": "Produkt-Fotografie",
-      "databaseService": "Daten-Management",
-      "backendService": "Server & APIs"
+      "webDev": "Individuelle Web-Apps und Business-Tools für dein Unternehmen.",
+      "web3Wallets": "Einfache Wallet-Anbindung (z. B. MetaMask, WalletConnect) für deine Nutzer.",
+      "web3Blockchain": "Auslesen und Verarbeiten von Blockchain-Daten für Dashboards und Analytics.",
+      "uiux": "Klares, nutzerfreundliches Design, das auf allen Geräten funktioniert.",
+      "photo": "Authentische Foto-Shootings für Websites und Social Media.",
+      "databaseService": "Strukturierte Speicherung und Verwaltung deiner Daten.",
+      "backendService": "Stabile APIs und Serverlogik für deine Anwendung."
     }
+  },
+  "packages": {
+    "title": "Pakete & Preise",
+    "subtitle": "Klar strukturierte Angebote – als Ausgangspunkt für dein Projekt",
+    "packages": {
+      "websiteStarter": {
+        "label": "Website Starter",
+        "target": "Ideal für Einzelunternehmer und lokale Dienstleister.",
+        "includes": [
+          "Moderne One-Page-Website",
+          "Responsives Design (mobil & Desktop)",
+          "Kontaktformular",
+          "Basis-SEO (Titel, Meta-Description)"
+        ],
+        "priceFrom": "ab 450 €"
+      },
+      "businessWebsite": {
+        "label": "Business Website",
+        "target": "Für Coaches, Dienstleister und kleine Unternehmen.",
+        "includes": [
+          "Mehrseitige Website (z. B. Start, Über mich, Leistungen, Kontakt)",
+          "Responsives Design",
+          "Kontakt- oder Anfrageformular",
+          "Basis-SEO und Performance-Optimierung"
+        ],
+        "priceFrom": "ab 850 €"
+      },
+      "webAppMvp": {
+        "label": "Web-App / MVP",
+        "target": "Für Startups und individuelle Business-Tools.",
+        "includes": [
+          "Individuelle Web-App (z. B. Dashboard, CRM, Buchungssystem)",
+          "Benutzer-Login & Rollen",
+          "API- und Datenbankanbindung",
+          "Deployment & Übergabe"
+        ],
+        "priceFrom": "ab 1.500 €"
+      },
+      "web3Integration": {
+        "label": "Web3-Integration",
+        "target": "Für Projekte, die Wallet- oder Blockchain-Funktionalität benötigen.",
+        "includes": [
+          "Wallet-Connect (z. B. MetaMask, WalletConnect)",
+          "Grundlegende On-Chain-Interaktionen",
+          "Integration in bestehende Frontends"
+        ],
+        "priceFrom": "Preis auf Anfrage"
+      }
+    },
+    "priceNote": "Der genaue Preis hängt vom Umfang des Projekts ab."
   },
   "portfolio": {
     "title": "Portfolio",
     "subtitle": "Auswahl meiner besten Projekte – von Web-Apps bis Web3",
     "viewProject": "Projekt ansehen",
-    "liveDemo": "Live Demo",
+    "liveDemo": "Live-Demo",
     "demo": "Demo",
     "code": "Code",
     "github": "GitHub",
     "projects": {
       "web3wallet": {
-        "title": "Web3 Wallet Integration",
-        "description": "Multi-Chain Wallet Connector mit WalletConnect, MetaMask & Coinbase Wallet Support"
+        "title": "Web3 Wallet-Integration",
+        "description": "Multi-Chain Wallet-Connector mit Support für WalletConnect, MetaMask und Coinbase Wallet."
       },
       "nftmarketplace": {
-        "title": "NFT Marketplace Frontend",
-        "description": "Frontend für NFT-Marktplatz mit Wallet-Integration und IPFS-Anbindung"
+        "title": "NFT-Marktplatz Frontend",
+        "description": "Frontend für einen NFT-Marktplatz mit Wallet-Integration und IPFS-Anbindung."
       },
       "defi": {
-        "title": "DeFi Dashboard",
-        "description": "Real-time DeFi Analytics Dashboard mit Multi-Wallet-Unterstützung"
+        "title": "Finanz-Analyse Dashboard (DeFi)",
+        "description": "Echtzeit-Analytics-Dashboard mit Multi-Wallet-Unterstützung für DeFi-Anwendungen."
       },
       "ecommerce": {
-        "title": "E-Commerce Platform",
-        "description": "Moderne E-Commerce Plattform mit Next.js, Stripe Payment und MongoDB"
+        "title": "E-Commerce-Plattform",
+        "description": "Moderne E-Commerce-Plattform mit Next.js, Stripe-Zahlungen und MongoDB."
       },
       "saas": {
-        "title": "SaaS Dashboard",
-        "description": "Enterprise Dashboard mit Real-time Analytics, Chart Integration & API"
+        "title": "SaaS-Dashboard",
+        "description": "Enterprise-Dashboard mit Echtzeit-Analytics, Chart-Integration und API-Anbindung."
       },
       "blogplatform": {
-        "title": "Blog Plattform",
-        "description": "Moderne Blogging-Plattform mit CMS-Integration und responsivem Design"
+        "title": "Blog-Plattform",
+        "description": "Moderne Blogging-Plattform mit CMS-Integration und responsivem Design."
+      },
+      "businesssite1": {
+        "title": "Business-Website für lokalen Dienstleister",
+        "description": "Moderne One-Page-Website mit Kontaktformular und SEO-Grundlagen für einen lokalen Dienstleister."
+      },
+      "coachesite": {
+        "title": "Website für Coach & Trainer",
+        "description": "Klar strukturierte Website mit Leistungsübersicht, Referenzen und Termin-Anfrage."
       },
       "projectplaceholder1": {
         "title": "Projekt Platzhalter 1",
-        "description": "Beschreibung für Projekt Platzhalter 1"
+        "description": "Platzhalter für zukünftige Projekte."
       }
     }
   },
   "contact": {
     "title": "Kontakt",
     "subtitle": "Lass uns über dein Projekt sprechen",
-    "email": "Email",
+    "pricingHint": "Du bist dir noch unsicher, welches Paket zu dir passt? Schreib mir einfach – wir finden gemeinsam die passende Lösung.",
+    "email": "E-Mail",
     "emailAddress": "mail@hoffmann-niklas.de",
     "location": "Standort",
     "germany": "Deutschland",
@@ -116,7 +185,7 @@
     "form": {
       "name": "Name",
       "namePlaceholder": "Dein Name",
-      "email": "Email",
+      "email": "E-Mail",
       "emailPlaceholder": "deine@email.de",
       "message": "Nachricht",
       "messagePlaceholder": "Erzähl mir von deinem Projekt...",
@@ -135,24 +204,24 @@
     "madeWith": "Gemacht mit ❤️, Next.js, TypeScript & Web3 Tech"
   },
   "youtube": {
-    "title": "YouTube Videos",
-    "subtitle": "Tutorials, Case Studies und Insights aus meinen Projekten"
+    "title": "YouTube-Videos",
+    "subtitle": "Tutorials, Case Studies und Einblicke in meine Projekte"
   },
   "chat": {
     "welcome": "Willkommen in meinem Chat!",
-    "enterName": "Bitte geben Sie Ihren Namen ein, um zu starten",
-    "namePlaceholder": "Ihr Name...",
+    "enterName": "Bitte gib deinen Namen ein, um zu starten",
+    "namePlaceholder": "Dein Name...",
     "startChat": "Chat starten",
-    "privacyNotice": "Wir respektieren Ihre Privatsphäre. Ihre Daten sind sicher.",
+    "privacyNotice": "Ich respektiere deine Privatsphäre. Deine Daten sind sicher.",
     "greeting": "Hallo {userName}! 👋",
-    "howCanWeHelp": "Wie kann ich Ihnen heute helfen?",
-    "supportTeam": "Support Team",
+    "howCanWeHelp": "Wie kann ich dir heute helfen?",
+    "supportTeam": "Niklas",
     "typing": "schreibt...",
     "reconnecting": "Verbindung wird wiederhergestellt...",
     "adminOnline": "Ich bin online und bereit zu helfen",
-    "inputPlaceholder": "Schreiben Sie Ihre Nachricht...",
-    "securityNotice": "Ihre Nachrichten sind verschlüsselt und sicher",
-    "chatSupport": "Chat Support",
+    "inputPlaceholder": "Schreib deine Nachricht...",
+    "securityNotice": "Deine Nachrichten werden vertraulich behandelt.",
+    "chatSupport": "Chat-Support",
     "replyInstantly": "Ich antworte in der Regel sofort"
   },
   "impressum": {
@@ -178,49 +247,49 @@
       "title": "Haftungsausschluss",
       "liability": {
         "title": "Haftung für Inhalte",
-        "content": "Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich."
+        "content": "Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann ich jedoch keine Gewähr übernehmen. Als Diensteanbieter bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich."
       },
       "links": {
         "title": "Haftung für Links",
-        "content": "Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich."
+        "content": "Mein Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich."
       },
       "copyright": {
         "title": "Urheberrecht",
-        "content": "Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers."
+        "content": "Die durch mich erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen meiner schriftlichen Zustimmung."
       }
     },
     "dispute": {
       "title": "Online-Streitbeilegung",
-      "content": "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Unsere E-Mail-Adresse finden Sie oben im Impressum. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
+      "content": "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Meine E-Mail-Adresse findest du oben im Impressum. Ich bin nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
     },
-    "lastUpdated": "Stand"
+    "lastUpdated": "Stand: Januar 2025"
   },
   "datenschutz": {
     "title": "Datenschutzerklärung",
-    "subtitle": "Informationen zur Verarbeitung Ihrer Daten",
+    "subtitle": "Informationen zur Verarbeitung deiner Daten",
     "backToHome": "Zurück zur Startseite",
     "dataCollection": {
       "title": "Datenerfassung auf dieser Website",
-      "content": "Diese Website erhebt keine personenbezogenen Daten, außer Sie kontaktieren uns freiwillig über das Kontaktformular oder per E-Mail. Die Datenverarbeitung erfolgt ausschließlich zur Beantwortung Ihrer Anfrage."
+      "content": "Diese Website erhebt keine personenbezogenen Daten, außer du kontaktierst mich freiwillig über das Kontaktformular oder per E-Mail. Die Datenverarbeitung erfolgt ausschließlich zur Beantwortung deiner Anfrage."
     },
     "contact": {
       "title": "Kontaktformular",
-      "content": "Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert."
+      "content": "Wenn du mir per Kontaktformular Anfragen zukommen lässt, werden deine Angaben aus dem Anfrageformular inklusive der von dir angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei mir gespeichert."
     },
     "cookies": {
       "title": "Cookies",
-      "content": "Diese Website verwendet nur technisch notwendige Cookies (z.B. für Theme-Einstellungen). Es werden keine Tracking-Cookies oder Analytics-Tools von Drittanbietern eingesetzt."
+      "content": "Diese Website verwendet nur technisch notwendige Cookies (z. B. für Theme-Einstellungen). Es werden keine Tracking-Cookies oder Analytics-Tools von Drittanbietern eingesetzt."
     },
     "rights": {
-      "title": "Ihre Rechte",
-      "content": "Sie haben jederzeit das Recht:",
-      "access": "Auskunft über Ihre gespeicherten Daten zu erhalten",
-      "correction": "Berichtigung unrichtiger Daten zu verlangen",
-      "deletion": "Löschung Ihrer Daten zu verlangen",
-      "restriction": "Einschränkung der Verarbeitung zu verlangen",
-      "portability": "Datenübertragbarkeit zu verlangen",
-      "objection": "Widerspruch gegen die Verarbeitung einzulegen"
+      "title": "Deine Rechte",
+      "content": "Du hast jederzeit das Recht:",
+      "access": "Auskunft über deine gespeicherten Daten zu erhalten.",
+      "correction": "Berichtigung unrichtiger Daten zu verlangen.",
+      "deletion": "Löschung deiner Daten zu verlangen.",
+      "restriction": "Einschränkung der Verarbeitung zu verlangen.",
+      "portability": "Datenübertragbarkeit zu verlangen.",
+      "objection": "Widerspruch gegen die Verarbeitung einzulegen."
     },
-    "lastUpdated": "Stand"
+    "lastUpdated": "Stand: Januar 2025"
   }
 }

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Hide chat widget when contact modal is open */
+body.contact-modal-open .chat-widget-button {
+  display: none !important;
+}
+
 /* CSS Custom Properties für animierbare Scrollbar-Farben */
 @property --scrollbar-track {
   syntax: '<color>';
@@ -398,24 +403,47 @@ html {
   }
 }
 
+/* Slide In From Top Animation für Mobile Menu */
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Link Styles mit feinem Underline und Glow-Effekt */
 @layer components {
 
   /* Zentrale Section Paddings - basierend auf Chain-Offsets */
   .section-padding {
-    /* Mobile: Top = Header (56px), Sides/Bottom = Chain (20px) */
+    /* Mobile: Top = Header (56px) + extra space (16px), Sides/Bottom = Chain (20px) */
     padding-left: 20px;
     padding-right: 20px;
-    padding-top: 56px;
+    padding-top: 72px;
     padding-bottom: 20px;
+  }
+
+  @media (min-width: 640px) {
+    .section-padding {
+      /* Small: Top = Header (64px) + extra space (16px), Sides/Bottom = Chain (40px) */
+      padding-left: 40px;
+      padding-right: 40px;
+      padding-top: 80px;
+      padding-bottom: 40px;
+    }
   }
 
   @media (min-width: 768px) {
     .section-padding {
-      /* Tablet: Top = Header (64px), Sides/Bottom = Chain (80px) */
+      /* Tablet: Top = Header (64px) + extra space, Sides/Bottom = Chain (80px) */
       padding-left: 80px;
       padding-right: 80px;
-      padding-top: 64px;
+      padding-top: 80px;
       padding-bottom: 80px;
     }
   }

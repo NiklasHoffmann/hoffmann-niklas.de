@@ -168,6 +168,11 @@ export default function ChatWindow() {
                                 value={tempName}
                                 onChange={(e) => setTempName(e.target.value)}
                                 placeholder={t('namePlaceholder')}
+                                autoComplete="off"
+                                autoCorrect="off"
+                                autoCapitalize="words"
+                                spellCheck="false"
+                                name="chat-username"
                                 className="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent shadow-sm text-foreground placeholder:text-muted-foreground"
                                 style={{
                                     backgroundColor: safeIsDark ? '#090909' : '#ffffff',
@@ -207,15 +212,18 @@ export default function ChatWindow() {
             className="flex-1 flex flex-col overflow-hidden"
             style={{
                 backgroundColor: isDark ? '#090909' : '#ffffff',
-                transition: TRANSITIONS.background
+                transition: TRANSITIONS.background,
             }}
         >
-            {/* Messages Area */}
+            {/* Messages Area - scrollable */}
             <div
-                className="flex-1 overflow-y-auto p-4 space-y-4"
+                data-scrollable="true"
+                className="flex-1 overflow-y-auto p-4 space-y-4 overscroll-contain"
                 style={{
                     backgroundColor: isDark ? '#090909' : '#ffffff',
-                    transition: TRANSITIONS.background
+                    transition: TRANSITIONS.background,
+                    WebkitOverflowScrolling: 'touch',
+                    touchAction: 'pan-y',
                 }}
                 onClick={handleInputFocus}
             >
@@ -394,10 +402,11 @@ export default function ChatWindow() {
             {/* Input Area */}
             <form
                 onSubmit={handleSendMessage}
-                className="p-4 border-t"
+                className="p-4 border-t flex-shrink-0"
                 style={{
                     borderColor: isDark ? '#1a1a1a' : '#d1d5db',
-                    transition: TRANSITIONS.border
+                    transition: TRANSITIONS.border,
+                    touchAction: 'none',
                 }}
             >
                 <div className="flex gap-2">
@@ -407,6 +416,11 @@ export default function ChatWindow() {
                         onChange={handleInputChange}
                         onFocus={handleInputFocus}
                         placeholder={t('inputPlaceholder')}
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="sentences"
+                        spellCheck="false"
+                        name="chat-message"
                         className="flex-1 px-4 py-2.5 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-sm shadow-sm text-foreground placeholder:text-muted-foreground"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',

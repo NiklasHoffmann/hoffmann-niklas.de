@@ -1,0 +1,704 @@
+{
+  "de": {
+    "header": {
+      "nav": {
+        "start": "Start",
+        "about": "Über mich",
+        "services": "Leistungen",
+        "portfolio": "Portfolio",
+        "videos": "Videos",
+        "contact": "Kontakt"
+      }
+    },
+    "hero": {
+      "title": "Moderne Websites & Web-Apps für Unternehmen",
+      "cta": "Projekt anfragen",
+      "subtitle": "Ich entwickle performante Websites, Web-Apps und Web3-Frontends – für Selbstständige, kleine Unternehmen und Startups.",
+      "viewPortfolio": "Portfolio ansehen",
+      "viewContact": "Kontakt aufnehmen"
+    },
+    "about": {
+      "title": "Über mich",
+      "description": "Ich bin Full-Stack Developer mit Fokus auf moderne Web-Technologien und Web3-Integration. Ich helfe Selbstständigen, kleinen Unternehmen und Startups dabei, performante Websites und Web-Apps umzusetzen – von der Idee bis zum Launch.",
+      "services": {
+        "webdev": "Webentwicklung",
+        "web3": "Web3 Frontend",
+        "design": "UI/UX Design",
+        "photography": "Fotografie (Produkte & Branding)",
+        "fotografie": "Fotografie (Produkte & Branding)",
+        "videografie": "Videografie (Social Media & Branding)"
+      },
+      "stats": {
+        "projects": "Projekte",
+        "clients": "Zufriedene Kunden",
+        "experience": "Jahre Erfahrung",
+        "passion": "Begeisterung"
+      }
+    },
+    "services": {
+      "title": "Meine Expertise",
+      "subtitle": "Moderne Weblösungen, die dir echte Ergebnisse bringen",
+      "cubeHint": "Würfel drehen & Services entdecken!",
+      "techStack": "Tech Stack",
+      "servicesTitle": "Services",
+      "frontend": "Frontend-Entwicklung",
+      "backend": "Backend-Entwicklung",
+      "web3": "Web3-Integration",
+      "database": "Datenbanken",
+      "tools": "Tools & DevOps",
+      "design": "Design & UX",
+      "webDev": "Web-Apps",
+      "backendService": "Backend",
+      "web3Wallets": "Web3 Wallets & Integration",
+      "web3Blockchain": "Blockchain & Daten",
+      "uiux": "UI/UX",
+      "databaseService": "Datenbank",
+      "photo": "Fotografie",
+      "web3Tech": "Web3-Technologien",
+      "descriptions": {
+        "webDev": "Individuelle Web-Apps und Business-Tools für dein Unternehmen.",
+        "web3Wallets": "Einfache Wallet-Anbindung (z. B. MetaMask, WalletConnect) für deine Nutzer.",
+        "web3Blockchain": "Auslesen und Verarbeiten von Blockchain-Daten für Dashboards und Analytics.",
+        "uiux": "Klares, nutzerfreundliches Design, das auf allen Geräten funktioniert.",
+        "photo": "Authentische Foto-Shootings für Websites und Social Media.",
+        "databaseService": "Strukturierte Speicherung und Verwaltung deiner Daten.",
+        "backendService": "Stabile APIs und Serverlogik für deine Anwendung."
+      }
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "subtitle": "Auswahl meiner besten Projekte – von Web-Apps bis Web3",
+      "viewProject": "Projekt ansehen",
+      "liveDemo": "Live-Demo",
+      "demo": "Demo",
+      "code": "Code",
+      "github": "GitHub",
+      "projects": {
+        "web3wallet": {
+          "title": "Web3 Wallet-Integration",
+          "description": "Multi-Chain Wallet-Connector mit Support für WalletConnect, MetaMask und Coinbase Wallet."
+        },
+        "nftmarketplace": {
+          "title": "NFT-Marktplatz Frontend",
+          "description": "Frontend für einen NFT-Marktplatz mit Wallet-Integration und IPFS-Anbindung."
+        },
+        "defi": {
+          "title": "Finanz-Analyse Dashboard (DeFi)",
+          "description": "Echtzeit-Analytics-Dashboard mit Multi-Wallet-Unterstützung für DeFi-Anwendungen."
+        },
+        "ecommerce": {
+          "title": "E-Commerce-Plattform",
+          "description": "Moderne E-Commerce-Plattform mit Next.js, Stripe-Zahlungen und MongoDB."
+        },
+        "saas": {
+          "title": "SaaS-Dashboard",
+          "description": "Enterprise-Dashboard mit Echtzeit-Analytics, Chart-Integration und API-Anbindung."
+        },
+        "blogplatform": {
+          "title": "Blog-Plattform",
+          "description": "Moderne Blogging-Plattform mit CMS-Integration und responsivem Design."
+        },
+        "businesssite1": {
+          "title": "Business-Website für lokalen Dienstleister",
+          "description": "Moderne One-Page-Website mit Kontaktformular und SEO-Grundlagen für einen lokalen Dienstleister."
+        },
+        "coachesite": {
+          "title": "Website für Coach & Trainer",
+          "description": "Klar strukturierte Website mit Leistungsübersicht, Referenzen und Termin-Anfrage."
+        },
+        "projectplaceholder1": {
+          "title": "Projekt Platzhalter 1",
+          "description": "Platzhalter für zukünftige Projekte."
+        }
+      }
+    },
+    "contact": {
+      "title": "Kontakt",
+      "subtitle": "Lass uns über dein Projekt sprechen",
+      "email": "E-Mail",
+      "emailAddress": "mail@hoffmann-niklas.de",
+      "location": "Standort",
+      "germany": "Deutschland",
+      "quickResponse": "Schnelle Antwort garantiert!",
+      "quickResponseText": "Ich melde mich in der Regel innerhalb von 24 Stunden.",
+      "writeMe": "Schreib mir",
+      "form": {
+        "name": "Name",
+        "namePlaceholder": "Dein Name",
+        "email": "E-Mail",
+        "emailPlaceholder": "deine@email.de",
+        "message": "Nachricht",
+        "messagePlaceholder": "Erzähl mir von deinem Projekt...",
+        "submit": "Nachricht senden",
+        "sending": "Wird versendet...",
+        "success": "Nachricht erfolgreich versendet!",
+        "error": "Ein Fehler ist aufgetreten"
+      }
+    },
+    "footer": {
+      "copyright": "© 2025 Niklas Hoffmann. Alle Rechte vorbehalten.",
+      "quickLinks": "Quick Links",
+      "brand": "Full-Stack Developer – Moderne Web-Apps & Web3-Frontend-Integration",
+      "navigation": "Navigation",
+      "followMe": "Folge mir",
+      "madeWith": "Gemacht mit ❤, Next.js, TypeScript & Web3 Tech"
+    },
+    "youtube": {
+      "title": "YouTube-Videos",
+      "subtitle": "Tutorials, Case Studies und Einblicke in meine Projekte"
+    },
+    "chat": {
+      "welcome": "Willkommen in meinem Chat!",
+      "enterName": "Bitte gib deinen Namen ein, um zu starten",
+      "namePlaceholder": "Dein Name...",
+      "startChat": "Chat starten",
+      "privacyNotice": "Ich respektiere deine Privatsphäre. Deine Daten sind sicher.",
+      "greeting": "Hallo {userName}! 👋",
+      "howCanWeHelp": "Wie kann ich dir heute helfen?",
+      "supportTeam": "Niklas",
+      "typing": "schreibt...",
+      "reconnecting": "Verbindung wird wiederhergestellt...",
+      "adminOnline": "Ich bin online und bereit zu helfen",
+      "inputPlaceholder": "Schreib deine Nachricht...",
+      "securityNotice": "Deine Nachrichten werden vertraulich behandelt.",
+      "chatSupport": "Chat-Support",
+      "replyInstantly": "Ich antworte in der Regel sofort"
+    },
+    "impressum": {
+      "title": "Impressum",
+      "subtitle": "Angaben gemäß § 5 TMG",
+      "backToHome": "Zurück zur Startseite",
+      "contact": {
+        "title": "Kontaktinformationen",
+        "name": "Niklas Hoffmann",
+        "address": {
+          "street": "Fröbelstraße 20",
+          "city": "67433 Neustadt an der Weinstraße",
+          "country": "Deutschland"
+        },
+        "email": "mail@hoffmann-niklas.de",
+        "phone": ""
+      },
+      "responsible": {
+        "title": "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV",
+        "content": "Niklas Hoffmann, Fröbelstraße 20, 67433 Neustadt an der Weinstraße"
+      },
+      "disclaimer": {
+        "title": "Haftungsausschluss",
+        "liability": {
+          "title": "Haftung für Inhalte",
+          "content": "Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann ich jedoch keine Gewähr übernehmen. Als Diensteanbieter bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich."
+        },
+        "links": {
+          "title": "Haftung für Links",
+          "content": "Mein Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich."
+        },
+        "copyright": {
+          "title": "Urheberrecht",
+          "content": "Die durch mich erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen meiner schriftlichen Zustimmung."
+        }
+      },
+      "dispute": {
+        "title": "Online-Streitbeilegung",
+        "content": "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Meine E-Mail-Adresse findest du oben im Impressum. Ich bin nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
+      },
+      "lastUpdated": "Stand: Januar 2025"
+    },
+    "datenschutz": {
+      "title": "Datenschutzerklärung",
+      "subtitle": "Informationen zur Verarbeitung deiner Daten",
+      "backToHome": "Zurück zur Startseite",
+      "dataCollection": {
+        "title": "Datenerfassung auf dieser Website",
+        "content": "Diese Website erhebt keine personenbezogenen Daten, außer du kontaktierst mich freiwillig über das Kontaktformular oder per E-Mail. Die Datenverarbeitung erfolgt ausschließlich zur Beantwortung deiner Anfrage."
+      },
+      "contact": {
+        "title": "Kontaktformular",
+        "content": "Wenn du mir per Kontaktformular Anfragen zukommen lässt, werden deine Angaben aus dem Anfrageformular inklusive der von dir angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei mir gespeichert."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "content": "Diese Website verwendet nur technisch notwendige Cookies (z. B. für Theme-Einstellungen). Es werden keine Tracking-Cookies oder Analytics-Tools von Drittanbietern eingesetzt."
+      },
+      "rights": {
+        "title": "Deine Rechte",
+        "content": "Du hast jederzeit das Recht:",
+        "access": "Auskunft über deine gespeicherten Daten zu erhalten.",
+        "correction": "Berichtigung unrichtiger Daten zu verlangen.",
+        "deletion": "Löschung deiner Daten zu verlangen.",
+        "restriction": "Einschränkung der Verarbeitung zu verlangen.",
+        "portability": "Datenübertragbarkeit zu verlangen.",
+        "objection": "Widerspruch gegen die Verarbeitung einzulegen."
+      },
+      "lastUpdated": "Stand: Januar 2025"
+    }
+  },
+  "en": {
+    "header": {
+      "nav": {
+        "start": "Home",
+        "about": "About me",
+        "services": "Services",
+        "portfolio": "Portfolio",
+        "videos": "Videos",
+        "contact": "Contact"
+      }
+    },
+    "hero": {
+      "title": "Modern Websites & Web Apps for Businesses",
+      "cta": "Request a project",
+      "subtitle": "I build high-performance websites, web apps and Web3 frontends – for freelancers, small businesses and startups.",
+      "viewPortfolio": "View portfolio",
+      "viewContact": "Get in touch"
+    },
+    "about": {
+      "title": "About me",
+      "description": "I'm a full-stack developer focused on modern web technologies and Web3 integration. I help freelancers, small businesses and startups build high-performance websites and web apps – from the first idea to launch.",
+      "services": {
+        "webdev": "Web development",
+        "web3": "Web3 frontend",
+        "design": "UI/UX design",
+        "photography": "Photography (products & branding)",
+        "fotografie": "Photography (products & branding)",
+        "videografie": "Videography (social media & branding)"
+      },
+      "stats": {
+        "projects": "Projects",
+        "clients": "Happy clients",
+        "experience": "Years of experience",
+        "passion": "Passion"
+      }
+    },
+    "services": {
+      "title": "My expertise",
+      "subtitle": "Modern web solutions that deliver real results",
+      "cubeHint": "Rotate the cube & explore services!",
+      "techStack": "Tech stack",
+      "servicesTitle": "Services",
+      "frontend": "Frontend development",
+      "backend": "Backend development",
+      "web3": "Web3 integration",
+      "database": "Databases",
+      "tools": "Tools & DevOps",
+      "design": "Design & UX",
+      "webDev": "Web apps",
+      "backendService": "Backend",
+      "web3Wallets": "Web3 wallets & integration",
+      "web3Blockchain": "Blockchain & data",
+      "uiux": "UI/UX",
+      "databaseService": "Database",
+      "photo": "Photography",
+      "web3Tech": "Web3 technologies",
+      "descriptions": {
+        "webDev": "Custom web apps and business tools tailored to your company.",
+        "web3Wallets": "Easy wallet integration (e.g. MetaMask, WalletConnect) for your users.",
+        "web3Blockchain": "Reading and processing on-chain data for dashboards and analytics.",
+        "uiux": "Clean, user-friendly interfaces that work on all devices.",
+        "photo": "Authentic photo shoots for websites and social media.",
+        "databaseService": "Structured storage and management of your data.",
+        "backendService": "Robust APIs and server logic for your application."
+      }
+    },
+    "portfolio": {
+      "title": "Portfolio",
+      "subtitle": "A selection of my work – from web apps to Web3 projects",
+      "viewProject": "View project",
+      "liveDemo": "Live demo",
+      "demo": "Demo",
+      "code": "Code",
+      "github": "GitHub",
+      "projects": {
+        "web3wallet": {
+          "title": "Web3 wallet integration",
+          "description": "Multi-chain wallet connector with support for WalletConnect, MetaMask and Coinbase Wallet."
+        },
+        "nftmarketplace": {
+          "title": "NFT marketplace frontend",
+          "description": "Frontend for an NFT marketplace with wallet integration and IPFS support."
+        },
+        "defi": {
+          "title": "Financial analytics dashboard (DeFi)",
+          "description": "Real-time analytics dashboard with multi-wallet support for DeFi applications."
+        },
+        "ecommerce": {
+          "title": "E-commerce platform",
+          "description": "Modern e-commerce platform built with Next.js, Stripe payments and MongoDB."
+        },
+        "saas": {
+          "title": "SaaS dashboard",
+          "description": "Enterprise dashboard with real-time analytics, chart integration and APIs."
+        },
+        "blogplatform": {
+          "title": "Blog platform",
+          "description": "Modern blogging platform with CMS integration and responsive design."
+        },
+        "businesssite1": {
+          "title": "Business website for a local service provider",
+          "description": "Modern one-page website with contact form and basic SEO for a local service business."
+        },
+        "coachesite": {
+          "title": "Website for coach & trainer",
+          "description": "Clear, structured website with services overview, testimonials and inquiry form."
+        },
+        "projectplaceholder1": {
+          "title": "Project placeholder 1",
+          "description": "Placeholder entry for future projects."
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact",
+      "subtitle": "Let's talk about your project",
+      "email": "Email",
+      "emailAddress": "mail@hoffmann-niklas.de",
+      "location": "Location",
+      "germany": "Germany",
+      "quickResponse": "Fast response guaranteed!",
+      "quickResponseText": "I usually get back to you within 24 hours.",
+      "writeMe": "Write me",
+      "form": {
+        "name": "Name",
+        "namePlaceholder": "Your name",
+        "email": "Email",
+        "emailPlaceholder": "your@email.com",
+        "message": "Message",
+        "messagePlaceholder": "Tell me about your project...",
+        "submit": "Send message",
+        "sending": "Sending...",
+        "success": "Message sent successfully!",
+        "error": "An error has occurred"
+      }
+    },
+    "footer": {
+      "copyright": "© 2025 Niklas Hoffmann. All rights reserved.",
+      "quickLinks": "Quick links",
+      "brand": "Full-stack developer – Modern web apps & Web3 frontend integration",
+      "navigation": "Navigation",
+      "followMe": "Follow me",
+      "madeWith": "Made with ❤, Next.js, TypeScript & Web3 tech"
+    },
+    "youtube": {
+      "title": "YouTube videos",
+      "subtitle": "Tutorials, case studies and insights from my projects"
+    },
+    "chat": {
+      "welcome": "Welcome to my chat!",
+      "enterName": "Please enter your name to get started",
+      "namePlaceholder": "Your name...",
+      "startChat": "Start chat",
+      "privacyNotice": "I respect your privacy. Your data is safe.",
+      "greeting": "Hi {userName}! 👋",
+      "howCanWeHelp": "How can I help you today?",
+      "supportTeam": "Niklas",
+      "typing": "is typing...",
+      "reconnecting": "Reconnecting...",
+      "adminOnline": "I'm online and ready to help",
+      "inputPlaceholder": "Type your message...",
+      "securityNotice": "Your messages are treated confidentially.",
+      "chatSupport": "Chat support",
+      "replyInstantly": "I usually reply instantly"
+    },
+    "impressum": {
+      "title": "Legal notice",
+      "subtitle": "Information according to § 5 TMG (German law)",
+      "backToHome": "Back to homepage",
+      "contact": {
+        "title": "Contact information",
+        "name": "Niklas Hoffmann",
+        "address": {
+          "street": "Fröbelstraße 20",
+          "city": "67433 Neustadt an der Weinstraße",
+          "country": "Germany"
+        },
+        "email": "mail@hoffmann-niklas.de",
+        "phone": ""
+      },
+      "responsible": {
+        "title": "Responsible for the content according to § 55 Abs. 2 RStV",
+        "content": "Niklas Hoffmann, Fröbelstraße 20, 67433 Neustadt an der Weinstraße, Germany"
+      },
+      "disclaimer": {
+        "title": "Disclaimer",
+        "liability": {
+          "title": "Liability for content",
+          "content": "The contents of these pages were created with great care. However, I cannot guarantee the accuracy, completeness or up-to-dateness of the contents. As a service provider, I am responsible for my own content on these pages in accordance with § 7 Abs. 1 TMG under general law."
+        },
+        "links": {
+          "title": "Liability for links",
+          "content": "My website contains links to external third-party websites, on whose content I have no influence. Therefore, I cannot assume any liability for these external contents. The respective provider or operator of the pages is always responsible for the content of the linked pages."
+        },
+        "copyright": {
+          "title": "Copyright",
+          "content": "The content and works created by me on these pages are subject to German copyright law. Duplication, editing, distribution and any kind of use outside the limits of copyright law require my written consent."
+        }
+      },
+      "dispute": {
+        "title": "Online dispute resolution",
+        "content": "The European Commission provides a platform for online dispute resolution (OS). You can find my email address above in this legal notice. I am neither willing nor obligated to participate in dispute resolution proceedings before a consumer arbitration board."
+      },
+      "lastUpdated": "Last updated: January 2025"
+    },
+    "datenschutz": {
+      "title": "Privacy policy",
+      "subtitle": "Information on how your data is processed",
+      "backToHome": "Back to homepage",
+      "dataCollection": {
+        "title": "Data collection on this website",
+        "content": "This website does not collect any personal data unless you contact me voluntarily via the contact form or by email. The data is processed solely for the purpose of answering your inquiry."
+      },
+      "contact": {
+        "title": "Contact form",
+        "content": "If you send me inquiries via the contact form, the information you provide in the inquiry form, including the contact details you provide there, will be stored by me for the purpose of processing the inquiry and in case of follow-up questions."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "content": "This website only uses technically necessary cookies (e.g. for theme settings). No tracking cookies or third-party analytics tools are used."
+      },
+      "rights": {
+        "title": "Your rights",
+        "content": "You have the right at any time to:",
+        "access": "Request information about your stored data.",
+        "correction": "Request correction of incorrect data.",
+        "deletion": "Request deletion of your data.",
+        "restriction": "Request restriction of processing.",
+        "portability": "Request data portability.",
+        "objection": "Object to the processing of your data."
+      },
+      "lastUpdated": "Last updated: January 2025"
+    }
+  },
+  "es": {
+    "header": {
+      "nav": {
+        "start": "Inicio",
+        "about": "Sobre mí",
+        "services": "Servicios",
+        "portfolio": "Portafolio",
+        "videos": "Vídeos",
+        "contact": "Contacto"
+      }
+    },
+    "hero": {
+      "title": "Sitios web y aplicaciones modernas para negocios",
+      "cta": "Solicitar proyecto",
+      "subtitle": "Desarrollo sitios web de alto rendimiento, aplicaciones web y frontends Web3 para autónomos, pequeñas empresas y startups.",
+      "viewPortfolio": "Ver portafolio",
+      "viewContact": "Contactar"
+    },
+    "about": {
+      "title": "Sobre mí",
+      "description": "Soy desarrollador full stack especializado en tecnologías web modernas e integración Web3. Ayudo a autónomos, pequeñas empresas y startups a crear sitios web y aplicaciones web de alto rendimiento, desde la idea inicial hasta el lanzamiento.",
+      "services": {
+        "webdev": "Desarrollo web",
+        "web3": "Frontend Web3",
+        "design": "Diseño UI/UX",
+        "photography": "Fotografía (productos y branding)",
+        "fotografie": "Fotografía (productos y branding)",
+        "videografie": "Videografía (redes sociales y branding)"
+      },
+      "stats": {
+        "projects": "Proyectos",
+        "clients": "Clientes satisfechos",
+        "experience": "Años de experiencia",
+        "passion": "Pasión"
+      }
+    },
+    "services": {
+      "title": "Mi experiencia",
+      "subtitle": "Soluciones web modernas que generan resultados reales",
+      "cubeHint": "¡Gira el cubo y descubre los servicios!",
+      "techStack": "Stack tecnológico",
+      "servicesTitle": "Servicios",
+      "frontend": "Desarrollo frontend",
+      "backend": "Desarrollo backend",
+      "web3": "Integración Web3",
+      "database": "Bases de datos",
+      "tools": "Herramientas y DevOps",
+      "design": "Diseño y UX",
+      "webDev": "Aplicaciones web",
+      "backendService": "Backend",
+      "web3Wallets": "Wallets Web3 e integración",
+      "web3Blockchain": "Blockchain y datos",
+      "uiux": "UI/UX",
+      "databaseService": "Base de datos",
+      "photo": "Fotografía",
+      "web3Tech": "Tecnologías Web3",
+      "descriptions": {
+        "webDev": "Aplicaciones web y herramientas de negocio a medida para tu empresa.",
+        "web3Wallets": "Integración sencilla de wallets (por ejemplo, MetaMask, WalletConnect) para tus usuarios.",
+        "web3Blockchain": "Lectura y procesamiento de datos on-chain para paneles e informes.",
+        "uiux": "Interfaces limpias y fáciles de usar que funcionan en todos los dispositivos.",
+        "photo": "Sesiones fotográficas auténticas para sitios web y redes sociales.",
+        "databaseService": "Almacenamiento estructurado y gestión de tus datos.",
+        "backendService": "APIs y lógica de servidor robustas para tu aplicación."
+      }
+    },
+    "portfolio": {
+      "title": "Portafolio",
+      "subtitle": "Una selección de mis proyectos: desde aplicaciones web hasta soluciones Web3",
+      "viewProject": "Ver proyecto",
+      "liveDemo": "Demo en vivo",
+      "demo": "Demo",
+      "code": "Código",
+      "github": "GitHub",
+      "projects": {
+        "web3wallet": {
+          "title": "Integración de wallet Web3",
+          "description": "Conector de wallets multi-chain con soporte para WalletConnect, MetaMask y Coinbase Wallet."
+        },
+        "nftmarketplace": {
+          "title": "Frontend para marketplace de NFTs",
+          "description": "Frontend para un marketplace de NFTs con integración de wallet y soporte IPFS."
+        },
+        "defi": {
+          "title": "Panel de análisis financiero (DeFi)",
+          "description": "Panel de analíticas en tiempo real con soporte para múltiples wallets en aplicaciones DeFi."
+        },
+        "ecommerce": {
+          "title": "Plataforma de comercio electrónico",
+          "description": "Plataforma e-commerce moderna desarrollada con Next.js, pagos con Stripe y MongoDB."
+        },
+        "saas": {
+          "title": "Panel para SaaS",
+          "description": "Panel empresarial con analíticas en tiempo real, gráficos integrados y APIs."
+        },
+        "blogplatform": {
+          "title": "Plataforma de blog",
+          "description": "Plataforma de blogs moderna con integración de CMS y diseño responsivo."
+        },
+        "businesssite1": {
+          "title": "Sitio web para un negocio local",
+          "description": "Sitio web one-page moderno con formulario de contacto y SEO básico para un negocio local."
+        },
+        "coachesite": {
+          "title": "Sitio web para coach y formador",
+          "description": "Sitio web claro y estructurado con descripción de servicios, testimonios y formulario de contacto."
+        },
+        "projectplaceholder1": {
+          "title": "Proyecto marcador 1",
+          "description": "Entrada de marcador para futuros proyectos."
+        }
+      }
+    },
+    "contact": {
+      "title": "Contacto",
+      "subtitle": "Hablemos sobre tu proyecto",
+      "email": "Correo electrónico",
+      "emailAddress": "mail@hoffmann-niklas.de",
+      "location": "Ubicación",
+      "germany": "Alemania",
+      "quickResponse": "¡Respuesta rápida garantizada!",
+      "quickResponseText": "Normalmente respondo en un plazo de 24 horas.",
+      "writeMe": "Escríbeme",
+      "form": {
+        "name": "Nombre",
+        "namePlaceholder": "Tu nombre",
+        "email": "Correo electrónico",
+        "emailPlaceholder": "tu@email.com",
+        "message": "Mensaje",
+        "messagePlaceholder": "Cuéntame sobre tu proyecto...",
+        "submit": "Enviar mensaje",
+        "sending": "Enviando...",
+        "success": "¡Mensaje enviado correctamente!",
+        "error": "Ha ocurrido un error"
+      }
+    },
+    "footer": {
+      "copyright": "© 2025 Niklas Hoffmann. Todos los derechos reservados.",
+      "quickLinks": "Enlaces rápidos",
+      "brand": "Desarrollador full stack – Aplicaciones web modernas e integración de frontends Web3",
+      "navigation": "Navegación",
+      "followMe": "Sígueme",
+      "madeWith": "Hecho con ❤, Next.js, TypeScript y tecnología Web3"
+    },
+    "youtube": {
+      "title": "Vídeos de YouTube",
+      "subtitle": "Tutoriales, casos prácticos y aprendizajes de mis proyectos"
+    },
+    "chat": {
+      "welcome": "¡Bienvenido a mi chat!",
+      "enterName": "Introduce tu nombre para empezar",
+      "namePlaceholder": "Tu nombre...",
+      "startChat": "Iniciar chat",
+      "privacyNotice": "Respeto tu privacidad. Tus datos están seguros.",
+      "greeting": "Hola {userName}! 👋",
+      "howCanWeHelp": "¿En qué puedo ayudarte hoy?",
+      "supportTeam": "Niklas",
+      "typing": "escribiendo...",
+      "reconnecting": "Reconectando...",
+      "adminOnline": "Estoy en línea y listo para ayudarte",
+      "inputPlaceholder": "Escribe tu mensaje...",
+      "securityNotice": "Tus mensajes se tratan de forma confidencial.",
+      "chatSupport": "Soporte por chat",
+      "replyInstantly": "Normalmente respondo de inmediato"
+    },
+    "impressum": {
+      "title": "Aviso legal",
+      "subtitle": "Información según § 5 TMG (ley alemana)",
+      "backToHome": "Volver a la página de inicio",
+      "contact": {
+        "title": "Información de contacto",
+        "name": "Niklas Hoffmann",
+        "address": {
+          "street": "Fröbelstraße 20",
+          "city": "67433 Neustadt an der Weinstraße",
+          "country": "Alemania"
+        },
+        "email": "mail@hoffmann-niklas.de",
+        "phone": ""
+      },
+      "responsible": {
+        "title": "Responsable del contenido según § 55 Abs. 2 RStV",
+        "content": "Niklas Hoffmann, Fröbelstraße 20, 67433 Neustadt an der Weinstraße, Alemania"
+      },
+      "disclaimer": {
+        "title": "Exención de responsabilidad",
+        "liability": {
+          "title": "Responsabilidad por los contenidos",
+          "content": "Los contenidos de estas páginas se han creado con el mayor cuidado. Sin embargo, no puedo garantizar la exactitud, integridad o actualidad de los contenidos. Como proveedor de servicios, soy responsable de mis propios contenidos en estas páginas de acuerdo con el § 7 Abs. 1 TMG según la legislación general."
+        },
+        "links": {
+          "title": "Responsabilidad por enlaces",
+          "content": "Mi sitio web contiene enlaces a sitios web externos de terceros sobre cuyos contenidos no tengo ningún control. Por ello, no puedo asumir ninguna responsabilidad por dichos contenidos externos. El responsable del contenido de las páginas enlazadas es siempre el proveedor u operador correspondiente."
+        },
+        "copyright": {
+          "title": "Derechos de autor",
+          "content": "Los contenidos y obras creados por mí en estas páginas están sujetos a la legislación alemana sobre derechos de autor. La reproducción, edición, distribución y cualquier tipo de utilización fuera de los límites de la ley de derechos de autor requiere mi consentimiento por escrito."
+        }
+      },
+      "dispute": {
+        "title": "Resolución de litigios en línea",
+        "content": "La Comisión Europea ofrece una plataforma para la resolución de litigios en línea (OS). Mi dirección de correo electrónico figura arriba en este aviso legal. No estoy dispuesto ni obligado a participar en procedimientos de resolución de litigios ante una junta arbitral de consumo."
+      },
+      "lastUpdated": "Actualizado: enero de 2025"
+    },
+    "datenschutz": {
+      "title": "Política de privacidad",
+      "subtitle": "Información sobre el tratamiento de tus datos",
+      "backToHome": "Volver a la página de inicio",
+      "dataCollection": {
+        "title": "Recogida de datos en este sitio web",
+        "content": "Este sitio web no recoge datos personales, a menos que te pongas en contacto conmigo voluntariamente a través del formulario de contacto o por correo electrónico. Los datos se procesan únicamente para responder a tu consulta."
+      },
+      "contact": {
+        "title": "Formulario de contacto",
+        "content": "Si me envías consultas a través del formulario de contacto, los datos que introduzcas en el formulario, incluidos los datos de contacto que facilites, se almacenarán conmigo con el fin de tramitar la consulta y por si hubiera preguntas posteriores."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "content": "Este sitio web solo utiliza cookies técnicamente necesarias (por ejemplo, para la configuración del tema). No se utilizan cookies de seguimiento ni herramientas de analítica de terceros."
+      },
+      "rights": {
+        "title": "Tus derechos",
+        "content": "Tienes derecho en cualquier momento a:",
+        "access": "Solicitar información sobre tus datos almacenados.",
+        "correction": "Solicitar la corrección de datos incorrectos.",
+        "deletion": "Solicitar la eliminación de tus datos.",
+        "restriction": "Solicitar la limitación del tratamiento.",
+        "portability": "Solicitar la portabilidad de los datos.",
+        "objection": "Oponerte al tratamiento de tus datos."
+      },
+      "lastUpdated": "Actualizado: enero de 2025"
+    }
+  }
+}

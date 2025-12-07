@@ -1,16 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+
+// Transition duration in ms (matches global 700ms transition)
+const FAVICON_TRANSITION_DELAY = 350; // Half of 700ms for perceived middle of transition
 
 // Map section IDs to color names
 const SECTION_COLOR_MAP: Record<string, string> = {
     'hero': 'cyan',
     'about': 'magenta',
     'services': 'limegreen',
-    'portfolio': 'yellow',
-    'videos': 'hotpink',
+    'packages': 'yellow',
+    'portfolio': 'hotpink',
+    //'videos': 'hotpink',
     'contact': 'blue',
     'footer': 'orange',
 };
@@ -19,11 +23,13 @@ export function DynamicFavicon() {
     const { resolvedTheme } = useTheme();
     const { isInteractive } = useInteractiveMode();
     const [currentSection, setCurrentSection] = useState<string>('hero');
+    const [delayedFavicon, setDelayedFavicon] = useState<string | null>(null);
+    const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // Track current section via scroll position
     useEffect(() => {
         const updateCurrentSection = () => {
-            const sections = ['hero', 'about', 'services', 'portfolio', 'videos', 'contact', 'footer'];
+            const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
 
@@ -69,6 +75,27 @@ export function DynamicFavicon() {
 
         const faviconPath = `/favicons/${finalPath}.svg`;
 
+        // Clear any pending transition
+        if (transitionTimeoutRef.current) {
+            clearTimeout(transitionTimeoutRef.current);
+        }
+
+        // Delay the favicon update to sync with CSS transitions
+        transitionTimeoutRef.current = setTimeout(() => {
+            setDelayedFavicon(faviconPath);
+        }, FAVICON_TRANSITION_DELAY);
+
+        return () => {
+            if (transitionTimeoutRef.current) {
+                clearTimeout(transitionTimeoutRef.current);
+            }
+        };
+    }, [resolvedTheme, isInteractive, currentSection]);
+
+    // Apply the delayed favicon
+    useEffect(() => {
+        if (!delayedFavicon) return;
+
         // Update favicon
         let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
         if (!link) {
@@ -76,7 +103,7 @@ export function DynamicFavicon() {
             link.rel = 'icon';
             document.head.appendChild(link);
         }
-        link.href = faviconPath;
+        link.href = delayedFavicon;
 
         // Also update apple-touch-icon
         let appleLink = document.querySelector("link[rel~='apple-touch-icon']") as HTMLLinkElement;
@@ -85,9 +112,8 @@ export function DynamicFavicon() {
             appleLink.rel = 'apple-touch-icon';
             document.head.appendChild(appleLink);
         }
-        appleLink.href = faviconPath;
-
-    }, [resolvedTheme, isInteractive, currentSection]);
+        appleLink.href = delayedFavicon;
+    }, [delayedFavicon]);
 
     return null; // This component doesn't render anything
 }

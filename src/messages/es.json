@@ -4,6 +4,7 @@
       "start": "Inicio",
       "about": "Sobre mí",
       "services": "Servicios",
+      "packages": "Paquetes y Precios",
       "portfolio": "Portfolio",
       "videos": "Videos",
       "contact": "Contacto"
@@ -12,26 +13,35 @@
   "hero": {
     "title": "Desarrollo Web & Web3 Moderno",
     "cta": "Disponible para Proyectos",
-    "subtitle": "Desarrollador Full-Stack & Blockchain – Desde aplicaciones web clásicas hasta aplicaciones descentralizadas",
+    "subtitle": "Desarrollador Full-Stack & Blockchain \u2013 Desde aplicaciones web cl\u00e1sicas hasta aplicaciones descentralizadas",
+    "priceNote": "Sitios web desde 450 \u20ac \u00b7 Web Apps desde 1.500 \u20ac",
     "viewPortfolio": "Ver Portfolio",
     "viewContact": "Ver Contacto"
   },
   "about": {
     "title": "Sobre mí",
-    "description": "Desarrollador Full-Stack especializado en tecnologías web modernas e integración frontend Web3. Desarrollo aplicaciones web de alto rendimiento e implemento conectividad blockchain – desde la idea hasta el lanzamiento.",
-    "services": {
-      "webdev": "Desarrollo Web",
-      "web3": "Frontend Web3",
-      "design": "Diseño UI/UX",
-      "photography": "Fotografía",
-      "fotografie": "Fotografía",
-      "videografie": "Videografía"
+    "description": "Soy desarrollador Full-Stack con enfoque en tecnologías web modernas e integración Web3. Ayudo a autónomos, pequeñas empresas y startups a crear sitios web y aplicaciones web de alto rendimiento – desde la idea hasta el lanzamiento.",
+    "role": "Desarrollador Full-Stack",
+    "whatIDoTitle": "Lo que hago",
+    "highlights": {
+      "fullstack": "Desarrollo Web Full-Stack",
+      "web3": "Integración Web3 y Blockchain",
+      "uiux": "Diseño UI/UX",
+      "apis": "APIs RESTful y GraphQL",
+      "database": "Arquitectura de Base de Datos",
+      "responsive": "Diseño Responsive"
     },
     "stats": {
       "projects": "Proyectos",
       "clients": "Clientes Satisfechos",
       "experience": "Años de Experiencia",
       "passion": "Pasión"
+    },
+    "timeline": {
+      "current": "Actual: Desarrollo Full-Stack",
+      "web3": "Profundización en Web3",
+      "freelance": "Proyectos Freelance",
+      "start": "Primeros pasos en programación"
     }
   },
   "services": {
@@ -63,6 +73,56 @@
       "databaseService": "Gestión de Datos",
       "backendService": "Servidor & APIs"
     }
+  },
+  "packages": {
+    "title": "Paquetes y Precios",
+    "subtitle": "Ofertas claramente estructuradas – como punto de partida para tu proyecto",
+    "packages": {
+      "websiteStarter": {
+        "label": "Website Starter",
+        "target": "Ideal para emprendedores individuales y proveedores de servicios locales.",
+        "includes": [
+          "Sitio web moderno de una página",
+          "Diseño responsive (móvil y escritorio)",
+          "Formulario de contacto",
+          "SEO básico (título, meta descripción)"
+        ],
+        "priceFrom": "desde 450 €"
+      },
+      "businessWebsite": {
+        "label": "Business Website",
+        "target": "Para coaches, proveedores de servicios y pequeñas empresas.",
+        "includes": [
+          "Sitio web multipágina (ej. Inicio, Sobre mí, Servicios, Contacto)",
+          "Diseño responsive",
+          "Formulario de contacto o consulta",
+          "SEO básico y optimización de rendimiento"
+        ],
+        "priceFrom": "desde 850 €"
+      },
+      "webAppMvp": {
+        "label": "Web App / MVP",
+        "target": "Para startups y herramientas empresariales personalizadas.",
+        "includes": [
+          "Aplicación web personalizada (ej. dashboard, CRM, sistema de reservas)",
+          "Login de usuario y roles",
+          "Integración de API y base de datos",
+          "Despliegue y entrega"
+        ],
+        "priceFrom": "desde 1.500 €"
+      },
+      "web3Integration": {
+        "label": "Integración Web3",
+        "target": "Para proyectos que requieren funcionalidad de wallet o blockchain.",
+        "includes": [
+          "Wallet Connect (ej. MetaMask, WalletConnect)",
+          "Interacciones básicas on-chain",
+          "Integración en frontends existentes"
+        ],
+        "priceFrom": "Precio bajo consulta"
+      }
+    },
+    "priceNote": "El precio exacto depende del alcance del proyecto."
   },
   "portfolio": {
     "title": "Portfolio",
@@ -97,6 +157,14 @@
         "title": "Plataforma de Blog",
         "description": "Plataforma de blogging moderna con integración CMS y diseño responsive"
       },
+      "businesssite1": {
+        "title": "Sitio Web Empresarial para Proveedor de Servicios Local",
+        "description": "Sitio web moderno de una página con formulario de contacto y fundamentos de SEO para un proveedor de servicios local."
+      },
+      "coachesite": {
+        "title": "Sitio Web para Coach y Entrenador",
+        "description": "Sitio web claramente estructurado con resumen de servicios, referencias y solicitud de cita."
+      },
       "projectplaceholder1": {
         "title": "Proyecto Placeholder 1",
         "description": "Descripción para Proyecto Placeholder 1"
@@ -112,6 +180,7 @@
     "germany": "Alemania",
     "quickResponse": "¡Respuesta rápida garantizada!",
     "quickResponseText": "Normalmente respondo en un plazo de 24 horas.",
+    "pricingHint": "¿No estás seguro de qué paquete es el adecuado para ti? Escríbeme – encontraremos juntos la solución perfecta.",
     "writeMe": "Escríbeme",
     "form": {
       "name": "Nombre",
@@ -132,7 +201,7 @@
     "brand": "Desarrollador Full-Stack – Aplicaciones Web Modernas & Integración Frontend Web3",
     "navigation": "Navegación",
     "followMe": "Sígueme",
-    "madeWith": "Hecho con ❤️ usando Next.js, TypeScript & Tech Web3"
+    "madeWith": "Hecho con ❤️, Next.js, TypeScript & Tech Web3"
   },
   "youtube": {
     "title": "Videos de YouTube",

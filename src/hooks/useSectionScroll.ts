@@ -20,6 +20,16 @@ export function scrollToSectionById(sectionId: string) {
     if (index !== -1 && globalScrollToSection) {
         console.log('📍 Header: Scrolling to section:', sectionId, 'at index:', index);
         globalScrollToSection(index);
+    } else if (index !== -1) {
+        // Fallback für Mobile/Tablet wenn globalScrollToSection noch nicht initialisiert ist
+        const section = document.getElementById(sectionId);
+        if (section) {
+            const targetY = section.offsetTop;
+            window.scrollTo({
+                top: targetY,
+                behavior: 'smooth'
+            });
+        }
     }
 }
 
@@ -131,7 +141,7 @@ export function useSectionScroll() {
                 const targetY = section.offsetTop;
                 const startY = window.scrollY;
                 const distance = targetY - startY;
-                const duration = 700;
+                const duration = 1000;
                 let startTime: number | null = null;
 
                 // Easing mit langsamerem Ende (ease-out)
