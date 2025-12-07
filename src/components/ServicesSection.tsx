@@ -6,6 +6,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { ServicesCube } from '@/components/ServicesCube';
 import { Icon } from '@iconify/react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+import { useOrientationResize } from '@/hooks/useOrientationResize';
 import {
     ReactIcon,
     NextJsIcon,
@@ -80,6 +81,7 @@ const techStack: TechItem[] = [
 export function ServicesSection() {
     const t = useTranslations('services');
     const { isInteractive, mounted } = useInteractiveMode();
+    const { key } = useOrientationResize();
     const [flippedCard, setFlippedCard] = useState<number | null>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -200,6 +202,7 @@ export function ServicesSection() {
     return (
         <section
             id="services"
+            key={key}
             className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-hidden flex items-center justify-center bg-background relative"
             style={{ zIndex: 1 }}
         >
@@ -231,9 +234,9 @@ export function ServicesSection() {
                         }`}
                 >
                     {displayContent && isInteractive ? (
-                        <div className="relative min-h-[500px] sm:min-h-[600px] flex flex-col lg:flex-row items-center justify-center gap-12 sm:gap-20 lg:gap-0 py-12 sm:py-16 lg:py-24 h-full">
-                            <div className="lg:absolute lg:left-0 lg:top-28 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none">
-                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">
+                        <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-12 lg:gap-0 py-6 sm:py-12 lg:py-16 h-full">
+                            <div className="lg:absolute lg:left-0 lg:top-16 xl:top-28 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none">
+                                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground">
                                     {t('title')}
                                 </h2>
                                 <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
@@ -241,7 +244,7 @@ export function ServicesSection() {
                                 </p>
                             </div>
 
-                            <div className="flex items-center justify-center order-2 mb-8 sm:mb-12 lg:mb-0">
+                            <div className="flex items-center justify-center order-2 mb-4 sm:mb-8 lg:mb-0">
                                 <ServicesCube
                                     key="services-cube-stable"
                                     services={serviceCategories}

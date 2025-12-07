@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { NEON_COLORS } from '@/config/ui.constants';
 
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);
@@ -21,6 +22,7 @@ export function PackagesSection() {
     const t = useTranslations('packages');
     const { showActive, mounted: interactiveMounted } = useInteractiveMode();
     const { theme } = useTheme();
+    const { key } = useOrientationResize();
     const [flippedCard, setFlippedCard] = useState<number | null>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -34,6 +36,7 @@ export function PackagesSection() {
     return (
         <section
             id="packages"
+            key={key}
             className="scroll-snap-section section-padding w-full h-screen max-h-screen flex items-center justify-center bg-background relative"
             style={{ zIndex: 1, transition: 'background-color 700ms ease-in-out' }}
         >

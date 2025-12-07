@@ -9,6 +9,7 @@ import { Icon } from '@iconify/react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { TRANSITIONS } from '@/lib/transitions';
 import { useTheme } from 'next-themes';
+import { useOrientationResize } from '@/hooks/useOrientationResize';
 
 // Separates Modal-Formular mit eigenem State - verhindert Re-Renders der Parent-Komponente
 const ModalForm = memo(function ModalForm({
@@ -214,6 +215,7 @@ const ModalForm = memo(function ModalForm({
 export function ContactSection() {
   const t = useTranslations('contact');
   const { theme } = useTheme();
+  const { key } = useOrientationResize();
   const [formData, setFormData] = useState<ContactFormData>({ name: '', email: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [submitState, setSubmitState] = useState<'idle' | 'success' | 'error'>('idle');
@@ -365,7 +367,7 @@ export function ContactSection() {
 
   return (
     <>
-      <section id='contact' className='scroll-snap-section section-padding w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30'>
+      <section id='contact' key={key} className='scroll-snap-section section-padding w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30'>
         <div className='max-w-6xl mx-auto w-full'>
           {/* Header */}
           <SectionHeader
