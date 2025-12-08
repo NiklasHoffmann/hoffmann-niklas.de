@@ -11,6 +11,11 @@ const intlMiddleware = createMiddleware({
 export default function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
+    // Skip favicon requests entirely - they should be served as static files
+    if (pathname === '/favicon.ico' || pathname === '/favicon.svg' || pathname.startsWith('/favicons/')) {
+        return NextResponse.next();
+    }
+
     // Debug logs (werden in production nicht entfernt wenn wir sie brauchen)
     if (process.env.NODE_ENV !== 'production') {
         console.log('🔍 Middleware called for:', pathname);
@@ -36,9 +41,10 @@ export const config = {
     // Match all pathnames except for
     // - … if they start with `api`, `_next`, `_vercel`, `admin`, or `/chain-preview`
     // - … the ones containing a dot (e.g. `favicon.ico`)
+    // - … favicon files and static assets
     matcher: [
         '/',
         '/(de|en|es)/:path*',
-        '/((?!api|_next|_vercel|admin|chain-preview|.*\\..*).*)'
+        '/((?!api|_next|_vercel|admin|chain-preview|favicons|.*\\..*).*)'
     ]
 };

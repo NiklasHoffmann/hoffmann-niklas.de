@@ -1,11 +1,9 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
-
-// Transition duration in ms (matches global 700ms transition)
-const FAVICON_TRANSITION_DELAY = 350; // Half of 700ms for perceived middle of transition
+import { onSectionChange, getCurrentSectionId } from '@/hooks/useSectionScroll';
 
 // Map section IDs to color names
 const SECTION_COLOR_MAP: Record<string, string> = {
@@ -23,43 +21,96 @@ export function DynamicFavicon() {
     const { resolvedTheme } = useTheme();
     const { isInteractive } = useInteractiveMode();
     const [currentSection, setCurrentSection] = useState<string>('hero');
-    const [delayedFavicon, setDelayedFavicon] = useState<string | null>(null);
-    const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const lastFaviconRef = useRef<string | null>(null);
+    const hasInitializedRef = useRef(false);
 
-    // Track current section via scroll position
+    // Immediately set a default favicon on mount (before theme resolves)
+    // This prevents browser from showing cached/wrong favicon
     useEffect(() => {
-        const updateCurrentSection = () => {
-            const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
-            const scrollY = window.scrollY;
-            const windowHeight = window.innerHeight;
-
-            let activeSection = 'hero';
-
-            for (const sectionId of sections) {
-                const element = document.getElementById(sectionId);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    const elementTop = rect.top + scrollY;
-
-                    // Section is active if its top is above middle of viewport
-                    if (scrollY >= elementTop - windowHeight / 2) {
-                        activeSection = sectionId;
-                    }
-                }
-            }
-
-            setCurrentSection(activeSection);
-        };
-
-        // Initial check
-        updateCurrentSection();
-
-        // Listen to scroll events
-        window.addEventListener('scroll', updateCurrentSection, { passive: true });
-        return () => window.removeEventListener('scroll', updateCurrentSection);
+        if (hasInitializedRef.current) return;
+        hasInitializedRef.current = true;
+        
+        // Remove any existing favicon links and set initial favicon
+        const existingIcons = document.querySelectorAll("link[rel*='icon']");
+        existingIcons.forEach(icon => icon.remove());
+        
+        // Check for dark mode preference immediately
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const storedTheme = localStorage.getItem('theme');
+        const isDark = storedTheme === 'dark' || (storedTheme !== 'light' && prefersDark);
+        
+        const initialFavicon = isDark ? '/favicons/cube-black-cyan.svg' : '/favicons/cube-white-cyan.svg';
+        
+        const link = document.createElement('link');
+        link.id = 'dynamic-favicon';
+        link.rel = 'icon';
+        link.type = 'image/svg+xml';
+        link.href = initialFavicon;
+        document.head.appendChild(link);
+        
+        lastFaviconRef.current = initialFavicon;
     }, []);
 
+    // Subscribe to section changes from useSectionScroll
     useEffect(() => {
+        // Set initial section
+        setCurrentSection(getCurrentSectionId());
+        
+        // Subscribe to section changes (works for desktop JS-based scrolling)
+        const unsubscribe = onSectionChange((sectionId) => {
+            console.log('🔔 Section change callback:', sectionId);
+            setCurrentSection(sectionId);
+        });
+
+        // Check if device is desktop (wide screen, not mobile user agent)
+        const isWideScreen = window.innerWidth >= 1024;
+        const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isDesktop = isWideScreen && !isMobileUserAgent;
+
+        // Only add scroll listener for mobile/tablet (CSS scroll-snap)
+        // Desktop uses the callback from useSectionScroll
+        let handleScroll: (() => void) | null = null;
+        
+        if (!isDesktop) {
+            handleScroll = () => {
+                const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
+                const scrollY = window.scrollY;
+                const windowHeight = window.innerHeight;
+
+                let activeSection = 'hero';
+
+                for (const sectionId of sections) {
+                    const element = document.getElementById(sectionId);
+                    if (element) {
+                        const rect = element.getBoundingClientRect();
+                        const elementTop = rect.top + scrollY;
+
+                        // Section is active if its top is above middle of viewport
+                        if (scrollY >= elementTop - windowHeight / 2) {
+                            activeSection = sectionId;
+                        }
+                    }
+                }
+
+                setCurrentSection(activeSection);
+            };
+
+            window.addEventListener('scroll', handleScroll, { passive: true });
+        }
+        
+        return () => {
+            unsubscribe();
+            if (handleScroll) {
+                window.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, []);
+
+    // Update favicon when section, theme, or interactive mode changes
+    useEffect(() => {
+        // Wait for theme to be resolved (avoid flash of wrong favicon)
+        if (!resolvedTheme) return;
+
         // Determine the color based on interactive mode
         const colorName = isInteractive
             ? SECTION_COLOR_MAP[currentSection] || 'cyan'
@@ -75,45 +126,40 @@ export function DynamicFavicon() {
 
         const faviconPath = `/favicons/${finalPath}.svg`;
 
-        // Clear any pending transition
-        if (transitionTimeoutRef.current) {
-            clearTimeout(transitionTimeoutRef.current);
+        console.log('🎨 Favicon update:', { currentSection, isInteractive, resolvedTheme, colorName, faviconPath, lastFavicon: lastFaviconRef.current });
+
+        // Skip if favicon hasn't changed
+        if (lastFaviconRef.current === faviconPath) {
+            return;
         }
+        lastFaviconRef.current = faviconPath;
 
-        // Delay the favicon update to sync with CSS transitions
-        transitionTimeoutRef.current = setTimeout(() => {
-            setDelayedFavicon(faviconPath);
-        }, FAVICON_TRANSITION_DELAY);
-
-        return () => {
-            if (transitionTimeoutRef.current) {
-                clearTimeout(transitionTimeoutRef.current);
-            }
-        };
-    }, [resolvedTheme, isInteractive, currentSection]);
-
-    // Apply the delayed favicon
-    useEffect(() => {
-        if (!delayedFavicon) return;
-
-        // Update favicon
-        let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+        // Get or create favicon link with specific ID (don't remove and recreate to avoid flashing)
+        let link = document.getElementById('dynamic-favicon') as HTMLLinkElement;
         if (!link) {
+            // Remove any existing favicon links from SSR first
+            const existingIcons = document.querySelectorAll("link[rel*='icon']:not(#dynamic-favicon):not(#dynamic-apple-icon)");
+            existingIcons.forEach(icon => icon.remove());
+            
+            // Create our controlled favicon link
             link = document.createElement('link');
+            link.id = 'dynamic-favicon';
             link.rel = 'icon';
+            link.type = 'image/svg+xml';
             document.head.appendChild(link);
         }
-        link.href = delayedFavicon;
+        link.href = faviconPath;
 
-        // Also update apple-touch-icon
-        let appleLink = document.querySelector("link[rel~='apple-touch-icon']") as HTMLLinkElement;
+        // Get or create apple-touch-icon with specific ID
+        let appleLink = document.getElementById('dynamic-apple-icon') as HTMLLinkElement;
         if (!appleLink) {
             appleLink = document.createElement('link');
+            appleLink.id = 'dynamic-apple-icon';
             appleLink.rel = 'apple-touch-icon';
             document.head.appendChild(appleLink);
         }
-        appleLink.href = delayedFavicon;
-    }, [delayedFavicon]);
+        appleLink.href = faviconPath;
+    }, [resolvedTheme, isInteractive, currentSection]);
 
     return null; // This component doesn't render anything
 }

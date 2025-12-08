@@ -10,6 +10,8 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { TRANSITIONS } from '@/lib/transitions';
 import { useTheme } from 'next-themes';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
+import { useDevice } from '@/contexts/DeviceContext';
 
 // Separates Modal-Formular mit eigenem State - verhindert Re-Renders der Parent-Komponente
 const ModalForm = memo(function ModalForm({
@@ -121,6 +123,9 @@ const ModalForm = memo(function ModalForm({
                 onChange={handleChange}
                 required
                 placeholder={t('form.namePlaceholder')}
+                autoComplete="name"
+                autoCapitalize="words"
+                spellCheck="false"
                 className='w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
                 style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
               />
@@ -141,6 +146,11 @@ const ModalForm = memo(function ModalForm({
                 onChange={handleChange}
                 required
                 placeholder={t('form.emailPlaceholder')}
+                autoComplete="email"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+                inputMode="email"
                 className='w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
                 style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
               />
@@ -163,6 +173,10 @@ const ModalForm = memo(function ModalForm({
               required
               rows={4}
               placeholder={t('form.messagePlaceholder')}
+              autoComplete="on"
+              autoCorrect="on"
+              autoCapitalize="sentences"
+              spellCheck="true"
               className='w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none'
               style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
             />
@@ -216,6 +230,7 @@ export function ContactSection() {
   const t = useTranslations('contact');
   const { theme } = useTheme();
   const { key } = useOrientationResize();
+  const { isMobileLandscape } = useDevice();
   const [formData, setFormData] = useState<ContactFormData>({ name: '', email: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [submitState, setSubmitState] = useState<'idle' | 'success' | 'error'>('idle');
@@ -287,6 +302,9 @@ export function ContactSection() {
             onChange={handleChange}
             required
             placeholder={t('form.namePlaceholder')}
+            autoComplete="name"
+            autoCapitalize="words"
+            spellCheck="false"
             className='w-full px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
             style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
             aria-required="true"
@@ -303,6 +321,11 @@ export function ContactSection() {
             onChange={handleChange}
             required
             placeholder={t('form.emailPlaceholder')}
+            autoComplete="email"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            inputMode="email"
             className='w-full px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
             style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
             aria-required="true"
@@ -320,6 +343,10 @@ export function ContactSection() {
           required
           rows={inModal ? 4 : 3}
           placeholder={t('form.messagePlaceholder')}
+          autoComplete="off"
+          autoCorrect="on"
+          autoCapitalize="sentences"
+          spellCheck="true"
           className='w-full px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none'
           style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
           aria-required="true"
@@ -367,8 +394,44 @@ export function ContactSection() {
 
   return (
     <>
-      <section id='contact' key={key} className='scroll-snap-section section-padding w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30'>
-        <div className='max-w-6xl mx-auto w-full'>
+      <Section id="contact" sectionKey={key} background="secondary">
+        {/* Mobile Landscape Layout */}
+        <SectionLeft className="w-1/2 pr-4">
+          <h2 className="text-xl font-bold mb-1">{t('title')}</h2>
+          <p className="text-xs text-muted-foreground mb-2">{t('subtitle')}</p>
+          <p className="text-[10px] text-muted-foreground">{t('pricingHint')}</p>
+        </SectionLeft>
+
+        <SectionRight className="w-1/2 gap-3">
+          {/* Compact contact info + button */}
+          <div className="flex gap-2 text-[10px]">
+            <div className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded border border-border">
+              <Mail className="w-3 h-3 text-accent" />
+              <span className="text-muted-foreground">Email</span>
+            </div>
+            <div className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded border border-border">
+              <MapPin className="w-3 h-3 text-accent" />
+              <span className="text-muted-foreground">DE</span>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            style={{
+              backgroundColor: 'transparent',
+              boxShadow: theme === 'light'
+                ? '0 2px 8px rgba(0, 0, 0, 0.15)'
+                : '0 2px 8px rgba(255, 255, 255, 0.15)',
+              transition: 'all 700ms ease-in-out'
+            }}
+            className="px-4 py-2 text-foreground rounded-lg font-semibold text-xs flex items-center gap-2"
+          >
+            <Send className="w-3 h-3" />
+            {t('writeMe')}
+          </button>
+        </SectionRight>
+
+        {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
+        <SectionDefault className="max-w-6xl">
           {/* Header */}
           <SectionHeader
             title={t('title')}
@@ -458,8 +521,8 @@ export function ContactSection() {
               </div>
             )}
           </div>
-        </div>
-      </section>
+        </SectionDefault>
+      </Section>
 
       {/* Mobile Modal - eigene Komponente mit eigenem State */}
       {isModalOpen && (

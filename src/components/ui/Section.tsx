@@ -1,0 +1,121 @@
+'use client';
+
+import { ReactNode } from 'react';
+import { useDevice } from '@/contexts/DeviceContext';
+
+interface SectionProps {
+    id: string;
+    children: ReactNode;
+    className?: string;
+    /** Background gradient style - default is the standard gradient */
+    background?: 'default' | 'none' | 'secondary';
+    /** Whether to include animated background elements */
+    animatedBackground?: boolean;
+    /** Custom key for forcing re-renders */
+    sectionKey?: string | number;
+    /** Use semantic <footer> element instead of <section> */
+    asFooter?: boolean;
+}
+
+export function Section({
+    id,
+    children,
+    className = '',
+    background = 'default',
+    animatedBackground = false,
+    sectionKey,
+    asFooter = false
+}: SectionProps) {
+    const { isMobileLandscape } = useDevice();
+
+    const backgroundClasses = {
+        default: 'bg-gradient-to-br from-background via-background to-secondary/20',
+        secondary: 'bg-secondary/5',
+        none: 'bg-background'
+    };
+
+    const Tag = asFooter ? 'footer' : 'section';
+
+    return (
+        <Tag
+            id={id}
+            key={sectionKey}
+            className={`
+                scroll-snap-section section-padding relative w-full h-screen max-h-screen
+                flex items-center justify-center
+                ${backgroundClasses[background]}
+                ${isMobileLandscape ? 'pt-16' : ''}
+                ${className}
+            `.trim().replace(/\s+/g, ' ')}
+            style={{ scrollMarginTop: '0px' }}
+        >
+            {/* Animated background elements - hidden on mobile landscape for performance */}
+            {animatedBackground && !isMobileLandscape && (
+                <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+                    <div className="absolute top-10 sm:top-20 right-10 sm:right-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full blur-3xl animate-pulse" />
+                    <div className="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[600px] h-96 sm:h-[600px] bg-gradient-to-br from-accent/5 to-primary/5 rounded-full blur-3xl" />
+                </div>
+            )}
+
+            {/* Content Container */}
+            <div className={`
+                relative z-10 w-full h-full
+                ${isMobileLandscape
+                    ? 'flex items-center px-6'
+                    : 'flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8'
+                }
+            `.trim().replace(/\s+/g, ' ')}>
+                {children}
+            </div>
+        </Tag>
+    );
+}
+
+/** 
+ * Content wrapper for mobile landscape left side (typically text content)
+ */
+export function SectionLeft({ children, className = '' }: { children: ReactNode; className?: string }) {
+    const { isMobileLandscape } = useDevice();
+
+    if (!isMobileLandscape) return null;
+
+    // Check if custom width is provided
+    const hasCustomWidth = className.includes('w-');
+
+    return (
+        <div className={`${hasCustomWidth ? '' : 'flex-1'} flex flex-col items-center justify-center text-center ${className}`}>
+            {children}
+        </div>
+    );
+}
+
+/**
+ * Content wrapper for mobile landscape right side (typically media/interactive content)
+ */
+export function SectionRight({ children, className = '' }: { children: ReactNode; className?: string }) {
+    const { isMobileLandscape } = useDevice();
+
+    if (!isMobileLandscape) return null;
+
+    return (
+        <div className={`flex flex-col items-center justify-center ${className}`}>
+            {children}
+        </div>
+    );
+}
+
+/**
+ * Content wrapper for non-mobile-landscape layouts (desktop, tablet, mobile portrait)
+ */
+export function SectionDefault({ children, className = '' }: { children: ReactNode; className?: string }) {
+    const { isMobileLandscape } = useDevice();
+
+    if (isMobileLandscape) return null;
+
+    return (
+        <div className={`text-center max-w-5xl mx-auto w-full ${className}`}>
+            {children}
+        </div>
+    );
+}

@@ -29,6 +29,9 @@ function HeaderComponent() {
     const navRef = useRef<HTMLElement>(null);
     const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0, color: '' });
 
+    // Use mounted check to avoid hydration mismatch
+    const isInteractiveActive = mounted && showActive;
+
     // Memoize neon colors based on theme (prevent recalculation on every render)
     const neonColors = useMemo(() => {
         return !mounted || theme === 'dark' ? NEON_COLORS_DARK : NEON_COLORS_LIGHT;
@@ -173,7 +176,7 @@ function HeaderComponent() {
                                         key={section.id}
                                         onClick={() => scrollToSection(section.id)}
                                         className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10"
-                                        style={isActive && showActive ? {
+                                        style={isActive && isInteractiveActive ? {
                                             color: section.color,
                                             transition: 'all 0.7s ease-out',
                                         } : {
@@ -194,9 +197,9 @@ function HeaderComponent() {
                                     style={{
                                         left: `${underlineStyle.left}px`,
                                         width: `${underlineStyle.width}px`,
-                                        backgroundColor: showActive ? underlineStyle.color : 'currentColor',
+                                        backgroundColor: isInteractiveActive ? underlineStyle.color : 'currentColor',
                                         transition: 'all 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-                                        boxShadow: showActive ? `0 0 8px ${underlineStyle.color}, 0 0 12px ${underlineStyle.color}` : 'none',
+                                        boxShadow: isInteractiveActive ? `0 0 8px ${underlineStyle.color}, 0 0 12px ${underlineStyle.color}` : 'none',
                                     }}
                                 />
                             )}
@@ -279,8 +282,8 @@ function HeaderComponent() {
                                     onClick={() => scrollToSection(section.id)}
                                     className="text-2xl sm:text-3xl font-bold relative text-foreground"
                                     style={{
-                                        color: isActive && showActive ? section.color : undefined,
-                                        textShadow: isActive && showActive ? `0 0 20px ${section.color}, 0 0 40px ${section.color}` : 'none',
+                                        color: isActive && isInteractiveActive ? section.color : undefined,
+                                        textShadow: isActive && isInteractiveActive ? `0 0 20px ${section.color}, 0 0 40px ${section.color}` : 'none',
                                         opacity: isMenuClosing ? 0 : 1,
                                         transform: isMenuClosing ? 'translateY(10px)' : 'translateY(0)',
                                         transition: isMenuClosing
@@ -297,8 +300,8 @@ function HeaderComponent() {
                                         <span
                                             className="absolute -left-8 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
                                             style={{
-                                                backgroundColor: showActive ? section.color : 'currentColor',
-                                                boxShadow: showActive ? `0 0 8px ${section.color}, 0 0 16px ${section.color}` : 'none',
+                                                backgroundColor: isInteractiveActive ? section.color : 'currentColor',
+                                                boxShadow: isInteractiveActive ? `0 0 8px ${section.color}, 0 0 16px ${section.color}` : 'none',
                                                 animation: 'fadeIn 300ms ease-out'
                                             }}
                                             aria-hidden="true"

@@ -8,6 +8,9 @@ export function InteractiveToggle() {
     const { isInteractive, setIsInteractive, showActive, mounted } = useInteractiveMode();
     const { theme } = useTheme();
 
+    // Use mounted check to avoid hydration mismatch
+    const isActive = mounted && showActive;
+
     // Shadow color based on theme - only after mount to avoid hydration mismatch
     const getBaseShadow = () => {
         if (!mounted) return '0 2px 8px rgba(0, 0, 0, 0.15)';
@@ -20,8 +23,8 @@ export function InteractiveToggle() {
         <button
             onClick={() => setIsInteractive(!isInteractive)}
             style={{
-                backgroundColor: showActive ? '#06b6d4' : 'transparent',
-                boxShadow: showActive
+                backgroundColor: isActive ? '#06b6d4' : 'transparent',
+                boxShadow: isActive
                     ? '0 10px 15px -3px rgba(6, 182, 212, 0.5), 0 4px 6px -4px rgba(6, 182, 212, 0.5)'
                     : getBaseShadow(),
                 transition: 'all 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
@@ -43,7 +46,7 @@ export function InteractiveToggle() {
                 }`} />
 
             {/* Glow effect when active */}
-            {showActive && (
+            {isActive && (
                 <span className="absolute inset-0 rounded-lg blur-sm transition-opacity duration-700 ease-in-out bg-white/15" />
             )}
         </button>

@@ -9,6 +9,10 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            screens: {
+                // Mobile landscape: landscape orientation AND max height 500px (typical mobile)
+                'mobile-landscape': { 'raw': '(orientation: landscape) and (max-height: 500px)' },
+            },
             colors: {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",

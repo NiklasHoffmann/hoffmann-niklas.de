@@ -4,20 +4,22 @@ import { useTranslations } from 'next-intl';
 import { Icon } from '@iconify/react';
 import { useChat } from '@/contexts/ChatContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+import { useDevice } from '@/contexts/DeviceContext';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
 
 // Define tech icons outside component to prevent re-mounting
-const TechIcons = () => (
-    <div className="flex items-center justify-center gap-3 mb-8 sm:mb-10 opacity-100 transition-opacity duration-300">
+const TechIcons = ({ compact = false }: { compact?: boolean }) => (
+    <div className={`flex items-center justify-center gap-3 ${compact ? 'mb-0' : 'mb-8 sm:mb-10'} opacity-100 transition-opacity duration-300`}>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Icon icon="logos:react" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
-            <Icon icon="logos:nextjs-icon" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
-            <Icon icon="logos:typescript-icon" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
-            <Icon icon="logos:tailwindcss-icon" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
-            <Icon icon="logos:nodejs-icon" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
-            <Icon icon="logos:ethereum" className="w-6 h-6 transition-opacity duration-200" ssr={true} />
+            <Icon icon="logos:react" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
+            <Icon icon="logos:nextjs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
+            <Icon icon="logos:typescript-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
+            <Icon icon="logos:tailwindcss-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
+            <Icon icon="logos:nodejs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
+            <Icon icon="logos:ethereum" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
         </div>
     </div>
 );
@@ -32,6 +34,7 @@ export function HeroSection({ }: HeroSectionProps) {
     const { key } = useOrientationResize();
     const { theme } = useTheme();
     const { mounted } = useInteractiveMode();
+    const { isMobileLandscape } = useDevice();
     const [isHovered, setIsHovered] = useState(false);
 
     // Theme-adaptive shadow
@@ -50,21 +53,46 @@ export function HeroSection({ }: HeroSectionProps) {
     };
 
     return (
-        <section
-            id="hero"
-            key={key}
-            className="scroll-snap-section section-padding relative w-full h-screen max-h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary/20"
-            style={{ scrollMarginTop: '0px' }}
-        >
-            {/* Animated background elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-                <div className="absolute top-10 sm:top-20 right-10 sm:right-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[600px] h-96 sm:h-[600px] bg-gradient-to-br from-accent/5 to-primary/5 rounded-full blur-3xl" />
-            </div>
+        <Section id="hero" sectionKey={key} animatedBackground>
+            {/* Mobile Landscape Layout */}
+            <SectionLeft className="w-2/3 pr-4">
+                <h1 className="text-2xl font-bold mb-2 leading-tight text-foreground">
+                    {t('title')}
+                </h1>
+                <p className="text-xs text-muted-foreground mb-2 max-w-sm">
+                    {t('subtitle')}
+                </p>
+                <p className="text-xs text-accent font-medium">
+                    {t('priceNote')}
+                </p>
+            </SectionLeft>
 
-            {/* Content */}
-            <div className="relative z-10 text-center max-w-5xl mx-auto w-full">
+            <SectionRight className="w-1/3 gap-3">
+                <button
+                    onClick={openChat}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-border group"
+                    style={{
+                        boxShadow: getBaseShadow(),
+                        transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out'
+                    }}
+                >
+                    <div className="relative flex items-center justify-center">
+                        <div className="absolute w-2 h-2 bg-green-500/30 rounded-full animate-ping" />
+                        <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full" />
+                    </div>
+                    <span className="text-xs font-semibold text-foreground">{t('cta')}</span>
+                    <Icon 
+                        icon="mdi:chevron-right" 
+                        className="w-3 h-3" 
+                        style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out' }}
+                        ssr={true} 
+                    />
+                </button>
+                <TechIcons compact />
+            </SectionRight>
+
+            {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
+            <SectionDefault>
                 {/* Professional Badge */}
                 <button
                     onClick={openChat}
@@ -83,7 +111,12 @@ export function HeroSection({ }: HeroSectionProps) {
                     <span className="text-xs sm:text-sm font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
                         {t('cta')}
                     </span>
-                    <Icon icon="mdi:chevron-right" className="w-4 h-4 text-accent group-hover:translate-x-1 transition-transform transition-opacity duration-200" ssr={true} />
+                    <Icon 
+                        icon="mdi:chevron-right" 
+                        className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" 
+                        style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
+                        ssr={true} 
+                    />
                 </button>
 
                 {/* Title with better gradient */}
@@ -107,7 +140,7 @@ export function HeroSection({ }: HeroSectionProps) {
 
                 {/* Tech Stack Icons */}
                 <TechIcons />
-            </div>
-        </section>
+            </SectionDefault>
+        </Section>
     );
 }

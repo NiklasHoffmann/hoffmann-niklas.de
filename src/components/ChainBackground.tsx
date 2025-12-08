@@ -234,8 +234,12 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
       // Dynamisch berechne horizontalOffset basierend auf tatsächlicher Content-Breite
       const mainSections = Array.from(document.querySelectorAll('main > *')) as HTMLElement[];
-      const footer = document.querySelector('footer') as HTMLElement;
-      const sections = footer ? [...mainSections, footer] : mainSections;
+      // Footer kann entweder <footer> oder <section id="footer"> sein (nach Section-Komponente Refactor)
+      const footer = document.querySelector('footer') as HTMLElement
+        || document.querySelector('#footer') as HTMLElement;
+      // Nur Footer hinzufügen wenn er nicht bereits in mainSections ist
+      const footerInMain = mainSections.some(section => section.id === 'footer' || section.tagName === 'FOOTER');
+      const sections = (footer && !footerInMain) ? [...mainSections, footer] : mainSections;
 
       // Nimm die zweite Section (About) als Referenz, da Hero spezielles Padding hat
       let contentOffsetLeft = 150; // Default Desktop

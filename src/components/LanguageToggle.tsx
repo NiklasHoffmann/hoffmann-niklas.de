@@ -14,6 +14,9 @@ export function LanguageToggle() {
     const { showActive, mounted } = useInteractiveMode();
     const { theme } = useTheme();
 
+    // Use mounted check to avoid hydration mismatch
+    const isActive = mounted && showActive;
+
     const handleLocaleChange = () => {
         // Cycle through DE -> EN -> ES -> DE
         const newLocale = locale === 'de' ? 'en' : locale === 'en' ? 'es' : 'de';
@@ -105,19 +108,19 @@ export function LanguageToggle() {
                             : locale === 'en'
                                 ? 'linear-gradient(to bottom right, #1d4ed8, #ffffff, #dc2626)'
                                 : 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)',
-                    opacity: showActive ? 1 : 0,
+                    opacity: isActive ? 1 : 0,
                 }}
             />
 
             {/* Current language text */}
             <span
-                className={`relative z-10 font-bold ${showActive ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-foreground'
+                className={`relative z-10 font-bold ${isActive ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-foreground'
                     }`}
             >
                 {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : 'ES'}
             </span>
 
-            {showActive && (
+            {isActive && (
                 <span className="absolute inset-0 rounded-lg bg-white/10 blur-sm transition-opacity duration-700 ease-in-out" />
             )}
         </button>

@@ -16,6 +16,13 @@ export default function DatenschutzPage() {
     useEffect(() => {
         setMounted(true);
         window.scrollTo(0, 0);
+        
+        // Disable scroll-snap on this page
+        document.documentElement.classList.add('no-scroll-snap');
+        
+        return () => {
+            document.documentElement.classList.remove('no-scroll-snap');
+        };
     }, []);
 
     if (!mounted) {

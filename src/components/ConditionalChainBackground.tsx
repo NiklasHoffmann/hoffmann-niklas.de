@@ -6,10 +6,12 @@ import { ChainBackground } from './ChainBackground';
 export function ConditionalChainBackground() {
     const pathname = usePathname();
 
-    // Don't render ChainBackground on admin, api, or chain-preview routes
+    // Don't render ChainBackground on admin, api, chain-preview, impressum, or datenschutz routes
     if (pathname?.startsWith('/admin') ||
         pathname?.startsWith('/api') ||
-        pathname?.startsWith('/chain-preview')) {
+        pathname?.startsWith('/chain-preview') ||
+        pathname?.includes('/impressum') ||
+        pathname?.includes('/datenschutz')) {
         return null;
     }
 

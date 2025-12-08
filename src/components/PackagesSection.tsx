@@ -1,12 +1,14 @@
 'use client';
 
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { NEON_COLORS } from '@/config/ui.constants';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
+import { useDevice } from '@/contexts/DeviceContext';
 
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);
 const NEON_COLORS_LIGHT = Object.values(NEON_COLORS.LIGHT);
@@ -23,8 +25,15 @@ export function PackagesSection() {
     const { showActive, mounted: interactiveMounted } = useInteractiveMode();
     const { theme } = useTheme();
     const { key } = useOrientationResize();
+    const { isMobileLandscape } = useDevice();
     const [flippedCard, setFlippedCard] = useState<number | null>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Force re-render after hydration to apply correct styles
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+        setHydrated(true);
+    }, []);
 
     // Neon colors based on theme
     const neonColors = useMemo(() => {
@@ -33,14 +42,51 @@ export function PackagesSection() {
             : NEON_COLORS_LIGHT;
     }, [theme, interactiveMounted]);
 
+    // Use hydrated state to determine if interactive styles should be shown
+    const isActiveAndHydrated = hydrated && showActive;
+
     return (
-        <section
-            id="packages"
-            key={key}
-            className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-y-auto overflow-x-hidden flex items-center justify-center bg-background relative"
-            style={{ zIndex: 1, transition: 'background-color 700ms ease-in-out' }}
-        >
-            <div className="max-w-6xl mx-auto w-full min-h-full flex flex-col justify-center">
+        <Section id="packages" sectionKey={key} background="none">
+            {/* Mobile Landscape Layout */}
+            <SectionLeft className="w-1/3 pr-4">
+                <h2 className="text-xl font-bold mb-1">{t('title')}</h2>
+                <p className="text-xs text-muted-foreground mb-3">{t('subtitle')}</p>
+            </SectionLeft>
+
+            <SectionRight className="w-2/3 pr-4">
+                {/* Compact 2x2 package grid for mobile landscape */}
+                <div className="grid grid-cols-2 gap-2">
+                    {PACKAGE_KEYS.map((pkgKey, index) => {
+                        const cardColor = neonColors[index % neonColors.length];
+                        return (
+                            <div
+                                key={pkgKey}
+                                className="p-2 rounded-lg border bg-card/50"
+                                style={{
+                                    borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
+                                    transition: 'border-color 700ms ease-in-out'
+                                }}
+                            >
+                                <h3
+                                    className="text-xs font-semibold mb-0.5"
+                                    style={{
+                                        color: isActiveAndHydrated ? cardColor : 'inherit',
+                                        transition: 'color 700ms ease-in-out'
+                                    }}
+                                >
+                                    {t(`packages.${pkgKey}.label`)}
+                                </h3>
+                                <p className="text-[10px] text-muted-foreground">
+                                    {t(`packages.${pkgKey}.priceFrom`)}
+                                </p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </SectionRight>
+
+            {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
+            <SectionDefault className="h-full flex flex-col justify-center max-w-6xl">
                 {/* Header */}
                 <SectionHeader
                     title={t('title')}
@@ -94,8 +140,8 @@ export function PackagesSection() {
                                             className="absolute inset-0 w-full h-full p-3 sm:p-4 rounded-2xl border bg-card/70 backdrop-blur-sm backface-hidden flex flex-col"
                                             style={{
                                                 backfaceVisibility: 'hidden',
-                                                borderColor: showActive ? `${cardColor}40` : 'hsl(var(--border))',
-                                                boxShadow: showActive ? `0 0 20px ${cardColor}15` : 'none',
+                                                borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
+                                                boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}15` : 'none',
                                                 transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out',
                                             }}
                                         >
@@ -104,11 +150,11 @@ export function PackagesSection() {
                                                 <div className="relative flex items-center justify-center w-4 h-4">
                                                     <div
                                                         className="absolute inset-0 rounded-full animate-ping"
-                                                        style={{ backgroundColor: showActive ? `${cardColor}50` : 'rgba(59, 130, 246, 0.5)' }}
+                                                        style={{ backgroundColor: isActiveAndHydrated ? `${cardColor}50` : 'rgba(59, 130, 246, 0.5)' }}
                                                     />
                                                     <div
                                                         className="relative w-2.5 h-2.5 rounded-full"
-                                                        style={{ backgroundColor: showActive ? cardColor : '#3b82f6' }}
+                                                        style={{ backgroundColor: isActiveAndHydrated ? cardColor : '#3b82f6' }}
                                                     />
                                                 </div>
                                             </div>
@@ -117,8 +163,8 @@ export function PackagesSection() {
                                                 <h3
                                                     className="text-base sm:text-lg font-semibold mb-2"
                                                     style={{
-                                                        color: showActive ? cardColor : 'inherit',
-                                                        textShadow: showActive ? `0 0 15px ${cardColor}40` : 'none',
+                                                        color: isActiveAndHydrated ? cardColor : 'inherit',
+                                                        textShadow: isActiveAndHydrated ? `0 0 15px ${cardColor}40` : 'none',
                                                         transition: 'color 700ms ease-in-out, text-shadow 700ms ease-in-out'
                                                     }}
                                                 >
@@ -132,15 +178,15 @@ export function PackagesSection() {
                                             <div
                                                 className="pt-2 border-t"
                                                 style={{
-                                                    borderColor: showActive ? `${cardColor}30` : 'hsl(var(--border) / 0.6)',
+                                                    borderColor: isActiveAndHydrated ? `${cardColor}30` : 'hsl(var(--border) / 0.6)',
                                                     transition: 'border-color 700ms ease-in-out'
                                                 }}
                                             >
                                                 <div
                                                     className="text-sm font-semibold"
                                                     style={{
-                                                        color: showActive ? cardColor : 'inherit',
-                                                        textShadow: showActive ? `0 0 15px ${cardColor}40` : 'none',
+                                                        color: isActiveAndHydrated ? cardColor : 'inherit',
+                                                        textShadow: isActiveAndHydrated ? `0 0 15px ${cardColor}40` : 'none',
                                                         transition: 'color 700ms ease-in-out, text-shadow 700ms ease-in-out'
                                                     }}
                                                 >
@@ -155,8 +201,8 @@ export function PackagesSection() {
                                             style={{
                                                 backfaceVisibility: 'hidden',
                                                 transform: 'rotateY(180deg)',
-                                                borderColor: showActive ? `${cardColor}50` : 'hsl(var(--accent) / 0.5)',
-                                                boxShadow: showActive ? `0 0 20px ${cardColor}20` : '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                                                borderColor: isActiveAndHydrated ? `${cardColor}50` : 'hsl(var(--accent) / 0.5)',
+                                                boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}20` : '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                                                 transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out',
                                             }}
                                         >
@@ -165,23 +211,23 @@ export function PackagesSection() {
                                                 style={{ background: `linear-gradient(135deg, ${cardColor}, transparent)` }}
                                             />
 
-                                            <div className="relative z-10 flex flex-col h-full">
+                                            <div className="relative z-10 flex flex-col h-full items-center">
                                                 <h4
                                                     className="text-xs font-semibold mb-2 text-center"
                                                     style={{
-                                                        color: showActive ? cardColor : 'inherit',
+                                                        color: isActiveAndHydrated ? cardColor : 'inherit',
                                                         transition: 'color 700ms ease-in-out'
                                                     }}
                                                 >
                                                     {t(`packages.${pkgKey}.label`)}
                                                 </h4>
-                                                <ul className="flex-1 space-y-1.5 text-[11px] overflow-y-auto">
+                                                <ul className="flex-1 space-y-1.5 text-[11px] overflow-y-auto text-left">
                                                     {includes.map((item, idx) => (
                                                         <li key={idx} className="flex items-start gap-1.5">
                                                             <span
                                                                 className="mt-0.5 text-[8px]"
                                                                 style={{
-                                                                    color: showActive ? cardColor : 'currentColor',
+                                                                    color: isActiveAndHydrated ? cardColor : 'currentColor',
                                                                     transition: 'color 700ms ease-in-out'
                                                                 }}
                                                             >
@@ -199,8 +245,8 @@ export function PackagesSection() {
                                     <div
                                         className="hidden md:flex flex-col h-full rounded-2xl border border-border bg-card/70 backdrop-blur-sm p-4 sm:p-5"
                                         style={{
-                                            borderColor: showActive ? `${cardColor}40` : 'hsl(var(--border))',
-                                            boxShadow: showActive ? `0 0 20px ${cardColor}15` : 'none',
+                                            borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
+                                            boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}15` : 'none',
                                             transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                                         }}
                                     >
@@ -208,8 +254,8 @@ export function PackagesSection() {
                                             <h3
                                                 className="text-base sm:text-lg font-semibold"
                                                 style={{
-                                                    color: showActive ? cardColor : 'inherit',
-                                                    textShadow: showActive ? `0 0 15px ${cardColor}40` : 'none',
+                                                    color: isActiveAndHydrated ? cardColor : 'inherit',
+                                                    textShadow: isActiveAndHydrated ? `0 0 15px ${cardColor}40` : 'none',
                                                     transition: 'color 700ms ease-in-out, text-shadow 700ms ease-in-out'
                                                 }}
                                             >
@@ -226,7 +272,7 @@ export function PackagesSection() {
                                                     <span
                                                         className="mt-1 text-[10px]"
                                                         style={{
-                                                            color: showActive ? cardColor : 'currentColor',
+                                                            color: isActiveAndHydrated ? cardColor : 'currentColor',
                                                             transition: 'color 700ms ease-in-out'
                                                         }}
                                                     >
@@ -240,15 +286,15 @@ export function PackagesSection() {
                                         <div
                                             className="pt-2 border-t"
                                             style={{
-                                                borderColor: showActive ? `${cardColor}30` : 'hsl(var(--border) / 0.6)',
+                                                borderColor: isActiveAndHydrated ? `${cardColor}30` : 'hsl(var(--border) / 0.6)',
                                                 transition: 'border-color 700ms ease-in-out'
                                             }}
                                         >
                                             <div
                                                 className="text-sm sm:text-base font-semibold"
                                                 style={{
-                                                    color: showActive ? cardColor : 'inherit',
-                                                    textShadow: showActive ? `0 0 15px ${cardColor}40` : 'none',
+                                                    color: isActiveAndHydrated ? cardColor : 'inherit',
+                                                    textShadow: isActiveAndHydrated ? `0 0 15px ${cardColor}40` : 'none',
                                                     transition: 'color 700ms ease-in-out, text-shadow 700ms ease-in-out'
                                                 }}
                                             >
@@ -266,7 +312,7 @@ export function PackagesSection() {
                         })}
                     </div>
                 </div>
-            </div>
-        </section>
+            </SectionDefault>
+        </Section>
     );
 }

@@ -7,6 +7,8 @@ import { ServicesCube } from '@/components/ServicesCube';
 import { Icon } from '@iconify/react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
+import { useDevice } from '@/contexts/DeviceContext';
 import {
     ReactIcon,
     NextJsIcon,
@@ -82,6 +84,7 @@ export function ServicesSection() {
     const t = useTranslations('services');
     const { isInteractive, mounted } = useInteractiveMode();
     const { key } = useOrientationResize();
+    const { isMobileLandscape } = useDevice();
     const [flippedCard, setFlippedCard] = useState<number | null>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -199,191 +202,215 @@ export function ServicesSection() {
 
     const gridServiceCategories: ServiceCategory[] = serviceCategories;
 
-    return (
-        <section
-            id="services"
-            key={key}
-            className="scroll-snap-section section-padding w-full h-screen max-h-screen overflow-y-auto overflow-x-hidden flex items-center justify-center bg-background relative"
-            style={{ zIndex: 1 }}
-        >
-            <div className="max-w-6xl mx-auto w-full min-h-full flex flex-col relative">
-                {isInteractive && (
-                    <button
-                        onClick={toggleView}
-                        disabled={isTransitioning}
-                        className="absolute top-20 sm:top-24 md:top-28 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
-                        title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
-                        suppressHydrationWarning
-                    >
-                        <Icon
-                            icon={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
-                            className="w-5 h-5 text-accent"
-                            ssr={true}
-                            key={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
-                        />
-                    </button>
-                )}
-
+    // Compact grid for mobile landscape - show 6 small icons in 3x2 grid
+    const renderCompactGrid = () => (
+        <div className="grid grid-cols-3 gap-2">
+            {gridServiceCategories.map((service, i) => (
                 <div
-                    suppressHydrationWarning
-                    style={{
-                        opacity: opacity,
-                        transition: 'opacity 350ms ease-in-out',
-                    }}
-                    className={`w-full h-full flex flex-col ${displayContent && isInteractive ? 'justify-around' : 'justify-center'
-                        }`}
+                    key={i}
+                    className="flex flex-col items-center justify-center p-2 bg-card/50 rounded-lg border border-border"
+                    style={{ transition: 'border-color 700ms ease-in-out' }}
                 >
-                    {displayContent && isInteractive ? (
-                        <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-12 lg:gap-0 py-6 sm:py-12 lg:py-16 h-full">
-                            <div className="lg:absolute lg:left-0 lg:top-16 xl:top-28 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none">
-                                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground">
-                                    {t('title')}
-                                </h2>
-                                <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
-                                    {t('subtitle')}
-                                </p>
-                            </div>
+                    <Icon
+                        icon={service.icon}
+                        className="text-2xl mb-1"
+                        key={service.icon}
+                        ssr={true}
+                    />
+                    <span className="text-[9px] text-center leading-tight text-muted-foreground">
+                        {service.title}
+                    </span>
+                </div>
+            ))}
+        </div>
+    );
 
-                            <div className="flex items-center justify-center order-2 mb-4 sm:mb-8 lg:mb-0">
-                                <ServicesCube
-                                    key="services-cube-stable"
-                                    services={serviceCategories}
-                                    t={t}
-                                />
-                            </div>
+    return (
+        <Section id="services" sectionKey={key} background="none">
+            {/* Mobile Landscape Layout */}
+            <SectionLeft className="w-1/3 pr-4">
+                <h2 className="text-xl font-bold mb-1">{t('title')}</h2>
+                <p className="text-xs text-muted-foreground">{t('subtitle')}</p>
+            </SectionLeft>
 
-                            <div className="lg:absolute lg:right-8 xl:right-12 lg:bottom-24 text-center lg:text-right max-w-xs order-3">
-                                <div className="relative mb-4">
-                                    <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
-                                    <div className="relative h-px bg-gradient-to-l from-accent via-accent to-transparent" />
-                                </div>
-                                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                                    {t('cubeHint')}
-                                </p>
-                            </div>
-                        </div>
-                    ) : (
-                        <>
-                            <SectionHeader
-                                title={t('title')}
-                                subtitle={t('subtitle')}
-                                className="text-center mb-2 sm:mb-3 lg:mb-4"
+            <SectionRight className="w-2/3 pr-4">
+                {renderCompactGrid()}
+            </SectionRight>
+
+            {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
+            <SectionDefault className="h-full flex flex-col max-w-6xl">
+                <div className="w-full min-h-full flex flex-col relative">
+                    {isInteractive && (
+                        <button
+                            onClick={toggleView}
+                            disabled={isTransitioning}
+                            className="absolute top-0 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                            title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
+                            suppressHydrationWarning
+                        >
+                            <Icon
+                                icon={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
+                                className="w-5 h-5 text-accent"
+                                ssr={true}
+                                key={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
                             />
+                        </button>
+                    )}
 
-                            <div className="flex flex-col justify-center overflow-hidden">
-                                <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-3 lg:gap-4 sm:p-3">
-                                    {gridServiceCategories.map((service, i) => {
-                                        const isFlipped = flippedCard === i;
+                    <div
+                        suppressHydrationWarning
+                        style={{
+                            opacity: opacity,
+                            transition: 'opacity 350ms ease-in-out',
+                        }}
+                        className={`w-full h-full flex flex-col ${displayContent && isInteractive ? 'justify-around' : 'justify-center'}`}
+                    >
+                        {displayContent && isInteractive ? (
+                            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-12 lg:gap-0 py-6 sm:py-12 lg:py-16 h-full">
+                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-28 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none">
+                                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground">
+                                        {t('title')}
+                                    </h2>
+                                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
+                                        {t('subtitle')}
+                                    </p>
+                                </div>
 
-                                        const handleMouseEnter = () => {
-                                            if (hoverTimeoutRef.current) {
-                                                clearTimeout(hoverTimeoutRef.current);
-                                            }
-                                            hoverTimeoutRef.current = setTimeout(() => {
-                                                setFlippedCard(i);
-                                            }, 50);
-                                        };
+                                <div className="flex items-center justify-center order-2 mb-4 sm:mb-8 lg:mb-0">
+                                    <ServicesCube
+                                        key="services-cube-stable"
+                                        services={serviceCategories}
+                                        t={t}
+                                    />
+                                </div>
 
-                                        const handleMouseLeave = () => {
-                                            if (hoverTimeoutRef.current) {
-                                                clearTimeout(hoverTimeoutRef.current);
-                                            }
-                                            hoverTimeoutRef.current = setTimeout(() => {
-                                                setFlippedCard(null);
-                                            }, 50);
-                                        };
+                                <div className="lg:absolute lg:right-8 xl:right-12 lg:bottom-24 text-center lg:text-right max-w-xs order-3">
+                                    <div className="relative mb-4">
+                                        <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
+                                        <div className="relative h-px bg-gradient-to-l from-accent via-accent to-transparent" />
+                                    </div>
+                                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                                        {t('cubeHint')}
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <SectionHeader
+                                    title={t('title')}
+                                    subtitle={t('subtitle')}
+                                    className="text-center mb-2 sm:mb-3 lg:mb-4"
+                                />
 
-                                        return (
-                                            <div key={i} className="perspective-1000">
-                                                <div
-                                                    onClick={() =>
-                                                        setFlippedCard(isFlipped ? null : i)
-                                                    }
-                                                    onMouseEnter={handleMouseEnter}
-                                                    onMouseLeave={handleMouseLeave}
-                                                    className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d"
-                                                    style={{
-                                                        transformStyle: 'preserve-3d',
-                                                        transform: isFlipped
-                                                            ? 'rotateY(180deg)'
-                                                            : 'rotateY(0deg)',
-                                                    }}
-                                                >
+                                <div className="flex flex-col justify-center overflow-hidden">
+                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-3 lg:gap-4 sm:p-3">
+                                        {gridServiceCategories.map((service, i) => {
+                                            const isFlipped = flippedCard === i;
+
+                                            const handleMouseEnter = () => {
+                                                if (hoverTimeoutRef.current) {
+                                                    clearTimeout(hoverTimeoutRef.current);
+                                                }
+                                                hoverTimeoutRef.current = setTimeout(() => {
+                                                    setFlippedCard(i);
+                                                }, 50);
+                                            };
+
+                                            const handleMouseLeave = () => {
+                                                if (hoverTimeoutRef.current) {
+                                                    clearTimeout(hoverTimeoutRef.current);
+                                                }
+                                                hoverTimeoutRef.current = setTimeout(() => {
+                                                    setFlippedCard(null);
+                                                }, 50);
+                                            };
+
+                                            return (
+                                                <div key={i} className="perspective-1000">
                                                     <div
-                                                        className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-card rounded-xl border border-border backface-hidden flex flex-col"
+                                                        onClick={() => setFlippedCard(isFlipped ? null : i)}
+                                                        onMouseEnter={handleMouseEnter}
+                                                        onMouseLeave={handleMouseLeave}
+                                                        className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d"
                                                         style={{
-                                                            backfaceVisibility: 'hidden',
-                                                            transition: 'border-color 700ms ease-in-out',
-                                                        }}
-                                                    >
-                                                        {service.techStack.length > 0 && (
-                                                            <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 pointer-events-none z-20">
-                                                                <div className="relative flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5">
-                                                                    <div className="absolute inset-0 bg-blue-500/50 rounded-full animate-ping" />
-                                                                    <div className="relative w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-full" />
-                                                                </div>
-                                                            </div>
-                                                        )}
-
-                                                        <div className="mb-2 sm:mb-3 flex-shrink-0">
-                                                            <Icon
-                                                                icon={service.icon}
-                                                                className="text-3xl sm:text-4xl lg:text-5xl"
-                                                                key={service.icon}
-                                                                ssr={true}
-                                                            />
-                                                        </div>
-
-                                                        <h3 className="text-sm sm:text-base lg:text-lg font-bold mb-1 sm:mb-2 leading-tight flex-shrink-0">
-                                                            {service.title}
-                                                        </h3>
-
-                                                        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1">
-                                                            {service.description}
-                                                        </p>
-                                                    </div>
-
-                                                    <div
-                                                        className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-secondary/50 rounded-xl border border-accent/50 shadow-lg shadow-accent/10 backface-hidden overflow-hidden flex flex-col"
-                                                        style={{
-                                                            backfaceVisibility: 'hidden',
-                                                            transform: 'rotateY(180deg)',
-                                                            transition: 'border-color 700ms ease-in-out',
+                                                            transformStyle: 'preserve-3d',
+                                                            transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
                                                         }}
                                                     >
                                                         <div
-                                                            className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 rounded-xl`}
-                                                        />
+                                                            className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-card rounded-xl border border-border backface-hidden flex flex-col"
+                                                            style={{
+                                                                backfaceVisibility: 'hidden',
+                                                                transition: 'border-color 700ms ease-in-out',
+                                                            }}
+                                                        >
+                                                            {service.techStack.length > 0 && (
+                                                                <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 pointer-events-none z-20">
+                                                                    <div className="relative flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5">
+                                                                        <div className="absolute inset-0 bg-blue-500/50 rounded-full animate-ping" />
+                                                                        <div className="relative w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-full" />
+                                                                    </div>
+                                                                </div>
+                                                            )}
 
-                                                        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center overflow-hidden">
-                                                            <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center max-h-full overflow-y-auto">
-                                                                {service.techStack.map((tech) => {
-                                                                    const TechIcon = tech.icon;
-                                                                    return (
-                                                                        <div
-                                                                            key={tech.name}
-                                                                            className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 bg-accent/10 rounded-md flex-shrink-0"
-                                                                        >
-                                                                            <TechIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                                                                            <span className="text-[10px] sm:text-xs font-medium whitespace-nowrap">
-                                                                                {tech.name}
-                                                                            </span>
-                                                                        </div>
-                                                                    );
-                                                                })}
+                                                            <div className="mb-2 sm:mb-3 flex-shrink-0">
+                                                                <Icon
+                                                                    icon={service.icon}
+                                                                    className="text-3xl sm:text-4xl lg:text-5xl"
+                                                                    key={service.icon}
+                                                                    ssr={true}
+                                                                />
+                                                            </div>
+
+                                                            <h3 className="text-sm sm:text-base lg:text-lg font-bold mb-1 sm:mb-2 leading-tight flex-shrink-0">
+                                                                {service.title}
+                                                            </h3>
+
+                                                            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1">
+                                                                {service.description}
+                                                            </p>
+                                                        </div>
+
+                                                        <div
+                                                            className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-secondary/50 rounded-xl border border-accent/50 shadow-lg shadow-accent/10 backface-hidden overflow-hidden flex flex-col"
+                                                            style={{
+                                                                backfaceVisibility: 'hidden',
+                                                                transform: 'rotateY(180deg)',
+                                                                transition: 'border-color 700ms ease-in-out',
+                                                            }}
+                                                        >
+                                                            <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 rounded-xl`} />
+
+                                                            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center overflow-hidden">
+                                                                <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center max-h-full overflow-y-auto">
+                                                                    {service.techStack.map((tech) => {
+                                                                        const TechIcon = tech.icon;
+                                                                        return (
+                                                                            <div
+                                                                                key={tech.name}
+                                                                                className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 bg-accent/10 rounded-md flex-shrink-0"
+                                                                            >
+                                                                                <TechIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                                                                                <span className="text-[10px] sm:text-xs font-medium whitespace-nowrap">
+                                                                                    {tech.name}
+                                                                                </span>
+                                                                            </div>
+                                                                        );
+                                                                    })}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        })}
+                                    </div>
                                 </div>
-                            </div>
-                        </>
-                    )}
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </SectionDefault>
+        </Section>
     );
 }

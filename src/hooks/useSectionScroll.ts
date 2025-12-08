@@ -6,7 +6,30 @@ import { useEffect, useRef } from 'react';
 let globalCurrentSectionIndex = 0;
 let globalIsScrolling = false;
 let globalScrollToSection: ((index: number) => void) | null = null;
-let hasGloballyInitialized = false; // Prevent duplicate initialization
+
+// Store references to event handlers for cleanup
+let globalWheelHandler: ((e: WheelEvent) => void) | null = null;
+let globalKeyHandler: ((e: KeyboardEvent) => void) | null = null;
+
+// Callback for section changes (used by DynamicFavicon)
+let globalSectionChangeCallback: ((sectionId: string) => void) | null = null;
+
+// Section IDs in order
+const SECTION_IDS = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
+
+// Export function to subscribe to section changes
+export function onSectionChange(callback: (sectionId: string) => void) {
+    globalSectionChangeCallback = callback;
+    // Return unsubscribe function
+    return () => {
+        globalSectionChangeCallback = null;
+    };
+}
+
+// Export function to get current section ID
+export function getCurrentSectionId(): string {
+    return SECTION_IDS[globalCurrentSectionIndex] || 'hero';
+}
 
 // Function to get section index by ID
 export function getSectionIndexById(sectionId: string): number {
@@ -38,58 +61,14 @@ export function useSectionScroll() {
     const currentSectionIndex = useRef(globalCurrentSectionIndex);
 
     useEffect(() => {
-        // If already initialized, just sync the current section index
-        if (hasGloballyInitialized) {
-            // Re-sync current section from URL hash on re-mount (e.g., after language toggle)
-            const hash = window.location.hash.slice(1); // Remove '#'
-
-            if (hash) {
-                // Wait for sections to render, then scroll to hash
-                setTimeout(() => {
-                    const targetSection = document.getElementById(hash);
-
-                    if (targetSection && targetSection.classList.contains('scroll-snap-section')) {
-                        const sections = document.querySelectorAll('.scroll-snap-section');
-                        const targetIndex = Array.from(sections).indexOf(targetSection);
-
-                        if (targetIndex !== -1) {
-                            currentSectionIndex.current = targetIndex;
-                            globalCurrentSectionIndex = targetIndex;
-
-                            // Actually scroll to the section
-                            const targetY = targetSection.offsetTop;
-                            window.scrollTo(0, targetY);
-                        }
-                    }
-                }, 100); // Wait for sections to be ready
-            } else {
-                // No hash - sync based on scroll position
-                const resyncTimeout = setTimeout(() => {
-                    const sections = document.querySelectorAll('.scroll-snap-section');
-                    if (sections.length > 0) {
-                        const scrollY = window.scrollY;
-                        let closestIndex = 0;
-                        let minDistance = Infinity;
-
-                        sections.forEach((section, i) => {
-                            const sectionTop = (section as HTMLElement).offsetTop;
-                            const distance = Math.abs(scrollY - sectionTop);
-
-                            if (distance < minDistance) {
-                                minDistance = distance;
-                                closestIndex = i;
-                            }
-                        });
-
-                        currentSectionIndex.current = closestIndex;
-                        globalCurrentSectionIndex = closestIndex;
-                    }
-                }, 100);
-
-                return () => clearTimeout(resyncTimeout);
-            }
-
-            return;
+        // Clean up any existing listeners first (from previous page)
+        if (globalWheelHandler) {
+            window.removeEventListener('wheel', globalWheelHandler);
+            globalWheelHandler = null;
+        }
+        if (globalKeyHandler) {
+            window.removeEventListener('keydown', globalKeyHandler);
+            globalKeyHandler = null;
         }
 
         // Warte bis alle Sections geladen sind (wegen dynamic imports)
@@ -98,8 +77,6 @@ export function useSectionScroll() {
             if (sections.length === 0) {
                 return;
             }
-
-            hasGloballyInitialized = true;
 
             // Initialisiere mit der aktuellen Section beim Mount
             const initCurrentSection = () => {
@@ -119,6 +96,12 @@ export function useSectionScroll() {
 
                 currentSectionIndex.current = closestIndex;
                 globalCurrentSectionIndex = closestIndex;
+                
+                // Notify listeners about initial section
+                const sectionId = SECTION_IDS[closestIndex];
+                if (sectionId && globalSectionChangeCallback) {
+                    globalSectionChangeCallback(sectionId);
+                }
             };
 
             // Beim Mount die aktuelle Section ermitteln
@@ -133,20 +116,28 @@ export function useSectionScroll() {
                     return;
                 }
 
-                // Lock scrolling immediately
+                // Lock scrolling and UPDATE INDEX IMMEDIATELY to prevent race conditions
                 isScrolling.current = true;
                 globalIsScrolling = true;
+                currentSectionIndex.current = index;
+                globalCurrentSectionIndex = index;
+
+                // Notify listeners about section change
+                const sectionId = SECTION_IDS[index];
+                if (sectionId && globalSectionChangeCallback) {
+                    globalSectionChangeCallback(sectionId);
+                }
 
                 const section = sections[index] as HTMLElement;
                 const targetY = section.offsetTop;
                 const startY = window.scrollY;
                 const distance = targetY - startY;
-                const duration = 1000;
+                const duration = 700; // Smooth but responsive
                 let startTime: number | null = null;
 
-                // Easing mit langsamerem Ende (ease-out)
-                const easeOutQuart = (t: number): number => {
-                    return 1 - Math.pow(1 - t, 4);
+                // Smooth easing function
+                const easeOutQuint = (t: number): number => {
+                    return 1 - Math.pow(1 - t, 6);
                 };
 
                 const animation = (currentTime: number) => {
@@ -154,7 +145,7 @@ export function useSectionScroll() {
                     const timeElapsed = currentTime - startTime;
                     const progress = Math.min(timeElapsed / duration, 1);
 
-                    const ease = easeOutQuart(progress);
+                    const ease = easeOutQuint(progress);
                     const currentY = startY + (distance * ease);
 
                     window.scrollTo(0, currentY);
@@ -162,9 +153,7 @@ export function useSectionScroll() {
                     if (progress < 1) {
                         requestAnimationFrame(animation);
                     } else {
-                        // Animation beendet - Update Index und unlock
-                        currentSectionIndex.current = index;
-                        globalCurrentSectionIndex = index;
+                        // Animation beendet - unlock scrolling
                         isScrolling.current = false;
                         globalIsScrolling = false;
 
@@ -185,21 +174,28 @@ export function useSectionScroll() {
             // Expose scrollToSection globally for Header
             globalScrollToSection = scrollToSection;
 
+            // Detect if device is desktop-sized (wide screen) - touch detection causes issues on touchscreen laptops
+            // We check if it's a wide screen AND not a mobile/tablet user agent
+            const isWideScreen = window.innerWidth >= 1024;
+            const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isDesktop = isWideScreen && !isMobileUserAgent;
+
             const handleWheel = (e: WheelEvent) => {
+                // Only handle wheel on desktop devices
+                if (!isDesktop) return;
+
                 e.preventDefault();
 
-                // Sync global state with local ref
+                // Skip if already scrolling
                 if (globalIsScrolling || isScrolling.current) {
                     return;
                 }
 
-                const delta = e.deltaY;
+                // Simple threshold - ignore tiny movements
+                if (Math.abs(e.deltaY) < 10) return;
 
-                // Ignoriere zu kleine Bewegungen
-                if (Math.abs(delta) < 5) return;
-
-                // Bestimme Richtung
-                const direction = delta > 0 ? 1 : -1;
+                // Determine direction and scroll
+                const direction = e.deltaY > 0 ? 1 : -1;
                 const targetIndex = currentSectionIndex.current + direction;
 
                 // Query sections fresh for validation
@@ -235,18 +231,28 @@ export function useSectionScroll() {
                 }
             };
 
-            // Passive: false wichtig für preventDefault
-            window.addEventListener('wheel', handleWheel, { passive: false });
+            // Only add wheel listener on desktop (non-touch devices)
+            // Touch/mobile devices use native CSS scroll-snap
+            if (isDesktop) {
+                globalWheelHandler = handleWheel;
+                window.addEventListener('wheel', handleWheel, { passive: false });
+            }
+            globalKeyHandler = handleKeyDown;
             window.addEventListener('keydown', handleKeyDown);
 
-            // Cleanup only on unmount - don't remove listeners on re-mount
-            // (hasGloballyInitialized prevents re-adding listeners)
-            return undefined;
         }, 500); // 500ms Delay für dynamic imports
 
         return () => {
             clearTimeout(initTimeout);
-            // DON'T cleanup listeners here - they should persist across re-mounts
+            // Clean up listeners on unmount (when navigating away from main page)
+            if (globalWheelHandler) {
+                window.removeEventListener('wheel', globalWheelHandler);
+                globalWheelHandler = null;
+            }
+            if (globalKeyHandler) {
+                window.removeEventListener('keydown', globalKeyHandler);
+                globalKeyHandler = null;
+            }
         };
     }, []);
 }

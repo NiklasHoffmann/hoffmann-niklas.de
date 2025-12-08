@@ -7,6 +7,8 @@ import { projects } from '@/data/portfolio';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { ProjectCard } from '@/components/ui/ProjectCard';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
+import { useDevice } from '@/contexts/DeviceContext';
 
 export function PortfolioSection() {
     const t = useTranslations('portfolio');
@@ -16,7 +18,8 @@ export function PortfolioSection() {
     const [canScrollRight, setCanScrollRight] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const { key } = useOrientationResize();
-    
+    const { isMobileLandscape } = useDevice();
+
     // Touch swipe state
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
@@ -141,12 +144,51 @@ export function PortfolioSection() {
     const showDesktopSlider = projects.length > 3;
 
     return (
-        <section
-            id="portfolio"
-            key={key}
-            className="scroll-snap-section section-padding w-full min-h-screen max-h-screen overflow-y-auto flex items-center justify-center bg-secondary/30"
-        >
-            <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center">
+        <Section id="portfolio" sectionKey={key} background="secondary">
+            {/* Mobile Landscape Layout */}
+            <SectionLeft className='w-1/2'>
+                <h2 className="text-xl font-bold mb-1">{t('title')}</h2>
+                <p className="text-xs text-muted-foreground mb-2">{t('subtitle')}</p>
+                {/* Current project info */}
+                <div className="text-center">
+                    <h3 className="text-sm font-semibold">
+                        {t(`projects.${projects[currentSlide].title}.title`)}
+                    </h3>
+                    <p className="text-[10px] text-muted-foreground line-clamp-2">
+                        {t(`projects.${projects[currentSlide].title}.description`)}
+                    </p>
+                </div>
+            </SectionLeft>
+
+            <SectionRight className="w-1/2 gap-2">
+                {/* Compact project slider for mobile landscape */}
+                <div className="relative w-40 h-24 rounded-lg overflow-hidden border border-border">
+                    {projects[currentSlide].image && (
+                        <img
+                            src={projects[currentSlide].image}
+                            alt={t(`projects.${projects[currentSlide].title}.title`)}
+                            className="w-full h-full object-cover"
+                        />
+                    )}
+                </div>
+                {/* Navigation dots */}
+                <div className="flex gap-1.5">
+                    {projects.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentSlide(index)}
+                            className={`w-2 h-2 rounded-full border ${index === currentSlide
+                                ? 'bg-accent border-accent'
+                                : 'bg-secondary border-border'
+                                }`}
+                            style={{ transition: 'all 300ms ease-in-out' }}
+                        />
+                    ))}
+                </div>
+            </SectionRight>
+
+            {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
+            <SectionDefault className="h-full flex flex-col justify-center max-w-7xl">
                 {/* Header */}
                 <SectionHeader
                     title={t('title')}
@@ -156,7 +198,7 @@ export function PortfolioSection() {
 
                 {/* Mobile: Slider */}
                 <div className="sm:hidden relative">
-                    <div 
+                    <div
                         className="overflow-hidden touch-pan-y"
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
@@ -303,7 +345,7 @@ export function PortfolioSection() {
                         ))}
                     </div>
                 )}
-            </div>
-        </section>
+            </SectionDefault>
+        </Section>
     );
 }

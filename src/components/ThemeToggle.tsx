@@ -36,12 +36,15 @@ export function ThemeToggle() {
         );
     }
 
+    // Use mounted check to avoid hydration mismatch
+    const isActive = mounted && showActive;
+
     return (
         <button
             onClick={toggleTheme}
             style={{
-                backgroundColor: showActive ? '#eab308' : 'transparent',
-                boxShadow: showActive
+                backgroundColor: isActive ? '#eab308' : 'transparent',
+                boxShadow: isActive
                     ? '0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.5)'
                     : getBaseShadow(),
                 transition: 'all 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
@@ -56,7 +59,7 @@ export function ThemeToggle() {
         >
             <Sun className={`w-5 h-5 text-foreground absolute transition-all duration-700 ease-in-out ${theme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'}`} />
             <Moon className={`w-5 h-5 text-foreground absolute transition-all duration-700 ease-in-out ${theme === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'}`} />
-            {showActive && (
+            {isActive && (
                 <span className="absolute inset-0 rounded-lg blur-sm transition-opacity duration-700 ease-in-out bg-white/15" />
             )}
         </button>

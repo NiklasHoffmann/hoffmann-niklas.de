@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
 import { Icon } from '@iconify/react';
@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { TRANSITIONS } from '@/lib/transitions';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
+import { useDevice } from '@/contexts/DeviceContext';
 
 function FooterComponent() {
     const t = useTranslations('footer');
@@ -17,6 +19,14 @@ function FooterComponent() {
     const locale = params.locale as string;
     const currentYear = new Date().getFullYear();
     const { showActive } = useInteractiveMode();
+    const { isMobileLandscape } = useDevice();
+    
+    // Use mounted state to avoid hydration mismatch with showActive
+    const [isMounted, setIsMounted] = useState(false);
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+    
     const socialLinks = [
         { icon: Github, href: 'https://github.com/hoffmannniklas', label: 'GitHub' },
         { icon: Linkedin, href: 'https://linkedin.com/in/hoffmannniklas', label: 'LinkedIn' },
@@ -25,8 +35,59 @@ function FooterComponent() {
     ];
 
     return (
-        <footer id="footer" className="scroll-snap-section section-padding bg-secondary/50 h-screen max-h-screen overflow-hidden flex items-center">
-            <div className="max-w-4xl mx-auto w-full">
+        <Section id="footer" background="secondary" asFooter>
+            {/* Mobile Landscape Layout */}
+            <SectionLeft className='w-1/2'>
+                <h3 className="text-lg font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-1">
+                    Niklas Hoffmann
+                </h3>
+                <p className="text-xs text-muted-foreground mb-2">{t('brand')}</p>
+                <div className="flex gap-2">
+                    {socialLinks.map((social) => {
+                        const IconComp = social.icon;
+                        return (
+                            <a
+                                key={social.label}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 rounded-lg bg-secondary/50 border border-border"
+                                aria-label={social.label}
+                            >
+                                <IconComp className="w-4 h-4" />
+                            </a>
+                        );
+                    })}
+                </div>
+            </SectionLeft>
+
+            <SectionRight className='w-1/2'>
+                <div className="text-center text-[10px] text-muted-foreground space-y-1">
+                    <div className="flex items-center gap-2">
+                        <Link
+                            href={`/${locale}/impressum`}
+                            className="link-underline hover:text-accent"
+                            data-glow={isMounted && showActive ? 'true' : undefined}
+                            style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
+                        >
+                            {locale === 'de' ? 'Impressum' : 'Legal'}
+                        </Link>
+                        <span>•</span>
+                        <Link
+                            href={`/${locale}/datenschutz`}
+                            className="link-underline hover:text-accent"
+                            data-glow={isMounted && showActive ? 'true' : undefined}
+                            style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
+                        >
+                            {locale === 'de' ? 'Datenschutz' : 'Privacy'}
+                        </Link>
+                    </div>
+                    <p>© {currentYear} Niklas Hoffmann</p>
+                </div>
+            </SectionRight>
+
+            {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
+            <SectionDefault className="max-w-4xl">
                 {/* Content Stack */}
                 <div className="flex flex-col items-center text-center space-y-6 sm:space-y-8 mb-8 sm:mb-10">
                     {/* Brand */}
@@ -44,7 +105,7 @@ function FooterComponent() {
                         <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">{t('followMe')}</h4>
                         <div className="flex gap-3 sm:gap-4 justify-center">
                             {socialLinks.map((social) => {
-                                const Icon = social.icon;
+                                const IconComp = social.icon;
                                 return (
                                     <a
                                         key={social.label}
@@ -55,7 +116,7 @@ function FooterComponent() {
                                         style={{ transition: TRANSITIONS.backgroundAndBorder }}
                                         aria-label={social.label}
                                     >
-                                        <Icon className="w-5 h-5" />
+                                        <IconComp className="w-5 h-5" />
                                     </a>
                                 );
                             })}
@@ -71,16 +132,18 @@ function FooterComponent() {
                     <div className="flex items-center justify-center gap-4 mb-2">
                         <Link
                             href={`/${locale}/impressum`}
-                            className={showActive ? 'link-underline-glow hover:text-accent' : 'link-underline hover:text-accent'}
-                            style={{ transition: 'color 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)' }}
+                            className="link-underline hover:text-accent"
+                            data-glow={isMounted && showActive ? 'true' : undefined}
+                            style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
                             {locale === 'de' ? 'Impressum' : locale === 'es' ? 'Aviso Legal' : 'Legal Notice'}
                         </Link>
                         <span className="text-muted-foreground/40">•</span>
                         <Link
                             href={`/${locale}/datenschutz`}
-                            className={showActive ? 'link-underline-glow hover:text-accent' : 'link-underline hover:text-accent'}
-                            style={{ transition: 'color 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55)' }}
+                            className="link-underline hover:text-accent"
+                            data-glow={isMounted && showActive ? 'true' : undefined}
+                            style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
                             {locale === 'de' ? 'Datenschutz' : locale === 'es' ? 'Privacidad' : 'Privacy'}
                         </Link>
@@ -102,8 +165,8 @@ function FooterComponent() {
                         {t('madeWith').split('❤️')[1]}
                     </p>
                 </div>
-            </div>
-        </footer>
+            </SectionDefault>
+        </Section>
     );
 }
 

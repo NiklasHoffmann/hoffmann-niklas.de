@@ -34,6 +34,8 @@ export const metadata: Metadata = {
   authors: [{ name: "Niklas Hoffmann", url: "https://hoffmann-niklas.de" }],
   creator: "Niklas Hoffmann",
   metadataBase: new URL("https://hoffmann-niklas.de"),
+  // Note: Favicon is handled dynamically by DynamicFavicon component
+  // Do NOT set icons here as it causes flashing during hydration
   openGraph: {
     type: "website",
     locale: "de_DE",
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  // Icons werden dynamisch via DynamicFavicon Component gesetzt
+  // Icons werden dynamisch via DynamicFavicon Component aktualisiert
 };
 
 export function generateStaticParams() {
@@ -71,13 +73,13 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ClientProviders>
           <DynamicFavicon />
-          <div className="relative min-h-screen">
-            {/* Chain Background Layer - z-1 (zwischen Background und Content) */}
+          {/* Content Wrapper - contains both chain and content */}
+          <div className="relative">
+            {/* Chain Background Layer - absolute, covers full document height */}
             <div className="absolute inset-0 pointer-events-none z-[1]">
               <ConditionalChainBackground />
             </div>
-
-            {/* Content Layer - z-10 */}
+            {/* Content Layer */}
             <div className="relative z-10">
               {children}
             </div>
