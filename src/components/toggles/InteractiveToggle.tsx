@@ -19,13 +19,20 @@ export function InteractiveToggle() {
             : '0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.2)';
     };
 
+    // Active shadow based on theme - stronger in dark mode for better visibility
+    const getActiveShadow = () => {
+        return theme === 'dark'
+            ? '0 0 12px 2px rgba(6, 182, 212, 0.8), 0 10px 15px -3px rgba(6, 182, 212, 0.6), 0 4px 6px -4px rgba(6, 182, 212, 0.5)'
+            : '0 0 8px 1px rgba(6, 182, 212, 0.6), 0 10px 15px -3px rgba(6, 182, 212, 0.5), 0 4px 6px -4px rgba(6, 182, 212, 0.4)';
+    };
+
     return (
         <button
             onClick={() => setIsInteractive(!isInteractive)}
             style={{
                 backgroundColor: isActive ? '#06b6d4' : 'transparent',
                 boxShadow: isActive
-                    ? '0 10px 15px -3px rgba(6, 182, 212, 0.5), 0 4px 6px -4px rgba(6, 182, 212, 0.5)'
+                    ? getActiveShadow()
                     : getBaseShadow(),
                 transition: 'all 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
             }}

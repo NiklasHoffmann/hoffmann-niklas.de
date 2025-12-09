@@ -43,18 +43,43 @@ export function LanguageToggle() {
             : '0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.2)';
     };
 
-    // Hover shadow styles
+    // Hover shadow styles - stronger glow effect, theme-aware
     const getHoverShadow = () => {
         if (showActive) {
+            if (theme === 'dark') {
+                if (locale === 'de') {
+                    return '0 0 16px 3px rgba(220, 38, 38, 0.9), 0 12px 18px -3px rgba(220, 38, 38, 0.7), 0 6px 8px -4px rgba(220, 38, 38, 0.6)';
+                } else if (locale === 'en') {
+                    return '0 0 16px 3px rgba(29, 78, 216, 0.9), 0 12px 18px -3px rgba(29, 78, 216, 0.7), 0 6px 8px -4px rgba(29, 78, 216, 0.6)';
+                } else {
+                    return '0 0 16px 3px rgba(234, 179, 8, 0.9), 0 12px 18px -3px rgba(234, 179, 8, 0.7), 0 6px 8px -4px rgba(234, 179, 8, 0.6)';
+                }
+            }
             if (locale === 'de') {
-                return '0 20px 25px -5px rgba(220, 38, 38, 0.6), 0 8px 10px -6px rgba(220, 38, 38, 0.6)';
+                return '0 0 12px 2px rgba(220, 38, 38, 0.7), 0 12px 18px -3px rgba(220, 38, 38, 0.6), 0 6px 8px -4px rgba(220, 38, 38, 0.5)';
             } else if (locale === 'en') {
-                return '0 20px 25px -5px rgba(29, 78, 216, 0.6), 0 8px 10px -6px rgba(29, 78, 216, 0.6)';
+                return '0 0 12px 2px rgba(29, 78, 216, 0.7), 0 12px 18px -3px rgba(29, 78, 216, 0.6), 0 6px 8px -4px rgba(29, 78, 216, 0.5)';
             } else {
-                return '0 20px 25px -5px rgba(234, 179, 8, 0.6), 0 8px 10px -6px rgba(234, 179, 8, 0.6)';
+                return '0 0 12px 2px rgba(234, 179, 8, 0.7), 0 12px 18px -3px rgba(234, 179, 8, 0.6), 0 6px 8px -4px rgba(234, 179, 8, 0.5)';
             }
         }
         return 'none';
+    };
+
+    // Active shadow based on theme - stronger in dark mode for better visibility
+    const getActiveShadow = () => {
+        if (theme === 'dark') {
+            return locale === 'de'
+                ? '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)'
+                : locale === 'en'
+                    ? '0 0 12px 2px rgba(29, 78, 216, 0.8), 0 10px 15px -3px rgba(29, 78, 216, 0.6), 0 4px 6px -4px rgba(29, 78, 216, 0.5)'
+                    : '0 0 12px 2px rgba(234, 179, 8, 0.8), 0 10px 15px -3px rgba(234, 179, 8, 0.6), 0 4px 6px -4px rgba(234, 179, 8, 0.5)';
+        }
+        return locale === 'de'
+            ? '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)'
+            : locale === 'en'
+                ? '0 0 8px 1px rgba(29, 78, 216, 0.6), 0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.4)'
+                : '0 0 8px 1px rgba(234, 179, 8, 0.6), 0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.4)';
     };
 
     return (
@@ -68,12 +93,7 @@ export function LanguageToggle() {
             }}
             onMouseLeave={(e) => {
                 if (showActive) {
-                    const shadow = locale === 'de'
-                        ? '0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.5)'
-                        : locale === 'en'
-                            ? '0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.5)'
-                            : '0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.5)';
-                    e.currentTarget.style.boxShadow = shadow;
+                    e.currentTarget.style.boxShadow = getActiveShadow();
                 } else {
                     e.currentTarget.style.boxShadow = getBaseShadow();
                 }
@@ -81,13 +101,7 @@ export function LanguageToggle() {
             style={{
                 position: 'relative',
                 backgroundColor: 'transparent',
-                boxShadow: showActive
-                    ? locale === 'de'
-                        ? '0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.5)'
-                        : locale === 'en'
-                            ? '0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.5)'
-                            : '0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.5)'
-                    : getBaseShadow(),
+                boxShadow: showActive ? getActiveShadow() : getBaseShadow(),
                 transition: 'all 700ms ease-in-out, box-shadow 700ms ease-in-out',
             }}
             className={`

@@ -39,13 +39,20 @@ export function ThemeToggle() {
     // Use mounted check to avoid hydration mismatch
     const isActive = mounted && showActive;
 
+    // Active shadow based on theme - stronger in dark mode for better visibility
+    const getActiveShadow = () => {
+        return theme === 'dark'
+            ? '0 0 12px 2px rgba(234, 179, 8, 0.8), 0 10px 15px -3px rgba(234, 179, 8, 0.6), 0 4px 6px -4px rgba(234, 179, 8, 0.5)'
+            : '0 0 8px 1px rgba(234, 179, 8, 0.6), 0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.4)';
+    };
+
     return (
         <button
             onClick={toggleTheme}
             style={{
                 backgroundColor: isActive ? '#eab308' : 'transparent',
                 boxShadow: isActive
-                    ? '0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.5)'
+                    ? getActiveShadow()
                     : getBaseShadow(),
                 transition: 'all 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
             }}
