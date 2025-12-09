@@ -153,7 +153,7 @@ export function PackagesSection() {
                                             <div className="absolute bottom-3 right-3 pointer-events-none z-20">
                                                 <div className="relative flex items-center justify-center w-4 h-4">
                                                     <div
-                                                        className="absolute inset-0 rounded-full animate-ping"
+                                                        className="absolute inset-0 rounded-full gpu-ping"
                                                         style={{ backgroundColor: isActiveAndHydrated ? `${cardColor}50` : 'rgba(59, 130, 246, 0.5)' }}
                                                     />
                                                     <div

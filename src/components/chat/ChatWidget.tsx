@@ -113,7 +113,7 @@ export default function ChatWidget() {
                 <div className="relative">
                     {/* Unread Badge */}
                     {unreadCount > 0 && (
-                        <div className="absolute -top-2 -right-2 z-10 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full animate-pulse shadow-lg">
+                        <div className="absolute -top-2 -right-2 z-10 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full gpu-pulse shadow-lg">
                             {unreadCount > 9 ? '9+' : unreadCount}
                         </div>
                     )}

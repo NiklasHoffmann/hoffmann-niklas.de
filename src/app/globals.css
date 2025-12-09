@@ -580,4 +580,43 @@ body {
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--muted-foreground) / 0.5);
   }
+
+  /* GPU-accelerated animations for better performance */
+  /* These use transform and opacity which are composited on GPU */
+  
+  .gpu-ping {
+    animation: gpu-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    will-change: transform, opacity;
+  }
+  
+  @keyframes gpu-ping {
+    75%, 100% {
+      transform: scale(2) translateZ(0);
+      opacity: 0;
+    }
+  }
+  
+  .gpu-pulse {
+    animation: gpu-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: opacity;
+  }
+  
+  @keyframes gpu-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    .gpu-ping,
+    .gpu-pulse,
+    .animate-ping,
+    .animate-pulse {
+      animation: none !important;
+    }
+  }
 }

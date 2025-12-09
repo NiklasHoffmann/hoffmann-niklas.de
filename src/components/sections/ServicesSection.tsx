@@ -353,7 +353,7 @@ export function ServicesSection() {
                                                             {service.techStack.length > 0 && (
                                                                 <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 pointer-events-none z-20">
                                                                     <div className="relative flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5">
-                                                                        <div className="absolute inset-0 bg-blue-500/50 rounded-full animate-ping" />
+                                                                        <div className="absolute inset-0 bg-blue-500/50 rounded-full gpu-ping" />
                                                                         <div className="relative w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-full" />
                                                                     </div>
                                                                 </div>

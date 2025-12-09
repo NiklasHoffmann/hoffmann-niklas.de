@@ -86,7 +86,7 @@ export function HeroSection({ ssrTitle, ssrSubtitle, ssrPriceNote }: HeroSection
                     }}
                 >
                     <div className="relative flex items-center justify-center">
-                        <div className="absolute w-2 h-2 bg-green-500/30 rounded-full animate-ping" />
+                        <div className="absolute w-2 h-2 bg-green-500/30 rounded-full gpu-ping" />
                         <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full" />
                     </div>
                     <span className="text-xs font-semibold text-foreground">{t('cta')}</span>
@@ -114,7 +114,7 @@ export function HeroSection({ ssrTitle, ssrSubtitle, ssrPriceNote }: HeroSection
                     }}
                 >
                     <div className="relative flex items-center justify-center">
-                        <div className="absolute w-3 h-3 bg-green-500/30 rounded-full animate-ping" />
+                        <div className="absolute w-3 h-3 bg-green-500/30 rounded-full gpu-ping" />
                         <div className="relative w-2 h-2 bg-green-500 rounded-full" />
                     </div>
                     <span className="text-xs sm:text-sm font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
