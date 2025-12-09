@@ -4,22 +4,27 @@ import { useTranslations } from 'next-intl';
 import { Icon } from '@iconify/react';
 import { useChat } from '@/contexts/ChatContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useDevice } from '@/contexts/DeviceContext';
 import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 
 // Define tech icons outside component to prevent re-mounting
-const TechIcons = ({ compact = false }: { compact?: boolean }) => (
-    <div className={`flex items-center justify-center gap-3 ${compact ? 'mb-0' : 'mb-8 sm:mb-10'} opacity-100 transition-opacity duration-300`}>
+// Icons are deferred to avoid blocking main thread on initial load
+const TechIcons = ({ compact = false, visible = true }: { compact?: boolean; visible?: boolean }) => (
+    <div className={`flex items-center justify-center gap-3 ${compact ? 'mb-0' : 'mb-8 sm:mb-10'} transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Icon icon="logos:react" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
-            <Icon icon="logos:nextjs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
-            <Icon icon="logos:typescript-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
-            <Icon icon="logos:tailwindcss-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
-            <Icon icon="logos:nodejs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
-            <Icon icon="logos:ethereum" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
+            {visible && (
+                <>
+                    <Icon icon="logos:react" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
+                    <Icon icon="logos:nextjs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
+                    <Icon icon="logos:typescript-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
+                    <Icon icon="logos:tailwindcss-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
+                    <Icon icon="logos:nodejs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
+                    <Icon icon="logos:ethereum" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
+                </>
+            )}
         </div>
     </div>
 );
@@ -32,6 +37,19 @@ export function HeroSection() {
     const { mounted } = useInteractiveMode();
     const { isMobileLandscape } = useDevice();
     const [isHovered, setIsHovered] = useState(false);
+    // Defer icon loading to not block main thread
+    const [showIcons, setShowIcons] = useState(false);
+
+    useEffect(() => {
+        // Use requestIdleCallback to load icons after critical content
+        if ('requestIdleCallback' in window) {
+            const id = window.requestIdleCallback(() => setShowIcons(true), { timeout: 1000 });
+            return () => window.cancelIdleCallback(id);
+        } else {
+            const timeout = setTimeout(() => setShowIcons(true), 50);
+            return () => clearTimeout(timeout);
+        }
+    }, []);
 
     // Use client translations for proper language toggle support
     const title = t('title');
@@ -89,7 +107,7 @@ export function HeroSection() {
 
                     />
                 </button>
-                <TechIcons compact />
+                <TechIcons compact visible={showIcons} />
             </SectionRight>
 
             {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
@@ -139,8 +157,8 @@ export function HeroSection() {
                     {priceNote}
                 </p>
 
-                {/* Tech Stack Icons */}
-                <TechIcons />
+                {/* Tech Stack Icons - deferred loading */}
+                <TechIcons visible={showIcons} />
             </SectionDefault>
         </Section>
     );
