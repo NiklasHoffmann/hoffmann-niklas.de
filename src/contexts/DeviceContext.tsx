@@ -109,19 +109,60 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
     const [deviceInfo, setDeviceInfo] = useState<DeviceInfo>(getDeviceInfo);
 
     useEffect(() => {
+        let resizeTimeout: NodeJS.Timeout;
+        let orientationTimeout: NodeJS.Timeout;
+
         const handleResize = () => {
+            // Debounce resize events
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                setDeviceInfo(getDeviceInfo());
+            }, 50);
+        };
+
+        const handleOrientationChange = () => {
+            // Clear any pending resize timeout
+            clearTimeout(orientationTimeout);
+            
+            // Multiple checks for reliable orientation change detection
+            // Wave 1: Immediate
             setDeviceInfo(getDeviceInfo());
+            
+            // Wave 2: After 100ms (browser may not have updated dimensions yet)
+            orientationTimeout = setTimeout(() => {
+                setDeviceInfo(getDeviceInfo());
+            }, 100);
+            
+            // Wave 3: After 300ms (some devices are slow)
+            setTimeout(() => {
+                setDeviceInfo(getDeviceInfo());
+            }, 300);
+            
+            // Wave 4: After 500ms (final catch)
+            setTimeout(() => {
+                setDeviceInfo(getDeviceInfo());
+            }, 500);
         };
 
         // Initial check
         handleResize();
 
         window.addEventListener('resize', handleResize);
-        window.addEventListener('orientationchange', handleResize);
+        window.addEventListener('orientationchange', handleOrientationChange);
+
+        // Also use matchMedia for more reliable orientation detection
+        const mediaQuery = window.matchMedia('(orientation: landscape)');
+        const handleMediaChange = () => {
+            handleOrientationChange();
+        };
+        mediaQuery.addEventListener('change', handleMediaChange);
 
         return () => {
             window.removeEventListener('resize', handleResize);
-            window.removeEventListener('orientationchange', handleResize);
+            window.removeEventListener('orientationchange', handleOrientationChange);
+            mediaQuery.removeEventListener('change', handleMediaChange);
+            clearTimeout(resizeTimeout);
+            clearTimeout(orientationTimeout);
         };
     }, []);
 

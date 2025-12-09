@@ -211,12 +211,14 @@ export function ServicesSection() {
                     className="flex flex-col items-center justify-center p-2 bg-card/50 rounded-lg border border-border"
                     style={{ transition: 'border-color 700ms ease-in-out' }}
                 >
-                    <Icon
-                        icon={service.icon}
-                        className="text-2xl mb-1"
-                        key={service.icon}
-
-                    />
+                    <div className="h-6 flex items-center mb-1">
+                        <Icon
+                            icon={service.icon}
+                            className="text-2xl"
+                            width="1em"
+                            height="1em"
+                        />
+                    </div>
                     <span className="text-[9px] text-center leading-tight text-muted-foreground">
                         {service.title}
                     </span>
@@ -360,12 +362,12 @@ export function ServicesSection() {
                                                                 </div>
                                                             )}
 
-                                                            <div className="mb-2 sm:mb-3 flex-shrink-0">
+                                                            <div className="mb-2 sm:mb-3 flex-shrink-0 h-[30px] sm:h-[40px] lg:h-[48px] flex items-center">
                                                                 <Icon
                                                                     icon={service.icon}
                                                                     className="text-3xl sm:text-4xl lg:text-5xl"
-                                                                    key={service.icon}
-
+                                                                    width="1em"
+                                                                    height="1em"
                                                                 />
                                                             </div>
 

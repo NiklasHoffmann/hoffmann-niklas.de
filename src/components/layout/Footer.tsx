@@ -2,7 +2,7 @@
 
 import { memo, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Mail, Instagram } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -28,10 +28,9 @@ function FooterComponent() {
     }, []);
 
     const socialLinks = [
-        { icon: Github, href: 'https://github.com/hoffmannniklas', label: 'GitHub' },
-        { icon: Linkedin, href: 'https://linkedin.com/in/hoffmannniklas', label: 'LinkedIn' },
-        { icon: Twitter, href: 'https://twitter.com/hoffmannniklas', label: 'Twitter' },
-        { icon: Mail, href: 'mailto:hoffmann.niklas@googlemail.com', label: 'Email' },
+        { icon: Github, href: 'https://github.com/NiklasHoffmann', label: 'GitHub' },
+        { icon: Instagram, href: 'https://instagram.com/fotolaend', label: 'LinkedIn' },
+        { icon: Mail, href: 'mailto:mail@hoffmann-niklas.de', label: 'Email' },
     ];
 
     return (
@@ -39,7 +38,7 @@ function FooterComponent() {
             {/* Mobile Landscape Layout */}
             <SectionLeft className='w-1/2'>
                 <h3 className="text-lg font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-1">
-                    Niklas Hoffmann
+                    {t('name')}
                 </h3>
                 <p className="text-xs text-muted-foreground mb-2">{t('brand')}</p>
                 <div className="flex gap-2">
@@ -70,7 +69,7 @@ function FooterComponent() {
                             data-glow={isMounted && showActive ? 'true' : undefined}
                             style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
-                            {locale === 'de' ? 'Impressum' : 'Legal'}
+                            {t('impressum')}
                         </Link>
                         <span>•</span>
                         <Link
@@ -79,10 +78,15 @@ function FooterComponent() {
                             data-glow={isMounted && showActive ? 'true' : undefined}
                             style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
-                            {locale === 'de' ? 'Datenschutz' : 'Privacy'}
+                            {t('datenschutz')}
                         </Link>
                     </div>
-                    <p>© {currentYear} Niklas Hoffmann</p>
+                    <p>
+                        © <span
+                            onClick={() => router.push('/admin')}
+                            className="cursor-default hover:text-primary transition-colors"
+                        >{currentYear}</span> {t('name')}
+                    </p>
                 </div>
             </SectionRight>
 
@@ -93,7 +97,7 @@ function FooterComponent() {
                     {/* Brand */}
                     <div>
                         <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-2 sm:mb-3">
-                            Niklas Hoffmann
+                            {t('name')}
                         </h3>
                         <p className="text-muted-foreground text-sm sm:text-base max-w-md">
                             {t('brand')}
@@ -136,7 +140,7 @@ function FooterComponent() {
                             data-glow={isMounted && showActive ? 'true' : undefined}
                             style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
-                            {locale === 'de' ? 'Impressum' : locale === 'es' ? 'Aviso Legal' : 'Legal Notice'}
+                            {t('impressum')}
                         </Link>
                         <span className="text-muted-foreground/40">•</span>
                         <Link
@@ -145,7 +149,7 @@ function FooterComponent() {
                             data-glow={isMounted && showActive ? 'true' : undefined}
                             style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
-                            {locale === 'de' ? 'Datenschutz' : locale === 'es' ? 'Privacidad' : 'Privacy'}
+                            {t('datenschutz')}
                         </Link>
                     </div>
                     <p>

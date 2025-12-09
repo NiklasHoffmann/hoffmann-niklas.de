@@ -201,7 +201,10 @@
     "brand": "Full-Stack Developer – Moderne Web-Apps & Web3-Frontend-Integration",
     "navigation": "Navigation",
     "followMe": "Folge mir",
-    "madeWith": "Gemacht mit ❤️, Next.js, TypeScript & Web3 Tech"
+    "madeWith": "Gemacht mit ❤️, Next.js, TypeScript & Web3 Tech",
+    "impressum": "Impressum",
+    "datenschutz": "Datenschutz",
+    "name": "Niklas Hoffmann"
   },
   "youtube": {
     "title": "YouTube-Videos",
