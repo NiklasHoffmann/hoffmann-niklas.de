@@ -105,13 +105,17 @@ export function useAdminChat() {
 
     // Initialize Socket.io
     useEffect(() => {
-        const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000';
+        const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+        const isProduction = process.env.NODE_ENV === 'production';
+        
         const newSocket = io(socketUrl, {
             transports: ['websocket', 'polling'],
+            reconnection: true,
+            reconnectionAttempts: isProduction ? 3 : 5,
         });
 
         newSocket.on('connect', () => {
-            console.log('✅ Admin connected to Socket.io');
+            if (!isProduction) console.log('✅ Admin connected to Socket.io');
             newSocket.emit('admin:join');
         });
 
