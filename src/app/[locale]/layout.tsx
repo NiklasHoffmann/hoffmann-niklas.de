@@ -55,7 +55,7 @@ export async function generateMetadata({
         },
         openGraph: {
             type: 'website',
-            locale: locale === 'de' ? 'de_DE' : 'en_US',
+            locale: locale === 'de' ? 'de_DE' : locale === 'es' ? 'es_ES' : 'en_US',
             url: `https://hoffmann-niklas.de/${locale}`,
             title,
             description,
