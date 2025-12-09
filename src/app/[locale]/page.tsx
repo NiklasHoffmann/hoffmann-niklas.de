@@ -20,10 +20,6 @@ const PortfolioSection = dynamic(() => import("@/components/PortfolioSection").t
     loading: () => <div className="min-h-screen" />,
     ssr: true,
 });
-// const YouTubeSlider = dynamic(() => import("@/components/YouTubeSlider").then(mod => ({ default: mod.YouTubeSlider })), {
-//     loading: () => <div className="min-h-[50vh]" />,
-//     ssr: true,
-// });
 const ContactSection = dynamic(() => import("@/components/ContactSection").then(mod => ({ default: mod.ContactSection })), {
     loading: () => <div className="min-h-screen" />,
     ssr: true,
@@ -45,7 +41,6 @@ export default function HomePage() {
                 <ServicesSection />
                 <PackagesSection />
                 <PortfolioSection />
-                {/* <YouTubeSlider /> */}
                 <ContactSection />
             </main>
 

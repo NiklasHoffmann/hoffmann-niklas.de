@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
+import { QUICK_REPLIES_DE, QUICK_REPLIES_EN } from '@/config/chat.constants';
 
 interface MessageInputProps {
     value: string;
@@ -13,26 +14,8 @@ interface MessageInputProps {
 }
 
 const QUICK_REPLIES = {
-    de: [
-        'Hallo! Wie kann ich Ihnen helfen?',
-        'Vielen Dank für Ihre Nachricht. Ich melde mich gleich bei Ihnen.',
-        'Gerne helfe ich Ihnen weiter. Was genau benötigen Sie?',
-        'Können Sie mir bitte mehr Details dazu geben?',
-        'Ich schaue mir das an und melde mich in Kürze.',
-        'Perfekt, verstanden! Ich kümmere mich darum.',
-        'Gibt es sonst noch etwas, wobei ich helfen kann?',
-        'Vielen Dank! Schönen Tag noch! 😊',
-    ],
-    en: [
-        'Hello! How can I help you?',
-        'Thank you for your message. I\'ll get back to you shortly.',
-        'I\'d be happy to help. What exactly do you need?',
-        'Could you please provide more details?',
-        'I\'ll look into this and get back to you soon.',
-        'Perfect, understood! I\'ll take care of it.',
-        'Is there anything else I can help you with?',
-        'Thank you! Have a great day! 😊',
-    ],
+    de: QUICK_REPLIES_DE,
+    en: QUICK_REPLIES_EN,
 };
 
 export function MessageInput({ value, onChange, onSubmit, onFocus, isConnected, isDark }: MessageInputProps) {

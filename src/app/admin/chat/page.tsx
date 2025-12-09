@@ -5,13 +5,13 @@ import { Icon } from '@iconify/react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { useAdminChat } from '@/hooks/useAdminChat';
-import { SessionList } from '@/components/admin/SessionList';
-import { SessionStats } from '@/components/admin/SessionStats';
-import { ConnectionStatus } from '@/components/admin/ConnectionStatus';
-import { ChatHeader } from '@/components/admin/ChatHeader';
-import { MessageList } from '@/components/admin/MessageList';
-import { MessageInput } from '@/components/admin/MessageInput';
-import { ConfirmationModal } from '@/components/admin/ConfirmationModal';
+import { SessionList } from './_components/SessionList';
+import { SessionStats } from './_components/SessionStats';
+import { ConnectionStatus } from './_components/ConnectionStatus';
+import { ChatHeader } from './_components/ChatHeader';
+import { MessageList } from './_components/MessageList';
+import { MessageInput } from './_components/MessageInput';
+import { ConfirmationModal } from './_components/ConfirmationModal';
 
 export default function AdminChatPage() {
     const { theme } = useTheme();
