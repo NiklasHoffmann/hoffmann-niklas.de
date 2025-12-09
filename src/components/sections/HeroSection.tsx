@@ -26,9 +26,13 @@ const TechIcons = ({ compact = false }: { compact?: boolean }) => (
 
 interface HeroSectionProps {
     onCTAClick?: () => void;
+    // SSR props for LCP optimization - passed from server component
+    ssrTitle?: string;
+    ssrSubtitle?: string;
+    ssrPriceNote?: string;
 }
 
-export function HeroSection({ }: HeroSectionProps) {
+export function HeroSection({ ssrTitle, ssrSubtitle, ssrPriceNote }: HeroSectionProps) {
     const t = useTranslations('hero');
     const { openChat } = useChat();
     const { key } = useOrientationResize();
@@ -36,6 +40,11 @@ export function HeroSection({ }: HeroSectionProps) {
     const { mounted } = useInteractiveMode();
     const { isMobileLandscape } = useDevice();
     const [isHovered, setIsHovered] = useState(false);
+
+    // Use SSR props if provided, otherwise use client translations
+    const title = ssrTitle || t('title');
+    const subtitle = ssrSubtitle || t('subtitle');
+    const priceNote = ssrPriceNote || t('priceNote');
 
     // Theme-adaptive shadow
     const getBaseShadow = () => {
@@ -57,13 +66,13 @@ export function HeroSection({ }: HeroSectionProps) {
             {/* Mobile Landscape Layout */}
             <SectionLeft className="w-2/3 pr-4">
                 <h1 className="text-2xl font-bold mb-2 leading-tight text-foreground">
-                    {t('title')}
+                    {title}
                 </h1>
                 <p className="text-xs text-muted-foreground mb-2 max-w-sm">
-                    {t('subtitle')}
+                    {subtitle}
                 </p>
                 <p className="text-xs text-accent font-medium">
-                    {t('priceNote')}
+                    {priceNote}
                 </p>
             </SectionLeft>
 
@@ -121,21 +130,21 @@ export function HeroSection({ }: HeroSectionProps) {
 
                 {/* Title with better gradient */}
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-foreground">
-                    {t('title')}
+                    {title}
                 </h1>
 
                 {/* Subtitle with icon */}
                 <div className="flex items-center justify-center gap-3 mb-4 sm:mb-5">
                     <div className="hidden sm:block w-12 h-[2px] bg-gradient-to-r from-transparent to-accent/50" />
                     <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-                        {t('subtitle')}
+                        {subtitle}
                     </p>
                     <div className="hidden sm:block w-12 h-[2px] bg-gradient-to-l from-transparent to-accent/50" />
                 </div>
 
                 {/* Price Note */}
                 <p className="text-sm sm:text-base text-accent font-medium mb-6 sm:mb-8">
-                    {t('priceNote')}
+                    {priceNote}
                 </p>
 
                 {/* Tech Stack Icons */}
