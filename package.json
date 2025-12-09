@@ -6,7 +6,8 @@
     "dev": "node server.js",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
-    "start": "set NODE_ENV=production&& node server.js",
+    "start": "NODE_ENV=production node server.js",
+    "start:windows": "set NODE_ENV=production&& node server.js",
     "lint": "eslint"
   },
   "dependencies": {
