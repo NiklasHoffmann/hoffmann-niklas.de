@@ -12,11 +12,8 @@
   "dependencies": {
     "@iconify/react": "^6.0.2",
     "axios": "^1.13.1",
-    "canvas": "^3.2.0",
     "clsx": "^2.1.1",
     "ethers": "^6.15.0",
-    "framer-motion": "^12.23.25",
-    "html2canvas": "^1.4.1",
     "lucide-react": "^0.548.0",
     "mongoose": "^8.19.2",
     "nanoid": "^5.1.6",
