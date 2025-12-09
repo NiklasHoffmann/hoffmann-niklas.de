@@ -87,14 +87,21 @@ export default function ChatWidget() {
             document.body.style.touchAction = 'none';
 
             return () => {
-                // Restore scroll position
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.left = '';
-                document.body.style.right = '';
-                document.body.style.overflow = '';
-                document.body.style.touchAction = '';
-                window.scrollTo(0, scrollY);
+                // Use requestAnimationFrame to batch DOM operations and avoid scroll jank
+                requestAnimationFrame(() => {
+                    // Restore body styles
+                    document.body.style.position = '';
+                    document.body.style.top = '';
+                    document.body.style.left = '';
+                    document.body.style.right = '';
+                    document.body.style.overflow = '';
+                    document.body.style.touchAction = '';
+                    
+                    // Restore scroll position in next frame to avoid layout thrashing
+                    requestAnimationFrame(() => {
+                        window.scrollTo(0, scrollY);
+                    });
+                });
             };
         } else {
             document.body.style.overflow = '';

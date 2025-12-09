@@ -221,10 +221,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      // Easing function - ease out quart for very smooth deceleration
-      const eased = 1 - Math.pow(1 - progress, 4);
-
-      setDrawProgress(eased);
+      // Linear animation - constant speed throughout
+      setDrawProgress(progress);
       needsRedrawRef.current = true;
 
       if (progress < 1) {
