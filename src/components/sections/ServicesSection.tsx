@@ -337,10 +337,11 @@ export function ServicesSection() {
                                                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : i); } }}
                                                         onMouseEnter={handleMouseEnter}
                                                         onMouseLeave={handleMouseLeave}
-                                                        className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-xl"
+                                                        className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-xl"
                                                         style={{
                                                             transformStyle: 'preserve-3d',
                                                             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                                                            WebkitTapHighlightColor: 'transparent',
                                                         }}
                                                     >
                                                         <div
