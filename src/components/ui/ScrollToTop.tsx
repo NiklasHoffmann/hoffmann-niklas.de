@@ -25,6 +25,11 @@ export function ScrollToTop() {
             top: 0,
             behavior: 'smooth'
         });
+        
+        // Update URL to remove hash and reflect being at top
+        if (window.location.hash) {
+            window.history.replaceState(null, '', window.location.pathname);
+        }
     };
 
     // Don't render on server or when not visible
