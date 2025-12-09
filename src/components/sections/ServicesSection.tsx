@@ -244,7 +244,7 @@ export function ServicesSection() {
                         <button
                             onClick={toggleView}
                             disabled={isTransitioning}
-                            className="absolute top-0 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent"
+                            className="absolute top-0 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                             title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
                             aria-label={showCube ? 'Switch to Grid View' : 'Switch to 3D Cube View'}
                             suppressHydrationWarning

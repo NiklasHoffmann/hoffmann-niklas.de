@@ -133,7 +133,7 @@ export function PackagesSection() {
                                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : index); } }}
                                         onMouseEnter={handleMouseEnter}
                                         onMouseLeave={handleMouseLeave}
-                                        className="md:hidden relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 preserve-3d focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-2xl"
+                                        className="md:hidden relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 preserve-3d focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl"
                                         style={{
                                             transformStyle: 'preserve-3d',
                                             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',

@@ -33,7 +33,7 @@ export function InteractiveToggle() {
                 p-2 rounded-lg relative
                 w-[36px] h-[36px] flex items-center justify-center
                 hover:brightness-110 hover:transition-all hover:duration-500
-                focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background
             `}
             aria-label="Toggle Interactive Mode"
             title={isInteractive ? "Interaktiven Modus ausschalten" : "Interaktiven Modus einschalten"}

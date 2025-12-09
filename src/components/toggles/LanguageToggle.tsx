@@ -94,7 +94,7 @@ export function LanguageToggle() {
                 px-3 py-2 rounded-lg font-medium text-sm disabled:opacity-50 relative
                 w-[60px] h-[36px] flex items-center justify-center
                 overflow-hidden
-                focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background
             `}
             aria-label={`Switch to ${locale === 'de' ? 'English' : locale === 'en' ? 'Spanish' : 'German'}`}
             title={locale === 'de' ? 'Sprache auf Englisch wechseln' : locale === 'en' ? 'Switch language to Spanish' : 'Cambiar idioma a Alemán'}
