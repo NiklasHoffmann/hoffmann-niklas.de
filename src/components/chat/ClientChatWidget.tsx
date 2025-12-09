@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 
 // Lazy load ChatWidget (includes socket.io-client)
-const ChatWidget = dynamic(() => import('@/components/ChatWidget'), {
+const ChatWidget = dynamic(() => import('./ChatWidget'), {
     ssr: false, // Chat widget doesn't need SSR
     loading: () => null, // No loading state needed
 });

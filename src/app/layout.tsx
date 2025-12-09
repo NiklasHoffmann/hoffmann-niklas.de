@@ -3,9 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getRequestConfig } from "next-intl/server";
 import "./globals.css";
-import { ClientProviders } from "@/components/ClientProviders";
-import { ConditionalChainBackground } from "@/components/ConditionalChainBackground";
-import { DynamicFavicon } from "@/components/DynamicFavicon";
+import { ClientProviders } from "@/components/providers";
+import { ConditionalChainBackground } from "@/components/background";
+import { DynamicFavicon } from "@/components/seo";
 import { locales, defaultLocale } from "@/i18n/config";
 
 const geistSans = Geist({

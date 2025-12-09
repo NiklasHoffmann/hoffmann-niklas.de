@@ -4,10 +4,8 @@ import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { projects } from '@/data/portfolio';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { ProjectCard } from '@/components/ui/ProjectCard';
+import { SectionHeader, ProjectCard, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
-import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
 import { useDevice } from '@/contexts/DeviceContext';
 
 export function PortfolioSection() {

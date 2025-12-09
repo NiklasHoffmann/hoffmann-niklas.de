@@ -2,9 +2,9 @@ import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { Metadata } from 'next';
 import { ChatProvider } from '@/contexts/ChatContext';
-import ClientChatWidget from '@/components/ClientChatWidget';
-import { AnalyticsProvider } from '@/components/AnalyticsProvider';
-import { StructuredData } from '@/components/StructuredData';
+import { ClientChatWidget } from '@/components/chat';
+import { AnalyticsProvider } from '@/components/providers';
+import { StructuredData } from '@/components/seo';
 import { locales } from '@/i18n/config';
 
 // Generate static params for all locales

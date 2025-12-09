@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { TRANSITIONS } from '@/lib/transitions';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
-import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { useDevice } from '@/contexts/DeviceContext';
 
 function FooterComponent() {

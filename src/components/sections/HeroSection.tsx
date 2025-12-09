@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useDevice } from '@/contexts/DeviceContext';
-import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 
 // Define tech icons outside component to prevent re-mounting
 const TechIcons = ({ compact = false }: { compact?: boolean }) => (

@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { ServicesCube } from '@/components/ServicesCube';
+import { SectionHeader } from '@/components/ui';
+import { ServicesCube } from './ServicesCube';
 import { Icon } from '@iconify/react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
-import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { useDevice } from '@/contexts/DeviceContext';
 import {
     ReactIcon,
@@ -27,7 +27,7 @@ import {
     IPFSIcon,
     GraphQLIcon,
     TheGraphIcon,
-} from '@/components/icons/TechIcons';
+} from '@/components/icons';
 
 interface TechItem {
     name: string;

@@ -6,11 +6,10 @@ import { contactApi } from '@/lib/api';
 import { ContactFormData } from '@/types';
 import { Mail, MapPin, Loader2, CheckCircle, AlertCircle, X, Send } from 'lucide-react';
 import { Icon } from '@iconify/react';
-import { SectionHeader } from '@/components/ui/SectionHeader';
+import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { TRANSITIONS } from '@/lib/transitions';
 import { useTheme } from 'next-themes';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
-import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
 import { useDevice } from '@/contexts/DeviceContext';
 
 // Separates Modal-Formular mit eigenem State - verhindert Re-Renders der Parent-Komponente

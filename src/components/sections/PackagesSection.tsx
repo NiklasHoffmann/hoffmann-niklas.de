@@ -3,11 +3,10 @@
 import { useMemo, useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { SectionHeader } from '@/components/ui/SectionHeader';
+import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { NEON_COLORS } from '@/config/ui.constants';
-import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
 import { useDevice } from '@/contexts/DeviceContext';
 
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);

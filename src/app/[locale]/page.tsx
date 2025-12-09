@@ -1,30 +1,29 @@
 import dynamic from "next/dynamic";
-import { Header } from "@/components/Header";
-import { HeroSection } from "@/components/HeroSection";
-import { SectionScrollController } from "@/components/SectionScrollController";
+import { Header, SectionScrollController } from "@/components/layout";
+import { HeroSection } from "@/components/sections";
 
 // Lazy load below-the-fold components for better FCP/LCP
-const AboutSection = dynamic(() => import("@/components/AboutSection").then(mod => ({ default: mod.AboutSection })), {
+const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => ({ default: mod.AboutSection })), {
     loading: () => <div className="min-h-screen" />,
     ssr: true,
 });
-const ServicesSection = dynamic(() => import("@/components/ServicesSection").then(mod => ({ default: mod.ServicesSection })), {
+const ServicesSection = dynamic(() => import("@/components/sections/ServicesSection").then(mod => ({ default: mod.ServicesSection })), {
     loading: () => <div className="min-h-screen" />,
     ssr: true,
 });
-const PackagesSection = dynamic(() => import("@/components/PackagesSection").then(mod => ({ default: mod.PackagesSection })), {
+const PackagesSection = dynamic(() => import("@/components/sections/PackagesSection").then(mod => ({ default: mod.PackagesSection })), {
     loading: () => <div className="min-h-screen" />,
     ssr: true,
 });
-const PortfolioSection = dynamic(() => import("@/components/PortfolioSection").then(mod => ({ default: mod.PortfolioSection })), {
+const PortfolioSection = dynamic(() => import("@/components/sections/PortfolioSection").then(mod => ({ default: mod.PortfolioSection })), {
     loading: () => <div className="min-h-screen" />,
     ssr: true,
 });
-const ContactSection = dynamic(() => import("@/components/ContactSection").then(mod => ({ default: mod.ContactSection })), {
+const ContactSection = dynamic(() => import("@/components/sections/ContactSection").then(mod => ({ default: mod.ContactSection })), {
     loading: () => <div className="min-h-screen" />,
     ssr: true,
 });
-const Footer = dynamic(() => import("@/components/Footer").then(mod => ({ default: mod.Footer })), {
+const Footer = dynamic(() => import("@/components/layout/Footer").then(mod => ({ default: mod.Footer })), {
     loading: () => <div className="h-32" />,
     ssr: true,
 });

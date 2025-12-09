@@ -7,9 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { NEON_COLORS } from '@/config/ui.constants';
-import { ThemeToggle } from './ThemeToggle';
-import { LanguageToggle } from './LanguageToggle';
-import { InteractiveToggle } from './InteractiveToggle';
+import { ThemeToggle, LanguageToggle, InteractiveToggle } from '@/components/toggles';
 import { scrollToSectionById } from '@/hooks/useSectionScroll';
 
 // Convert neon color objects to arrays for easy indexing

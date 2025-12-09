@@ -1,14 +1,13 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { SectionHeader } from '@/components/ui/SectionHeader';
+import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { Icon } from '@iconify/react';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useMemo, useState, useEffect } from 'react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useTheme } from 'next-themes';
 import { NEON_COLORS } from '@/config/ui.constants';
-import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
 import { useDevice } from '@/contexts/DeviceContext';
 
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);
