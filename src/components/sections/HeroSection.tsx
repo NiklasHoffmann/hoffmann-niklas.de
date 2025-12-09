@@ -24,15 +24,7 @@ const TechIcons = ({ compact = false }: { compact?: boolean }) => (
     </div>
 );
 
-interface HeroSectionProps {
-    onCTAClick?: () => void;
-    // SSR props for LCP optimization - passed from server component
-    ssrTitle?: string;
-    ssrSubtitle?: string;
-    ssrPriceNote?: string;
-}
-
-export function HeroSection({ ssrTitle, ssrSubtitle, ssrPriceNote }: HeroSectionProps) {
+export function HeroSection() {
     const t = useTranslations('hero');
     const { openChat } = useChat();
     const { key } = useOrientationResize();
@@ -41,10 +33,10 @@ export function HeroSection({ ssrTitle, ssrSubtitle, ssrPriceNote }: HeroSection
     const { isMobileLandscape } = useDevice();
     const [isHovered, setIsHovered] = useState(false);
 
-    // Use SSR props if provided, otherwise use client translations
-    const title = ssrTitle || t('title');
-    const subtitle = ssrSubtitle || t('subtitle');
-    const priceNote = ssrPriceNote || t('priceNote');
+    // Use client translations for proper language toggle support
+    const title = t('title');
+    const subtitle = t('subtitle');
+    const priceNote = t('priceNote');
 
     // Theme-adaptive shadow
     const getBaseShadow = () => {

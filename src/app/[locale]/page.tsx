@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { getTranslations } from "next-intl/server";
 import { Header, SectionScrollController } from "@/components/layout";
 import { HeroSection } from "@/components/sections";
 
@@ -24,9 +23,6 @@ const Footer = dynamic(() => import("@/components/layout/Footer").then(mod => ({
 });
 
 export default async function HomePage() {
-    // Get translations server-side for LCP optimization
-    const t = await getTranslations('hero');
-
     return (
         <>
             {/* Skip to content link for keyboard navigation */}
@@ -41,8 +37,7 @@ export default async function HomePage() {
             <Header />
 
             <main className="relative z-10">
-                {/* SSR LCP content - immediately visible before JS loads */}
-                <HeroSection ssrTitle={t('title')} ssrSubtitle={t('subtitle')} ssrPriceNote={t('priceNote')} />
+                <HeroSection />
                 <AboutSection />
                 <ServicesSection />
                 <PackagesSection />

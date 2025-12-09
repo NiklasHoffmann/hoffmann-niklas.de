@@ -29,9 +29,11 @@ export function LanguageToggle() {
 
         startTransition(() => {
             router.replace(newPath + currentHash, { scroll: false });
+            // Force refresh to clear Next.js router cache and reload translations
+            router.refresh();
             setTimeout(() => {
                 window.scrollTo(0, currentScrollY);
-            }, 0);
+            }, 50);
         });
     };
 
