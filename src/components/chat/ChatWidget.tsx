@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Icon } from '@iconify/react';
+import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 
 // Global cache for theme to prevent flash on language change
 let cachedIsDark = true;
@@ -15,6 +16,7 @@ let hasInitializedTheme = false;
 export default function ChatWidget() {
     const { isOpen, isMinimized, unreadCount, openChat, closeChat, toggleMinimize } = useChat();
     const { theme } = useTheme();
+    const { showActive } = useInteractiveMode();
     const [mounted, setMounted] = useState(false);
     const [isDark, setIsDark] = useState(() => cachedIsDark);
     const [isMobile, setIsMobile] = useState(false);
@@ -22,6 +24,9 @@ export default function ChatWidget() {
     const [viewportOffsetTop, setViewportOffsetTop] = useState(0);
     const pathname = usePathname();
     const t = useTranslations('chat');
+
+    // Green color for interactive mode (online indicator style)
+    const greenColor = '#22c55e';
 
     useEffect(() => {
         setMounted(true);
@@ -123,7 +128,10 @@ export default function ChatWidget() {
                         className="relative flex items-center justify-center w-16 h-16 rounded-full shadow-xl border-2 group-hover:scale-105"
                         style={{
                             backgroundColor: isDark ? '#090909' : '#ffffff',
-                            borderColor: isDark ? '#1a1a1a' : '#d1d5db',
+                            borderColor: showActive ? greenColor : (isDark ? '#1a1a1a' : '#d1d5db'),
+                            boxShadow: showActive 
+                                ? `0 0 12px 2px ${greenColor}80, 0 4px 6px -1px rgba(0, 0, 0, 0.1)` 
+                                : undefined,
                             transition: 'transform 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                         }}
                     >

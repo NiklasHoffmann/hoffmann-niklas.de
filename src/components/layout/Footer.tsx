@@ -165,7 +165,7 @@ function FooterComponent() {
                     </p>
                     <p className="text-muted-foreground/60 flex items-center justify-center gap-1">
                         {t('madeWith').split('❤️')[0]}
-                        <Icon icon="mdi:heart" className="text-red-500 w-4 h-4 gpu-pulse" />
+                        <span className="text-red-500 gpu-pulse" aria-label="love">❤️</span>
                         {t('madeWith').split('❤️')[1]}
                     </p>
                 </div>

@@ -18,8 +18,8 @@ export function LanguageToggle() {
     const isActive = mounted && showActive;
 
     const handleLocaleChange = () => {
-        // Cycle through DE -> EN -> ES -> DE
-        const newLocale = locale === 'de' ? 'en' : locale === 'en' ? 'es' : 'de';
+        // Cycle through DE -> EN -> ES -> JA -> DE
+        const newLocale = locale === 'de' ? 'en' : locale === 'en' ? 'es' : locale === 'es' ? 'ja' : 'de';
 
         const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
         const newPath = `/${newLocale}${pathnameWithoutLocale}`;
@@ -53,16 +53,20 @@ export function LanguageToggle() {
                     return '0 0 16px 3px rgba(220, 38, 38, 0.9), 0 12px 18px -3px rgba(220, 38, 38, 0.7), 0 6px 8px -4px rgba(220, 38, 38, 0.6)';
                 } else if (locale === 'en') {
                     return '0 0 16px 3px rgba(29, 78, 216, 0.9), 0 12px 18px -3px rgba(29, 78, 216, 0.7), 0 6px 8px -4px rgba(29, 78, 216, 0.6)';
-                } else {
+                } else if (locale === 'es') {
                     return '0 0 16px 3px rgba(234, 179, 8, 0.9), 0 12px 18px -3px rgba(234, 179, 8, 0.7), 0 6px 8px -4px rgba(234, 179, 8, 0.6)';
+                } else {
+                    return '0 0 16px 3px rgba(220, 38, 38, 0.9), 0 12px 18px -3px rgba(220, 38, 38, 0.7), 0 6px 8px -4px rgba(220, 38, 38, 0.6)';
                 }
             }
             if (locale === 'de') {
                 return '0 0 12px 2px rgba(220, 38, 38, 0.7), 0 12px 18px -3px rgba(220, 38, 38, 0.6), 0 6px 8px -4px rgba(220, 38, 38, 0.5)';
             } else if (locale === 'en') {
                 return '0 0 12px 2px rgba(29, 78, 216, 0.7), 0 12px 18px -3px rgba(29, 78, 216, 0.6), 0 6px 8px -4px rgba(29, 78, 216, 0.5)';
-            } else {
+            } else if (locale === 'es') {
                 return '0 0 12px 2px rgba(234, 179, 8, 0.7), 0 12px 18px -3px rgba(234, 179, 8, 0.6), 0 6px 8px -4px rgba(234, 179, 8, 0.5)';
+            } else {
+                return '0 0 12px 2px rgba(220, 38, 38, 0.7), 0 12px 18px -3px rgba(220, 38, 38, 0.6), 0 6px 8px -4px rgba(220, 38, 38, 0.5)';
             }
         }
         return 'none';
@@ -71,17 +75,15 @@ export function LanguageToggle() {
     // Active shadow based on theme - stronger in dark mode for better visibility
     const getActiveShadow = () => {
         if (theme === 'dark') {
-            return locale === 'de'
-                ? '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)'
-                : locale === 'en'
-                    ? '0 0 12px 2px rgba(29, 78, 216, 0.8), 0 10px 15px -3px rgba(29, 78, 216, 0.6), 0 4px 6px -4px rgba(29, 78, 216, 0.5)'
-                    : '0 0 12px 2px rgba(234, 179, 8, 0.8), 0 10px 15px -3px rgba(234, 179, 8, 0.6), 0 4px 6px -4px rgba(234, 179, 8, 0.5)';
+            if (locale === 'de') return '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)';
+            if (locale === 'en') return '0 0 12px 2px rgba(29, 78, 216, 0.8), 0 10px 15px -3px rgba(29, 78, 216, 0.6), 0 4px 6px -4px rgba(29, 78, 216, 0.5)';
+            if (locale === 'es') return '0 0 12px 2px rgba(234, 179, 8, 0.8), 0 10px 15px -3px rgba(234, 179, 8, 0.6), 0 4px 6px -4px rgba(234, 179, 8, 0.5)';
+            return '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)'; // JA
         }
-        return locale === 'de'
-            ? '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)'
-            : locale === 'en'
-                ? '0 0 8px 1px rgba(29, 78, 216, 0.6), 0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.4)'
-                : '0 0 8px 1px rgba(234, 179, 8, 0.6), 0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.4)';
+        if (locale === 'de') return '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)';
+        if (locale === 'en') return '0 0 8px 1px rgba(29, 78, 216, 0.6), 0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.4)';
+        if (locale === 'es') return '0 0 8px 1px rgba(234, 179, 8, 0.6), 0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.4)';
+        return '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)'; // JA
     };
 
     return (
@@ -112,8 +114,8 @@ export function LanguageToggle() {
                 overflow-hidden
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background
             `}
-            aria-label={`Switch to ${locale === 'de' ? 'English' : locale === 'en' ? 'Spanish' : 'German'}`}
-            title={locale === 'de' ? 'Sprache auf Englisch wechseln' : locale === 'en' ? 'Switch language to Spanish' : 'Cambiar idioma a Alemán'}
+            aria-label={`Switch to ${locale === 'de' ? 'English' : locale === 'en' ? 'Spanish' : locale === 'es' ? 'Japanese' : 'German'}`}
+            title={locale === 'de' ? 'Sprache auf Englisch wechseln' : locale === 'en' ? 'Switch language to Spanish' : locale === 'es' ? 'Cambiar idioma a Japonés' : 'ドイツ語に切り替え'}
         >
             {/* Gradient Background - Always rendered, opacity controlled */}
             <span
@@ -124,17 +126,19 @@ export function LanguageToggle() {
                             ? 'linear-gradient(to bottom right, #000000, #dc2626, #eab308)'
                             : locale === 'en'
                                 ? 'linear-gradient(to bottom right, #1d4ed8, #ffffff, #dc2626)'
-                                : 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)',
+                                : locale === 'es'
+                                    ? 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)'
+                                    : 'radial-gradient(circle at center, #dc2626 30%, #ffffff 30%)', // Japan flag
                     opacity: isActive ? 1 : 0,
                 }}
             />
 
             {/* Current language text */}
             <span
-                className={`relative z-10 font-bold ${isActive ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-foreground'
+                className={`relative z-10 font-bold ${isActive ? (locale === 'ja' ? 'text-red-600 drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]' : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]') : 'text-foreground'
                     }`}
             >
-                {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : 'ES'}
+                {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : locale === 'es' ? 'ES' : 'JA'}
             </span>
 
             {isActive && (

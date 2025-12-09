@@ -1,0 +1,298 @@
+{
+  "header": {
+    "nav": {
+      "start": "ホーム",
+      "about": "私について",
+      "services": "サービス",
+      "packages": "料金プラン",
+      "portfolio": "ポートフォリオ",
+      "videos": "動画",
+      "contact": "お問い合わせ"
+    }
+  },
+  "hero": {
+    "title": "企業向けモダンウェブサイト＆ウェブアプリ",
+    "cta": "プロジェクトを相談する",
+    "subtitle": "フリーランス・中小企業・スタートアップ向けに、高性能なウェブサイト、ウェブアプリ、Web3フロントエンドを開発しています。",
+    "priceNote": "ウェブサイト 450€〜 · ウェブアプリ 1,500€〜",
+    "viewPortfolio": "ポートフォリオを見る",
+    "viewContact": "お問い合わせ"
+  },
+  "about": {
+    "title": "私について",
+    "description": "モダンなウェブ技術とWeb3統合に特化したフルスタック開発者です。フリーランス、中小企業、スタートアップのために、アイデアからローンチまで、高性能なウェブサイトやウェブアプリの開発をサポートします。",
+    "role": "フルスタック開発者",
+    "whatIDoTitle": "私の仕事",
+    "highlights": {
+      "fullstack": "フルスタックウェブ開発",
+      "web3": "Web3・ブロックチェーン統合",
+      "uiux": "UI/UXデザイン",
+      "apis": "RESTful・GraphQL API",
+      "database": "データベース設計",
+      "responsive": "レスポンシブデザイン"
+    },
+    "stats": {
+      "projects": "プロジェクト",
+      "clients": "満足したお客様",
+      "experience": "年の経験",
+      "passion": "情熱"
+    },
+    "timeline": {
+      "current": "現在：フルスタック開発",
+      "web3": "Web3統合の深化",
+      "freelance": "フリーランスプロジェクト",
+      "start": "プログラミングの第一歩"
+    }
+  },
+  "services": {
+    "title": "専門分野",
+    "subtitle": "実際の成果をもたらすモダンなウェブソリューション",
+    "cubeHint": "キューブを回してサービスを発見！",
+    "techStack": "技術スタック",
+    "servicesTitle": "サービス",
+    "frontend": "フロントエンド開発",
+    "backend": "バックエンド開発",
+    "web3": "Web3統合",
+    "database": "データベース",
+    "tools": "ツール＆DevOps",
+    "design": "デザイン＆UX",
+    "webDev": "ウェブアプリ",
+    "backendService": "バックエンド",
+    "web3Wallets": "Web3ウォレット＆統合",
+    "web3Blockchain": "ブロックチェーン＆データ",
+    "uiux": "UI/UX",
+    "databaseService": "データベース",
+    "photo": "写真撮影",
+    "web3Tech": "Web3テクノロジー",
+    "descriptions": {
+      "webDev": "企業向けカスタムウェブアプリとビジネスツール。",
+      "web3Wallets": "MetaMask、WalletConnectなど、簡単なウォレット接続。",
+      "web3Blockchain": "ダッシュボードと分析のためのブロックチェーンデータの読み取りと処理。",
+      "uiux": "すべてのデバイスで機能する、クリアでユーザーフレンドリーなデザイン。",
+      "photo": "ウェブサイトとソーシャルメディア向けの本格的なフォトシューティング。",
+      "databaseService": "データの構造化された保存と管理。",
+      "backendService": "アプリケーション用の安定したAPIとサーバーロジック。"
+    }
+  },
+  "packages": {
+    "title": "料金プラン",
+    "subtitle": "明確に構造化された提案 – あなたのプロジェクトの出発点として",
+    "packages": {
+      "websiteStarter": {
+        "label": "ウェブサイトスターター",
+        "target": "個人事業主やローカルサービス業者に最適。",
+        "includes": [
+          "モダンなワンページウェブサイト",
+          "レスポンシブデザイン（モバイル＆デスクトップ）",
+          "お問い合わせフォーム",
+          "基本SEO（タイトル、メタディスクリプション）"
+        ],
+        "priceFrom": "450€〜"
+      },
+      "businessWebsite": {
+        "label": "ビジネスウェブサイト",
+        "target": "コーチ、サービス業者、中小企業向け。",
+        "includes": [
+          "複数ページのウェブサイト（例：ホーム、会社概要、サービス、お問い合わせ）",
+          "レスポンシブデザイン",
+          "お問い合わせフォーム",
+          "基本SEOとパフォーマンス最適化"
+        ],
+        "priceFrom": "850€〜"
+      },
+      "webAppMvp": {
+        "label": "ウェブアプリ / MVP",
+        "target": "スタートアップや個別のビジネスツール向け。",
+        "includes": [
+          "カスタムウェブアプリ（例：ダッシュボード、CRM、予約システム）",
+          "ユーザーログイン＆権限管理",
+          "API・データベース連携",
+          "デプロイ＆引き渡し"
+        ],
+        "priceFrom": "1,500€〜"
+      },
+      "web3Integration": {
+        "label": "Web3統合",
+        "target": "ウォレットやブロックチェーン機能が必要なプロジェクト向け。",
+        "includes": [
+          "ウォレット接続（例：MetaMask、WalletConnect）",
+          "基本的なオンチェーンインタラクション",
+          "既存フロントエンドへの統合"
+        ],
+        "priceFrom": "お問い合わせください"
+      }
+    },
+    "priceNote": "正確な価格はプロジェクトの規模によって異なります。"
+  },
+  "portfolio": {
+    "title": "ポートフォリオ",
+    "subtitle": "ウェブアプリからWeb3まで – 厳選したプロジェクト集",
+    "viewProject": "プロジェクトを見る",
+    "liveDemo": "ライブデモ",
+    "demo": "デモ",
+    "code": "コード",
+    "github": "GitHub",
+    "projects": {
+      "web3wallet": {
+        "title": "Web3ウォレット統合",
+        "description": "WalletConnect、MetaMask、Coinbase Walletをサポートするマルチチェーンウォレットコネクター。"
+      },
+      "nftmarketplace": {
+        "title": "NFTマーケットプレイス フロントエンド",
+        "description": "ウォレット統合とIPFS連携を備えたNFTマーケットプレイスのフロントエンド。"
+      },
+      "defi": {
+        "title": "金融分析ダッシュボード（DeFi）",
+        "description": "DeFiアプリケーション向けマルチウォレット対応リアルタイム分析ダッシュボード。"
+      },
+      "ecommerce": {
+        "title": "Eコマースプラットフォーム",
+        "description": "Next.js、Stripe決済、MongoDBを使用したモダンなEコマースプラットフォーム。"
+      },
+      "saas": {
+        "title": "SaaSダッシュボード",
+        "description": "リアルタイム分析、チャート統合、API連携を備えたエンタープライズダッシュボード。"
+      },
+      "blogplatform": {
+        "title": "ブログプラットフォーム",
+        "description": "CMS統合とレスポンシブデザインを備えたモダンなブログプラットフォーム。"
+      },
+      "businesssite1": {
+        "title": "ローカルサービス業者向けビジネスサイト",
+        "description": "お問い合わせフォームと基本SEOを備えた、ローカルサービス業者向けモダンワンページサイト。"
+      },
+      "coachesite": {
+        "title": "コーチ＆トレーナー向けサイト",
+        "description": "サービス概要、実績、予約リクエスト機能を備えた明確な構造のウェブサイト。"
+      },
+      "projectplaceholder1": {
+        "title": "プロジェクトプレースホルダー1",
+        "description": "将来のプロジェクト用プレースホルダー。"
+      }
+    }
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "subtitle": "あなたのプロジェクトについてお話ししましょう",
+    "pricingHint": "どのプランが合っているかわからない？お気軽にメッセージください – 一緒に最適な解決策を見つけましょう。",
+    "email": "メール",
+    "emailAddress": "mail@hoffmann-niklas.de",
+    "location": "所在地",
+    "germany": "ドイツ",
+    "quickResponse": "迅速な返信をお約束！",
+    "quickResponseText": "通常24時間以内に返信します。",
+    "writeMe": "メッセージを送る",
+    "form": {
+      "name": "お名前",
+      "namePlaceholder": "お名前",
+      "email": "メールアドレス",
+      "emailPlaceholder": "your@email.com",
+      "message": "メッセージ",
+      "messagePlaceholder": "プロジェクトについて教えてください...",
+      "submit": "メッセージを送信",
+      "sending": "送信中...",
+      "success": "メッセージが正常に送信されました！",
+      "error": "エラーが発生しました"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 Niklas Hoffmann. All rights reserved.",
+    "quickLinks": "クイックリンク",
+    "brand": "フルスタック開発者 – モダンウェブアプリ＆Web3フロントエンド統合",
+    "navigation": "ナビゲーション",
+    "followMe": "フォローする",
+    "madeWith": "❤️、Next.js、TypeScript、Web3テクノロジーで作成",
+    "impressum": "特定商取引法に基づく表記",
+    "datenschutz": "プライバシーポリシー",
+    "name": "Niklas Hoffmann"
+  },
+  "youtube": {
+    "title": "YouTube動画",
+    "subtitle": "チュートリアル、ケーススタディ、プロジェクトの裏側"
+  },
+  "chat": {
+    "welcome": "チャットへようこそ！",
+    "enterName": "開始するにはお名前を入力してください",
+    "namePlaceholder": "お名前...",
+    "startChat": "チャットを開始",
+    "privacyNotice": "プライバシーを尊重します。データは安全です。",
+    "greeting": "こんにちは、{userName}さん！👋",
+    "howCanWeHelp": "今日はどのようなお手伝いができますか？",
+    "supportTeam": "Niklas",
+    "typing": "入力中...",
+    "reconnecting": "再接続中...",
+    "adminOnline": "オンラインでお手伝いする準備ができています",
+    "inputPlaceholder": "メッセージを入力...",
+    "securityNotice": "メッセージは機密として扱われます。",
+    "chatSupport": "チャットサポート",
+    "replyInstantly": "通常すぐに返信します"
+  },
+  "impressum": {
+    "title": "特定商取引法に基づく表記",
+    "subtitle": "§ 5 TMGに基づく情報",
+    "backToHome": "ホームに戻る",
+    "contact": {
+      "title": "連絡先情報",
+      "name": "Niklas Hoffmann",
+      "address": {
+        "street": "Fröbelstraße 20",
+        "city": "67433 Neustadt an der Weinstraße",
+        "country": "ドイツ"
+      },
+      "email": "mail@hoffmann-niklas.de",
+      "phone": ""
+    },
+    "responsible": {
+      "title": "コンテンツ責任者（§ 55 Abs. 2 RStVに基づく）",
+      "content": "Niklas Hoffmann, Fröbelstraße 20, 67433 Neustadt an der Weinstraße"
+    },
+    "disclaimer": {
+      "title": "免責事項",
+      "liability": {
+        "title": "コンテンツに対する責任",
+        "content": "このページのコンテンツは細心の注意を払って作成されています。ただし、コンテンツの正確性、完全性、最新性については保証できません。サービスプロバイダーとして、§ 7 Abs. 1 TMGに基づき、これらのページの自社コンテンツについて一般法に従って責任を負います。"
+      },
+      "links": {
+        "title": "リンクに対する責任",
+        "content": "当サービスには、私がコンテンツに影響を与えることができない第三者の外部ウェブサイトへのリンクが含まれています。したがって、これらの外部コンテンツについて責任を負うことはできません。リンク先ページのコンテンツについては、各プロバイダーまたは運営者が常に責任を負います。"
+      },
+      "copyright": {
+        "title": "著作権",
+        "content": "これらのページで私が作成したコンテンツと作品はドイツ著作権法の対象となります。著作権法の範囲外での複製、編集、配布、あらゆる種類の利用には、私の書面による同意が必要です。"
+      }
+    },
+    "dispute": {
+      "title": "オンライン紛争解決",
+      "content": "欧州委員会はオンライン紛争解決（OS）のためのプラットフォームを提供しています。メールアドレスは上記の特定商取引法に基づく表記に記載されています。消費者調停機関での紛争解決手続きに参加する意思も義務もありません。"
+    },
+    "lastUpdated": "最終更新日"
+  },
+  "datenschutz": {
+    "title": "プライバシーポリシー",
+    "subtitle": "データ処理に関する情報",
+    "backToHome": "ホームに戻る",
+    "dataCollection": {
+      "title": "本ウェブサイトでのデータ収集",
+      "content": "本ウェブサイトは、お問い合わせフォームまたはメールで自発的にご連絡いただかない限り、個人データを収集しません。データ処理はお問い合わせへの回答のためにのみ行われます。"
+    },
+    "contact": {
+      "title": "お問い合わせフォーム",
+      "content": "お問い合わせフォームからリクエストを送信された場合、フォームからの情報（連絡先データを含む）は、リクエストの処理と追加の質問がある場合に備えて保存されます。"
+    },
+    "cookies": {
+      "title": "Cookie",
+      "content": "本ウェブサイトは技術的に必要なCookie（例：テーマ設定用）のみを使用します。トラッキングCookieやサードパーティの分析ツールは使用されていません。"
+    },
+    "rights": {
+      "title": "あなたの権利",
+      "content": "いつでも以下の権利があります：",
+      "access": "保存されているデータに関する情報を得る",
+      "correction": "不正確なデータの訂正を要求する",
+      "deletion": "データの削除を要求する",
+      "restriction": "処理の制限を要求する",
+      "portability": "データポータビリティを要求する",
+      "objection": "処理に異議を唱える"
+    },
+    "lastUpdated": "最終更新日"
+  }
+}

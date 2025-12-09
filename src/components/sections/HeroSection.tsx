@@ -12,8 +12,10 @@ import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components
 
 // Define tech icons outside component to prevent re-mounting
 // Icons are deferred to avoid blocking main thread on initial load
+// Container has fixed height to prevent CLS (Cumulative Layout Shift)
 const TechIcons = ({ compact = false, visible = true }: { compact?: boolean; visible?: boolean }) => (
-    <div className={`flex items-center justify-center gap-3 ${compact ? 'mb-0' : 'mb-8 sm:mb-10'} transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`flex items-center justify-center gap-3 ${compact ? 'mb-0' : 'mb-8 sm:mb-10'} transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}
+         style={{ minHeight: compact ? '16px' : '24px' }}>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
             {visible && (
                 <>
@@ -100,12 +102,13 @@ export function HeroSection() {
                         <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full" />
                     </div>
                     <span className="text-xs font-semibold text-foreground">{t('cta')}</span>
-                    <Icon
-                        icon="mdi:chevron-right"
-                        className="w-3 h-3"
-                        style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out' }}
-
-                    />
+                    <span className="w-3 h-3 flex-shrink-0">
+                        <Icon
+                            icon="mdi:chevron-right"
+                            className="w-3 h-3"
+                            style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out' }}
+                        />
+                    </span>
                 </button>
                 <TechIcons compact visible={showIcons} />
             </SectionRight>
@@ -130,16 +133,17 @@ export function HeroSection() {
                     <span className="text-xs sm:text-sm font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
                         {t('cta')}
                     </span>
-                    <Icon
-                        icon="mdi:chevron-right"
-                        className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
-                        style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
-
-                    />
+                    <span className="w-4 h-4 flex-shrink-0">
+                        <Icon
+                            icon="mdi:chevron-right"
+                            className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
+                            style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
+                        />
+                    </span>
                 </button>
 
-                {/* Title with better gradient */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-foreground">
+                {/* Title - text-balance ensures consistent line breaks regardless of font loading */}
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-foreground text-balance">
                     {title}
                 </h1>
 

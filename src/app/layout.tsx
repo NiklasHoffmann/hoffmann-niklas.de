@@ -17,7 +17,7 @@ const DynamicFavicon = dynamic(
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "optional", // Best performance: use fallback if font not cached
+  display: "swap", // Show fallback immediately, swap to real font when loaded
   preload: true,
   adjustFontFallback: true, // Reduce layout shift with font metric override
 });
@@ -25,7 +25,7 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: "optional", // Best performance: use fallback if font not cached
+  display: "swap", // Show fallback immediately, swap to real font when loaded
   preload: true,
   adjustFontFallback: true, // Reduce layout shift with font metric override
 });

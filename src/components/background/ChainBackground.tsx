@@ -32,12 +32,19 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   // OPTIMIZATION: Cache scrollHeight to avoid recalculation on every scroll event
   const scrollHeightCache = useRef(0);
 
+  // Draw animation state - chain draws from top to bottom on initial load
+  const [drawProgress, setDrawProgress] = useState(0); // 0 to 1
+  const drawAnimationStarted = useRef(false);
+  const drawAnimationComplete = useRef(false);
+  const [animationVisible, setAnimationVisible] = useState(false); // Controls when to show the chain
+
   // Get responsive config
   const responsiveConfig = getChainConfig(screenSize);
 
   // Dynamically select preset based on interactive mode - use useMemo to recalculate when isInteractive changes
+  // Both modes use 'line' style now, but interactive mode adds a colored highlight segment
   const config: ChainPathConfig = useMemo(() => {
-    const activePreset = preset || (isInteractive ? 'cubic' : 'line');
+    const activePreset = preset || 'line'; // Always use line style
     console.log('🎨 ChainBackground: Config recalculated, preset:', activePreset, 'isInteractive:', isInteractive);
 
     return {
@@ -194,6 +201,44 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       }
     };
   }, [config.style, screenSize, isInteractive]);
+
+  // Draw animation - chain draws from top to bottom on initial load
+  useEffect(() => {
+    if (!isReady) return;
+    if (drawAnimationComplete.current) return;
+    if (drawAnimationStarted.current) return;
+
+    drawAnimationStarted.current = true;
+    const duration = 20000; // 20 seconds for full draw (~3 sec per section)
+    const startTime = performance.now();
+
+    console.log('🎬 Chain draw animation started');
+
+    // Make chain visible immediately when animation starts
+    setAnimationVisible(true);
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Easing function - ease out quart for very smooth deceleration
+      const eased = 1 - Math.pow(1 - progress, 4);
+
+      setDrawProgress(eased);
+      needsRedrawRef.current = true;
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        console.log('🎬 Chain draw animation complete');
+        drawAnimationComplete.current = true;
+        setDrawProgress(1);
+      }
+    };
+
+    // Start animation immediately
+    requestAnimationFrame(animate);
+  }, [isReady]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -386,21 +431,28 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
       const renderLink = getLinkRenderer(style);
 
-      // Zeichne Kettenglieder oder Linie
-      if (style === 'line') {
-        // Line-Stil: Zeichne durchgehenden Pfad
-        ctx.beginPath();
-        ctx.moveTo(pathPoints[0].x, pathPoints[0].y);
+      // Calculate how many points to draw based on drawProgress
+      const pointsToDraw = Math.floor(pathPoints.length * drawProgress);
+      const visiblePoints = drawAnimationComplete.current ? pathPoints : pathPoints.slice(0, pointsToDraw);
 
-        for (let i = 1; i < pathPoints.length; i++) {
-          ctx.lineTo(pathPoints[i].x, pathPoints[i].y);
+      // Line-Stil: Zeichne durchgehenden Pfad
+      if (style === 'line') {
+        if (visiblePoints.length < 2) {
+          animationFrameRef.current = requestAnimationFrame(draw);
+          return;
+        }
+
+        // Base line
+        ctx.beginPath();
+        ctx.moveTo(visiblePoints[0].x, visiblePoints[0].y);
+
+        for (let i = 1; i < visiblePoints.length; i++) {
+          ctx.lineTo(visiblePoints[i].x, visiblePoints[i].y);
         }
 
         ctx.strokeStyle = CHAIN_COLORS.line.stroke;
-        // Verwende linkWidth aus config für die Liniendicke
         ctx.lineWidth = config.linkWidth || CHAIN_COLORS.line.width;
 
-        // Sehr subtiler Schatten
         if (CHAIN_COLORS.line.shadow) {
           ctx.shadowColor = CHAIN_COLORS.line.shadow;
           ctx.shadowBlur = 2;
@@ -408,10 +460,102 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           ctx.shadowOffsetY = 0.5;
         }
 
-        // Glattere Linie
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         ctx.stroke();
+
+        // Interactive mode: Draw colored highlight segment on top
+        if (isInteractive && visiblePoints.length > 10) {
+          // Reset shadow for highlight
+          ctx.shadowColor = 'transparent';
+          ctx.shadowBlur = 0;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 0;
+
+          // Neon colors per section (same as in chainRenderers.ts)
+          const neonColors = [
+            '#00ffff', // Cyan - Section 0 (Hero)
+            '#ff00ff', // Magenta - Section 1 (About)
+            '#00ff00', // Lime - Section 2 (Services)
+            '#ffff00', // Yellow - Section 3 (Portfolio)
+            '#ff0080', // Hot Pink - Section 4 (Videos)
+            '#0080ff', // Blue - Section 5 (Contact)
+            '#ff8000', // Orange - Section 6 (Footer)
+          ];
+
+          // Group points by section
+          const sectionGroups: { startIndex: number; endIndex: number; sectionIndex: number }[] = [];
+          let currentSectionStart = 0;
+          let currentSection = visiblePoints[0]?.sectionIndex ?? 0;
+
+          for (let i = 1; i < visiblePoints.length; i++) {
+            if (visiblePoints[i].sectionIndex !== currentSection) {
+              sectionGroups.push({
+                startIndex: currentSectionStart,
+                endIndex: i - 1,
+                sectionIndex: currentSection
+              });
+              currentSectionStart = i;
+              currentSection = visiblePoints[i].sectionIndex;
+            }
+          }
+          // Add last section
+          sectionGroups.push({
+            startIndex: currentSectionStart,
+            endIndex: visiblePoints.length - 1,
+            sectionIndex: currentSection
+          });
+
+          // Draw highlight for each section independently
+          for (const section of sectionGroups) {
+            const sectionLength = section.endIndex - section.startIndex;
+            if (sectionLength < 10) continue; // Skip very short sections
+
+            // Highlight is 25% of this section's length (5% fade + 15% solid + 5% fade)
+            const highlightLength = Math.floor(sectionLength * 0.25);
+            if (highlightLength < 5) continue;
+
+            // Position based on scroll progress within this section
+            const maxStart = sectionLength - highlightLength;
+            const highlightStart = section.startIndex + Math.floor(scrollProgress * maxStart);
+            const highlightEnd = Math.min(highlightStart + highlightLength, section.endIndex);
+
+            // Get section neon color
+            const neonColor = neonColors[section.sectionIndex % neonColors.length];
+
+            // Fade zones: 5% on each end, 15% solid in middle
+            // Total: 5% + 15% + 5% = 25%
+
+            // Draw highlight segments
+            for (let i = highlightStart; i < highlightEnd - 1; i++) {
+              const posInHighlight = i - highlightStart;
+              const highlightProgress = posInHighlight / highlightLength;
+
+              // Calculate opacity: 5% fade in (0-0.2), 15% solid (0.2-0.8), 5% fade out (0.8-1.0)
+              let opacity = 1;
+              if (highlightProgress < 0.2) {
+                // Fade in zone (first 5% of 25% = 20% of highlight)
+                opacity = highlightProgress / 0.2;
+              } else if (highlightProgress > 0.8) {
+                // Fade out zone (last 5% of 25% = 20% of highlight)
+                opacity = (1 - highlightProgress) / 0.2;
+              }
+
+              ctx.beginPath();
+              ctx.moveTo(visiblePoints[i].x, visiblePoints[i].y);
+              ctx.lineTo(visiblePoints[i + 1].x, visiblePoints[i + 1].y);
+
+              ctx.strokeStyle = neonColor;
+              ctx.globalAlpha = opacity * 0.8; // Max 80% opacity
+              ctx.lineWidth = (config.linkWidth || CHAIN_COLORS.line.width) + 1;
+              ctx.lineCap = 'round';
+              ctx.stroke();
+            }
+          }
+
+          // Reset global alpha
+          ctx.globalAlpha = 1;
+        }
       } else {
         // Andere Stile: Zeichne einzelne Kettenglieder
         let distance = 0;
@@ -419,9 +563,12 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         let currentSection = 0;
         let sectionLinkIndex = 0; // Link-Index innerhalb der aktuellen Section
 
-        for (let i = 0; i < pathPoints.length - 1; i++) {
-          const p1 = pathPoints[i];
-          const p2 = pathPoints[i + 1];
+        // Use visiblePoints for progressive draw animation
+        const pointsToIterate = drawAnimationComplete.current ? pathPoints : visiblePoints;
+
+        for (let i = 0; i < pointsToIterate.length - 1; i++) {
+          const p1 = pointsToIterate[i];
+          const p2 = pointsToIterate[i + 1];
 
           // Wenn Section wechselt, reset sectionLinkIndex
           if (p1.sectionIndex !== currentSection) {
@@ -483,14 +630,17 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [dimensions, config, theme]);
+  }, [dimensions, config, theme, drawProgress, scrollProgress, isInteractive]);
 
   // Don't render chain if not mounted
   if (!mounted) {
     return null;
   }
 
-  const targetOpacity = isReady ? 1.0 : 0;
+  // Chain becomes visible when animation starts (animationVisible)
+  // After animation is complete, use isReady for subsequent visibility
+  const shouldShow = drawAnimationComplete.current ? isReady : animationVisible;
+  const targetOpacity = shouldShow ? 1.0 : 0;
   const finalOpacity = targetOpacity * transitionOpacity;
 
   return (
@@ -501,7 +651,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       className="absolute inset-0 pointer-events-none"
       style={{
         opacity: finalOpacity,
-        transition: 'none', // No CSS transition, we handle it in JS
+        transition: 'none',
         willChange: 'opacity',
         transform: 'translateZ(0)', // Force GPU acceleration
         backfaceVisibility: 'hidden',
