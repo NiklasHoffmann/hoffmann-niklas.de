@@ -5,11 +5,13 @@ export function StructuredData({ locale }: { locale: string }) {
         "@type": "Person",
         "name": "Niklas Hoffmann",
         "url": "https://hoffmann-niklas.de",
-        "image": "https://hoffmann-niklas.de/api/og",
-        "jobTitle": locale === 'de' ? "Full-Stack & Web3 Frontend Developer" : "Full-Stack & Web3 Frontend Developer",
+        "image": "https://hoffmann-niklas.de/og-image.jpg",
+        "jobTitle": "Full-Stack & Web3 Frontend Developer",
         "description": locale === 'de'
             ? "Full-Stack Developer spezialisiert auf moderne Web-Apps, Web3-Frontend-Integration und Wallet-Konnektivität"
-            : "Full-Stack Developer specialized in modern web apps, Web3 frontend integration and wallet connectivity",
+            : locale === 'es'
+                ? "Desarrollador Full-Stack especializado en aplicaciones web modernas, integración Web3 y conectividad de wallet"
+                : "Full-Stack Developer specialized in modern web apps, Web3 frontend integration and wallet connectivity",
         "knowsAbout": [
             "Web Development",
             "Full-Stack Development",
@@ -43,39 +45,37 @@ export function StructuredData({ locale }: { locale: string }) {
         "url": "https://hoffmann-niklas.de",
         "description": locale === 'de'
             ? "Portfolio von Niklas Hoffmann - Full-Stack & Web3 Frontend Developer"
-            : "Portfolio of Niklas Hoffmann - Full-Stack & Web3 Frontend Developer",
-        "inLanguage": locale === 'de' ? "de-DE" : locale === 'es' ? "es-ES" : "en-US",
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://hoffmann-niklas.de/{locale}?q={search_term_string}"
-            },
-            "query-input": "required name=search_term_string"
-        }
+            : locale === 'es'
+                ? "Portfolio de Niklas Hoffmann - Desarrollador Full-Stack & Web3 Frontend"
+                : "Portfolio of Niklas Hoffmann - Full-Stack & Web3 Frontend Developer",
+        "inLanguage": locale === 'de' ? "de-DE" : locale === 'es' ? "es-ES" : "en-US"
     };
 
-    const professionalService = {
+    // Use Service instead of ProfessionalService to avoid LocalBusiness requirements
+    const serviceData = {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "Niklas Hoffmann - Web Development Services",
+        "@type": "Service",
+        "name": locale === 'de' 
+            ? "Webentwicklung & Web3 Integration" 
+            : locale === 'es'
+                ? "Desarrollo Web e Integración Web3"
+                : "Web Development & Web3 Integration",
         "url": "https://hoffmann-niklas.de",
         "description": locale === 'de'
             ? "Professionelle Webentwicklung, Web3-Integration und Full-Stack Development Services"
-            : "Professional web development, Web3 integration and full-stack development services",
+            : locale === 'es'
+                ? "Desarrollo web profesional, integración Web3 y servicios de desarrollo Full-Stack"
+                : "Professional web development, Web3 integration and full-stack development services",
         "provider": {
             "@type": "Person",
-            "name": "Niklas Hoffmann"
+            "name": "Niklas Hoffmann",
+            "url": "https://hoffmann-niklas.de"
         },
-        "areaServed": "DE",
-        "serviceType": [
-            "Web Development",
-            "Web3 Integration",
-            "Full-Stack Development",
-            "Frontend Development",
-            "Backend Development",
-            "UI/UX Design"
-        ]
+        "areaServed": {
+            "@type": "Country",
+            "name": "Germany"
+        },
+        "serviceType": "Web Development"
     };
 
     return (
@@ -90,7 +90,7 @@ export function StructuredData({ locale }: { locale: string }) {
             />
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalService) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceData) }}
             />
         </>
     );
