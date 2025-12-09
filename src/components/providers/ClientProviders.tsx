@@ -7,9 +7,9 @@ import { DeviceProvider } from '@/contexts/DeviceContext';
 
 // Suppress console.log in production (keep warn and error)
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
-    console.log = () => {};
-    console.debug = () => {};
-    console.info = () => {};
+    console.log = () => { };
+    console.debug = () => { };
+    console.info = () => { };
 }
 
 export function ClientProviders({ children }: { children: ReactNode }) {

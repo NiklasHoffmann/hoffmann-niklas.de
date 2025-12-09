@@ -12,10 +12,10 @@ export function ThemeToggle() {
 
     // Shadow color based on theme - only after mount to avoid hydration mismatch
     const getBaseShadow = () => {
-        if (!mounted) return '0 2px 8px rgba(0, 0, 0, 0.15)';
+        if (!mounted) return '0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.2)';
         return theme === 'dark'
-            ? '0 2px 8px rgba(255, 255, 255, 0.15)'
-            : '0 2px 8px rgba(0, 0, 0, 0.15)';
+            ? '0 0 8px 1px rgba(255, 255, 255, 0.35), 0 10px 15px -3px rgba(255, 255, 255, 0.2), 0 4px 6px -4px rgba(255, 255, 255, 0.15)'
+            : '0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.2)';
     };
 
     // Prevent hydration mismatch by not rendering theme-dependent content until mounted
@@ -25,7 +25,7 @@ export function ThemeToggle() {
                 className="p-2 rounded-lg relative w-[36px] h-[36px] flex items-center justify-center opacity-50"
                 style={{
                     backgroundColor: 'transparent',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.2)',
                     transition: 'all 700ms ease-in-out'
                 }}
                 aria-label="Toggle theme"

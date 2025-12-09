@@ -80,9 +80,10 @@ export default async function RootLayout({
         {/* DNS Prefetch for external resources */}
         <link rel="dns-prefetch" href="https://api.iconify.design" />
         <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
-        
+
         {/* Critical inline CSS for instant first paint - prevents FOUC */}
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           :root{--background:0 0% 100%;--foreground:0 0% 3.6%;--accent:0 84.2% 60.2%}
           .dark{--background:0 0% 3.6%;--foreground:0 0% 98%}
           body{background-color:hsl(var(--background));color:hsl(var(--foreground));margin:0;opacity:1}

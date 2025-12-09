@@ -94,7 +94,7 @@ export function HeroSection({ ssrTitle, ssrSubtitle, ssrPriceNote }: HeroSection
                         icon="mdi:chevron-right"
                         className="w-3 h-3"
                         style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out' }}
-                       
+
                     />
                 </button>
                 <TechIcons compact />
@@ -124,7 +124,7 @@ export function HeroSection({ ssrTitle, ssrSubtitle, ssrPriceNote }: HeroSection
                         icon="mdi:chevron-right"
                         className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
                         style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
-                       
+
                     />
                 </button>
 

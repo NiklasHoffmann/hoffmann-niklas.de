@@ -26,7 +26,7 @@ const Footer = dynamic(() => import("@/components/layout/Footer").then(mod => ({
 export default async function HomePage() {
     // Get translations server-side for LCP optimization
     const t = await getTranslations('hero');
-    
+
     return (
         <>
             {/* Skip to content link for keyboard navigation */}
