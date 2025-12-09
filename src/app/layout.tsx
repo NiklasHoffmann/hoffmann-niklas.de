@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getRequestConfig } from "next-intl/server";
+import "./critical.css";
 import "./globals.css";
 import { ClientProviders } from "@/components/providers";
 import { ConditionalChainBackground } from "@/components/background";
@@ -70,6 +71,15 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        {/* Critical inline CSS for instant first paint - prevents FOUC */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          :root{--background:0 0% 100%;--foreground:0 0% 3.6%}
+          .dark{--background:0 0% 3.6%;--foreground:0 0% 98%}
+          body{background-color:hsl(var(--background));color:hsl(var(--foreground));margin:0}
+          html{scroll-behavior:smooth}
+        `}} />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ClientProviders>
           <DynamicFavicon />
