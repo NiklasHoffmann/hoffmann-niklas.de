@@ -32,7 +32,7 @@ export default async function HomePage() {
             {/* Skip to content link for keyboard navigation */}
             <a
                 href="#hero"
-                className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:border-border focus:rounded focus:outline-none"
+                className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:top-4 focus-visible:left-4 focus-visible:z-[100] focus-visible:px-4 focus-visible:py-2 focus-visible:bg-background focus-visible:text-foreground focus-visible:border focus-visible:border-border focus-visible:rounded focus-visible:outline-none"
             >
                 Skip to content
             </a>

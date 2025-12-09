@@ -110,7 +110,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         let resizeTimeout: NodeJS.Timeout;
-        let orientationTimeout: NodeJS.Timeout;
+        let orientationTimeouts: NodeJS.Timeout[] = [];
 
         const handleResize = () => {
             // Debounce resize events
@@ -121,27 +121,23 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
         };
 
         const handleOrientationChange = () => {
-            // Clear any pending resize timeout
-            clearTimeout(orientationTimeout);
-            
+            // Clear any pending timeouts
+            orientationTimeouts.forEach(t => clearTimeout(t));
+            orientationTimeouts = [];
+
             // Multiple checks for reliable orientation change detection
             // Wave 1: Immediate
             setDeviceInfo(getDeviceInfo());
-            
+
             // Wave 2: After 100ms (browser may not have updated dimensions yet)
-            orientationTimeout = setTimeout(() => {
+            orientationTimeouts.push(setTimeout(() => {
                 setDeviceInfo(getDeviceInfo());
-            }, 100);
-            
+            }, 100));
+
             // Wave 3: After 300ms (some devices are slow)
-            setTimeout(() => {
+            orientationTimeouts.push(setTimeout(() => {
                 setDeviceInfo(getDeviceInfo());
-            }, 300);
-            
-            // Wave 4: After 500ms (final catch)
-            setTimeout(() => {
-                setDeviceInfo(getDeviceInfo());
-            }, 500);
+            }, 300));
         };
 
         // Initial check
@@ -162,7 +158,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
             window.removeEventListener('orientationchange', handleOrientationChange);
             mediaQuery.removeEventListener('change', handleMediaChange);
             clearTimeout(resizeTimeout);
-            clearTimeout(orientationTimeout);
+            orientationTimeouts.forEach(t => clearTimeout(t));
         };
     }, []);
 

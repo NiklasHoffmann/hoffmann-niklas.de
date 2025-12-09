@@ -31,17 +31,27 @@ export async function generateMetadata({
     const { locale } = await params;
     const messages = (await import(`@/messages/${locale}.json`)).default;
 
-    const title = locale === 'de'
-        ? 'Niklas Hoffmann | Full-Stack & Web3 Frontend Developer'
-        : 'Niklas Hoffmann | Full-Stack & Web3 Frontend Developer';
+    const titles: Record<string, string> = {
+        de: 'Niklas Hoffmann | Full-Stack & Web3 Frontend Developer',
+        en: 'Niklas Hoffmann | Full-Stack & Web3 Frontend Developer',
+        es: 'Niklas Hoffmann | Desarrollador Full-Stack & Web3 Frontend',
+    };
 
-    const description = locale === 'de'
-        ? 'Full-Stack Developer – Spezialisiert auf moderne Web-Apps, Web3-Frontend-Integration und Wallet-Konnektivität. React, Next.js, TypeScript, Wagmi, MetaMask, Ethereum.'
-        : 'Full-Stack Developer – Specialized in modern web apps, Web3 frontend integration and wallet connectivity. React, Next.js, TypeScript, Wagmi, MetaMask, Ethereum.';
+    const descriptions: Record<string, string> = {
+        de: 'Full-Stack Developer – Spezialisiert auf moderne Web-Apps, Web3-Frontend-Integration und Wallet-Konnektivität. React, Next.js, TypeScript, Wagmi, MetaMask, Ethereum.',
+        en: 'Full-Stack Developer – Specialized in modern web apps, Web3 frontend integration and wallet connectivity. React, Next.js, TypeScript, Wagmi, MetaMask, Ethereum.',
+        es: 'Desarrollador Full-Stack – Especializado en aplicaciones web modernas, integración Web3 frontend y conectividad de wallet. React, Next.js, TypeScript, Wagmi, MetaMask, Ethereum.',
+    };
 
-    const keywords = locale === 'de'
-        ? 'Web Developer, Full-Stack Developer, Web3 Frontend, Wallet Integration, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Fotografie, Webentwicklung, Deutschland, Blockchain Developer, Smart Contract Integration'
-        : 'Web Developer, Full-Stack Developer, Web3 Frontend, Wallet Integration, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Photography, Web Development, Germany, Blockchain Developer, Smart Contract Integration';
+    const keywordsList: Record<string, string> = {
+        de: 'Web Developer, Full-Stack Developer, Web3 Frontend, Wallet Integration, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Fotografie, Webentwicklung, Deutschland, Blockchain Developer, Smart Contract Integration',
+        en: 'Web Developer, Full-Stack Developer, Web3 Frontend, Wallet Integration, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Photography, Web Development, Germany, Blockchain Developer, Smart Contract Integration',
+        es: 'Desarrollador Web, Desarrollador Full-Stack, Web3 Frontend, Integración Wallet, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Fotografía, Desarrollo Web, Alemania, Desarrollador Blockchain, Integración Smart Contract',
+    };
+
+    const title = titles[locale] || titles.en;
+    const description = descriptions[locale] || descriptions.en;
+    const keywords = keywordsList[locale] || keywordsList.en;
 
     // Verwende statisches OG-Image aus /public
     // OG Image: Screenshot der chain-preview Route (Section 1 mit Hero-Text)
@@ -79,13 +89,6 @@ export async function generateMetadata({
                     alt: 'Niklas Hoffmann - Full-Stack & Web3 Frontend Developer',
                 },
             ],
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title,
-            description,
-            images: [ogImageUrl],
-            creator: '@NiklasHoffmann', // Falls du einen Twitter-Account hast
         },
         robots: {
             index: true,

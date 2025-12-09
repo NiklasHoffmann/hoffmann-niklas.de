@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 declare global {
     interface Window {
@@ -76,6 +78,14 @@ export default function AdminLogin() {
     return (
         <div className="min-h-[600px] flex items-center justify-center bg-background py-12">
             <div className="max-w-md w-full mx-4 p-8 bg-card rounded-lg border border-border shadow-lg">
+                <Link
+                    href="/"
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+                >
+                    <ArrowLeft className="w-4 h-4" />
+                    Zurück zur Startseite
+                </Link>
+
                 <h1 className="text-2xl font-bold text-foreground mb-6 text-center">
                     Admin Login
                 </h1>

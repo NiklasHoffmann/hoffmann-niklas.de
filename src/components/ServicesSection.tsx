@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { SectionHeader } from '@/components/ui';
-import { ServicesCube } from './ServicesCube';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { ServicesCube } from '@/components/ServicesCube';
 import { Icon } from '@iconify/react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
-import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
+import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui/Section';
 import { useDevice } from '@/contexts/DeviceContext';
 import {
     ReactIcon,
@@ -27,7 +27,7 @@ import {
     IPFSIcon,
     GraphQLIcon,
     TheGraphIcon,
-} from '@/components/icons';
+} from '@/components/icons/TechIcons';
 
 interface TechItem {
     name: string;
@@ -211,14 +211,12 @@ export function ServicesSection() {
                     className="flex flex-col items-center justify-center p-2 bg-card/50 rounded-lg border border-border"
                     style={{ transition: 'border-color 700ms ease-in-out' }}
                 >
-                    <div className="h-6 flex items-center mb-1">
-                        <Icon
-                            icon={service.icon}
-                            className="text-2xl"
-                            width="1em"
-                            height="1em"
-                        />
-                    </div>
+                    <Icon
+                        icon={service.icon}
+                        className="text-2xl mb-1"
+                        key={service.icon}
+                        ssr={true}
+                    />
                     <span className="text-[9px] text-center leading-tight text-muted-foreground">
                         {service.title}
                     </span>
@@ -246,15 +244,14 @@ export function ServicesSection() {
                         <button
                             onClick={toggleView}
                             disabled={isTransitioning}
-                            className="absolute top-0 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                            className="absolute top-0 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                             title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
-                            aria-label={showCube ? 'Switch to Grid View' : 'Switch to 3D Cube View'}
                             suppressHydrationWarning
                         >
                             <Icon
                                 icon={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
                                 className="w-5 h-5 text-accent"
-
+                                ssr={true}
                                 key={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
                             />
                         </button>
@@ -313,38 +310,40 @@ export function ServicesSection() {
                                             const handleMouseEnter = () => {
                                                 if (hoverTimeoutRef.current) {
                                                     clearTimeout(hoverTimeoutRef.current);
-                                                    hoverTimeoutRef.current = null;
                                                 }
-                                                // Immediate flip on enter for responsiveness
-                                                setFlippedCard(i);
+                                                hoverTimeoutRef.current = setTimeout(() => {
+                                                    setFlippedCard(i);
+                                                }, 50);
                                             };
 
                                             const handleMouseLeave = () => {
                                                 if (hoverTimeoutRef.current) {
                                                     clearTimeout(hoverTimeoutRef.current);
                                                 }
-                                                // Delay on leave to prevent flicker when moving between cards
                                                 hoverTimeoutRef.current = setTimeout(() => {
                                                     setFlippedCard(null);
-                                                    hoverTimeoutRef.current = null;
-                                                }, 150);
+                                                }, 50);
                                             };
 
                                             return (
                                                 <div key={i} className="perspective-1000">
                                                     <div
-                                                        role="button"
-                                                        tabIndex={0}
-                                                        aria-expanded={isFlipped}
-                                                        aria-label={`${service.title} - ${isFlipped ? 'Details ausblenden' : 'Details anzeigen'}`}
                                                         onClick={() => setFlippedCard(isFlipped ? null : i)}
-                                                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : i); } }}
                                                         onMouseEnter={handleMouseEnter}
                                                         onMouseLeave={handleMouseLeave}
-                                                        className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-xl"
+                                                        tabIndex={0}
+                                                        role="button"
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                                e.preventDefault();
+                                                                setFlippedCard(isFlipped ? null : i);
+                                                            }
+                                                        }}
+                                                        className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d rounded-xl"
                                                         style={{
                                                             transformStyle: 'preserve-3d',
                                                             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                                                            outline: 'none',
                                                             WebkitTapHighlightColor: 'transparent',
                                                         }}
                                                     >
@@ -358,18 +357,18 @@ export function ServicesSection() {
                                                             {service.techStack.length > 0 && (
                                                                 <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 pointer-events-none z-20">
                                                                     <div className="relative flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5">
-                                                                        <div className="absolute inset-0 bg-blue-500/50 rounded-full gpu-ping" />
+                                                                        <div className="absolute inset-0 bg-blue-500/50 rounded-full animate-ping" />
                                                                         <div className="relative w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-full" />
                                                                     </div>
                                                                 </div>
                                                             )}
 
-                                                            <div className="mb-2 sm:mb-3 flex-shrink-0 h-[30px] sm:h-[40px] lg:h-[48px] flex items-center">
+                                                            <div className="mb-2 sm:mb-3 flex-shrink-0">
                                                                 <Icon
                                                                     icon={service.icon}
                                                                     className="text-3xl sm:text-4xl lg:text-5xl"
-                                                                    width="1em"
-                                                                    height="1em"
+                                                                    key={service.icon}
+                                                                    ssr={true}
                                                                 />
                                                             </div>
 
