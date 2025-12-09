@@ -19,7 +19,7 @@ export function AboutSection() {
     const { showActive, mounted: interactiveMounted } = useInteractiveMode();
     const { theme } = useTheme();
     const { isMobileLandscape } = useDevice();
-    
+
     // Force re-render after hydration to apply correct styles
     const [hydrated, setHydrated] = useState(false);
     useEffect(() => {
@@ -32,7 +32,7 @@ export function AboutSection() {
             ? NEON_COLORS_DARK
             : NEON_COLORS_LIGHT;
     }, [theme, interactiveMounted]);
-    
+
     // Use hydrated state to determine if interactive styles should be shown
     const isActiveAndHydrated = hydrated && showActive;
 

@@ -244,8 +244,9 @@ export function ServicesSection() {
                         <button
                             onClick={toggleView}
                             disabled={isTransitioning}
-                            className="absolute top-0 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="absolute top-0 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent"
                             title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
+                            aria-label={showCube ? 'Switch to Grid View' : 'Switch to 3D Cube View'}
                             suppressHydrationWarning
                         >
                             <Icon
@@ -328,10 +329,15 @@ export function ServicesSection() {
                                             return (
                                                 <div key={i} className="perspective-1000">
                                                     <div
+                                                        role="button"
+                                                        tabIndex={0}
+                                                        aria-expanded={isFlipped}
+                                                        aria-label={`${service.title} - ${isFlipped ? 'Details ausblenden' : 'Details anzeigen'}`}
                                                         onClick={() => setFlippedCard(isFlipped ? null : i)}
+                                                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : i); } }}
                                                         onMouseEnter={handleMouseEnter}
                                                         onMouseLeave={handleMouseLeave}
-                                                        className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d"
+                                                        className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-xl"
                                                         style={{
                                                             transformStyle: 'preserve-3d',
                                                             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',

@@ -20,13 +20,13 @@ function FooterComponent() {
     const currentYear = new Date().getFullYear();
     const { showActive } = useInteractiveMode();
     const { isMobileLandscape } = useDevice();
-    
+
     // Use mounted state to avoid hydration mismatch with showActive
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
         setIsMounted(true);
     }, []);
-    
+
     const socialLinks = [
         { icon: Github, href: 'https://github.com/hoffmannniklas', label: 'GitHub' },
         { icon: Linkedin, href: 'https://linkedin.com/in/hoffmannniklas', label: 'LinkedIn' },

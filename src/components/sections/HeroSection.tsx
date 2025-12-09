@@ -81,11 +81,11 @@ export function HeroSection({ }: HeroSectionProps) {
                         <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full" />
                     </div>
                     <span className="text-xs font-semibold text-foreground">{t('cta')}</span>
-                    <Icon 
-                        icon="mdi:chevron-right" 
-                        className="w-3 h-3" 
+                    <Icon
+                        icon="mdi:chevron-right"
+                        className="w-3 h-3"
                         style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out' }}
-                        ssr={true} 
+                        ssr={true}
                     />
                 </button>
                 <TechIcons compact />
@@ -111,11 +111,11 @@ export function HeroSection({ }: HeroSectionProps) {
                     <span className="text-xs sm:text-sm font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
                         {t('cta')}
                     </span>
-                    <Icon 
-                        icon="mdi:chevron-right" 
-                        className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" 
+                    <Icon
+                        icon="mdi:chevron-right"
+                        className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
                         style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
-                        ssr={true} 
+                        ssr={true}
                     />
                 </button>
 

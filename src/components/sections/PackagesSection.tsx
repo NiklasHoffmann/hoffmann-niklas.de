@@ -125,10 +125,15 @@ export function PackagesSection() {
                                 <div key={pkgKey} className="perspective-1000 md:perspective-none">
                                     {/* Mobile: Flip Card */}
                                     <div
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-expanded={isFlipped}
+                                        aria-label={`${t(`packages.${pkgKey}.label`)} - ${isFlipped ? 'Details ausblenden' : 'Details anzeigen'}`}
                                         onClick={() => setFlippedCard(isFlipped ? null : index)}
+                                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : index); } }}
                                         onMouseEnter={handleMouseEnter}
                                         onMouseLeave={handleMouseLeave}
-                                        className="md:hidden relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 preserve-3d"
+                                        className="md:hidden relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 preserve-3d focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-2xl"
                                         style={{
                                             transformStyle: 'preserve-3d',
                                             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',

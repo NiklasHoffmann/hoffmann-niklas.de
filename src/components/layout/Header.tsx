@@ -173,7 +173,7 @@ function HeaderComponent() {
                                     <button
                                         key={section.id}
                                         onClick={() => scrollToSection(section.id)}
-                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10"
+                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-accent"
                                         style={isActive && isInteractiveActive ? {
                                             color: section.color,
                                             transition: 'all 0.7s ease-out',

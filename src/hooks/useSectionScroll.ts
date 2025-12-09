@@ -96,7 +96,7 @@ export function useSectionScroll() {
 
                 currentSectionIndex.current = closestIndex;
                 globalCurrentSectionIndex = closestIndex;
-                
+
                 // Notify listeners about initial section
                 const sectionId = SECTION_IDS[closestIndex];
                 if (sectionId && globalSectionChangeCallback) {

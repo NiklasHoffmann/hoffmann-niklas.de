@@ -62,13 +62,17 @@ const ModalForm = memo(function ModalForm({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="contact-modal-title"
       className='fixed inset-0 z-50 flex items-end justify-center'
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
+      onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}
     >
       {/* Backdrop */}
-      <div className='absolute inset-0 bg-black/50 backdrop-blur-sm' />
+      <div className='absolute inset-0 bg-black/50 backdrop-blur-sm' aria-hidden="true" />
 
       {/* Modal Content */}
       <div
@@ -83,12 +87,13 @@ const ModalForm = memo(function ModalForm({
         <div
           className='w-12 h-1 bg-border rounded-full mx-auto mb-3'
           style={{ transition: 'background-color 700ms ease-in-out' }}
+          aria-hidden="true"
         />
 
         {/* Close button */}
         <button
           onClick={onClose}
-          className='absolute top-4 right-4 p-2 rounded-full bg-secondary hover:bg-secondary/80'
+          className='absolute top-4 right-4 p-2 rounded-full bg-secondary hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-accent'
           style={{ transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out' }}
           aria-label="Close modal"
         >
@@ -97,6 +102,7 @@ const ModalForm = memo(function ModalForm({
 
         {/* Modal Header */}
         <h3
+          id="contact-modal-title"
           className='text-lg font-bold mb-4 pr-10'
           style={{ transition: 'color 700ms ease-in-out' }}
         >
