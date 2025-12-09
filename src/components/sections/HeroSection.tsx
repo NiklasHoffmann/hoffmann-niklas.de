@@ -14,12 +14,12 @@ import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components
 const TechIcons = ({ compact = false }: { compact?: boolean }) => (
     <div className={`flex items-center justify-center gap-3 ${compact ? 'mb-0' : 'mb-8 sm:mb-10'} opacity-100 transition-opacity duration-300`}>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Icon icon="logos:react" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
-            <Icon icon="logos:nextjs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
-            <Icon icon="logos:typescript-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
-            <Icon icon="logos:tailwindcss-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
-            <Icon icon="logos:nodejs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
-            <Icon icon="logos:ethereum" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} ssr={true} />
+            <Icon icon="logos:react" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
+            <Icon icon="logos:nextjs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
+            <Icon icon="logos:typescript-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
+            <Icon icon="logos:tailwindcss-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
+            <Icon icon="logos:nodejs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
+            <Icon icon="logos:ethereum" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'} transition-opacity duration-200`} />
         </div>
     </div>
 );
@@ -85,7 +85,7 @@ export function HeroSection({ }: HeroSectionProps) {
                         icon="mdi:chevron-right"
                         className="w-3 h-3"
                         style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out' }}
-                        ssr={true}
+                       
                     />
                 </button>
                 <TechIcons compact />
@@ -115,7 +115,7 @@ export function HeroSection({ }: HeroSectionProps) {
                         icon="mdi:chevron-right"
                         className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
                         style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
-                        ssr={true}
+                       
                     />
                 </button>
 

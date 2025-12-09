@@ -215,7 +215,7 @@ export function ServicesSection() {
                         icon={service.icon}
                         className="text-2xl mb-1"
                         key={service.icon}
-                        ssr={true}
+                       
                     />
                     <span className="text-[9px] text-center leading-tight text-muted-foreground">
                         {service.title}
@@ -252,7 +252,7 @@ export function ServicesSection() {
                             <Icon
                                 icon={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
                                 className="w-5 h-5 text-accent"
-                                ssr={true}
+                               
                                 key={showCube ? 'mdi:grid' : 'mdi:cube-outline'}
                             />
                         </button>
@@ -364,7 +364,7 @@ export function ServicesSection() {
                                                                     icon={service.icon}
                                                                     className="text-3xl sm:text-4xl lg:text-5xl"
                                                                     key={service.icon}
-                                                                    ssr={true}
+                                                                   
                                                                 />
                                                             </div>
 

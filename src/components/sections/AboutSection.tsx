@@ -248,7 +248,7 @@ export function AboutSection() {
                                                 transition: 'color 700ms ease-in-out'
                                             }}
                                             key={item.icon}
-                                            ssr={true}
+                                           
                                         />
                                     </div>
                                     <div className="flex-1">

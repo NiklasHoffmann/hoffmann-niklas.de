@@ -490,7 +490,7 @@ export function ContactSection() {
               <div className='p-2.5 sm:p-3 md:p-4 lg:p-5 bg-card rounded-xl border border-border hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10 group lg:flex-1 flex flex-col justify-center' style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
                 <div className='flex items-start gap-2'>
                   <div className='p-1.5 sm:p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
-                    <Icon icon="mdi:lightbulb-on" className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent' ssr={true} />
+                    <Icon icon="mdi:lightbulb-on" className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent' />
                   </div>
                   <div>
                     <h3 className='font-semibold text-xs sm:text-sm md:text-base mb-0.5'>{t('quickResponse')}</h3>

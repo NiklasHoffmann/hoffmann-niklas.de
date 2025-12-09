@@ -155,7 +155,7 @@ export default function ChatWindow() {
             >
                 <div className="w-full max-w-sm space-y-4">
                     <div className="text-center space-y-2">
-                        <Icon icon="mdi:account-circle" className="w-16 h-16 mx-auto text-accent" ssr={true} />
+                        <Icon icon="mdi:account-circle" className="w-16 h-16 mx-auto text-accent" />
                         <h3 className="text-xl font-semibold text-foreground">
                             {t('welcome')}
                         </h3>
@@ -233,7 +233,7 @@ export default function ChatWindow() {
                 {/* Welcome Message */}
                 {messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full text-center space-y-3">
-                        <Icon icon="mdi:chat-outline" className="w-16 h-16 text-accent/40" ssr={true} />
+                        <Icon icon="mdi:chat-outline" className="w-16 h-16 text-accent/40" />
                         <div>
                             <h4 className="text-lg font-medium text-foreground" style={{ transition: TRANSITIONS.text }}>
                                 {t('greeting', { userName: userName || '' })}
@@ -292,7 +292,7 @@ export default function ChatWindow() {
                                 {/* Admin Name */}
                                 {message.sender === 'admin' && (
                                     <div className="flex items-center gap-1.5 mb-1">
-                                        <Icon icon="mdi:shield-account" className="w-4 h-4 text-accent" ssr={true} />
+                                        <Icon icon="mdi:shield-account" className="w-4 h-4 text-accent" />
                                         <span
                                             className="text-xs font-medium text-accent"
                                             style={{ transition: TRANSITIONS.text }}
@@ -444,7 +444,7 @@ export default function ChatWindow() {
                         }}
                         aria-label="Send message"
                     >
-                        <Icon icon="mdi:send" className="w-5 h-5 text-foreground" ssr={true} style={{ transition: TRANSITIONS.text }} />
+                        <Icon icon="mdi:send" className="w-5 h-5 text-foreground" style={{ transition: TRANSITIONS.text }} />
                     </button>
                 </div>
 
@@ -455,7 +455,7 @@ export default function ChatWindow() {
                         transition: TRANSITIONS.text
                     }}
                 >
-                    <Icon icon="mdi:lock" className="w-3 h-3" ssr={true} />
+                    <Icon icon="mdi:lock" className="w-3 h-3" />
                     {t('securityNotice')}
                 </p>
             </form>

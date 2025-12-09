@@ -131,7 +131,7 @@ export default function ChatWidget() {
                         <Icon
                             icon="mdi:chat"
                             className="w-8 h-8 relative z-10 text-foreground transition-colors"
-                            ssr={true}
+                           
                         />
                     </div>
                 </div>
@@ -167,7 +167,7 @@ export default function ChatWidget() {
                             <Icon
                                 icon="mdi:chat"
                                 className="w-5 h-5 text-foreground transition-colors"
-                                ssr={true}
+                               
                             />
                             <span className="font-medium text-foreground transition-colors">
                                 Chat Support
@@ -185,14 +185,14 @@ export default function ChatWidget() {
                                 className="p-1 rounded text-foreground transition-colors"
                                 aria-label="Maximize"
                             >
-                                <Icon icon="mdi:window-maximize" className="w-5 h-5" ssr={true} />
+                                <Icon icon="mdi:window-maximize" className="w-5 h-5" />
                             </button>
                             <button
                                 onClick={closeChat}
                                 className="p-1 rounded text-foreground transition-colors"
                                 aria-label="Close"
                             >
-                                <Icon icon="mdi:close" className="w-5 h-5" ssr={true} />
+                                <Icon icon="mdi:close" className="w-5 h-5" />
                             </button>
                         </div>
                     </div>
@@ -252,7 +252,7 @@ export default function ChatWidget() {
                                     <Icon
                                         icon="mdi:chat"
                                         className="w-6 h-6 text-foreground transition-colors"
-                                        ssr={true}
+                                       
                                     />
                                     {/* Online Indicator */}
                                     <div
@@ -281,7 +281,7 @@ export default function ChatWidget() {
                                         className="p-1.5 rounded text-foreground transition-colors"
                                         aria-label="Minimize"
                                     >
-                                        <Icon icon="mdi:window-minimize" className="w-5 h-5" ssr={true} />
+                                        <Icon icon="mdi:window-minimize" className="w-5 h-5" />
                                     </button>
                                 )}
                                 <button
@@ -289,7 +289,7 @@ export default function ChatWidget() {
                                     className="p-1.5 rounded text-foreground transition-colors"
                                     aria-label="Close"
                                 >
-                                    <Icon icon="mdi:close" className="w-5 h-5" ssr={true} />
+                                    <Icon icon="mdi:close" className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>

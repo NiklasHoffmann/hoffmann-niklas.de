@@ -7,8 +7,9 @@ interface IconProps {
 }
 
 // Wrapper für konsistente Icon-Props
+// Note: ssr={false} prevents hydration mismatch (server renders <span>, client renders <svg>)
 function BrandIcon({ icon, className = 'w-6 h-6' }: IconProps & { icon: string }) {
-    return <Icon icon={icon} className={className} ssr={true} />;
+    return <Icon icon={icon} className={className} />;
 }
 
 export function ReactIcon({ className }: IconProps) {

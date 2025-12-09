@@ -133,7 +133,7 @@ const CubeFace = memo(function CubeFace({ service, transform, t }: CubeFaceProps
                 <Icon
                     icon={service.icon}
                     className="text-3xl md:text-4xl mb-1.5 flex-shrink-0"
-                    ssr={true}
+                   
                     key={service.icon}
                 />
                 <h3 className="text-sm md:text-base font-bold mb-1 leading-tight">{service.title}</h3>
