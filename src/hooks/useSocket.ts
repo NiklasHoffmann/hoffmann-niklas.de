@@ -54,11 +54,12 @@ export function useSocket(options: UseSocketOptions = {}) {
     // Initialize Socket.io connection
     useEffect(() => {
         const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || window.location.origin;
+        const isProduction = process.env.NODE_ENV === 'production';
 
         const socket = io(socketUrl, {
             transports: ['websocket', 'polling'],
             reconnection: true,
-            reconnectionAttempts: 5,
+            reconnectionAttempts: isProduction ? 3 : 5, // Fewer attempts in production
             reconnectionDelay: 1000,
         });
 
@@ -66,7 +67,7 @@ export function useSocket(options: UseSocketOptions = {}) {
 
         // Connection events
         socket.on('connect', () => {
-            console.log('✅ Socket.io connected:', socket.id);
+            if (!isProduction) console.log('✅ Socket.io connected:', socket.id);
             setIsConnected(true);
 
             // Auto-join session only if sessionId provided
@@ -81,12 +82,13 @@ export function useSocket(options: UseSocketOptions = {}) {
         });
 
         socket.on('disconnect', () => {
-            console.log('❌ Socket.io disconnected');
+            if (!isProduction) console.log('❌ Socket.io disconnected');
             setIsConnected(false);
         });
 
         socket.on('connect_error', (error) => {
-            console.error('❌ Socket.io connection error:', error);
+            // Only log in development - suppress errors in production for cleaner console
+            if (!isProduction) console.error('❌ Socket.io connection error:', error);
         });
 
         // Session events
