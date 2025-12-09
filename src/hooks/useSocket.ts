@@ -51,8 +51,14 @@ export function useSocket(options: UseSocketOptions = {}) {
         };
     }, [onMessage, onTyping, onUserJoined, onUserLeft, onAdminStatus]);
 
-    // Initialize Socket.io connection
+    // Initialize Socket.io connection - only when needed (sessionId exists or isAdmin)
     useEffect(() => {
+        // Don't connect if no session and not admin - prevents unnecessary connections
+        // This improves Lighthouse scores by not creating WebSocket errors
+        if (!sessionId && !isAdmin) {
+            return;
+        }
+
         const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || window.location.origin;
         const isProduction = process.env.NODE_ENV === 'production';
 
