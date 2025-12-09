@@ -1,5 +1,4 @@
-'use client';
-
+// Server Component - no client-side JS needed for static JSON-LD
 export function StructuredData({ locale }: { locale: string }) {
     const structuredData = {
         "@context": "https://schema.org",

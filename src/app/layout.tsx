@@ -2,12 +2,17 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getRequestConfig } from "next-intl/server";
+import dynamic from "next/dynamic";
 import "./critical.css";
 import "./globals.css";
 import { ClientProviders } from "@/components/providers";
 import { ConditionalChainBackground } from "@/components/background";
-import { DynamicFavicon } from "@/components/seo";
 import { locales, defaultLocale } from "@/i18n/config";
+
+// Lazy-load non-critical components to reduce initial script evaluation
+const DynamicFavicon = dynamic(
+  () => import("@/components/seo/DynamicFavicon").then(mod => ({ default: mod.DynamicFavicon }))
+);
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

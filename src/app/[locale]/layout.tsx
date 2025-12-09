@@ -1,11 +1,16 @@
 import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { ChatProvider } from '@/contexts/ChatContext';
 import { ClientChatWidget } from '@/components/chat';
-import { AnalyticsProvider } from '@/components/providers';
 import { StructuredData } from '@/components/seo';
 import { locales } from '@/i18n/config';
+
+// Lazy-load non-critical components to reduce initial script evaluation
+const AnalyticsProvider = dynamic(
+    () => import('@/components/providers/AnalyticsProvider').then(mod => ({ default: mod.AnalyticsProvider }))
+);
 
 // Generate static params for all locales
 export function generateStaticParams() {

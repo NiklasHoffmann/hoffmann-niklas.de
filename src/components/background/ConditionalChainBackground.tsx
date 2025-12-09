@@ -1,7 +1,13 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { ChainBackground } from './ChainBackground';
+import dynamic from 'next/dynamic';
+
+// Lazy-load ChainBackground to reduce initial script evaluation
+const ChainBackground = dynamic(
+    () => import('./ChainBackground').then(mod => ({ default: mod.ChainBackground })),
+    { ssr: false } // Canvas doesn't need SSR
+);
 
 export function ConditionalChainBackground() {
     const pathname = usePathname();
