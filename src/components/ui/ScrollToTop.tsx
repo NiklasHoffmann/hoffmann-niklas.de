@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+import { scrollToSectionById } from '@/hooks/useSectionScroll';
 
 export function ScrollToTop() {
     const [isVisible, setIsVisible] = useState(false);
@@ -21,15 +22,8 @@ export function ScrollToTop() {
     }, []);
 
     const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-        
-        // Update URL to remove hash and reflect being at top
-        if (window.location.hash) {
-            window.history.replaceState(null, '', window.location.pathname);
-        }
+        // Use the section scroll system to properly update hash and state
+        scrollToSectionById('hero');
     };
 
     // Don't render on server or when not visible
