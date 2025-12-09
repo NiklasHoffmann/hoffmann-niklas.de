@@ -2,14 +2,20 @@ import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { ChatProvider } from '@/contexts/ChatContext';
-import { ClientChatWidget } from '@/components/chat';
 import { StructuredData } from '@/components/seo';
 import { locales } from '@/i18n/config';
 
 // Lazy-load non-critical components to reduce initial script evaluation
 const AnalyticsProvider = dynamic(
     () => import('@/components/providers/AnalyticsProvider').then(mod => ({ default: mod.AnalyticsProvider }))
+);
+
+// Lazy-load Chat components (includes socket.io ~50KB) - only loaded when needed
+const ChatProvider = dynamic(
+    () => import('@/contexts/ChatContext').then(mod => ({ default: mod.ChatProvider }))
+);
+const ClientChatWidget = dynamic(
+    () => import('@/components/chat/ClientChatWidget')
 );
 
 // Generate static params for all locales
@@ -116,13 +122,8 @@ export default async function LocaleLayout({
 }) {
     const { locale } = await params;
 
-    // Load both languages to enable instant switching
-    const [currentMessages, otherMessages] = await Promise.all([
-        import(`@/messages/${locale}.json`),
-        import(`@/messages/${locale === 'de' ? 'en' : 'de'}.json`)
-    ]);
-
-    const messages = currentMessages.default;
+    // Load only current language messages (other languages loaded on-demand when switching)
+    const messages = (await import(`@/messages/${locale}.json`)).default;
 
     return (
         <NextIntlClientProvider locale={locale} messages={messages}>
