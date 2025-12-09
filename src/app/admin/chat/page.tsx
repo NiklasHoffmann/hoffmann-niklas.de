@@ -30,6 +30,7 @@ export default function AdminChatPage() {
         sessions,
         loading,
         socket,
+        isConnected,
         selectedSessionId,
         setSelectedSessionId,
         messages,
@@ -172,7 +173,7 @@ export default function AdminChatPage() {
                                         <Icon icon="mdi:delete-sweep" className="w-5 h-5 text-red-600" />
                                     </button>
                                 )}
-                                <ConnectionStatus isConnected={socket?.connected || false} isDark={isDark} />
+                                <ConnectionStatus isConnected={isConnected} isDark={isDark} />
                             </div>
                         </div>
 
@@ -236,7 +237,7 @@ export default function AdminChatPage() {
                                 onChange={handleInputChange}
                                 onSubmit={sendMessage}
                                 onFocus={handleInputFocus}
-                                isConnected={socket?.connected || false}
+                                isConnected={isConnected}
                                 isDark={isDark}
                             />
                         </>

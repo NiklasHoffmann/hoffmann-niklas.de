@@ -9,6 +9,7 @@ export function useAdminChat() {
     const [sessions, setSessions] = useState<ChatSession[]>([]);
     const [loading, setLoading] = useState(true);
     const [socket, setSocket] = useState<Socket | null>(null);
+    const [isConnected, setIsConnected] = useState(false);
     const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
 
     // Selected chat state
@@ -116,7 +117,18 @@ export function useAdminChat() {
 
         newSocket.on('connect', () => {
             if (!isProduction) console.log('✅ Admin connected to Socket.io');
+            setIsConnected(true);
             newSocket.emit('admin:join');
+        });
+
+        newSocket.on('disconnect', () => {
+            if (!isProduction) console.log('❌ Admin disconnected from Socket.io');
+            setIsConnected(false);
+        });
+
+        newSocket.on('connect_error', (error) => {
+            if (!isProduction) console.error('❌ Admin Socket.io connection error:', error);
+            setIsConnected(false);
         });
 
         // Listen for NEW SESSIONS
@@ -367,6 +379,7 @@ export function useAdminChat() {
         sessions,
         loading,
         socket,
+        isConnected,
         selectedSessionId,
         setSelectedSessionId,
         messages,
