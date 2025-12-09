@@ -157,6 +157,9 @@ export function useSectionScroll() {
                         isScrolling.current = false;
                         globalIsScrolling = false;
 
+                        // Move focus to the section for keyboard navigation
+                        section.focus({ preventScroll: true });
+
                         // Update URL hash to match current section
                         const sectionId = section.id;
                         if (sectionId && sectionId !== 'hero') {

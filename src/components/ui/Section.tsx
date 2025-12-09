@@ -42,12 +42,13 @@ export function Section({
             key={sectionKey}
             className={`
                 scroll-snap-section section-padding relative w-full h-screen max-h-screen
-                flex items-center justify-center
+                flex items-center justify-center outline-none
                 ${backgroundClasses[background]}
                 ${isMobileLandscape ? 'pt-16' : ''}
                 ${className}
             `.trim().replace(/\s+/g, ' ')}
             style={{ scrollMarginTop: '0px' }}
+            tabIndex={-1}
         >
             {/* Animated background elements - hidden on mobile landscape for performance */}
             {animatedBackground && !isMobileLandscape && (
