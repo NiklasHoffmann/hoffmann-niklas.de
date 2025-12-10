@@ -96,7 +96,7 @@ export default function ChatWidget() {
                     document.body.style.right = '';
                     document.body.style.overflow = '';
                     document.body.style.touchAction = '';
-                    
+
                     // Restore scroll position in next frame to avoid layout thrashing
                     requestAnimationFrame(() => {
                         window.scrollTo(0, scrollY);
@@ -136,8 +136,8 @@ export default function ChatWidget() {
                         style={{
                             backgroundColor: isDark ? '#090909' : '#ffffff',
                             borderColor: showActive ? greenColor : (isDark ? '#1a1a1a' : '#d1d5db'),
-                            boxShadow: showActive 
-                                ? `0 0 12px 2px ${greenColor}80, 0 4px 6px -1px rgba(0, 0, 0, 0.1)` 
+                            boxShadow: showActive
+                                ? `0 0 12px 2px ${greenColor}80, 0 4px 6px -1px rgba(0, 0, 0, 0.1)`
                                 : undefined,
                             transition: 'transform 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                         }}
@@ -146,7 +146,7 @@ export default function ChatWidget() {
                         <Icon
                             icon="mdi:chat"
                             className="w-8 h-8 relative z-10 text-foreground transition-colors"
-                           
+
                         />
                     </div>
                 </div>
@@ -182,7 +182,7 @@ export default function ChatWidget() {
                             <Icon
                                 icon="mdi:chat"
                                 className="w-5 h-5 text-foreground transition-colors"
-                               
+
                             />
                             <span className="font-medium text-foreground transition-colors">
                                 Chat Support
@@ -267,7 +267,7 @@ export default function ChatWidget() {
                                     <Icon
                                         icon="mdi:chat"
                                         className="w-6 h-6 text-foreground transition-colors"
-                                       
+
                                     />
                                     {/* Online Indicator */}
                                     <div

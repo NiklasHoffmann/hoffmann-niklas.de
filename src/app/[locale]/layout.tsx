@@ -115,7 +115,7 @@ export async function generateMetadata({
             },
         },
         verification: {
-            // google: 'deine-google-verification-id', // Wenn du Google Search Console nutzt
+            google: "SPiBjO6w7P1Ug44_amSud06RABoCwsJehrqk0ECyu_M"
         },
     };
 }

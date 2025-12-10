@@ -55,8 +55,8 @@ export function StructuredData({ locale }: { locale: string }) {
     const serviceData = {
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": locale === 'de' 
-            ? "Webentwicklung & Web3 Integration" 
+        "name": locale === 'de'
+            ? "Webentwicklung & Web3 Integration"
             : locale === 'es'
                 ? "Desarrollo Web e Integración Web3"
                 : "Web Development & Web3 Integration",

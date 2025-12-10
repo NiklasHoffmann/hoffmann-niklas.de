@@ -15,7 +15,7 @@ import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components
 // Container has fixed height to prevent CLS (Cumulative Layout Shift)
 const TechIcons = ({ compact = false, visible = true }: { compact?: boolean; visible?: boolean }) => (
     <div className={`flex items-center justify-center gap-3 ${compact ? 'mb-0' : 'mb-8 sm:mb-10'} transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}
-         style={{ minHeight: compact ? '16px' : '24px' }}>
+        style={{ minHeight: compact ? '16px' : '24px' }}>
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
             {visible && (
                 <>
