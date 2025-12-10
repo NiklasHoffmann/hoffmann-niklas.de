@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 import { Icon } from '@/components/icons/LocalIcon';
 import { useChat } from '@/contexts/ChatContext';
-import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
@@ -34,10 +33,10 @@ const TechIcons = ({ compact = false, visible = true }: { compact?: boolean; vis
 export function HeroSection() {
     const t = useTranslations('hero');
     const { openChat } = useChat();
-    const { key } = useOrientationResize();
     const { theme } = useTheme();
     const { mounted } = useInteractiveMode();
-    const { isMobileLandscape } = useDevice();
+    const device = useDevice();
+    const { isMobileLandscape } = device;
     const [isHovered, setIsHovered] = useState(false);
     // Defer icon loading to not block main thread
     const [showIcons, setShowIcons] = useState(false);
@@ -74,7 +73,7 @@ export function HeroSection() {
     };
 
     return (
-        <Section id="hero" sectionKey={key} animatedBackground>
+        <Section id="hero" sectionKey={`${device.layout}-${device.width}`} animatedBackground>
             {/* Mobile Landscape Layout */}
             <SectionLeft className="w-2/3 pr-4">
                 <h1 className="text-2xl font-bold mb-2 leading-tight text-foreground">

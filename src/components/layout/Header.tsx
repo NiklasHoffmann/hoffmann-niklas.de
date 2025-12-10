@@ -6,6 +6,7 @@ import { Icon } from '@/components/icons/LocalIcon';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+import { useDevice } from '@/contexts/DeviceContext';
 import { NEON_COLORS } from '@/config/ui.constants';
 import { ThemeToggle, LanguageToggle, InteractiveToggle } from '@/components/toggles';
 import { scrollToSectionById } from '@/hooks/useSectionScroll';
@@ -24,6 +25,7 @@ function HeaderComponent() {
     const [activeSection, setActiveSection] = useState(() => cachedActiveSection);
     const { showActive, mounted } = useInteractiveMode();
     const { theme } = useTheme();
+    const device = useDevice();
     const navRef = useRef<HTMLElement>(null);
     const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0, color: '' });
 
@@ -97,7 +99,7 @@ function HeaderComponent() {
         };
     }, []);
 
-    // Update underline position based on active section
+    // Update underline position based on active section and device dimensions
     useLayoutEffect(() => {
         if (!navRef.current) return;
 
@@ -117,7 +119,7 @@ function HeaderComponent() {
                 color: sections[activeIndex].color
             });
         }
-    }, [activeSection, sections]);
+    }, [activeSection, sections, device.width, device.height]);
 
     const scrollToSection = (sectionId: string) => {
         // Use the global scroll function from useSectionScroll

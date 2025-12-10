@@ -124,7 +124,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         clearTimeout(resizeTimeoutRef.current);
       }
       resizeTimeoutRef.current = setTimeout(() => {
-        const width = window.innerWidth;
+        // Use visualViewport for mobile devices (more reliable during orientation change)
+        const width = window.visualViewport?.width || window.innerWidth;
         const height = document.documentElement.scrollHeight;
 
         // Determine screen size: mobile < 768px, tablet 768-1024px, desktop > 1024px
@@ -140,7 +141,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         setScreenSize(newScreenSize);
         setDimensions({ width, height });
         // OPTIMIZATION: Update scrollHeight cache on resize
-        scrollHeightCache.current = height - window.innerHeight;
+        const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        scrollHeightCache.current = height - viewportHeight;
         // Mark as ready after first dimension update
         setIsReady(true);
       }, 50);
@@ -155,19 +157,63 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       }
     };
 
-    // Handle orientation change on tablets
+    // Handle orientation change on tablets and mobile
     const handleOrientationChange = () => {
-      // Wait for browser to finish orientation change UI updates
-      setTimeout(() => {
-        // Force repaint für bessere Rotation-Anpassung
-        setIsReady(false);
+      console.log('🎨 ChainBackground: Orientation change detected');
+      
+      // Immediately set not ready to stop drawing
+      setIsReady(false);
+      
+      // Multiple waves to ensure we get correct dimensions
+      // Wave 1: requestAnimationFrame (browser may not have updated yet)
+      requestAnimationFrame(() => {
+        // Use visualViewport for mobile devices (more reliable)
+        const width1 = window.visualViewport?.width || window.innerWidth;
+        const height1 = document.documentElement.scrollHeight;
+        console.log('🎨 ChainBackground: Wave 1 (RAF) -', `${width1}x${height1}`);
+        
+        // Wave 2: nested RAF (more reliable)
         requestAnimationFrame(() => {
-          handleResize();
-          requestAnimationFrame(() => {
-            setIsReady(true);
-          });
+          const width2 = window.visualViewport?.width || window.innerWidth;
+          const height2 = document.documentElement.scrollHeight;
+          console.log('🎨 ChainBackground: Wave 2 (RAF2) -', `${width2}x${height2}`);
+          
+          let newScreenSize: 'mobile' | 'tablet' | 'desktop';
+          if (width2 < 768) {
+            newScreenSize = 'mobile';
+          } else if (width2 < 1024) {
+            newScreenSize = 'tablet';
+          } else {
+            newScreenSize = 'desktop';
+          }
+          
+          setScreenSize(newScreenSize);
+          setDimensions({ width: width2, height: height2 });
+          scrollHeightCache.current = height2 - (window.visualViewport?.height || window.innerHeight);
+          setIsReady(true);
         });
-      }, 300);
+      });
+      
+      // Wave 3: Backup check after 200ms
+      setTimeout(() => {
+        const width = window.visualViewport?.width || window.innerWidth;
+        const height = document.documentElement.scrollHeight;
+        console.log('🎨 ChainBackground: Wave 3 (200ms) -', `${width}x${height}`);
+        
+        let newScreenSize: 'mobile' | 'tablet' | 'desktop';
+        if (width < 768) {
+          newScreenSize = 'mobile';
+        } else if (width < 1024) {
+          newScreenSize = 'tablet';
+        } else {
+          newScreenSize = 'desktop';
+        }
+        
+        setScreenSize(newScreenSize);
+        setDimensions({ width, height });
+        scrollHeightCache.current = height - (window.visualViewport?.height || window.innerHeight);
+        setIsReady(true);
+      }, 200);
     };
 
     // Throttled scroll handler

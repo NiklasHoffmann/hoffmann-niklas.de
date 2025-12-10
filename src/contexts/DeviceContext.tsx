@@ -48,8 +48,32 @@ function getDeviceInfo(): DeviceInfo {
         };
     }
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    // Force a layout read to ensure fresh values
+    void document.body.offsetHeight;
+    
+    // Get width from most reliable source
+    const width = window.visualViewport?.width || window.innerWidth || document.documentElement.clientWidth;
+    
+    // For height, window.innerHeight can be wrong on mobile during orientation change
+    // Use visualViewport first, then try screen.availHeight for portrait
+    let height = window.visualViewport?.height || window.innerHeight;
+    
+    // Sanity check: if height seems wrong (e.g., too large compared to typical mobile screens)
+    // and we're clearly in portrait (width < height), use screen dimensions
+    if (height > 2000 && width < 1200) {
+        // Likely a bug - use screen height or window.screen.availHeight
+        height = window.screen.availHeight || window.screen.height || height;
+        console.log('⚠️ Height correction applied:', height);
+    }
+    
+    console.log('🔍 getDeviceInfo sources:', {
+        visualViewport: window.visualViewport ? `${window.visualViewport.width}x${window.visualViewport.height}` : 'null',
+        window: `${window.innerWidth}x${window.innerHeight}`,
+        screen: `${window.screen.width}x${window.screen.height}`,
+        screenAvail: `${window.screen.availWidth}x${window.screen.availHeight}`,
+        chosen: `${width}x${height}`
+    });
+    
     const isLandscape = width > height;
     const isPortrait = !isLandscape;
 
@@ -111,6 +135,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         let resizeTimeout: NodeJS.Timeout;
         let orientationTimeouts: NodeJS.Timeout[] = [];
+        let isHandlingOrientation = false;
 
         const handleResize = () => {
             // Debounce resize events
@@ -121,23 +146,65 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
         };
 
         const handleOrientationChange = () => {
+            // Prevent duplicate calls
+            if (isHandlingOrientation) {
+                console.log('📱 DeviceContext: Ignoring duplicate orientation event');
+                return;
+            }
+            
+            isHandlingOrientation = true;
+            console.log('📱 DeviceContext: Orientation change detected');
+            
             // Clear any pending timeouts
             orientationTimeouts.forEach(t => clearTimeout(t));
             orientationTimeouts = [];
 
-            // Multiple checks for reliable orientation change detection
-            // Wave 1: Immediate
-            setDeviceInfo(getDeviceInfo());
+            // Force browser reflow - critical for mobile landscape->portrait
+            document.documentElement.style.width = '';
+            document.body.style.width = '';
+            document.documentElement.style.width = '100vw';
+            document.body.style.width = '100vw';
+            
+            // Force multiple reflows to ensure browser recalculates
+            void document.body.offsetHeight;
+            void document.documentElement.offsetWidth;
+            void window.innerWidth;
+            
+            // Use requestAnimationFrame to wait for browser to finish orientation UI
+            requestAnimationFrame(() => {
+                // Wave 1: After first animation frame
+                const info1 = getDeviceInfo();
+                console.log('📱 DeviceContext: Wave 1 (RAF) -', info1.layout, `${info1.width}x${info1.height}`);
+                setDeviceInfo(info1);
+                window.dispatchEvent(new Event('resize'));
+                
+                // Nested RAF for extra safety
+                requestAnimationFrame(() => {
+                    const info2 = getDeviceInfo();
+                    console.log('📱 DeviceContext: Wave 2 (RAF2) -', info2.layout, `${info2.width}x${info2.height}`);
+                    setDeviceInfo(info2);
+                    window.dispatchEvent(new Event('resize'));
+                });
+            });
 
-            // Wave 2: After 100ms (browser may not have updated dimensions yet)
+            // Wave 3: After 150ms (browser viewport update)
             orientationTimeouts.push(setTimeout(() => {
-                setDeviceInfo(getDeviceInfo());
-            }, 100));
+                const info = getDeviceInfo();
+                console.log('📱 DeviceContext: Wave 3 (150ms) -', info.layout, `${info.width}x${info.height}`);
+                setDeviceInfo(info);
+                window.dispatchEvent(new Event('resize'));
+            }, 150));
 
-            // Wave 3: After 300ms (some devices are slow)
+            // Wave 4: After 400ms (slow devices)
             orientationTimeouts.push(setTimeout(() => {
-                setDeviceInfo(getDeviceInfo());
-            }, 300));
+                const info = getDeviceInfo();
+                console.log('📱 DeviceContext: Wave 4 (400ms) -', info.layout, `${info.width}x${info.height}`);
+                setDeviceInfo(info);
+                window.dispatchEvent(new Event('resize'));
+                
+                // Reset flag after all waves complete
+                isHandlingOrientation = false;
+            }, 400));
         };
 
         // Initial check
@@ -145,6 +212,11 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
 
         window.addEventListener('resize', handleResize);
         window.addEventListener('orientationchange', handleOrientationChange);
+
+        // Listen to visualViewport changes (mobile-specific)
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleOrientationChange);
+        }
 
         // Also use matchMedia for more reliable orientation detection
         const mediaQuery = window.matchMedia('(orientation: landscape)');
@@ -156,6 +228,9 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('orientationchange', handleOrientationChange);
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', handleOrientationChange);
+            }
             mediaQuery.removeEventListener('change', handleMediaChange);
             clearTimeout(resizeTimeout);
             orientationTimeouts.forEach(t => clearTimeout(t));

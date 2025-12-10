@@ -129,8 +129,25 @@ body.contact-modal-open .chat-widget-button {
   html,
   body {
     width: 100%;
+    width: 100vw;
     max-width: 100vw;
     overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Force reflow on orientation change */
+  @media (orientation: portrait) {
+    html,
+    body {
+      width: 100vw;
+    }
+  }
+
+  @media (orientation: landscape) {
+    html,
+    body {
+      width: 100vw;
+    }
   }
 
   /* Scrollbar Styling mit animierbaren Custom Properties (Chromium/Safari) */
@@ -279,42 +296,46 @@ body {
   scroll-snap-stop: always;
 }
 
-/* Mobile: Feste Höhe für Scroll-Snap */
-@media (max-width: 767px) {
+/* Mobile & Tablet: Feste Höhe für Scroll-Snap - nutze max-width UND orientation */
+@media (max-width: 1023px) {
   .scroll-snap-section {
     min-height: 100dvh;
     height: 100dvh;
     max-height: 100dvh;
+    width: 100vw;
+    max-width: 100vw;
+    position: relative;
   }
 
-  /* Überschreibe h-screen auf Mobile */
-  .scroll-snap-section.h-screen {
-    height: 100dvh !important;
-  }
-
-  .scroll-snap-section.max-h-screen {
-    max-height: 100dvh !important;
-  }
-}
-
-/* Tablet: Feste Höhe mit Scroll-Snap */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .scroll-snap-section {
-    min-height: 100dvh;
-    height: 100dvh;
-    max-height: 100dvh;
-  }
-
+  /* Überschreibe h-screen auf Mobile/Tablet */
+  .scroll-snap-section.h-screen,
   .h-screen {
     height: 100dvh !important;
   }
 
+  .scroll-snap-section.max-h-screen,
   .max-h-screen {
     max-height: 100dvh !important;
   }
 
+  .scroll-snap-section.min-h-screen,
   .min-h-screen {
     min-height: 100dvh !important;
+  }
+}
+
+/* Force correct dimensions on orientation change */
+@media (max-width: 1023px) and (orientation: portrait) {
+  .scroll-snap-section {
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+}
+
+@media (max-width: 1023px) and (orientation: landscape) {
+  .scroll-snap-section {
+    width: 100vw !important;
+    max-width: 100vw !important;
   }
 }
 
@@ -623,6 +644,24 @@ body {
     .animate-ping,
     .animate-pulse {
       animation: none !important;
+    }
+  }
+
+  /* Force layout recalculation on orientation change */
+  /* This triggers a repaint which helps with width/height updates */
+  @media (orientation: portrait) {
+    body::before {
+      content: "";
+      display: block;
+      height: 0;
+    }
+  }
+
+  @media (orientation: landscape) {
+    body::after {
+      content: "";
+      display: block;
+      height: 0;
     }
   }
 }

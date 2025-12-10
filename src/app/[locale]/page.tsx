@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { Header, SectionScrollController } from "@/components/layout";
 import { HeroSection } from "@/components/sections";
+import { ClientProvider } from "./client-provider";
 
 // Lazy load below-the-fold components for better FCP/LCP
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => ({ default: mod.AboutSection })), {
@@ -22,9 +23,15 @@ const Footer = dynamic(() => import("@/components/layout/Footer").then(mod => ({
     loading: () => <div className="h-32" />,
 });
 
-export default async function HomePage() {
+export default async function HomePage({
+    params,
+}: {
+    params: Promise<{ locale: string }>;
+}) {
+    const { locale } = await params;
+    
     return (
-        <>
+        <ClientProvider locale={locale}>
             {/* Skip to content link for keyboard navigation */}
             <a
                 href="#hero"
@@ -46,6 +53,6 @@ export default async function HomePage() {
             </main>
 
             <Footer />
-        </>
+        </ClientProvider>
     );
 }

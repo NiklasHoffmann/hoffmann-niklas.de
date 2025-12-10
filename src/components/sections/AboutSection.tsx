@@ -3,7 +3,6 @@
 import { useTranslations } from 'next-intl';
 import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { Icon } from '@/components/icons/LocalIcon';
-import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useMemo, useState, useEffect } from 'react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useTheme } from 'next-themes';
@@ -15,10 +14,10 @@ const NEON_COLORS_LIGHT = Object.values(NEON_COLORS.LIGHT);
 
 export function AboutSection() {
     const t = useTranslations('about');
-    const { key } = useOrientationResize();
+    const device = useDevice();
     const { showActive, mounted: interactiveMounted } = useInteractiveMode();
     const { theme } = useTheme();
-    const { isMobileLandscape } = useDevice();
+    const { isMobileLandscape } = device;
 
     // Force re-render after hydration to apply correct styles
     const [hydrated, setHydrated] = useState(false);
@@ -82,7 +81,7 @@ export function AboutSection() {
     ];
 
     return (
-        <Section id="about" sectionKey={key} background="none">
+        <Section id="about" sectionKey={`${device.layout}-${device.width}`} background="none">
             {/* Mobile Landscape Layout */}
             <SectionLeft className="w-1/2 pr-4">
                 {/* Compact Profile */}
