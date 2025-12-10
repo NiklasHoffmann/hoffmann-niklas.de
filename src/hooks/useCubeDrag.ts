@@ -149,6 +149,9 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
             if (!e.touches[0]) return;
             isDraggingRef.current = true;
             lastPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            
+            // Add touchmove listener only when dragging starts
+            window.addEventListener('touchmove', handleTouchMove, { passive: false });
         };
 
         const handleTouchMove = (e: TouchEvent) => {
@@ -170,16 +173,18 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
 
         const handleTouchEnd = () => {
             isDraggingRef.current = false;
+            // Remove touchmove listener when dragging ends
+            window.removeEventListener('touchmove', handleTouchMove);
         };
 
         // Attach mousedown to CONTAINER (doesn't rotate!)
         container.addEventListener('mousedown', handleMouseDown);
         container.addEventListener('touchstart', handleTouchStart, { passive: true });
 
-        // Move and up still on window
+        // Move and up still on window (for mouse)
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
-        window.addEventListener('touchmove', handleTouchMove, { passive: false }); // passive: false to allow preventDefault
+        // touchmove is added dynamically in handleTouchStart
         window.addEventListener('touchend', handleTouchEnd);
 
         return () => {
@@ -187,7 +192,7 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
             container.removeEventListener('touchstart', handleTouchStart);
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
-            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchmove', handleTouchMove); // cleanup in case still attached
             window.removeEventListener('touchend', handleTouchEnd);
         };
     }, []);

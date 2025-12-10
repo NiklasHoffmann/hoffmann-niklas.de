@@ -132,12 +132,12 @@ export function useSectionScroll() {
                 const targetY = section.offsetTop;
                 const startY = window.scrollY;
                 const distance = targetY - startY;
-                const duration = 700; // Smooth but responsive
+                const duration = 1000; // Langsamer für sanftere Übergänge (war 700ms)
                 let startTime: number | null = null;
 
-                // Smooth easing function
+                // Smooth easing function - sanftes ease-out
                 const easeOutQuint = (t: number): number => {
-                    return 1 - Math.pow(1 - t, 6);
+                    return 1 - Math.pow(1 - t, 5); // Sanfteres Easing (war 6)
                 };
 
                 const animation = (currentTime: number) => {
@@ -177,38 +177,6 @@ export function useSectionScroll() {
             // Expose scrollToSection globally for Header
             globalScrollToSection = scrollToSection;
 
-            // Detect if device is desktop-sized (wide screen) - touch detection causes issues on touchscreen laptops
-            // We check if it's a wide screen AND not a mobile/tablet user agent
-            const isWideScreen = window.innerWidth >= 1024;
-            const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const isDesktop = isWideScreen && !isMobileUserAgent;
-
-            const handleWheel = (e: WheelEvent) => {
-                // Only handle wheel on desktop devices
-                if (!isDesktop) return;
-
-                e.preventDefault();
-
-                // Skip if already scrolling
-                if (globalIsScrolling || isScrolling.current) {
-                    return;
-                }
-
-                // Simple threshold - ignore tiny movements
-                if (Math.abs(e.deltaY) < 10) return;
-
-                // Determine direction and scroll
-                const direction = e.deltaY > 0 ? 1 : -1;
-                const targetIndex = currentSectionIndex.current + direction;
-
-                // Query sections fresh for validation
-                const sections = document.querySelectorAll('.scroll-snap-section');
-
-                if (targetIndex >= 0 && targetIndex < sections.length) {
-                    scrollToSection(targetIndex);
-                }
-            };
-
             const handleKeyDown = (e: KeyboardEvent) => {
                 // Sync global state with local ref
                 if (globalIsScrolling || isScrolling.current) return;
@@ -234,12 +202,8 @@ export function useSectionScroll() {
                 }
             };
 
-            // Only add wheel listener on desktop (non-touch devices)
-            // Touch/mobile devices use native CSS scroll-snap
-            if (isDesktop) {
-                globalWheelHandler = handleWheel;
-                window.addEventListener('wheel', handleWheel, { passive: false });
-            }
+            // CSS scroll-snap is now used on all devices for wheel/touch scrolling
+            // We only keep keyboard navigation for accessibility
             globalKeyHandler = handleKeyDown;
             window.addEventListener('keydown', handleKeyDown);
 

@@ -51,12 +51,33 @@ function getDeviceInfo(): DeviceInfo {
     // Force a layout read to ensure fresh values
     void document.body.offsetHeight;
     
-    // Get width from most reliable source
-    const width = window.visualViewport?.width || window.innerWidth || document.documentElement.clientWidth;
+    // Get width from most reliable source for mobile devices
+    // visualViewport is null on some older browsers or during initial load
+    let width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) 
+        || window.innerWidth 
+        || document.documentElement.clientWidth;
     
     // For height, window.innerHeight can be wrong on mobile during orientation change
     // Use visualViewport first, then try screen.availHeight for portrait
-    let height = window.visualViewport?.height || window.innerHeight;
+    let height = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) 
+        || window.innerHeight;
+    
+    // CRITICAL FIX: Check actual screen orientation and swap dimensions if needed
+    // On real devices, visualViewport can return landscape dimensions even after rotating to portrait
+    const actualOrientation = window.screen?.orientation?.type || 
+        (window.matchMedia('(orientation: portrait)').matches ? 'portrait-primary' : 'landscape-primary');
+    
+    const isActuallyPortrait = actualOrientation.includes('portrait');
+    const isActuallyLandscape = actualOrientation.includes('landscape');
+    
+    // If dimensions don't match actual orientation, swap them
+    if (isActuallyPortrait && width > height) {
+        console.log('⚠️ Swapping dimensions for portrait orientation:', { before: `${width}x${height}`, after: `${height}x${width}` });
+        [width, height] = [height, width];
+    } else if (isActuallyLandscape && height > width) {
+        console.log('⚠️ Swapping dimensions for landscape orientation:', { before: `${width}x${height}`, after: `${height}x${width}` });
+        [width, height] = [height, width];
+    }
     
     // Sanity check: if height seems wrong (e.g., too large compared to typical mobile screens)
     // and we're clearly in portrait (width < height), use screen dimensions
@@ -71,6 +92,7 @@ function getDeviceInfo(): DeviceInfo {
         window: `${window.innerWidth}x${window.innerHeight}`,
         screen: `${window.screen.width}x${window.screen.height}`,
         screenAvail: `${window.screen.availWidth}x${window.screen.availHeight}`,
+        orientation: actualOrientation,
         chosen: `${width}x${height}`
     });
     
@@ -162,8 +184,18 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
             // Force browser reflow - critical for mobile landscape->portrait
             document.documentElement.style.width = '';
             document.body.style.width = '';
+            void document.body.offsetHeight; // Force reflow
             document.documentElement.style.width = '100vw';
             document.body.style.width = '100vw';
+            
+            // Force viewport meta tag re-evaluation (helps on real devices)
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                const content = viewport.getAttribute('content');
+                viewport.setAttribute('content', 'width=1');
+                void document.body.offsetHeight; // Force reflow
+                if (content) viewport.setAttribute('content', content);
+            }
             
             // Force multiple reflows to ensure browser recalculates
             void document.body.offsetHeight;
@@ -187,18 +219,18 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
                 });
             });
 
-            // Wave 3: After 150ms (browser viewport update)
+            // Wave 3: After 300ms (browser viewport update - increased for real devices)
             orientationTimeouts.push(setTimeout(() => {
                 const info = getDeviceInfo();
-                console.log('📱 DeviceContext: Wave 3 (150ms) -', info.layout, `${info.width}x${info.height}`);
+                console.log('📱 DeviceContext: Wave 3 (300ms) -', info.layout, `${info.width}x${info.height}`);
                 setDeviceInfo(info);
                 window.dispatchEvent(new Event('resize'));
-            }, 150));
+            }, 300));
 
-            // Wave 4: After 400ms (slow devices)
+            // Wave 4: After 600ms (slow devices - increased for real devices)
             orientationTimeouts.push(setTimeout(() => {
                 const info = getDeviceInfo();
-                console.log('📱 DeviceContext: Wave 4 (400ms) -', info.layout, `${info.width}x${info.height}`);
+                console.log('📱 DeviceContext: Wave 4 (600ms) -', info.layout, `${info.width}x${info.height}`);
                 setDeviceInfo(info);
                 window.dispatchEvent(new Event('resize'));
                 

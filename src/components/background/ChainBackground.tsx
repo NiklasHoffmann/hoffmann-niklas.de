@@ -125,7 +125,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       }
       resizeTimeoutRef.current = setTimeout(() => {
         // Use visualViewport for mobile devices (more reliable during orientation change)
-        const width = window.visualViewport?.width || window.innerWidth;
+        const width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
         const height = document.documentElement.scrollHeight;
 
         // Determine screen size: mobile < 768px, tablet 768-1024px, desktop > 1024px
@@ -141,7 +141,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         setScreenSize(newScreenSize);
         setDimensions({ width, height });
         // OPTIMIZATION: Update scrollHeight cache on resize
-        const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        const viewportHeight = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
         scrollHeightCache.current = height - viewportHeight;
         // Mark as ready after first dimension update
         setIsReady(true);
@@ -168,13 +168,13 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       // Wave 1: requestAnimationFrame (browser may not have updated yet)
       requestAnimationFrame(() => {
         // Use visualViewport for mobile devices (more reliable)
-        const width1 = window.visualViewport?.width || window.innerWidth;
+        const width1 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
         const height1 = document.documentElement.scrollHeight;
         console.log('🎨 ChainBackground: Wave 1 (RAF) -', `${width1}x${height1}`);
         
         // Wave 2: nested RAF (more reliable)
         requestAnimationFrame(() => {
-          const width2 = window.visualViewport?.width || window.innerWidth;
+          const width2 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
           const height2 = document.documentElement.scrollHeight;
           console.log('🎨 ChainBackground: Wave 2 (RAF2) -', `${width2}x${height2}`);
           
@@ -189,16 +189,16 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           
           setScreenSize(newScreenSize);
           setDimensions({ width: width2, height: height2 });
-          scrollHeightCache.current = height2 - (window.visualViewport?.height || window.innerHeight);
+          scrollHeightCache.current = height2 - ((typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight);
           setIsReady(true);
         });
       });
       
-      // Wave 3: Backup check after 200ms
+      // Wave 3: Backup check after 400ms (increased for real devices)
       setTimeout(() => {
-        const width = window.visualViewport?.width || window.innerWidth;
+        const width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
         const height = document.documentElement.scrollHeight;
-        console.log('🎨 ChainBackground: Wave 3 (200ms) -', `${width}x${height}`);
+        console.log('🎨 ChainBackground: Wave 3 (400ms) -', `${width}x${height}`);
         
         let newScreenSize: 'mobile' | 'tablet' | 'desktop';
         if (width < 768) {
@@ -211,9 +211,9 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         
         setScreenSize(newScreenSize);
         setDimensions({ width, height });
-        scrollHeightCache.current = height - (window.visualViewport?.height || window.innerHeight);
+        scrollHeightCache.current = height - ((typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight);
         setIsReady(true);
-      }, 200);
+      }, 400);
     };
 
     // Throttled scroll handler
