@@ -18,8 +18,8 @@ export function LanguageToggle() {
     const isActive = mounted && showActive;
 
     const handleLocaleChange = () => {
-        // Cycle through DE -> EN -> ES -> JA -> DE
-        const newLocale = locale === 'de' ? 'en' : locale === 'en' ? 'es' : locale === 'es' ? 'ja' : 'de';
+        // Cycle through DE -> EN -> ES -> JA -> UK -> DE
+        const newLocale = locale === 'de' ? 'en' : locale === 'en' ? 'es' : locale === 'es' ? 'ja' : locale === 'ja' ? 'uk' : 'de';
 
         const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
         const newPath = `/${newLocale}${pathnameWithoutLocale}`;
@@ -55,8 +55,10 @@ export function LanguageToggle() {
                     return '0 0 16px 3px rgba(29, 78, 216, 0.9), 0 12px 18px -3px rgba(29, 78, 216, 0.7), 0 6px 8px -4px rgba(29, 78, 216, 0.6)';
                 } else if (locale === 'es') {
                     return '0 0 16px 3px rgba(234, 179, 8, 0.9), 0 12px 18px -3px rgba(234, 179, 8, 0.7), 0 6px 8px -4px rgba(234, 179, 8, 0.6)';
-                } else {
+                } else if (locale === 'ja') {
                     return '0 0 16px 3px rgba(220, 38, 38, 0.9), 0 12px 18px -3px rgba(220, 38, 38, 0.7), 0 6px 8px -4px rgba(220, 38, 38, 0.6)';
+                } else {
+                    return '0 0 16px 3px rgba(59, 130, 246, 0.9), 0 12px 18px -3px rgba(59, 130, 246, 0.7), 0 6px 8px -4px rgba(59, 130, 246, 0.6)';
                 }
             }
             if (locale === 'de') {
@@ -65,8 +67,10 @@ export function LanguageToggle() {
                 return '0 0 12px 2px rgba(29, 78, 216, 0.7), 0 12px 18px -3px rgba(29, 78, 216, 0.6), 0 6px 8px -4px rgba(29, 78, 216, 0.5)';
             } else if (locale === 'es') {
                 return '0 0 12px 2px rgba(234, 179, 8, 0.7), 0 12px 18px -3px rgba(234, 179, 8, 0.6), 0 6px 8px -4px rgba(234, 179, 8, 0.5)';
-            } else {
+            } else if (locale === 'ja') {
                 return '0 0 12px 2px rgba(220, 38, 38, 0.7), 0 12px 18px -3px rgba(220, 38, 38, 0.6), 0 6px 8px -4px rgba(220, 38, 38, 0.5)';
+            } else {
+                return '0 0 12px 2px rgba(59, 130, 246, 0.7), 0 12px 18px -3px rgba(59, 130, 246, 0.6), 0 6px 8px -4px rgba(59, 130, 246, 0.5)';
             }
         }
         return 'none';
@@ -78,12 +82,14 @@ export function LanguageToggle() {
             if (locale === 'de') return '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)';
             if (locale === 'en') return '0 0 12px 2px rgba(29, 78, 216, 0.8), 0 10px 15px -3px rgba(29, 78, 216, 0.6), 0 4px 6px -4px rgba(29, 78, 216, 0.5)';
             if (locale === 'es') return '0 0 12px 2px rgba(234, 179, 8, 0.8), 0 10px 15px -3px rgba(234, 179, 8, 0.6), 0 4px 6px -4px rgba(234, 179, 8, 0.5)';
-            return '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)'; // JA
+            if (locale === 'ja') return '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)';
+            return '0 0 12px 2px rgba(59, 130, 246, 0.8), 0 10px 15px -3px rgba(59, 130, 246, 0.6), 0 4px 6px -4px rgba(59, 130, 246, 0.5)'; // UK
         }
         if (locale === 'de') return '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)';
         if (locale === 'en') return '0 0 8px 1px rgba(29, 78, 216, 0.6), 0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.4)';
         if (locale === 'es') return '0 0 8px 1px rgba(234, 179, 8, 0.6), 0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.4)';
-        return '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)'; // JA
+        if (locale === 'ja') return '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)';
+        return '0 0 8px 1px rgba(59, 130, 246, 0.6), 0 10px 15px -3px rgba(59, 130, 246, 0.5), 0 4px 6px -4px rgba(59, 130, 246, 0.4)'; // UK
     };
 
     return (
@@ -114,8 +120,8 @@ export function LanguageToggle() {
                 overflow-hidden
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background
             `}
-            aria-label={`Switch to ${locale === 'de' ? 'English' : locale === 'en' ? 'Spanish' : locale === 'es' ? 'Japanese' : 'German'}`}
-            title={locale === 'de' ? 'Sprache auf Englisch wechseln' : locale === 'en' ? 'Switch language to Spanish' : locale === 'es' ? 'Cambiar idioma a Japonés' : 'ドイツ語に切り替え'}
+            aria-label={`Switch to ${locale === 'de' ? 'English' : locale === 'en' ? 'Spanish' : locale === 'es' ? 'Japanese' : locale === 'ja' ? 'Ukrainian' : 'German'}`}
+            title={locale === 'de' ? 'Sprache auf Englisch wechseln' : locale === 'en' ? 'Switch language to Spanish' : locale === 'es' ? 'Cambiar idioma a Japonés' : locale === 'ja' ? '日本語からウクライナ語に切り替え' : 'Змінити мову на німецьку'}
         >
             {/* Gradient Background - Always rendered, opacity controlled */}
             <span
@@ -128,7 +134,9 @@ export function LanguageToggle() {
                                 ? 'linear-gradient(to bottom right, #1d4ed8, #ffffff, #dc2626)'
                                 : locale === 'es'
                                     ? 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)'
-                                    : 'radial-gradient(circle at center, #dc2626 0%, #dc2626 35%, #ffffff 50%)', // Japan flag - white background with red circle
+                                    : locale === 'ja'
+                                        ? 'radial-gradient(circle at 50% 50%, #dc2626 0%, #dc2626 25%, #ef4444 30%, #f87171 33%, #fca5a5 35%, #fecaca 37%, #ffffff 40%, #ffffff 100%)' // Japan flag - very soft red circle fade to white
+                                        : 'linear-gradient(to bottom, #0057b7 0%, #0057b7 30%, #1a6bb3 40%, #3580b0 45%, #5095ad 48%, #6ba9aa 50%, #87bda7 52%, #a3c9a4 55%, #c4d6a2 60%, #e5e3a0 70%, #ffd700 100%)', // Ukraine flag - smooth blue to yellow transition via gradient steps
                     opacity: isActive ? 1 : 0,
                 }}
             />
@@ -138,10 +146,10 @@ export function LanguageToggle() {
                 className={`relative z-10 font-bold ${isActive ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-foreground'
                     }`}
             >
-                {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : locale === 'es' ? 'ES' : 'JA'}
+                {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : locale === 'es' ? 'ES' : locale === 'ja' ? 'JA' : 'UK'}
             </span>
 
-            {isActive && locale !== 'ja' && (
+            {isActive && locale !== 'ja' && locale !== 'uk' && (
                 <span className="absolute inset-0 rounded-lg bg-white/10 blur-sm transition-opacity duration-700 ease-in-out" />
             )}
         </button>
