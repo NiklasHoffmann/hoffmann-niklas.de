@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 

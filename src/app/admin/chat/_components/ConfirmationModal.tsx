@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 
 interface ConfirmationModalProps {
     isOpen: boolean;

@@ -3,7 +3,7 @@
 import { memo, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Github, Mail, Instagram } from 'lucide-react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { TRANSITIONS } from '@/lib/transitions';

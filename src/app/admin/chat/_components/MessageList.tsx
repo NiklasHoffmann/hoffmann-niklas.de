@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import type { ChatMessage } from '@/types/chat';
 
 interface MessageListProps {

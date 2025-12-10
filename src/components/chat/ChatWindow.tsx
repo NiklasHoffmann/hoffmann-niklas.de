@@ -1,7 +1,7 @@
 'use client';
 
 import { useChat } from '@/contexts/ChatContext';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useTheme } from 'next-themes';
 import { useTranslations } from 'next-intl';

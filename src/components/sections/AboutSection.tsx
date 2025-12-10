@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useMemo, useState, useEffect } from 'react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
@@ -54,7 +54,7 @@ export function AboutSection() {
         {
             year: '2023',
             title: t('timeline.web3', { default: 'Web3 Integration' }),
-            icon: 'cryptocurrency:eth',
+            icon: 'logos:ethereum',
             color: neonColors[2]
         },
         {
@@ -74,7 +74,7 @@ export function AboutSection() {
     // Highlights jetzt aus der JSON
     const highlights = [
         { icon: 'mdi:web', key: 'highlights.fullstack' },
-        { icon: 'cryptocurrency:eth', key: 'highlights.web3' },
+        { icon: 'logos:ethereum', key: 'highlights.web3' },
         { icon: 'mdi:palette', key: 'highlights.uiux' },
         { icon: 'mdi:api', key: 'highlights.apis' },
         { icon: 'mdi:database', key: 'highlights.database' },
@@ -240,15 +240,13 @@ export function AboutSection() {
                                     >
                                         <Icon
                                             icon={item.icon}
-                                            className="text-lg"
+                                            className="w-5 h-5"
                                             style={{
                                                 color: isActiveAndHydrated
                                                     ? neonColors[index % neonColors.length]
                                                     : 'hsl(var(--muted-foreground))',
                                                 transition: 'color 700ms ease-in-out'
                                             }}
-                                            key={item.icon}
-                                           
                                         />
                                     </div>
                                     <div className="flex-1">

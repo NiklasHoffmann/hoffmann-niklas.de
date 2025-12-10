@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { SectionHeader } from '@/components/ui';
 import { ServicesCube } from './ServicesCube';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
@@ -168,7 +168,7 @@ export function ServicesSection() {
             },
             {
                 title: t('web3Blockchain'),
-                icon: 'cryptocurrency:eth',
+                icon: 'logos:ethereum',
                 description: t('descriptions.web3Blockchain'),
                 color: 'from-indigo-500 to-purple-500',
                 techStack: techStack.filter(

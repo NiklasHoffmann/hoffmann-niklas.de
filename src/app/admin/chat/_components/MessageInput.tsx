@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { QUICK_REPLIES_DE, QUICK_REPLIES_EN } from '@/config/chat.constants';
 
 interface MessageInputProps {

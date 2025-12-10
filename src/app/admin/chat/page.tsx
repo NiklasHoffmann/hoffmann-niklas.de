@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { useAdminChat } from '@/hooks/useAdminChat';

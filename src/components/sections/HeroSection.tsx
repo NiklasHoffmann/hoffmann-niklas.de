@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useChat } from '@/contexts/ChatContext';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useState, useEffect } from 'react';
@@ -102,13 +102,11 @@ export function HeroSection() {
                         <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full" />
                     </div>
                     <span className="text-xs font-semibold text-foreground">{t('cta')}</span>
-                    <span className="w-3 h-3 flex-shrink-0">
-                        <Icon
-                            icon="mdi:chevron-right"
-                            className="w-3 h-3"
-                            style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out' }}
-                        />
-                    </span>
+                    <Icon
+                        icon="mdi:chevron-right"
+                        className="w-3 h-3 flex-shrink-0"
+                        style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out' }}
+                    />
                 </button>
                 <TechIcons compact visible={showIcons} />
             </SectionRight>
@@ -133,13 +131,11 @@ export function HeroSection() {
                     <span className="text-xs sm:text-sm font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
                         {t('cta')}
                     </span>
-                    <span className="w-4 h-4 flex-shrink-0">
-                        <Icon
-                            icon="mdi:chevron-right"
-                            className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
-                            style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
-                        />
-                    </span>
+                    <Icon
+                        icon="mdi:chevron-right"
+                        className="w-4 h-4 flex-shrink-0 group-hover:translate-x-1 transition-transform duration-200"
+                        style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
+                    />
                 </button>
 
                 {/* Title - text-balance ensures consistent line breaks regardless of font loading */}

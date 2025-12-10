@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 
 // Global cache for theme to prevent flash on language change
@@ -144,7 +144,7 @@ export default function ChatWidget() {
                     >
                         {/* Icon */}
                         <Icon
-                            icon="mdi:chat"
+                            icon="mdi:chat-outline"
                             className="w-8 h-8 relative z-10 text-foreground transition-colors"
 
                         />
@@ -180,7 +180,7 @@ export default function ChatWidget() {
                             className="flex items-center gap-2 flex-1"
                         >
                             <Icon
-                                icon="mdi:chat"
+                                icon="mdi:chat-outline"
                                 className="w-5 h-5 text-foreground transition-colors"
 
                             />
@@ -265,7 +265,7 @@ export default function ChatWidget() {
                             <div className="flex items-center gap-3" style={{ transition: 'none' }}>
                                 <div className="relative">
                                     <Icon
-                                        icon="mdi:chat"
+                                        icon="mdi:chat-outline"
                                         className="w-6 h-6 text-foreground transition-colors"
 
                                     />

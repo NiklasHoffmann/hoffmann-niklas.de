@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
   // Optimize CSS loading
   experimental: {
     optimizeCss: true, // Enable CSS optimization
-    optimizePackageImports: ['@iconify/react', 'lucide-react', 'next-intl', 'zod', 'clsx', 'tailwind-merge'],
+    optimizePackageImports: ['lucide-react', 'next-intl', 'zod', 'clsx', 'tailwind-merge'],
   },
 
   // Webpack optimizations

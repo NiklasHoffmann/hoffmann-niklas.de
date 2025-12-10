@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { contactApi } from '@/lib/api';
 import { ContactFormData } from '@/types';
 import { Mail, MapPin, Loader2, CheckCircle, AlertCircle, X, Send } from 'lucide-react';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { TRANSITIONS } from '@/lib/transitions';
 import { useTheme } from 'next-themes';

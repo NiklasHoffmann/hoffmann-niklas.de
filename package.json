@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/cache-icons.js",
     "dev": "node server.js",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
+    "prebuild": "node scripts/cache-icons.js",
     "start": "NODE_ENV=production node server.js",
     "start:windows": "set NODE_ENV=production&& node server.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cache-icons": "node scripts/cache-icons.js"
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",

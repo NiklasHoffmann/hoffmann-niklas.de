@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useCubeDrag } from '@/hooks/useCubeDrag';
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useMemo, memo } from 'react';
 import { TRANSITIONS } from '@/lib/transitions';
@@ -132,9 +132,7 @@ const CubeFace = memo(function CubeFace({ service, transform, t }: CubeFaceProps
             <div className="relative z-10 h-full flex flex-col">
                 <Icon
                     icon={service.icon}
-                    className="text-3xl md:text-4xl mb-1.5 flex-shrink-0"
-                   
-                    key={service.icon}
+                    className="w-8 h-8 md:w-10 md:h-10 mb-1.5 flex-shrink-0"
                 />
                 <h3 className="text-sm md:text-base font-bold mb-1 leading-tight">{service.title}</h3>
                 <p className="text-[10px] md:text-xs text-muted-foreground mb-2 leading-tight flex-shrink-0 line-clamp-2">{service.description}</p>

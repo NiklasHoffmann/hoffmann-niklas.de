@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '@iconify/react';
+import { Icon } from '@/components/icons/LocalIcon';
 import type { ChatSession } from '@/types/chat';
 
 interface ChatHeaderProps {
