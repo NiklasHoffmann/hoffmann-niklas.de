@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
-import { onSectionChange, getCurrentSectionId } from '@/hooks/useSectionScroll';
 
 // Map section IDs to color names
 const SECTION_COLOR_MAP: Record<string, string> = {
@@ -29,86 +28,81 @@ export function DynamicFavicon() {
     useEffect(() => {
         if (hasInitializedRef.current) return;
         hasInitializedRef.current = true;
-        
+
         // Remove any existing favicon links and set initial favicon
         const existingIcons = document.querySelectorAll("link[rel*='icon']");
         existingIcons.forEach(icon => icon.remove());
-        
+
         // Check for dark mode preference immediately
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const storedTheme = localStorage.getItem('theme');
         const isDark = storedTheme === 'dark' || (storedTheme !== 'light' && prefersDark);
-        
+
         const initialFavicon = isDark ? '/favicons/cube-black-cyan.svg' : '/favicons/cube-white-cyan.svg';
-        
+
         const link = document.createElement('link');
         link.id = 'dynamic-favicon';
         link.rel = 'icon';
         link.type = 'image/svg+xml';
         link.href = initialFavicon;
         document.head.appendChild(link);
-        
+
         lastFaviconRef.current = initialFavicon;
     }, []);
 
-    // Subscribe to section changes from useSectionScroll
+    // Pure CSS scroll-snap detection - no JavaScript scroll control
     useEffect(() => {
-        // Set initial section
-        setCurrentSection(getCurrentSectionId());
-        
-        // Subscribe to section changes (works for desktop JS-based scrolling)
-        const unsubscribe = onSectionChange((sectionId) => {
-            console.log('🔔 Section change callback:', sectionId);
-            setCurrentSection(sectionId);
-        });
-
-        // Check if device is desktop (wide screen, not mobile user agent)
-        const isWideScreen = window.innerWidth >= 1024;
-        const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        const isDesktop = isWideScreen && !isMobileUserAgent;
-
-        // Only add scroll listener for mobile/tablet (CSS scroll-snap)
-        // Desktop uses the callback from useSectionScroll
-        let handleScroll: (() => void) | null = null;
-        
-        if (!isDesktop) {
-            handleScroll = () => {
-                const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
-                const scrollY = window.scrollY;
-                const windowHeight = window.innerHeight;
-
-                let activeSection = 'hero';
-
-                // OPTIMIZATION: Batch all getBoundingClientRect calls together
-                const sectionElements = sections.map(sectionId => document.getElementById(sectionId));
-                const sectionPositions = sectionElements.map((element, index) => {
-                    if (!element) return null;
-                    const rect = element.getBoundingClientRect();
-                    return {
-                        sectionId: sections[index],
-                        elementTop: rect.top + scrollY
-                    };
-                }).filter(Boolean) as Array<{ sectionId: string; elementTop: number }>;
-
-                // Now iterate over cached positions (no layout reads in loop)
-                for (const { sectionId, elementTop } of sectionPositions) {
-                    // Section is active if its top is above middle of viewport
-                    if (scrollY >= elementTop - windowHeight / 2) {
-                        activeSection = sectionId;
-                    }
-                }
-
-                setCurrentSection(activeSection);
-            };
-
-            window.addEventListener('scroll', handleScroll, { passive: true });
-        }
-        
-        return () => {
-            unsubscribe();
-            if (handleScroll) {
-                window.removeEventListener('scroll', handleScroll);
+        const handleScroll = () => {
+            const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
+            const mainContainer = document.getElementById('main-scroll-container');
+            
+            if (!mainContainer) {
+                // Fallback for non-homepage
+                return;
             }
+            
+            const scrollTop = mainContainer.scrollTop;
+            const containerHeight = mainContainer.clientHeight;
+
+            let activeSection = 'hero';
+
+            // OPTIMIZATION: Batch all getBoundingClientRect calls together
+            const sectionElements = sections.map(sectionId => document.getElementById(sectionId));
+            const sectionPositions = sectionElements.map((element, index) => {
+                if (!element) return null;
+                const rect = element.getBoundingClientRect();
+                const containerRect = mainContainer.getBoundingClientRect();
+                // Calculate position relative to main-container
+                const elementTop = rect.top - containerRect.top + scrollTop;
+                return {
+                    sectionId: sections[index],
+                    elementTop
+                };
+            }).filter(Boolean) as Array<{ sectionId: string; elementTop: number }>;
+
+            // Now iterate over cached positions (no layout reads in loop)
+            for (const { sectionId, elementTop } of sectionPositions) {
+                // Section is active if its top is above middle of viewport
+                if (scrollTop >= elementTop - containerHeight / 2) {
+                    activeSection = sectionId;
+                }
+            }
+
+            setCurrentSection(activeSection);
+        };
+
+        // Set initial section after a short delay to ensure DOM is ready
+        const initialTimeout = setTimeout(handleScroll, 100);
+
+        // Listen to scroll events on main-container
+        const mainContainer = document.getElementById('main-scroll-container');
+        if (!mainContainer) return;
+
+        mainContainer.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            clearTimeout(initialTimeout);
+            mainContainer.removeEventListener('scroll', handleScroll);
         };
     }, []);
 
@@ -146,7 +140,7 @@ export function DynamicFavicon() {
             // Remove any existing favicon links from SSR first
             const existingIcons = document.querySelectorAll("link[rel*='icon']:not(#dynamic-favicon):not(#dynamic-apple-icon)");
             existingIcons.forEach(icon => icon.remove());
-            
+
             // Create our controlled favicon link
             link = document.createElement('link');
             link.id = 'dynamic-favicon';

@@ -41,7 +41,7 @@ function FooterComponent() {
                 </h3>
                 <p className="text-xs text-muted-foreground mb-2">{t('brand')}</p>
                 <div className="flex gap-2">
-                {isMounted && socialLinks.map((social) => {
+                    {isMounted && socialLinks.map((social) => {
                         return (
                             <a
                                 key={social.label}

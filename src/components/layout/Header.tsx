@@ -9,7 +9,6 @@ import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useDevice } from '@/contexts/DeviceContext';
 import { NEON_COLORS } from '@/config/ui.constants';
 import { ThemeToggle, LanguageToggle, InteractiveToggle } from '@/components/toggles';
-import { scrollToSectionById } from '@/hooks/useSectionScroll';
 
 // Convert neon color objects to arrays for easy indexing
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);
@@ -51,15 +50,26 @@ function HeaderComponent() {
     useEffect(() => {
         const updateActiveSection = () => {
             const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
-            const scrollPosition = window.scrollY + window.innerHeight / 2; // Mitte des Viewports
+            const mainContainer = document.getElementById('main-scroll-container');
+            
+            if (!mainContainer) {
+                // Fallback for non-homepage or if container not found
+                return;
+            }
+
+            const scrollTop = mainContainer.scrollTop;
+            const viewportHeight = mainContainer.clientHeight;
+            const scrollPosition = scrollTop + viewportHeight / 2; // Mitte des Viewports
 
             let currentSection = 'hero';
 
             for (const sectionId of sections) {
                 const element = document.getElementById(sectionId);
                 if (element) {
+                    // Get position relative to main-container
                     const rect = element.getBoundingClientRect();
-                    const sectionTop = rect.top + window.scrollY;
+                    const containerRect = mainContainer.getBoundingClientRect();
+                    const sectionTop = rect.top - containerRect.top + scrollTop;
                     const sectionBottom = sectionTop + rect.height;
 
                     // Section ist aktiv wenn Viewport-Mitte innerhalb der Section ist
@@ -74,13 +84,27 @@ function HeaderComponent() {
                 console.log('🎯 Header: Active section changed to', currentSection);
                 cachedActiveSection = currentSection;
                 setActiveSection(currentSection);
+                
+                // Update browser URL hash
+                // Remove hash when at hero (top of page), otherwise set hash
+                if (currentSection === 'hero') {
+                    // Remove hash - clean URL like on initial page load
+                    if (window.location.hash) {
+                        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                    }
+                } else if (window.location.hash !== `#${currentSection}`) {
+                    window.history.replaceState(null, '', `#${currentSection}`);
+                }
             }
         };
 
-        // Initial check
-        updateActiveSection();
+        // Initial check after a short delay to ensure DOM is ready
+        const initialTimeout = setTimeout(updateActiveSection, 100);
 
         // Update on scroll
+        const mainContainer = document.getElementById('main-scroll-container');
+        if (!mainContainer) return;
+
         let rafId: number;
         const handleScroll = () => {
             if (rafId) {
@@ -89,10 +113,11 @@ function HeaderComponent() {
             rafId = requestAnimationFrame(updateActiveSection);
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        mainContainer.addEventListener('scroll', handleScroll, { passive: true });
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            clearTimeout(initialTimeout);
+            mainContainer.removeEventListener('scroll', handleScroll);
             if (rafId) {
                 cancelAnimationFrame(rafId);
             }
@@ -106,26 +131,20 @@ function HeaderComponent() {
         const activeIndex = sections.findIndex(s => s.id === activeSection);
         if (activeIndex === -1) return;
 
-        const buttons = navRef.current.querySelectorAll('button');
-        const activeButton = buttons[activeIndex] as HTMLElement;
+        const links = navRef.current.querySelectorAll('a');
+        const activeLink = links[activeIndex] as HTMLElement;
 
-        if (activeButton) {
+        if (activeLink) {
             const navRect = navRef.current.getBoundingClientRect();
-            const buttonRect = activeButton.getBoundingClientRect();
+            const linkRect = activeLink.getBoundingClientRect();
 
             setUnderlineStyle({
-                left: buttonRect.left - navRect.left,
-                width: buttonRect.width,
+                left: linkRect.left - navRect.left,
+                width: linkRect.width,
                 color: sections[activeIndex].color
             });
         }
     }, [activeSection, sections, device.width, device.height]);
-
-    const scrollToSection = (sectionId: string) => {
-        // Use the global scroll function from useSectionScroll
-        scrollToSectionById(sectionId);
-        handleCloseMenu();
-    };
 
     const handleCloseMenu = () => {
         setIsMenuClosing(true);
@@ -156,13 +175,13 @@ function HeaderComponent() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-14 sm:h-16">
                         {/* Logo */}
-                        <button
-                            onClick={() => scrollToSection('hero')}
+                        <a
+                            href="#hero"
                             className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text cursor-pointer"
                             aria-label="Scroll to top"
                         >
                             NH
-                        </button>
+                        </a>
 
                         {/* Desktop Navigation */}
                         <nav
@@ -174,9 +193,9 @@ function HeaderComponent() {
                             {sections.map((section) => {
                                 const isActive = activeSection === section.id && activeSection !== 'footer';
                                 return (
-                                    <button
+                                    <a
                                         key={section.id}
-                                        onClick={() => scrollToSection(section.id)}
+                                        href={`#${section.id}`}
                                         className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10 rounded px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                                         style={isActive && isInteractiveActive ? {
                                             color: section.color,
@@ -188,7 +207,7 @@ function HeaderComponent() {
                                         aria-current={isActive ? 'page' : undefined}
                                     >
                                         {section.label}
-                                    </button>
+                                    </a>
                                 );
                             })}
 
@@ -279,9 +298,10 @@ function HeaderComponent() {
                             const isActive = activeSection === section.id && activeSection !== 'footer';
                             const delay = isMenuClosing ? (sections.length - 1 - index) * 50 : index * 50;
                             return (
-                                <button
+                                <a
                                     key={section.id}
-                                    onClick={() => scrollToSection(section.id)}
+                                    href={`#${section.id}`}
+                                    onClick={handleCloseMenu}
                                     className="text-2xl sm:text-3xl font-bold relative text-foreground"
                                     style={{
                                         color: isActive && isInteractiveActive ? section.color : undefined,
@@ -309,7 +329,7 @@ function HeaderComponent() {
                                             aria-hidden="true"
                                         />
                                     )}
-                                </button>
+                                </a>
                             );
                         })}
                     </nav>

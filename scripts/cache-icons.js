@@ -169,20 +169,20 @@ function downloadIcon(iconName, filename, category, keepColors = false) {
         // keepColors = true: Download mit originalen Farben (kein color parameter)
         // keepColors = false: Download OHNE color parameter (SVG behält fill/stroke Attribute für CSS mask)
         const url = `https://api.iconify.design/${iconName}.svg`;
-        
+
         console.log(`  [${category}] ${iconName} → ${filename}${keepColors ? ' (colors)' : ''}`);
-        
+
         https.get(url, (res) => {
             if (res.statusCode !== 200) {
                 reject(new Error(`HTTP ${res.statusCode}`));
                 return;
             }
-            
+
             let data = '';
             res.on('data', (chunk) => {
                 data += chunk;
             });
-            
+
             res.on('end', () => {
                 const filepath = path.join(outputDir, filename);
                 fs.writeFileSync(filepath, data);
@@ -200,7 +200,7 @@ function downloadIcon(iconName, filename, category, keepColors = false) {
 async function downloadCategory(categoryName, icons) {
     console.log(`\n📦 ${categoryName.toUpperCase()}`);
     console.log('─'.repeat(50));
-    
+
     for (const icon of icons) {
         try {
             await downloadIcon(icon.name, icon.filename, categoryName, icon.keepColors);
@@ -218,24 +218,24 @@ async function cacheAllIcons() {
     console.log('\n🎨 Icon Caching System');
     console.log('='.repeat(50));
     console.log(`Output: ${outputDir}`);
-    
+
     const startTime = Date.now();
     let totalIcons = 0;
-    
+
     // Count total icons
     for (const icons of Object.values(iconCategories)) {
         totalIcons += icons.length;
     }
-    
+
     console.log(`Total icons to cache: ${totalIcons}`);
-    
+
     // Download each category
     for (const [categoryName, icons] of Object.entries(iconCategories)) {
         await downloadCategory(categoryName, icons);
     }
-    
+
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
-    
+
     console.log('\n' + '='.repeat(50));
     console.log(`✅ Done! Cached ${totalIcons} icons in ${duration}s`);
     console.log(`📁 Icons saved to: ${outputDir}`);

@@ -8,6 +8,13 @@ import { throttle, isMobileDevice } from '@/lib/utils';
 import { getChainConfig } from '@/config/chain';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 
+// Global animation state - persists across component re-mounts (e.g., language changes)
+let globalDrawAnimationStarted = false;
+let globalDrawAnimationComplete = false;
+let globalDrawProgress = 0;
+let globalAnimationVisible = false; // Controls when to show the chain
+let globalBaseChainCanvas: HTMLCanvasElement | null = null; // Cache base chain across re-mounts
+
 interface ChainBackgroundProps {
   preset?: keyof typeof CHAIN_PRESETS;
   customConfig?: Partial<ChainPathConfig>;
@@ -32,11 +39,12 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   // OPTIMIZATION: Cache scrollHeight to avoid recalculation on every scroll event
   const scrollHeightCache = useRef(0);
 
-  // Draw animation state - chain draws from top to bottom on initial load
-  const [drawProgress, setDrawProgress] = useState(0); // 0 to 1
-  const drawAnimationStarted = useRef(false);
-  const drawAnimationComplete = useRef(false);
-  const [animationVisible, setAnimationVisible] = useState(false); // Controls when to show the chain
+  // Draw animation state - use global state to persist across re-mounts
+  const [drawProgress, setDrawProgress] = useState(globalDrawProgress);
+  const [animationVisible, setAnimationVisible] = useState(globalAnimationVisible);
+  
+  // Use global cached canvas reference - initialize local ref with global value
+  const baseChainCanvas = useRef<HTMLCanvasElement | null>(globalBaseChainCanvas);
 
   // Get responsive config
   const responsiveConfig = getChainConfig(screenSize);
@@ -74,6 +82,13 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
     // Force redraw on theme/interactive mode change
     needsRedrawRef.current = true;
+    
+    // Clear cached canvas on theme change to force redraw with new colors
+    // But DON'T clear global cache - it will be recreated automatically
+    if (themeChanged) {
+      baseChainCanvas.current = null;
+      globalBaseChainCanvas = null;
+    }
 
     // Clear any existing intervals/timeouts
     if (transitionTimeoutRef.current) {
@@ -127,12 +142,12 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         // Use visualViewport for mobile devices (more reliable during orientation change)
         let width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
         let height = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
-        
+
         // Check screen.orientation for dimension swapping
-        const actualOrientation = window.screen?.orientation?.type || 
-                                  (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
+        const actualOrientation = window.screen?.orientation?.type ||
+          (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
         const isActuallyPortrait = actualOrientation.includes('portrait');
-        
+
         // If dimensions don't match orientation, swap them
         if (isActuallyPortrait && width > height) {
           console.log('🎨 ChainBackground: Swapping dimensions (portrait mode but width > height)');
@@ -141,8 +156,9 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           console.log('🎨 ChainBackground: Swapping dimensions (landscape mode but height > width)');
           [width, height] = [height, width];
         }
-        
-        const scrollHeight = document.documentElement.scrollHeight;
+
+        const mainContainer = document.getElementById('main-scroll-container');
+        const scrollHeight = mainContainer ? mainContainer.scrollHeight : document.documentElement.scrollHeight;
 
         // Determine screen size: mobile < 768px, tablet 768-1024px, desktop > 1024px
         let newScreenSize: 'mobile' | 'tablet' | 'desktop';
@@ -158,8 +174,17 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         setDimensions({ width, height: scrollHeight });
         // OPTIMIZATION: Update scrollHeight cache on resize
         scrollHeightCache.current = scrollHeight - height;
-        // Mark as ready after first dimension update
-        setIsReady(true);
+        // Clear cached canvas on resize to force redraw with new dimensions
+        // But keep drawAnimationComplete flag so it doesn't animate again
+        console.log('🔄 Resize: Clearing canvas cache (animation will NOT restart)');
+        baseChainCanvas.current = null;
+        globalBaseChainCanvas = null; // Also clear global cache
+        needsRedrawRef.current = true; // Force one redraw with new dimensions
+        
+        // Only mark as ready on first initialization, not on subsequent resizes
+        if (!isReady) {
+          setIsReady(true);
+        }
       }, 50);
     };
 
@@ -175,52 +200,52 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     // Handle orientation change on tablets and mobile
     const handleOrientationChange = () => {
       console.log('🎨 ChainBackground: Orientation change detected');
-      
+
       // Immediately set not ready to stop drawing
       setIsReady(false);
-      
+
       // Multiple waves to ensure we get correct dimensions
       // Wave 1: requestAnimationFrame (browser may not have updated yet)
       requestAnimationFrame(() => {
         // Use visualViewport for mobile devices (more reliable)
         let width1 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
         let height1 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
-        
+
         // Check screen.orientation for dimension swapping
-        const actualOrientation = window.screen?.orientation?.type || 
-                                  (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
+        const actualOrientation = window.screen?.orientation?.type ||
+          (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
         const isActuallyPortrait = actualOrientation.includes('portrait');
-        
+
         // If dimensions don't match orientation, swap them
         if (isActuallyPortrait && width1 > height1) {
           [width1, height1] = [height1, width1];
         } else if (!isActuallyPortrait && height1 > width1) {
           [width1, height1] = [height1, width1];
         }
-        
+
         const scrollHeight1 = document.documentElement.scrollHeight;
         console.log('🎨 ChainBackground: Wave 1 (RAF) -', `${width1}x${height1}`, 'scrollHeight:', scrollHeight1);
-        
+
         // Wave 2: nested RAF (more reliable)
         requestAnimationFrame(() => {
           let width2 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
           let height2 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
-          
+
           // Check screen.orientation for dimension swapping
-          const actualOrientation2 = window.screen?.orientation?.type || 
-                                     (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
+          const actualOrientation2 = window.screen?.orientation?.type ||
+            (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
           const isActuallyPortrait2 = actualOrientation2.includes('portrait');
-          
+
           // If dimensions don't match orientation, swap them
           if (isActuallyPortrait2 && width2 > height2) {
             [width2, height2] = [height2, width2];
           } else if (!isActuallyPortrait2 && height2 > width2) {
             [width2, height2] = [height2, width2];
           }
-          
+
           const scrollHeight2 = document.documentElement.scrollHeight;
           console.log('🎨 ChainBackground: Wave 2 (RAF2) -', `${width2}x${height2}`, 'scrollHeight:', scrollHeight2);
-          
+
           let newScreenSize: 'mobile' | 'tablet' | 'desktop';
           if (width2 < 768) {
             newScreenSize = 'mobile';
@@ -229,34 +254,35 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           } else {
             newScreenSize = 'desktop';
           }
-          
+
           setScreenSize(newScreenSize);
           setDimensions({ width: width2, height: scrollHeight2 });
           scrollHeightCache.current = scrollHeight2 - height2;
           setIsReady(true);
         });
       });
-      
+
       // Wave 3: Backup check after 400ms (increased for real devices)
       setTimeout(() => {
         let width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
         let height = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
-        
+
         // Check screen.orientation for dimension swapping
-        const actualOrientation = window.screen?.orientation?.type || 
-                                  (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
+        const actualOrientation = window.screen?.orientation?.type ||
+          (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
         const isActuallyPortrait = actualOrientation.includes('portrait');
-        
+
         // If dimensions don't match orientation, swap them
         if (isActuallyPortrait && width > height) {
           [width, height] = [height, width];
         } else if (!isActuallyPortrait && height > width) {
           [width, height] = [height, width];
         }
-        
-        const scrollHeight = document.documentElement.scrollHeight;
+
+        const mainContainer = document.getElementById('main-scroll-container');
+        const scrollHeight = mainContainer ? mainContainer.scrollHeight : document.documentElement.scrollHeight;
         console.log('🎨 ChainBackground: Wave 3 (400ms) -', `${width}x${height}`, 'scrollHeight:', scrollHeight);
-        
+
         let newScreenSize: 'mobile' | 'tablet' | 'desktop';
         if (width < 768) {
           newScreenSize = 'mobile';
@@ -265,7 +291,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         } else {
           newScreenSize = 'desktop';
         }
-        
+
         setScreenSize(newScreenSize);
         setDimensions({ width, height: scrollHeight });
         scrollHeightCache.current = scrollHeight - height;
@@ -275,10 +301,14 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
     // Throttled scroll handler
     const handleScroll = throttle(() => {
+      // CRITICAL: Get scroll from main container, not window!
+      const mainContainer = document.getElementById('main-scroll-container');
+      const scrollY = mainContainer ? mainContainer.scrollTop : window.scrollY;
+
       // OPTIMIZATION: Cache scrollHeight calculation to avoid forced reflow
       // Only recalculate on resize, not on every scroll
       const scrollHeight = scrollHeightCache.current;
-      const progress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
+      const progress = scrollHeight > 0 ? scrollY / scrollHeight : 0;
       setScrollProgress(Math.min(Math.max(progress, 0), 1));
     }, 16); // ~60fps
 
@@ -288,15 +318,19 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     // Re-calculate dimensions after a short delay (for language change)
     const timeoutId = setTimeout(handleResize, 100);
 
+    // CRITICAL: Listen to scroll on main-container, not window!
+    const mainContainer = document.getElementById('main-scroll-container');
+    const scrollElement = mainContainer || window;
+
     window.addEventListener('resize', handleResize);
     window.addEventListener('orientationchange', handleOrientationChange);
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    scrollElement.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
-      window.removeEventListener('scroll', handleScroll);
+      scrollElement.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       clearTimeout(timeoutId);
       if (resizeTimeoutRef.current) {
@@ -305,19 +339,31 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     };
   }, [config.style, screenSize, isInteractive]);
 
+  // Sync local baseChainCanvas ref with global cache on mount
+  useEffect(() => {
+    if (globalBaseChainCanvas && !baseChainCanvas.current) {
+      console.log('🔄 Syncing baseChainCanvas with global cache on re-mount');
+      baseChainCanvas.current = globalBaseChainCanvas;
+      needsRedrawRef.current = true; // Force one redraw to use cached canvas
+    }
+  }, []);
+
   // Draw animation - chain draws from top to bottom on initial load
   useEffect(() => {
+    console.log('🎬 Draw animation effect triggered - isReady:', isReady, 'complete:', globalDrawAnimationComplete, 'started:', globalDrawAnimationStarted);
+    
     if (!isReady) return;
-    if (drawAnimationComplete.current) return;
-    if (drawAnimationStarted.current) return;
+    if (globalDrawAnimationComplete) return;
+    if (globalDrawAnimationStarted) return;
 
-    drawAnimationStarted.current = true;
+    globalDrawAnimationStarted = true;
     const duration = 20000; // 20 seconds for full draw (~3 sec per section)
     const startTime = performance.now();
 
     console.log('🎬 Chain draw animation started');
 
     // Make chain visible immediately when animation starts
+    globalAnimationVisible = true;
     setAnimationVisible(true);
 
     const animate = (currentTime: number) => {
@@ -325,6 +371,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       const progress = Math.min(elapsed / duration, 1);
 
       // Linear animation - constant speed throughout
+      globalDrawProgress = progress;
       setDrawProgress(progress);
       needsRedrawRef.current = true;
 
@@ -332,7 +379,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         requestAnimationFrame(animate);
       } else {
         console.log('🎬 Chain draw animation complete');
-        drawAnimationComplete.current = true;
+        globalDrawAnimationComplete = true;
+        globalDrawProgress = 1;
         setDrawProgress(1);
       }
     };
@@ -360,11 +408,18 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     let lastScrollProgress = scrollProgress;
 
     const draw = () => {
-      // Nur neu zeichnen bei Scroll-Änderungen
-      // Maus komplett ignoriert für maximale Performance
+      // After animation completes, only redraw on scroll if in interactive mode
+      // Otherwise the chain stays static
       const scrollChanged = Math.abs(scrollProgress - lastScrollProgress) > 0.001;
 
-      if (!needsRedrawRef.current && !scrollChanged) {
+      // If animation is complete and not in interactive mode, don't redraw
+      if (globalDrawAnimationComplete && !isInteractive && !needsRedrawRef.current) {
+        animationFrameRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
+      // During animation, always redraw. After animation, only on scroll change or forced redraw
+      if (globalDrawAnimationComplete && !needsRedrawRef.current && !scrollChanged) {
         animationFrameRef.current = requestAnimationFrame(draw);
         return;
       }
@@ -378,8 +433,13 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
       const { curveSize, sectionPadding, spacing, style } = config;
 
-      // Dynamisch berechne horizontalOffset basierend auf tatsächlicher Content-Breite
-      const mainSections = Array.from(document.querySelectorAll('main > *')) as HTMLElement[];
+      // CRITICAL: Get sections from the wrapper div, not main directly!
+      // Structure: main > div > div[z-10] > sections
+      const sectionsWrapper = document.querySelector('main > div > div[style*="z-index: 10"]');
+      const mainSections = sectionsWrapper
+        ? Array.from(sectionsWrapper.children) as HTMLElement[]
+        : Array.from(document.querySelectorAll('.scroll-snap-section')) as HTMLElement[];
+
       // Footer kann entweder <footer> oder <section id="footer"> sein (nach Section-Komponente Refactor)
       const footer = document.querySelector('footer') as HTMLElement
         || document.querySelector('#footer') as HTMLElement;
@@ -534,10 +594,56 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
       // Calculate how many points to draw based on drawProgress
       const pointsToDraw = Math.floor(pathPoints.length * drawProgress);
-      const visiblePoints = drawAnimationComplete.current ? pathPoints : pathPoints.slice(0, pointsToDraw);
+      const visiblePoints = globalDrawAnimationComplete ? pathPoints : pathPoints.slice(0, pointsToDraw);
 
-      // Line-Stil: Zeichne durchgehenden Pfad
-      if (style === 'line') {
+      // Cache base chain after animation completes (only once)
+      if (globalDrawAnimationComplete && !baseChainCanvas.current) {
+        console.log('💾 Caching base chain to prevent redraw on every scroll');
+        baseChainCanvas.current = document.createElement('canvas');
+        baseChainCanvas.current.width = width;
+        baseChainCanvas.current.height = height;
+        const cacheCtx = baseChainCanvas.current.getContext('2d');
+        
+        if (cacheCtx && style === 'line' && pathPoints.length >= 2) {
+          // Draw base line to cache
+          cacheCtx.beginPath();
+          cacheCtx.moveTo(pathPoints[0].x, pathPoints[0].y);
+          for (let i = 1; i < pathPoints.length; i++) {
+            cacheCtx.lineTo(pathPoints[i].x, pathPoints[i].y);
+          }
+          cacheCtx.strokeStyle = CHAIN_COLORS.line.stroke;
+          cacheCtx.lineWidth = config.linkWidth || CHAIN_COLORS.line.width;
+          if (CHAIN_COLORS.line.shadow) {
+            cacheCtx.shadowColor = CHAIN_COLORS.line.shadow;
+            cacheCtx.shadowBlur = 2;
+            cacheCtx.shadowOffsetX = 0.5;
+            cacheCtx.shadowOffsetY = 0.5;
+          }
+          cacheCtx.lineCap = 'round';
+          cacheCtx.lineJoin = 'round';
+          cacheCtx.stroke();
+          
+          // Store in global cache
+          globalBaseChainCanvas = baseChainCanvas.current;
+        }
+      }
+
+      // If animation complete and we have cached canvas, use it instead of redrawing
+      if (globalDrawAnimationComplete && baseChainCanvas.current) {
+        // Draw cached base chain
+        ctx.drawImage(baseChainCanvas.current, 0, 0);
+        
+        // Only draw highlight if in interactive mode
+        if (!isInteractive) {
+          animationFrameRef.current = requestAnimationFrame(draw);
+          return;
+        }
+        
+        // Continue to draw interactive highlight below...
+      }
+
+      // Line-Stil: Zeichne durchgehenden Pfad (only during animation or if no cache)
+      if (style === 'line' && !globalDrawAnimationComplete) {
         if (visiblePoints.length < 2) {
           animationFrameRef.current = requestAnimationFrame(draw);
           return;
@@ -564,9 +670,10 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         ctx.stroke();
+      }
 
-        // Interactive mode: Draw colored highlight segment on top
-        if (isInteractive && visiblePoints.length > 10) {
+      // Interactive mode: Draw colored highlight segment on top (works with both cached and progressive draw)
+      if (isInteractive && style === 'line' && visiblePoints.length > 10) {
           // Reset shadow for highlight
           ctx.shadowColor = 'transparent';
           ctx.shadowBlur = 0;
@@ -616,7 +723,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
             const highlightLength = Math.floor(sectionLength * 0.25);
             if (highlightLength < 5) continue;
 
-            // Position based on scroll progress within this section
+            // Position based on GLOBAL scroll progress (same for all sections)
+            // scrollProgress is already 0-1 from the component state
             const maxStart = sectionLength - highlightLength;
             const highlightStart = section.startIndex + Math.floor(scrollProgress * maxStart);
             const highlightEnd = Math.min(highlightStart + highlightLength, section.endIndex);
@@ -656,16 +764,17 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
           // Reset global alpha
           ctx.globalAlpha = 1;
-        }
-      } else {
-        // Andere Stile: Zeichne einzelne Kettenglieder
+      }
+
+      // Non-line styles: Draw individual chain links
+      if (style !== 'line') {
         let distance = 0;
         let linkIndex = 0;
         let currentSection = 0;
         let sectionLinkIndex = 0; // Link-Index innerhalb der aktuellen Section
 
         // Use visiblePoints for progressive draw animation
-        const pointsToIterate = drawAnimationComplete.current ? pathPoints : visiblePoints;
+        const pointsToIterate = globalDrawAnimationComplete ? pathPoints : visiblePoints;
 
         for (let i = 0; i < pointsToIterate.length - 1; i++) {
           const p1 = pointsToIterate[i];
@@ -740,9 +849,11 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
   // Chain becomes visible when animation starts (animationVisible)
   // After animation is complete, use isReady for subsequent visibility
-  const shouldShow = drawAnimationComplete.current ? isReady : animationVisible;
+  // CRITICAL: Once animation is complete globally, always show the chain
+  const shouldShow = globalDrawAnimationComplete ? true : (globalDrawAnimationStarted ? true : animationVisible);
   const targetOpacity = shouldShow ? 1.0 : 0;
-  const finalOpacity = targetOpacity * transitionOpacity;
+  // Don't apply transition opacity if animation is already complete - prevents flashing on re-mount
+  const finalOpacity = globalDrawAnimationComplete ? 1.0 : (targetOpacity * transitionOpacity);
 
   return (
     <canvas

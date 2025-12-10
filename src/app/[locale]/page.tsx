@@ -1,7 +1,9 @@
 import dynamic from "next/dynamic";
-import { Header, SectionScrollController } from "@/components/layout";
+import { Header } from "@/components/layout";
 import { HeroSection } from "@/components/sections";
 import { ClientProvider } from "./client-provider";
+import { ResizeHandler } from "@/components/layout/ResizeHandler";
+import { ClientChainBackground } from "@/components/background/ClientChainBackground";
 
 // Lazy load below-the-fold components for better FCP/LCP
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => ({ default: mod.AboutSection })), {
@@ -29,9 +31,10 @@ export default async function HomePage({
     params: Promise<{ locale: string }>;
 }) {
     const { locale } = await params;
-    
+
     return (
         <ClientProvider locale={locale}>
+            <ResizeHandler />
             {/* Skip to content link for keyboard navigation */}
             <a
                 href="#hero"
@@ -40,19 +43,51 @@ export default async function HomePage({
                 Skip to content
             </a>
 
-            <SectionScrollController />
             <Header />
 
-            <main className="relative z-10">
-                <HeroSection />
-                <AboutSection />
-                <ServicesSection />
-                <PackagesSection />
-                <PortfolioSection />
-                <ContactSection />
-            </main>
+            {/* MAIN is the scroll container with scroll-snap */}
+            <main
+                id="main-scroll-container"
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                    scrollSnapType: 'y mandatory',
+                    scrollBehavior: 'smooth',
+                }}
+            >
+                {/* Content sections wrapper - defines the scrollable height */}
+                <div style={{ position: 'relative', minHeight: '100%' }}>
+                    {/* Chain Background - matches content height */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        minHeight: '100vh',
+                        pointerEvents: 'none',
+                        zIndex: 1
+                    }}>
+                        <ClientChainBackground />
+                    </div>
 
-            <Footer />
+                    {/* Content sections - relative positioning, above chain */}
+                    <div style={{ position: 'relative', zIndex: 10 }}>
+                        <HeroSection />
+                        <AboutSection />
+                        <ServicesSection />
+                        <PackagesSection />
+                        <PortfolioSection />
+                        <ContactSection />
+                        <Footer />
+                    </div>
+                </div>
+            </main>
         </ClientProvider>
     );
 }

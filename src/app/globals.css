@@ -1,5 +1,51 @@
 @import "tailwindcss";
 
+/* ============================================
+   CRITICAL: Scroll-Snap Configuration
+   Must be OUTSIDE @layer base for highest priority!
+   ============================================ */
+html {
+  height: 100vh !important;
+  overflow: hidden !important;
+  /* main scrolls, not html */
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  /* main scrolls, not body */
+}
+
+/* Main container handles scroll-snap (set in page.tsx inline styles) */
+
+.scroll-snap-section {
+  scroll-snap-align: start !important;
+  scroll-snap-stop: normal !important;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Mobile: Feste Höhe */
+@media (max-width: 1023px) {
+  .scroll-snap-section {
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+}
+
+/* Disable scroll-snap on legal pages */
+html.no-scroll-snap body,
+body.no-scroll-snap {
+  scroll-snap-type: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* ============================================
+   End Scroll-Snap Configuration
+   ============================================ */
+
 /* Hide chat widget when contact modal is open */
 body.contact-modal-open .chat-widget-button {
   display: none !important;
@@ -87,9 +133,6 @@ body.contact-modal-open .chat-widget-button {
     transition:
       --scrollbar-track var(--transition-slow) ease-in-out,
       --scrollbar-thumb var(--transition-slow) ease-in-out;
-
-    /* Kein CSS smooth scrolling - wird via JavaScript gesteuert */
-    scroll-behavior: auto;
   }
 
   /* Überschreibe Tailwinds transition-colors Standard-Duration */
@@ -126,25 +169,38 @@ body.contact-modal-open .chat-widget-button {
   }
 
   /* Fix viewport issues on orientation change */
-  html,
+  html {
+    width: 100%;
+    max-width: 100vw;
+    /* Do NOT set overflow here - scroll-snap rules at top of file handle it */
+    position: relative;
+  }
+
   body {
     width: 100%;
-    width: 100vw;
     max-width: 100vw;
     overflow-x: hidden;
+    overflow-y: visible;
+    /* Let html handle scrolling */
     position: relative;
   }
 
   /* Force reflow on orientation change */
   @media (orientation: portrait) {
-    html,
+    html {
+      width: 100vw;
+    }
+
     body {
       width: 100vw;
     }
   }
 
   @media (orientation: landscape) {
-    html,
+    html {
+      width: 100vw;
+    }
+
     body {
       width: 100vw;
     }
@@ -177,14 +233,6 @@ body.contact-modal-open .chat-widget-button {
 
   html {
     scroll-behavior: smooth;
-  }
-
-  /* Sanfteres Scrolling mit reduzierter Snap-Stärke */
-  @media (prefers-reduced-motion: no-preference) {
-    html {
-      scroll-behavior: auto;
-      /* JavaScript übernimmt Scroll-Control */
-    }
   }
 
   /* Hide Next.js dev indicators */
@@ -263,71 +311,14 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
   }
 }
 
-html {
-  /* CSS Scroll-Snap für alle Geräte - mandatory sorgt dafür dass IMMER eine Section aktiv ist */
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  scroll-padding-top: 0;
-  scroll-padding-bottom: 0;
-  /* Performance optimization */
-  will-change: scroll-position;
-  /* Sanftere Scroll-Übergänge - nur moderne Browser */
-  scroll-timeline: --page-scroll;
-  animation-timeline: --page-scroll;
-}
-
-/* Sanftere Scroll-Physik (experimentell) */
-@supports (scroll-behavior: smooth) {
-  html {
-    /* Easing für sanftere Bewegung */
-    scroll-behavior: smooth;
-  }
-}
-
-/* Für Webkit (Safari/iOS) - sanftere Momentum-Scrolling */
-@supports (-webkit-overflow-scrolling: touch) {
-  html {
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Disable scroll-snap on legal pages (impressum, datenschutz) */
-html.no-scroll-snap,
-html.no-scroll-snap body {
-  scroll-snap-type: none !important;
-  scroll-behavior: auto !important;
-  overflow-y: auto !important;
-}
-
-body {
-  /* Body scrollt nicht selbst, html ist der Scroll-Container */
-  overflow: visible;
-}
-
-/* Scroll-Snap Sections - für alle Geräte */
-.scroll-snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: normal; /* normal erlaubt durchscrollen über mehrere Sections */
-  /* Performance optimization */
-  will-change: transform;
-}
-
-/* Mobile & Tablet: Feste Höhe für Scroll-Snap */
+/* Mobile & Tablet: Zusätzliche Einstellungen */
 @media (max-width: 1023px) {
   html {
-    overflow-x: hidden;
-    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    width: 100vw;
-    max-width: 100vw;
   }
-  
-  body {
-    overflow: visible;
-    width: 100vw;
-    max-width: 100vw;
-  }
-  
+
+  /* No body overflow settings - html handles all scrolling */
+
   .scroll-snap-section {
     min-height: 100dvh;
     height: 100dvh;
@@ -400,26 +391,6 @@ body {
     height: 100dvh;
     max-height: 100dvh;
     overflow: hidden;
-  }
-}
-
-
-/* JavaScript Scroll-Control - kein CSS smooth scrolling */
-* {
-  scroll-behavior: auto !important;
-}
-
-/* CSS Scroll-Timing anpassen (funktioniert in manchen Browsern) */
-@supports (scroll-behavior: smooth) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* Optimierung für sanfteres Scrolling */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: auto;
   }
 }
 

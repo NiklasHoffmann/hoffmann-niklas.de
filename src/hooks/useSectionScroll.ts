@@ -86,7 +86,7 @@ export function useSectionScroll() {
                 let minDistance = Infinity;
 
                 // OPTIMIZATION: Batch all offsetTop reads together
-                const sectionOffsets = Array.from(sections).map(section => 
+                const sectionOffsets = Array.from(sections).map(section =>
                     (section as HTMLElement).offsetTop
                 );
 

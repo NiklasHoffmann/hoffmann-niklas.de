@@ -149,7 +149,7 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
             if (!e.touches[0]) return;
             isDraggingRef.current = true;
             lastPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            
+
             // Add touchmove listener only when dragging starts
             window.addEventListener('touchmove', handleTouchMove, { passive: false });
         };

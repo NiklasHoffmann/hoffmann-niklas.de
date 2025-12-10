@@ -126,7 +126,7 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [330, 384, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 330],
-    qualities: [70, 75, 85, 95],
+    qualities: [60, 70, 75, 85, 95],
     minimumCacheTTL: 31536000, // 1 year cache for Next.js Image Optimization
   },
 };

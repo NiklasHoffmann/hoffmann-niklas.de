@@ -74,7 +74,7 @@ const ICON_MAP: Record<string, { file: string; colored?: boolean }> = {
     'mdi:send': { file: 'ui-send' },
     'mdi:lightning-bolt': { file: 'ui-lightning' },
     'mdi:lightbulb-on': { file: 'ui-lightbulb' },
-    
+
     // Lucide Icons (use currentColor)
     'lucide:external-link': { file: 'ui-external-link' },
     'lucide:github': { file: 'ui-github' },
@@ -169,7 +169,7 @@ const ICON_MAP: Record<string, { file: string; colored?: boolean }> = {
 export function Icon({ icon, className = '', width, height, style }: IconProps) {
     // Map Iconify icon name to local filename
     const iconData = ICON_MAP[icon];
-    
+
     if (!iconData) {
         console.warn(`[LocalIcon] Icon not found in cache: ${icon}`);
         // Fallback: return empty span with same dimensions
@@ -197,7 +197,7 @@ export function Icon({ icon, className = '', width, height, style }: IconProps) 
     if (colored) {
         // Next.js logo gets a white border in dark mode for better contrast
         const isNextJs = icon === 'logos:nextjs-icon';
-        
+
         return (
             <img
                 src={`/icons/${localIcon}.svg`}

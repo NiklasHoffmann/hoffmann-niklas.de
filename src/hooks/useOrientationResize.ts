@@ -48,13 +48,13 @@ export function useOrientationResize() {
             // This is critical for mobile landscape -> portrait transitions
             document.documentElement.style.width = '100vw';
             document.body.style.width = '100vw';
-            
+
             // Trigger reflow by reading a layout property
             void document.body.offsetHeight;
-            
+
             // Update key to force React re-render
             setKey(prev => prev + 1);
-            
+
             // Dispatch resize event for components listening to it
             window.dispatchEvent(new Event('resize'));
         };

@@ -50,26 +50,26 @@ function getDeviceInfo(): DeviceInfo {
 
     // Force a layout read to ensure fresh values
     void document.body.offsetHeight;
-    
+
     // Get width from most reliable source for mobile devices
     // visualViewport is null on some older browsers or during initial load
-    let width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) 
-        || window.innerWidth 
+    let width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width)
+        || window.innerWidth
         || document.documentElement.clientWidth;
-    
+
     // For height, window.innerHeight can be wrong on mobile during orientation change
     // Use visualViewport first, then try screen.availHeight for portrait
-    let height = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) 
+    let height = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height)
         || window.innerHeight;
-    
+
     // CRITICAL FIX: Check actual screen orientation and swap dimensions if needed
     // On real devices, visualViewport can return landscape dimensions even after rotating to portrait
-    const actualOrientation = window.screen?.orientation?.type || 
+    const actualOrientation = window.screen?.orientation?.type ||
         (window.matchMedia('(orientation: portrait)').matches ? 'portrait-primary' : 'landscape-primary');
-    
+
     const isActuallyPortrait = actualOrientation.includes('portrait');
     const isActuallyLandscape = actualOrientation.includes('landscape');
-    
+
     // If dimensions don't match actual orientation, swap them
     if (isActuallyPortrait && width > height) {
         console.log('⚠️ Swapping dimensions for portrait orientation:', { before: `${width}x${height}`, after: `${height}x${width}` });
@@ -78,7 +78,7 @@ function getDeviceInfo(): DeviceInfo {
         console.log('⚠️ Swapping dimensions for landscape orientation:', { before: `${width}x${height}`, after: `${height}x${width}` });
         [width, height] = [height, width];
     }
-    
+
     // Sanity check: if height seems wrong (e.g., too large compared to typical mobile screens)
     // and we're clearly in portrait (width < height), use screen dimensions
     if (height > 2000 && width < 1200) {
@@ -86,7 +86,7 @@ function getDeviceInfo(): DeviceInfo {
         height = window.screen.availHeight || window.screen.height || height;
         console.log('⚠️ Height correction applied:', height);
     }
-    
+
     console.log('🔍 getDeviceInfo sources:', {
         visualViewport: window.visualViewport ? `${window.visualViewport.width}x${window.visualViewport.height}` : 'null',
         window: `${window.innerWidth}x${window.innerHeight}`,
@@ -95,7 +95,7 @@ function getDeviceInfo(): DeviceInfo {
         orientation: actualOrientation,
         chosen: `${width}x${height}`
     });
-    
+
     const isLandscape = width > height;
     const isPortrait = !isLandscape;
 
@@ -173,10 +173,10 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
                 console.log('📱 DeviceContext: Ignoring duplicate orientation event');
                 return;
             }
-            
+
             isHandlingOrientation = true;
             console.log('📱 DeviceContext: Orientation change detected');
-            
+
             // Clear any pending timeouts
             orientationTimeouts.forEach(t => clearTimeout(t));
             orientationTimeouts = [];
@@ -188,7 +188,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
             void document.body.offsetHeight; // Single intentional reflow to reset layout
             document.documentElement.style.width = '100vw';
             document.body.style.width = '100vw';
-            
+
             // Force viewport meta tag re-evaluation (helps on real devices)
             const viewport = document.querySelector('meta[name="viewport"]');
             if (viewport) {
@@ -197,7 +197,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
                 // Reuse same reflow - no need for another offsetHeight read
                 if (content) viewport.setAttribute('content', content);
             }
-            
+
             // Use requestAnimationFrame to wait for browser to finish orientation UI
             requestAnimationFrame(() => {
                 // Wave 1: After first animation frame
@@ -205,7 +205,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
                 console.log('📱 DeviceContext: Wave 1 (RAF) -', info1.layout, `${info1.width}x${info1.height}`);
                 setDeviceInfo(info1);
                 window.dispatchEvent(new Event('resize'));
-                
+
                 // Nested RAF for extra safety
                 requestAnimationFrame(() => {
                     const info2 = getDeviceInfo();
@@ -229,7 +229,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
                 console.log('📱 DeviceContext: Wave 4 (600ms) -', info.layout, `${info.width}x${info.height}`);
                 setDeviceInfo(info);
                 window.dispatchEvent(new Event('resize'));
-                
+
                 // Reset flag after all waves complete
                 isHandlingOrientation = false;
             }, 400));
