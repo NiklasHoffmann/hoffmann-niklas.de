@@ -191,23 +191,15 @@ export function Icon({ icon, className = '', width, height, style }: IconProps) 
         );
     }
 
-    // Monochrome icons: use CSS mask for currentColor support
-    // This allows the icon color to inherit from CSS text color
+    // Monochrome icons: use <img> tag
+    // SVGs with stroke="currentColor" or fill="currentColor" will inherit text color
     return (
-        <span
+        <img
+            src={`/icons/${localIcon}.svg`}
+            alt=""
             className={className}
-            style={{
-                ...inlineStyle,
-                maskImage: `url(/icons/${localIcon}.svg)`,
-                WebkitMaskImage: `url(/icons/${localIcon}.svg)`,
-                maskSize: 'contain',
-                WebkitMaskSize: 'contain',
-                maskRepeat: 'no-repeat',
-                WebkitMaskRepeat: 'no-repeat',
-                maskPosition: 'center',
-                WebkitMaskPosition: 'center',
-                backgroundColor: 'currentColor',
-            }}
+            style={inlineStyle}
+            draggable={false}
             aria-hidden="true"
         />
     );
