@@ -42,7 +42,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   // Draw animation state - use global state to persist across re-mounts
   const [drawProgress, setDrawProgress] = useState(globalDrawProgress);
   const [animationVisible, setAnimationVisible] = useState(globalAnimationVisible);
-  
+
   // Use global cached canvas reference - initialize local ref with global value
   const baseChainCanvas = useRef<HTMLCanvasElement | null>(globalBaseChainCanvas);
 
@@ -52,8 +52,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   // Dynamically select preset based on interactive mode - use useMemo to recalculate when isInteractive changes
   // Both modes use 'line' style now, but interactive mode adds a colored highlight segment
   const config: ChainPathConfig = useMemo(() => {
-    const activePreset = preset || 'line'; // Always use line style
-    console.log('🎨 ChainBackground: Config recalculated, preset:', activePreset, 'isInteractive:', isInteractive);
+    const activePreset = preset || 'line';
 
     return {
       ...CHAIN_PRESETS[activePreset],
@@ -82,7 +81,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
     // Force redraw on theme/interactive mode change
     needsRedrawRef.current = true;
-    
+
     // Clear cached canvas on theme change to force redraw with new colors
     // But DON'T clear global cache - it will be recreated automatically
     if (themeChanged) {
@@ -150,10 +149,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
         // If dimensions don't match orientation, swap them
         if (isActuallyPortrait && width > height) {
-          console.log('🎨 ChainBackground: Swapping dimensions (portrait mode but width > height)');
           [width, height] = [height, width];
         } else if (!isActuallyPortrait && height > width) {
-          console.log('🎨 ChainBackground: Swapping dimensions (landscape mode but height > width)');
           [width, height] = [height, width];
         }
 
@@ -172,15 +169,13 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
         setScreenSize(newScreenSize);
         setDimensions({ width, height: scrollHeight });
-        // OPTIMIZATION: Update scrollHeight cache on resize
         scrollHeightCache.current = scrollHeight - height;
+
         // Clear cached canvas on resize to force redraw with new dimensions
-        // But keep drawAnimationComplete flag so it doesn't animate again
-        console.log('🔄 Resize: Clearing canvas cache (animation will NOT restart)');
         baseChainCanvas.current = null;
-        globalBaseChainCanvas = null; // Also clear global cache
-        needsRedrawRef.current = true; // Force one redraw with new dimensions
-        
+        globalBaseChainCanvas = null;
+        needsRedrawRef.current = true;
+
         // Only mark as ready on first initialization, not on subsequent resizes
         if (!isReady) {
           setIsReady(true);
@@ -188,20 +183,15 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       }, 50);
     };
 
-    // Handle visibility change (wichtig für Navigation zurück zur Seite)
+    // Handle visibility change
     const handleVisibilityChange = () => {
       if (!document.hidden) {
-        // Page is visible again - force recalculation
-        console.log('🎨 ChainBackground: Page visible again, recalculating dimensions');
         handleResize();
       }
     };
 
     // Handle orientation change on tablets and mobile
     const handleOrientationChange = () => {
-      console.log('🎨 ChainBackground: Orientation change detected');
-
-      // Immediately set not ready to stop drawing
       setIsReady(false);
 
       // Multiple waves to ensure we get correct dimensions
@@ -224,9 +214,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         }
 
         const scrollHeight1 = document.documentElement.scrollHeight;
-        console.log('🎨 ChainBackground: Wave 1 (RAF) -', `${width1}x${height1}`, 'scrollHeight:', scrollHeight1);
 
-        // Wave 2: nested RAF (more reliable)
+        // Wave 2: nested RAF
         requestAnimationFrame(() => {
           let width2 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
           let height2 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
@@ -244,7 +233,6 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           }
 
           const scrollHeight2 = document.documentElement.scrollHeight;
-          console.log('🎨 ChainBackground: Wave 2 (RAF2) -', `${width2}x${height2}`, 'scrollHeight:', scrollHeight2);
 
           let newScreenSize: 'mobile' | 'tablet' | 'desktop';
           if (width2 < 768) {
@@ -281,7 +269,6 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
         const mainContainer = document.getElementById('main-scroll-container');
         const scrollHeight = mainContainer ? mainContainer.scrollHeight : document.documentElement.scrollHeight;
-        console.log('🎨 ChainBackground: Wave 3 (400ms) -', `${width}x${height}`, 'scrollHeight:', scrollHeight);
 
         let newScreenSize: 'mobile' | 'tablet' | 'desktop';
         if (width < 768) {
@@ -342,27 +329,21 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   // Sync local baseChainCanvas ref with global cache on mount
   useEffect(() => {
     if (globalBaseChainCanvas && !baseChainCanvas.current) {
-      console.log('🔄 Syncing baseChainCanvas with global cache on re-mount');
       baseChainCanvas.current = globalBaseChainCanvas;
-      needsRedrawRef.current = true; // Force one redraw to use cached canvas
+      needsRedrawRef.current = true;
     }
   }, []);
 
-  // Draw animation - chain draws from top to bottom on initial load
+  // Draw animation - chain draws from top to bottom on initial load (20 seconds)
   useEffect(() => {
-    console.log('🎬 Draw animation effect triggered - isReady:', isReady, 'complete:', globalDrawAnimationComplete, 'started:', globalDrawAnimationStarted);
-    
     if (!isReady) return;
     if (globalDrawAnimationComplete) return;
     if (globalDrawAnimationStarted) return;
 
     globalDrawAnimationStarted = true;
-    const duration = 20000; // 20 seconds for full draw (~3 sec per section)
+    const duration = 20000;
     const startTime = performance.now();
 
-    console.log('🎬 Chain draw animation started');
-
-    // Make chain visible immediately when animation starts
     globalAnimationVisible = true;
     setAnimationVisible(true);
 
@@ -370,7 +351,6 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      // Linear animation - constant speed throughout
       globalDrawProgress = progress;
       setDrawProgress(progress);
       needsRedrawRef.current = true;
@@ -378,7 +358,6 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        console.log('🎬 Chain draw animation complete');
         globalDrawAnimationComplete = true;
         globalDrawProgress = 1;
         setDrawProgress(1);
@@ -392,8 +371,6 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || dimensions.width === 0) return;
-
-    console.log('🎨 ChainBackground: Drawing with style:', config.style);
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -603,7 +580,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         baseChainCanvas.current.width = width;
         baseChainCanvas.current.height = height;
         const cacheCtx = baseChainCanvas.current.getContext('2d');
-        
+
         if (cacheCtx && style === 'line' && pathPoints.length >= 2) {
           // Draw base line to cache
           cacheCtx.beginPath();
@@ -622,7 +599,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           cacheCtx.lineCap = 'round';
           cacheCtx.lineJoin = 'round';
           cacheCtx.stroke();
-          
+
           // Store in global cache
           globalBaseChainCanvas = baseChainCanvas.current;
         }
@@ -632,13 +609,13 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       if (globalDrawAnimationComplete && baseChainCanvas.current) {
         // Draw cached base chain
         ctx.drawImage(baseChainCanvas.current, 0, 0);
-        
+
         // Only draw highlight if in interactive mode
         if (!isInteractive) {
           animationFrameRef.current = requestAnimationFrame(draw);
           return;
         }
-        
+
         // Continue to draw interactive highlight below...
       }
 
@@ -674,96 +651,96 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
       // Interactive mode: Draw colored highlight segment on top (works with both cached and progressive draw)
       if (isInteractive && style === 'line' && visiblePoints.length > 10) {
-          // Reset shadow for highlight
-          ctx.shadowColor = 'transparent';
-          ctx.shadowBlur = 0;
-          ctx.shadowOffsetX = 0;
-          ctx.shadowOffsetY = 0;
+        // Reset shadow for highlight
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
 
-          // Neon colors per section (same as in chainRenderers.ts)
-          const neonColors = [
-            '#00ffff', // Cyan - Section 0 (Hero)
-            '#ff00ff', // Magenta - Section 1 (About)
-            '#00ff00', // Lime - Section 2 (Services)
-            '#ffff00', // Yellow - Section 3 (Portfolio)
-            '#ff0080', // Hot Pink - Section 4 (Videos)
-            '#0080ff', // Blue - Section 5 (Contact)
-            '#ff8000', // Orange - Section 6 (Footer)
-          ];
+        // Neon colors per section (same as in chainRenderers.ts)
+        const neonColors = [
+          '#00ffff', // Cyan - Section 0 (Hero)
+          '#ff00ff', // Magenta - Section 1 (About)
+          '#00ff00', // Lime - Section 2 (Services)
+          '#ffff00', // Yellow - Section 3 (Portfolio)
+          '#ff0080', // Hot Pink - Section 4 (Videos)
+          '#0080ff', // Blue - Section 5 (Contact)
+          '#ff8000', // Orange - Section 6 (Footer)
+        ];
 
-          // Group points by section
-          const sectionGroups: { startIndex: number; endIndex: number; sectionIndex: number }[] = [];
-          let currentSectionStart = 0;
-          let currentSection = visiblePoints[0]?.sectionIndex ?? 0;
+        // Group points by section
+        const sectionGroups: { startIndex: number; endIndex: number; sectionIndex: number }[] = [];
+        let currentSectionStart = 0;
+        let currentSection = visiblePoints[0]?.sectionIndex ?? 0;
 
-          for (let i = 1; i < visiblePoints.length; i++) {
-            if (visiblePoints[i].sectionIndex !== currentSection) {
-              sectionGroups.push({
-                startIndex: currentSectionStart,
-                endIndex: i - 1,
-                sectionIndex: currentSection
-              });
-              currentSectionStart = i;
-              currentSection = visiblePoints[i].sectionIndex;
-            }
+        for (let i = 1; i < visiblePoints.length; i++) {
+          if (visiblePoints[i].sectionIndex !== currentSection) {
+            sectionGroups.push({
+              startIndex: currentSectionStart,
+              endIndex: i - 1,
+              sectionIndex: currentSection
+            });
+            currentSectionStart = i;
+            currentSection = visiblePoints[i].sectionIndex;
           }
-          // Add last section
-          sectionGroups.push({
-            startIndex: currentSectionStart,
-            endIndex: visiblePoints.length - 1,
-            sectionIndex: currentSection
-          });
+        }
+        // Add last section
+        sectionGroups.push({
+          startIndex: currentSectionStart,
+          endIndex: visiblePoints.length - 1,
+          sectionIndex: currentSection
+        });
 
-          // Draw highlight for each section independently
-          for (const section of sectionGroups) {
-            const sectionLength = section.endIndex - section.startIndex;
-            if (sectionLength < 10) continue; // Skip very short sections
+        // Draw highlight for each section independently
+        for (const section of sectionGroups) {
+          const sectionLength = section.endIndex - section.startIndex;
+          if (sectionLength < 10) continue; // Skip very short sections
 
-            // Highlight is 25% of this section's length (5% fade + 15% solid + 5% fade)
-            const highlightLength = Math.floor(sectionLength * 0.25);
-            if (highlightLength < 5) continue;
+          // Highlight is 25% of this section's length (5% fade + 15% solid + 5% fade)
+          const highlightLength = Math.floor(sectionLength * 0.25);
+          if (highlightLength < 5) continue;
 
-            // Position based on GLOBAL scroll progress (same for all sections)
-            // scrollProgress is already 0-1 from the component state
-            const maxStart = sectionLength - highlightLength;
-            const highlightStart = section.startIndex + Math.floor(scrollProgress * maxStart);
-            const highlightEnd = Math.min(highlightStart + highlightLength, section.endIndex);
+          // Position based on GLOBAL scroll progress (same for all sections)
+          // scrollProgress is already 0-1 from the component state
+          const maxStart = sectionLength - highlightLength;
+          const highlightStart = section.startIndex + Math.floor(scrollProgress * maxStart);
+          const highlightEnd = Math.min(highlightStart + highlightLength, section.endIndex);
 
-            // Get section neon color
-            const neonColor = neonColors[section.sectionIndex % neonColors.length];
+          // Get section neon color
+          const neonColor = neonColors[section.sectionIndex % neonColors.length];
 
-            // Fade zones: 5% on each end, 15% solid in middle
-            // Total: 5% + 15% + 5% = 25%
+          // Fade zones: 5% on each end, 15% solid in middle
+          // Total: 5% + 15% + 5% = 25%
 
-            // Draw highlight segments
-            for (let i = highlightStart; i < highlightEnd - 1; i++) {
-              const posInHighlight = i - highlightStart;
-              const highlightProgress = posInHighlight / highlightLength;
+          // Draw highlight segments
+          for (let i = highlightStart; i < highlightEnd - 1; i++) {
+            const posInHighlight = i - highlightStart;
+            const highlightProgress = posInHighlight / highlightLength;
 
-              // Calculate opacity: 5% fade in (0-0.2), 15% solid (0.2-0.8), 5% fade out (0.8-1.0)
-              let opacity = 1;
-              if (highlightProgress < 0.2) {
-                // Fade in zone (first 5% of 25% = 20% of highlight)
-                opacity = highlightProgress / 0.2;
-              } else if (highlightProgress > 0.8) {
-                // Fade out zone (last 5% of 25% = 20% of highlight)
-                opacity = (1 - highlightProgress) / 0.2;
-              }
-
-              ctx.beginPath();
-              ctx.moveTo(visiblePoints[i].x, visiblePoints[i].y);
-              ctx.lineTo(visiblePoints[i + 1].x, visiblePoints[i + 1].y);
-
-              ctx.strokeStyle = neonColor;
-              ctx.globalAlpha = opacity * 0.8; // Max 80% opacity
-              ctx.lineWidth = (config.linkWidth || CHAIN_COLORS.line.width) + 1;
-              ctx.lineCap = 'round';
-              ctx.stroke();
+            // Calculate opacity: 5% fade in (0-0.2), 15% solid (0.2-0.8), 5% fade out (0.8-1.0)
+            let opacity = 1;
+            if (highlightProgress < 0.2) {
+              // Fade in zone (first 5% of 25% = 20% of highlight)
+              opacity = highlightProgress / 0.2;
+            } else if (highlightProgress > 0.8) {
+              // Fade out zone (last 5% of 25% = 20% of highlight)
+              opacity = (1 - highlightProgress) / 0.2;
             }
-          }
 
-          // Reset global alpha
-          ctx.globalAlpha = 1;
+            ctx.beginPath();
+            ctx.moveTo(visiblePoints[i].x, visiblePoints[i].y);
+            ctx.lineTo(visiblePoints[i + 1].x, visiblePoints[i + 1].y);
+
+            ctx.strokeStyle = neonColor;
+            ctx.globalAlpha = opacity * 0.8; // Max 80% opacity
+            ctx.lineWidth = (config.linkWidth || CHAIN_COLORS.line.width) + 1;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+          }
+        }
+
+        // Reset global alpha
+        ctx.globalAlpha = 1;
       }
 
       // Non-line styles: Draw individual chain links

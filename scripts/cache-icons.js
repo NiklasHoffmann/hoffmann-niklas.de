@@ -12,6 +12,10 @@ const path = require('path');
 
 // Output directory for cached icons
 const outputDir = path.join(__dirname, '..', 'public', 'icons');
+const cacheMetaFile = path.join(outputDir, '.cache-meta.json');
+
+// Cache validity in days (icons will be re-downloaded after this period)
+const CACHE_VALID_DAYS = 30;
 
 // Ensure output directory exists
 if (!fs.existsSync(outputDir)) {
@@ -212,12 +216,89 @@ async function downloadCategory(categoryName, icons) {
 }
 
 /**
+ * Check if cache is valid and up-to-date
+ */
+function isCacheValid() {
+    // Check if meta file exists
+    if (!fs.existsSync(cacheMetaFile)) {
+        return false;
+    }
+
+    try {
+        const meta = JSON.parse(fs.readFileSync(cacheMetaFile, 'utf-8'));
+        const cacheDate = new Date(meta.timestamp);
+        const now = new Date();
+        const daysSinceCache = (now - cacheDate) / (1000 * 60 * 60 * 24);
+
+        // Count expected icons
+        let expectedIcons = 0;
+        for (const icons of Object.values(iconCategories)) {
+            expectedIcons += icons.length;
+        }
+
+        // Check if all icons exist
+        let existingIcons = 0;
+        for (const [categoryName, icons] of Object.entries(iconCategories)) {
+            for (const icon of icons) {
+                const iconPath = path.join(outputDir, icon.filename);
+                if (fs.existsSync(iconPath)) {
+                    existingIcons++;
+                }
+            }
+        }
+
+        const allIconsExist = existingIcons === expectedIcons;
+        const cacheNotExpired = daysSinceCache < CACHE_VALID_DAYS;
+
+        if (allIconsExist && cacheNotExpired) {
+            console.log('\n✅ Icon cache is valid!');
+            console.log(`   Cached ${existingIcons} icons ${Math.floor(daysSinceCache)} days ago`);
+            console.log(`   Cache expires in ${Math.ceil(CACHE_VALID_DAYS - daysSinceCache)} days`);
+            return true;
+        }
+
+        if (!allIconsExist) {
+            console.log(`\n⚠️  Cache incomplete: ${existingIcons}/${expectedIcons} icons found`);
+        }
+        if (!cacheNotExpired) {
+            console.log(`\n⚠️  Cache expired: ${Math.floor(daysSinceCache)} days old (max: ${CACHE_VALID_DAYS} days)`);
+        }
+
+        return false;
+    } catch (error) {
+        console.log('\n⚠️  Cache meta file invalid or corrupted');
+        return false;
+    }
+}
+
+/**
+ * Save cache metadata
+ */
+function saveCacheMeta(totalIcons) {
+    const meta = {
+        timestamp: new Date().toISOString(),
+        totalIcons,
+        cacheValidDays: CACHE_VALID_DAYS,
+        version: '1.0'
+    };
+    fs.writeFileSync(cacheMetaFile, JSON.stringify(meta, null, 2));
+}
+
+/**
  * Main function
  */
 async function cacheAllIcons() {
     console.log('\n🎨 Icon Caching System');
     console.log('='.repeat(50));
     console.log(`Output: ${outputDir}`);
+
+    // Check if cache is still valid
+    if (isCacheValid()) {
+        console.log('='.repeat(50));
+        console.log('💡 Skipping icon download (cache is valid)');
+        console.log('   To force refresh, delete public/icons/.cache-meta.json');
+        return;
+    }
 
     const startTime = Date.now();
     let totalIcons = 0;
@@ -236,9 +317,13 @@ async function cacheAllIcons() {
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
 
+    // Save cache metadata
+    saveCacheMeta(totalIcons);
+
     console.log('\n' + '='.repeat(50));
     console.log(`✅ Done! Cached ${totalIcons} icons in ${duration}s`);
     console.log(`📁 Icons saved to: ${outputDir}`);
+    console.log(`⏰ Cache valid for ${CACHE_VALID_DAYS} days`);
 }
 
 // Run if called directly

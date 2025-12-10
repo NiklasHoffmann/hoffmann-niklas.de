@@ -55,12 +55,12 @@ export function DynamicFavicon() {
         const handleScroll = () => {
             const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
             const mainContainer = document.getElementById('main-scroll-container');
-            
+
             if (!mainContainer) {
                 // Fallback for non-homepage
                 return;
             }
-            
+
             const scrollTop = mainContainer.scrollTop;
             const containerHeight = mainContainer.clientHeight;
 

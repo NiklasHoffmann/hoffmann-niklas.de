@@ -5,41 +5,47 @@
    Must be OUTSIDE @layer base for highest priority!
    ============================================ */
 html {
-  height: 100vh !important;
-  overflow: hidden !important;
-  /* main scrolls, not html */
+  height: 100vh;
+  overflow: hidden;
 }
 
 body {
-  margin: 0 !important;
-  padding: 0 !important;
-  height: 100vh !important;
-  overflow: hidden !important;
-  /* main scrolls, not body */
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* Main container handles scroll-snap (set in page.tsx inline styles) */
+/* Scroll-snap without smooth scroll (handled by JavaScript) */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Custom scroll container with scroll-snap */
+  #main-scroll-container {
+    /* NO scroll-behavior here - JavaScript handles smooth scroll */
+    scroll-snap-type: y mandatory;
+    scroll-padding: 0;
+  }
+}
 
 .scroll-snap-section {
-  scroll-snap-align: start !important;
-  scroll-snap-stop: normal !important;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
   min-height: 100vh;
   min-height: 100dvh;
 }
 
-/* Mobile: Feste Höhe */
+/* Mobile: Fixed height for better snap behavior */
 @media (max-width: 1023px) {
   .scroll-snap-section {
-    height: 100vh !important;
-    height: 100dvh !important;
+    height: 100dvh;
   }
 }
 
 /* Disable scroll-snap on legal pages */
 html.no-scroll-snap body,
 body.no-scroll-snap {
-  scroll-snap-type: none !important;
-  scroll-behavior: auto !important;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
 }
 
 /* ============================================
@@ -92,6 +98,10 @@ body.contact-modal-open .chat-widget-button {
     /* Standard UI Elemente */
     --transition-slow: 700ms;
     /* Theme, Language, Interactive Toggle */
+
+    /* Scroll timing for ultra-smooth experience */
+    --scroll-duration: 1200ms;
+    --scroll-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     /* Scrollbar Farben für Light Mode */
     --scrollbar-track: #ffffff;
@@ -231,10 +241,6 @@ body.contact-modal-open .chat-widget-button {
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
   /* Hide Next.js dev indicators */
   #__next-build-watcher,
   nextjs-portal,
@@ -249,15 +255,15 @@ body.contact-modal-open .chat-widget-button {
 
 /* Hero Section */
 #hero.scroll-snap-section {
-  scroll-margin-top: 0 !important;
-  margin-top: 0 !important;
+  scroll-margin-top: 0;
+  margin-top: 0;
 }
 
 /* Hero padding is controlled via JS in Section component for mobile landscape */
 
 html,
 body {
-  scroll-padding-top: 0 !important;
+  scroll-padding-top: 0;
   margin: 0;
   padding: 0;
   max-width: 100vw;

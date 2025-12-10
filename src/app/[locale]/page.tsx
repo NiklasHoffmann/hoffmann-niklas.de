@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { Header } from "@/components/layout";
+import { Header, SmoothScrollEnhancer } from "@/components/layout";
 import { HeroSection } from "@/components/sections";
 import { ClientProvider } from "./client-provider";
 import { ResizeHandler } from "@/components/layout/ResizeHandler";
@@ -35,6 +35,7 @@ export default async function HomePage({
     return (
         <ClientProvider locale={locale}>
             <ResizeHandler />
+            <SmoothScrollEnhancer />
             {/* Skip to content link for keyboard navigation */}
             <a
                 href="#hero"
@@ -57,7 +58,8 @@ export default async function HomePage({
                     overflowY: 'scroll',
                     overflowX: 'hidden',
                     scrollSnapType: 'y mandatory',
-                    scrollBehavior: 'smooth',
+                    scrollPaddingTop: '0px',
+                    WebkitOverflowScrolling: 'touch',
                 }}
             >
                 {/* Content sections wrapper - defines the scrollable height */}

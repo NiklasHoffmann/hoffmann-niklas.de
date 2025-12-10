@@ -26,10 +26,10 @@ export function ScrollToTop() {
         const scrollElement = mainContainer || window;
 
         scrollElement.addEventListener('scroll', toggleVisibility, { passive: true });
-        
+
         // Initial check
         toggleVisibility();
-        
+
         return () => scrollElement.removeEventListener('scroll', toggleVisibility);
     }, []);
 

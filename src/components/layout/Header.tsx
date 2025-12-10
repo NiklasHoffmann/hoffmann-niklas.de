@@ -51,7 +51,7 @@ function HeaderComponent() {
         const updateActiveSection = () => {
             const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
             const mainContainer = document.getElementById('main-scroll-container');
-            
+
             if (!mainContainer) {
                 // Fallback for non-homepage or if container not found
                 return;
@@ -81,10 +81,9 @@ function HeaderComponent() {
             }
 
             if (currentSection !== cachedActiveSection) {
-                console.log('🎯 Header: Active section changed to', currentSection);
                 cachedActiveSection = currentSection;
                 setActiveSection(currentSection);
-                
+
                 // Update browser URL hash
                 // Remove hash when at hero (top of page), otherwise set hash
                 if (currentSection === 'hero') {
