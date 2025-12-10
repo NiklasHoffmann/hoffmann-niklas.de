@@ -34,7 +34,7 @@ export function ProjectCard({
                     sizes={sizes}
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     loading={priority ? "eager" : "lazy"}
-                    quality={70}
+                    quality={60}
                     priority={priority}
                 />
             </div>

@@ -125,8 +125,24 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       }
       resizeTimeoutRef.current = setTimeout(() => {
         // Use visualViewport for mobile devices (more reliable during orientation change)
-        const width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
-        const height = document.documentElement.scrollHeight;
+        let width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
+        let height = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
+        
+        // Check screen.orientation for dimension swapping
+        const actualOrientation = window.screen?.orientation?.type || 
+                                  (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
+        const isActuallyPortrait = actualOrientation.includes('portrait');
+        
+        // If dimensions don't match orientation, swap them
+        if (isActuallyPortrait && width > height) {
+          console.log('🎨 ChainBackground: Swapping dimensions (portrait mode but width > height)');
+          [width, height] = [height, width];
+        } else if (!isActuallyPortrait && height > width) {
+          console.log('🎨 ChainBackground: Swapping dimensions (landscape mode but height > width)');
+          [width, height] = [height, width];
+        }
+        
+        const scrollHeight = document.documentElement.scrollHeight;
 
         // Determine screen size: mobile < 768px, tablet 768-1024px, desktop > 1024px
         let newScreenSize: 'mobile' | 'tablet' | 'desktop';
@@ -139,10 +155,9 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         }
 
         setScreenSize(newScreenSize);
-        setDimensions({ width, height });
+        setDimensions({ width, height: scrollHeight });
         // OPTIMIZATION: Update scrollHeight cache on resize
-        const viewportHeight = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
-        scrollHeightCache.current = height - viewportHeight;
+        scrollHeightCache.current = scrollHeight - height;
         // Mark as ready after first dimension update
         setIsReady(true);
       }, 50);
@@ -168,15 +183,43 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       // Wave 1: requestAnimationFrame (browser may not have updated yet)
       requestAnimationFrame(() => {
         // Use visualViewport for mobile devices (more reliable)
-        const width1 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
-        const height1 = document.documentElement.scrollHeight;
-        console.log('🎨 ChainBackground: Wave 1 (RAF) -', `${width1}x${height1}`);
+        let width1 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
+        let height1 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
+        
+        // Check screen.orientation for dimension swapping
+        const actualOrientation = window.screen?.orientation?.type || 
+                                  (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
+        const isActuallyPortrait = actualOrientation.includes('portrait');
+        
+        // If dimensions don't match orientation, swap them
+        if (isActuallyPortrait && width1 > height1) {
+          [width1, height1] = [height1, width1];
+        } else if (!isActuallyPortrait && height1 > width1) {
+          [width1, height1] = [height1, width1];
+        }
+        
+        const scrollHeight1 = document.documentElement.scrollHeight;
+        console.log('🎨 ChainBackground: Wave 1 (RAF) -', `${width1}x${height1}`, 'scrollHeight:', scrollHeight1);
         
         // Wave 2: nested RAF (more reliable)
         requestAnimationFrame(() => {
-          const width2 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
-          const height2 = document.documentElement.scrollHeight;
-          console.log('🎨 ChainBackground: Wave 2 (RAF2) -', `${width2}x${height2}`);
+          let width2 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
+          let height2 = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
+          
+          // Check screen.orientation for dimension swapping
+          const actualOrientation2 = window.screen?.orientation?.type || 
+                                     (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
+          const isActuallyPortrait2 = actualOrientation2.includes('portrait');
+          
+          // If dimensions don't match orientation, swap them
+          if (isActuallyPortrait2 && width2 > height2) {
+            [width2, height2] = [height2, width2];
+          } else if (!isActuallyPortrait2 && height2 > width2) {
+            [width2, height2] = [height2, width2];
+          }
+          
+          const scrollHeight2 = document.documentElement.scrollHeight;
+          console.log('🎨 ChainBackground: Wave 2 (RAF2) -', `${width2}x${height2}`, 'scrollHeight:', scrollHeight2);
           
           let newScreenSize: 'mobile' | 'tablet' | 'desktop';
           if (width2 < 768) {
@@ -188,17 +231,31 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           }
           
           setScreenSize(newScreenSize);
-          setDimensions({ width: width2, height: height2 });
-          scrollHeightCache.current = height2 - ((typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight);
+          setDimensions({ width: width2, height: scrollHeight2 });
+          scrollHeightCache.current = scrollHeight2 - height2;
           setIsReady(true);
         });
       });
       
       // Wave 3: Backup check after 400ms (increased for real devices)
       setTimeout(() => {
-        const width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
-        const height = document.documentElement.scrollHeight;
-        console.log('🎨 ChainBackground: Wave 3 (400ms) -', `${width}x${height}`);
+        let width = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.width) || window.innerWidth;
+        let height = (typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight;
+        
+        // Check screen.orientation for dimension swapping
+        const actualOrientation = window.screen?.orientation?.type || 
+                                  (window.innerWidth > window.innerHeight ? 'landscape-primary' : 'portrait-primary');
+        const isActuallyPortrait = actualOrientation.includes('portrait');
+        
+        // If dimensions don't match orientation, swap them
+        if (isActuallyPortrait && width > height) {
+          [width, height] = [height, width];
+        } else if (!isActuallyPortrait && height > width) {
+          [width, height] = [height, width];
+        }
+        
+        const scrollHeight = document.documentElement.scrollHeight;
+        console.log('🎨 ChainBackground: Wave 3 (400ms) -', `${width}x${height}`, 'scrollHeight:', scrollHeight);
         
         let newScreenSize: 'mobile' | 'tablet' | 'desktop';
         if (width < 768) {
@@ -210,8 +267,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         }
         
         setScreenSize(newScreenSize);
-        setDimensions({ width, height });
-        scrollHeightCache.current = height - ((typeof window.visualViewport !== 'undefined' && window.visualViewport?.height) || window.innerHeight);
+        setDimensions({ width, height: scrollHeight });
+        scrollHeightCache.current = scrollHeight - height;
         setIsReady(true);
       }, 400);
     };

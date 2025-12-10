@@ -216,7 +216,7 @@ export function PortfolioSection() {
                                         codeText={t('code')}
                                         maxTags={3}
                                         priority={index === 0}
-                                        sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 768px) 80vw, 50vw"
+                                        sizes="(max-width: 640px) 340px, 600px"
                                     />
                                 </div>
                             ))}
@@ -282,7 +282,7 @@ export function PortfolioSection() {
                                         codeText={t('code')}
                                         maxTags={2}
                                         priority={index < 3}
-                                        sizes="(max-width: 768px) 45vw, (max-width: 1536px) 330px, 384px"
+                                        sizes="(max-width: 768px) 350px, (max-width: 1280px) 320px, 380px"
                                     />
                                 </div>
                             ))}
@@ -338,7 +338,7 @@ export function PortfolioSection() {
                                 codeText={t('code')}
                                 maxTags={2}
                                 priority={index < 3}
-                                sizes="(max-width: 768px) 45vw, (max-width: 1536px) 330px, 384px"
+                                sizes="220px"
                             />
                         ))}
                     </div>

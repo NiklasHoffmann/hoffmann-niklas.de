@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getRequestConfig } from "next-intl/server";
 import dynamic from "next/dynamic";
-import "./critical.css";
 import "./globals.css";
 import { ClientProviders } from "@/components/providers";
 import { ConditionalChainBackground } from "@/components/background";
@@ -81,13 +80,70 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://api.iconify.design" />
         <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
 
-        {/* Critical inline CSS for instant first paint - prevents FOUC */}
+        {/* Expanded critical inline CSS for instant first paint - prevents FOUC and render blocking */}
         <style dangerouslySetInnerHTML={{
           __html: `
-          :root{--background:0 0% 100%;--foreground:0 0% 3.6%;--accent:0 84.2% 60.2%}
-          .dark{--background:0 0% 3.6%;--foreground:0 0% 98%}
-          body{background-color:hsl(var(--background));color:hsl(var(--foreground));margin:0;opacity:1}
-          html{scroll-behavior:smooth}
+          :root{
+            --background:0 0% 100%;
+            --foreground:0 0% 3.6%;
+            --card:0 0% 100%;
+            --card-foreground:0 0% 3.6%;
+            --secondary:0 0% 96.1%;
+            --secondary-foreground:0 0% 9%;
+            --accent:0 84.2% 60.2%;
+            --accent-foreground:0 0% 100%;
+            --border:0 0% 89.8%;
+            --muted-foreground:0 0% 45.1%;
+            --transition-slow:700ms;
+            --scrollbar-track:#ffffff;
+            --scrollbar-thumb:#090909;
+          }
+          .dark{
+            --background:0 0% 3.6%;
+            --foreground:0 0% 98%;
+            --card:0 0% 3.6%;
+            --card-foreground:0 0% 98%;
+            --secondary:0 0% 14.9%;
+            --secondary-foreground:0 0% 98%;
+            --accent:0 84.2% 60.2%;
+            --accent-foreground:0 0% 3.6%;
+            --border:0 0% 14.9%;
+            --muted-foreground:0 0% 63.9%;
+            --scrollbar-track:#090909;
+            --scrollbar-thumb:#fafafa;
+          }
+          *{border-color:hsl(var(--border))}
+          html{
+            scroll-behavior:smooth;
+            scroll-snap-type:y mandatory;
+            margin:0;
+            padding:0;
+            width:100%;
+            max-width:100vw;
+            overflow-x:hidden;
+          }
+          body{
+            background-color:hsl(var(--background));
+            color:hsl(var(--foreground));
+            margin:0;
+            padding:0;
+            max-width:100vw;
+            overflow-x:hidden;
+            transition:background-color var(--transition-slow) ease-in-out,color var(--transition-slow) ease-in-out;
+          }
+          .scroll-snap-section{
+            scroll-snap-align:start;
+            scroll-snap-stop:normal;
+            min-height:100vh;
+            min-height:100dvh;
+          }
+          @media(max-width:1023px){
+            .scroll-snap-section{
+              height:100vh;
+              height:100dvh;
+              width:100vw;
+            }
+          }
         `}} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
