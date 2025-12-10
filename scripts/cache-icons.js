@@ -55,7 +55,7 @@ const iconCategories = {
         { name: 'mdi:grid', filename: 'ui-grid.svg' },
     ],
 
-    // UI & Navigation Icons (mdi:)
+    // UI & Navigation Icons (mdi: + lucide:)
     ui: [
         { name: 'mdi:chevron-right', filename: 'ui-chevron-right.svg' },
         { name: 'mdi:chevron-left', filename: 'ui-chevron-left.svg' },
@@ -64,6 +64,31 @@ const iconCategories = {
         { name: 'mdi:send', filename: 'ui-send.svg' },
         { name: 'mdi:lightning-bolt', filename: 'ui-lightning.svg' },
         { name: 'mdi:lightbulb-on', filename: 'ui-lightbulb.svg' },
+        // Lucide replacements
+        { name: 'lucide:external-link', filename: 'ui-external-link.svg' },
+        { name: 'lucide:github', filename: 'ui-github.svg' },
+        { name: 'lucide:moon', filename: 'ui-moon.svg' },
+        { name: 'lucide:sun', filename: 'ui-sun.svg' },
+        { name: 'lucide:sparkles', filename: 'ui-sparkles.svg' },
+        { name: 'lucide:mail', filename: 'ui-mail.svg' },
+        { name: 'lucide:map-pin', filename: 'ui-map-pin.svg' },
+        { name: 'lucide:loader-2', filename: 'ui-loader.svg' },
+        { name: 'lucide:check-circle', filename: 'ui-check-circle.svg' },
+        { name: 'lucide:alert-circle', filename: 'ui-alert-circle.svg' },
+        { name: 'lucide:x', filename: 'ui-x.svg' },
+        { name: 'lucide:instagram', filename: 'ui-instagram.svg' },
+        { name: 'lucide:arrow-left', filename: 'ui-arrow-left.svg' },
+        { name: 'lucide:trending-up', filename: 'ui-trending-up.svg' },
+        { name: 'lucide:users', filename: 'ui-users.svg' },
+        { name: 'lucide:clock', filename: 'ui-clock.svg' },
+        { name: 'lucide:eye', filename: 'ui-eye.svg' },
+        { name: 'lucide:mouse-pointer-click', filename: 'ui-mouse-click.svg' },
+        { name: 'lucide:monitor', filename: 'ui-monitor.svg' },
+        { name: 'lucide:smartphone', filename: 'ui-smartphone.svg' },
+        { name: 'lucide:globe', filename: 'ui-globe.svg' },
+        { name: 'lucide:bar-chart-3', filename: 'ui-bar-chart.svg' },
+        { name: 'lucide:activity', filename: 'ui-activity.svg' },
+        { name: 'lucide:tablet', filename: 'ui-tablet.svg' },
     ],
 
     // About Section Timeline Icons

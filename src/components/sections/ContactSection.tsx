@@ -4,7 +4,6 @@ import { useState, useEffect, memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { contactApi } from '@/lib/api';
 import { ContactFormData } from '@/types';
-import { Mail, MapPin, Loader2, CheckCircle, AlertCircle, X, Send } from 'lucide-react';
 import { Icon } from '@/components/icons/LocalIcon';
 import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { TRANSITIONS } from '@/lib/transitions';
@@ -97,7 +96,7 @@ const ModalForm = memo(function ModalForm({
           style={{ transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out' }}
           aria-label="Close modal"
         >
-          <X className='w-4 h-4' />
+          <Icon icon="lucide:x" className='w-4 h-4' />
         </button>
 
         {/* Modal Header */}
@@ -189,14 +188,14 @@ const ModalForm = memo(function ModalForm({
 
           {submitState === 'success' && (
             <div className='flex items-center gap-2 p-2.5 bg-green-500/10 border border-green-500/50 rounded-lg text-green-500 text-xs'>
-              <CheckCircle className='w-3.5 h-3.5 flex-shrink-0' />
+              <Icon icon="lucide:check-circle" className='w-3.5 h-3.5 flex-shrink-0' />
               <p className='font-medium'>{t('form.success')}</p>
             </div>
           )}
 
           {submitState === 'error' && (
             <div className='flex items-center gap-2 p-2.5 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500 text-xs'>
-              <AlertCircle className='w-3.5 h-3.5 flex-shrink-0' />
+              <Icon icon="lucide:alert-circle" className='w-3.5 h-3.5 flex-shrink-0' />
               <p className='font-medium'>{errorMessage || t('form.error')}</p>
             </div>
           )}
@@ -215,12 +214,12 @@ const ModalForm = memo(function ModalForm({
           >
             {loading ? (
               <>
-                <Loader2 className='w-4 h-4 animate-spin' />
+                <Icon icon="lucide:loader-2" className='w-4 h-4 animate-spin' />
                 {t('form.sending')}
               </>
             ) : (
               <>
-                <Send className='w-4 h-4' />
+                <Icon icon="lucide:send" className='w-4 h-4' />
                 {t('form.submit')}
               </>
             )}
@@ -360,14 +359,14 @@ export function ContactSection() {
 
       {submitState === 'success' && (
         <div className='flex items-center gap-1.5 sm:gap-2 p-2 sm:p-2.5 bg-green-500/10 border border-green-500/50 rounded-lg text-green-500 text-[10px] sm:text-xs' role="alert" aria-live="polite">
-          <CheckCircle className='w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0' aria-hidden="true" />
+          <Icon icon="lucide:check-circle" className='w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0' aria-hidden="true" />
           <p className='font-medium'>{t('form.success')}</p>
         </div>
       )}
 
       {submitState === 'error' && (
         <div className='flex items-center gap-1.5 sm:gap-2 p-2 sm:p-2.5 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500 text-[10px] sm:text-xs' role="alert" aria-live="assertive">
-          <AlertCircle className='w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0' aria-hidden="true" />
+          <Icon icon="lucide:alert-circle" className='w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0' aria-hidden="true" />
           <p className='font-medium'>{errorMessage || t('form.error')}</p>
         </div>
       )}
@@ -387,7 +386,7 @@ export function ContactSection() {
       >
         {loading ? (
           <>
-            <Loader2 className='w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin' aria-hidden="true" />
+            <Icon icon="lucide:loader-2" className='w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin' aria-hidden="true" />
             {t('form.sending')}
           </>
         ) : (
@@ -411,11 +410,11 @@ export function ContactSection() {
           {/* Compact contact info + button */}
           <div className="flex gap-2 text-[10px]">
             <div className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded border border-border">
-              <Mail className="w-3 h-3 text-accent" />
+              <Icon icon="lucide:mail" className="w-3 h-3 text-accent" />
               <span className="text-muted-foreground">Email</span>
             </div>
             <div className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded border border-border">
-              <MapPin className="w-3 h-3 text-accent" />
+              <Icon icon="lucide:map-pin" className="w-3 h-3 text-accent" />
               <span className="text-muted-foreground">DE</span>
             </div>
           </div>
@@ -430,7 +429,7 @@ export function ContactSection() {
             }}
             className="px-4 py-2 text-foreground rounded-lg font-semibold text-xs flex items-center gap-2"
           >
-            <Send className="w-3 h-3" />
+            <Icon icon="lucide:send" className="w-3 h-3" />
             {t('writeMe')}
           </button>
         </SectionRight>
@@ -457,7 +456,7 @@ export function ContactSection() {
                 <div className='p-2.5 sm:p-3 md:p-4 lg:p-5 bg-card rounded-xl border border-border hover:border-accent/50 transition-all duration-700 hover:shadow-lg hover:shadow-accent/10 group flex flex-col justify-center' style={{ transition: TRANSITIONS.borderAndShadow }}>
                   <div className='flex flex-col lg:flex-row items-center lg:items-start text-center lg:text-left gap-1.5 sm:gap-2'>
                     <div className='p-1.5 sm:p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
-                      <Mail className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent' />
+                      <Icon icon="lucide:mail" className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent' />
                     </div>
                     <div className='min-w-0 w-full'>
                       <h3 className='font-semibold text-xs sm:text-sm md:text-base mb-0.5'>{t('email')}</h3>
@@ -476,7 +475,7 @@ export function ContactSection() {
                 <div className='p-2.5 sm:p-3 md:p-4 lg:p-5 bg-card rounded-xl border border-border hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10 group flex flex-col justify-center' style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}>
                   <div className='flex flex-col lg:flex-row items-center lg:items-start text-center lg:text-left gap-1.5 sm:gap-2'>
                     <div className='p-1.5 sm:p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
-                      <MapPin className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent' />
+                      <Icon icon="lucide:map-pin" className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent' />
                     </div>
                     <div>
                       <h3 className='font-semibold text-xs sm:text-sm md:text-base mb-0.5'>{t('location')}</h3>
@@ -512,7 +511,7 @@ export function ContactSection() {
                   }}
                   className='w-full px-4 py-3 text-foreground rounded-lg font-semibold text-sm flex items-center justify-center gap-2 hover:brightness-110'
                 >
-                  <Send className='w-4 h-4' />
+                  <Icon icon="lucide:send" className='w-4 h-4' />
                   {t('writeMe')}
                 </button>
               )}

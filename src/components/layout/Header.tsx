@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useMemo, memo, useRef, useLayoutEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';

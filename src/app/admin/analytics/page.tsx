@@ -4,10 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import {
-    ArrowLeft, TrendingUp, Users, Clock, Eye, MousePointerClick,
-    Monitor, Smartphone, Globe, BarChart3, Activity, Tablet, Moon, Sun
-} from 'lucide-react';
+import { Icon } from '@/components/icons/LocalIcon';
 
 interface AnalyticsData {
     overview: {
@@ -152,7 +149,7 @@ export default function AnalyticsPage() {
                         href="/admin"
                         className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 mb-4 transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" />
+                        <Icon icon="lucide:arrow-left" className="w-4 h-4" />
                         Back to Dashboard
                     </Link>
 
@@ -191,7 +188,7 @@ export default function AnalyticsPage() {
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                         <div className="flex items-center justify-between mb-4">
                             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                <Icon icon="lucide:users" className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                             </div>
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
@@ -204,7 +201,7 @@ export default function AnalyticsPage() {
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                         <div className="flex items-center justify-between mb-4">
                             <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                                <Eye className="w-6 h-6 text-green-600 dark:text-green-400" />
+                                <Icon icon="lucide:eye" className="w-6 h-6 text-green-600 dark:text-green-400" />
                             </div>
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
@@ -217,7 +214,7 @@ export default function AnalyticsPage() {
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                         <div className="flex items-center justify-between mb-4">
                             <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                                <Activity className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                                <Icon icon="lucide:activity" className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                             </div>
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
@@ -230,7 +227,7 @@ export default function AnalyticsPage() {
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                         <div className="flex items-center justify-between mb-4">
                             <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                                <Clock className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                                <Icon icon="lucide:clock" className="w-6 h-6 text-orange-600 dark:text-orange-400" />
                             </div>
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
@@ -243,7 +240,7 @@ export default function AnalyticsPage() {
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                         <div className="flex items-center justify-between mb-4">
                             <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
-                                <TrendingUp className="w-6 h-6 text-red-600 dark:text-red-400" />
+                                <Icon icon="lucide:trending-up" className="w-6 h-6 text-red-600 dark:text-red-400" />
                             </div>
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
@@ -256,7 +253,7 @@ export default function AnalyticsPage() {
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                         <div className="flex items-center justify-between mb-4">
                             <div className="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-                                <BarChart3 className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                                <Icon icon="lucide:bar-chart-3" className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                             </div>
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
@@ -269,7 +266,7 @@ export default function AnalyticsPage() {
                 {/* Device Statistics - Full Width */}
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-8">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <Monitor className="w-5 h-5" />
+                        <Icon icon="lucide:monitor" className="w-5 h-5" />
                         Device Breakdown
                     </h3>
 
@@ -278,7 +275,7 @@ export default function AnalyticsPage() {
                         <div>
                             <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
-                                    <Smartphone className="w-4 h-4 text-blue-600" />
+                                    <Icon icon="lucide:smartphone" className="w-4 h-4 text-blue-600" />
                                     <span className="text-sm text-gray-600 dark:text-gray-400">Mobile</span>
                                 </div>
                                 <span className="text-sm font-medium text-gray-900 dark:text-white">
@@ -297,7 +294,7 @@ export default function AnalyticsPage() {
                         <div>
                             <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
-                                    <Tablet className="w-4 h-4 text-green-600" />
+                                    <Icon icon="lucide:tablet" className="w-4 h-4 text-green-600" />
                                     <span className="text-sm text-gray-600 dark:text-gray-400">Tablet</span>
                                 </div>
                                 <span className="text-sm font-medium text-gray-900 dark:text-white">
@@ -316,7 +313,7 @@ export default function AnalyticsPage() {
                         <div>
                             <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
-                                    <Monitor className="w-4 h-4 text-purple-600" />
+                                    <Icon icon="lucide:monitor" className="w-4 h-4 text-purple-600" />
                                     <span className="text-sm text-gray-600 dark:text-gray-400">Desktop</span>
                                 </div>
                                 <span className="text-sm font-medium text-gray-900 dark:text-white">
@@ -338,7 +335,7 @@ export default function AnalyticsPage() {
                     {/* Browser Stats */}
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                            <Globe className="w-5 h-5" />
+                            <Icon icon="lucide:globe" className="w-5 h-5" />
                             Top Browsers
                         </h3>
 
@@ -374,7 +371,7 @@ export default function AnalyticsPage() {
                     {/* Theme Preference */}
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                            <Sun className="w-5 h-5" />
+                            <Icon icon="lucide:sun" className="w-5 h-5" />
                             Theme Preference
                         </h3>
 
@@ -389,9 +386,9 @@ export default function AnalyticsPage() {
                                     <div key={index}>
                                         <div className="flex items-center justify-between mb-2">
                                             <div className="flex items-center gap-2">
-                                                {theme.theme === 'dark' ? <Moon className="w-4 h-4" /> :
-                                                    theme.theme === 'light' ? <Sun className="w-4 h-4" /> :
-                                                        <Monitor className="w-4 h-4" />}
+                                                {theme.theme === 'dark' ? <Icon icon="lucide:moon" className="w-4 h-4" /> :
+                                                    theme.theme === 'light' ? <Icon icon="lucide:sun" className="w-4 h-4" /> :
+                                                        <Icon icon="lucide:monitor" className="w-4 h-4" />}
                                                 <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
                                                     {theme.theme || 'Unknown'}
                                                 </span>
@@ -419,7 +416,7 @@ export default function AnalyticsPage() {
                     {/* Traffic Sources */}
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                            <TrendingUp className="w-5 h-5" />
+                            <Icon icon="lucide:trending-up" className="w-5 h-5" />
                             Traffic Sources
                         </h3>
 
@@ -456,7 +453,7 @@ export default function AnalyticsPage() {
                 {/* Top Clicks */}
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-8">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <MousePointerClick className="w-5 h-5" />
+                        <Icon icon="lucide:mouse-pointer-click" className="w-5 h-5" />
                         Top Clicks
                     </h3>
 
@@ -492,7 +489,7 @@ export default function AnalyticsPage() {
                 {/* Daily Activity Chart */}
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                        <Activity className="w-5 h-5" />
+                        <Icon icon="lucide:activity" className="w-5 h-5" />
                         Daily Activity
                     </h3>
 
@@ -560,3 +557,4 @@ export default function AnalyticsPage() {
         </div>
     );
 }
+

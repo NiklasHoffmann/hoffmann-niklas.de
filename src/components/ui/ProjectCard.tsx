@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ExternalLink, Github } from 'lucide-react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { Project } from '@/types';
 
 interface ProjectCardProps {
@@ -76,7 +76,7 @@ export function ProjectCard({
                             }}
                             aria-label={`View ${titleText} demo`}
                         >
-                            <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                            <Icon icon="lucide:external-link" className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                             {demoText}
                         </a>
                     )}
@@ -89,7 +89,7 @@ export function ProjectCard({
                             style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out' }}
                             aria-label={`View ${titleText} source code`}
                         >
-                            <Github className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                            <Icon icon="lucide:github" className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                             {codeText}
                         </a>
                     )}

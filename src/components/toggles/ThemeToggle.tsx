@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { Moon, Sun } from 'lucide-react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 
 export function ThemeToggle() {
@@ -31,7 +31,7 @@ export function ThemeToggle() {
                 aria-label="Toggle theme"
                 disabled
             >
-                <Moon className="w-5 h-5 text-foreground" />
+                <Icon icon="lucide:moon" className="w-5 h-5 text-foreground" />
             </button>
         );
     }
@@ -65,8 +65,8 @@ export function ThemeToggle() {
             aria-label="Toggle theme"
             title={theme === 'dark' ? "Wechsel zu hellem Modus" : "Switch to dark mode"}
         >
-            <Sun className={`w-5 h-5 text-foreground absolute transition-all duration-700 ease-in-out ${theme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'}`} />
-            <Moon className={`w-5 h-5 text-foreground absolute transition-all duration-700 ease-in-out ${theme === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'}`} />
+            <Icon icon="lucide:sun" className={`w-5 h-5 text-foreground absolute transition-all duration-700 ease-in-out ${theme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'}`} />
+            <Icon icon="lucide:moon" className={`w-5 h-5 text-foreground absolute transition-all duration-700 ease-in-out ${theme === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'}`} />
             {isActive && (
                 <span className="absolute inset-0 rounded-lg blur-sm transition-opacity duration-700 ease-in-out bg-white/15" />
             )}

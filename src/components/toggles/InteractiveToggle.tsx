@@ -1,6 +1,6 @@
 'use client';
 
-import { Sparkles, SparklesIcon } from 'lucide-react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useTheme } from 'next-themes';
 
@@ -46,11 +46,11 @@ export function InteractiveToggle() {
             title={isInteractive ? "Interaktiven Modus ausschalten" : "Interaktiven Modus einschalten"}
         >
             {/* Filled sparkles - shown when active */}
-            <Sparkles className={`h-5 w-5 text-foreground absolute transition-all duration-700 ease-in-out ${isInteractive ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-180 scale-0'
+            <Icon icon="lucide:sparkles" className={`h-5 w-5 text-foreground absolute transition-all duration-700 ease-in-out ${isInteractive ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-180 scale-0'
                 }`} />
 
             {/* Outline sparkles - shown when inactive */}
-            <SparklesIcon className={`h-5 w-5 text-foreground absolute transition-all duration-700 ease-in-out ${!isInteractive ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-180 scale-0'
+            <Icon icon="lucide:sparkles" className={`h-5 w-5 text-foreground absolute transition-all duration-700 ease-in-out ${!isInteractive ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-180 scale-0'
                 }`} />
 
             {/* Glow effect when active */}

@@ -2,7 +2,6 @@
 
 import { memo, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Github, Mail, Instagram } from 'lucide-react';
 import { Icon } from '@/components/icons/LocalIcon';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -28,9 +27,9 @@ function FooterComponent() {
     }, []);
 
     const socialLinks = [
-        { icon: Github, href: 'https://github.com/NiklasHoffmann', label: 'GitHub' },
-        { icon: Instagram, href: 'https://instagram.com/fotolaend', label: 'LinkedIn' },
-        { icon: Mail, href: 'mailto:mail@hoffmann-niklas.de', label: 'Email' },
+        { icon: 'lucide:github', href: 'https://github.com/NiklasHoffmann', label: 'GitHub' },
+        { icon: 'lucide:instagram', href: 'https://instagram.com/fotolaend', label: 'LinkedIn' },
+        { icon: 'lucide:mail', href: 'mailto:mail@hoffmann-niklas.de', label: 'Email' },
     ];
 
     return (
@@ -42,8 +41,7 @@ function FooterComponent() {
                 </h3>
                 <p className="text-xs text-muted-foreground mb-2">{t('brand')}</p>
                 <div className="flex gap-2">
-                    {socialLinks.map((social) => {
-                        const IconComp = social.icon;
+                {isMounted && socialLinks.map((social) => {
                         return (
                             <a
                                 key={social.label}
@@ -53,7 +51,7 @@ function FooterComponent() {
                                 className="p-2 rounded-lg bg-secondary/50 border border-border"
                                 aria-label={social.label}
                             >
-                                <IconComp className="w-4 h-4" />
+                                <Icon icon={social.icon} className="w-4 h-4" />
                             </a>
                         );
                     })}
@@ -109,7 +107,6 @@ function FooterComponent() {
                         <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">{t('followMe')}</h4>
                         <div className="flex gap-3 sm:gap-4 justify-center">
                             {socialLinks.map((social) => {
-                                const IconComp = social.icon;
                                 return (
                                     <a
                                         key={social.label}
@@ -120,7 +117,7 @@ function FooterComponent() {
                                         style={{ transition: TRANSITIONS.backgroundAndBorder }}
                                         aria-label={social.label}
                                     >
-                                        <IconComp className="w-5 h-5" />
+                                        <Icon icon={social.icon} className="w-5 h-5" />
                                     </a>
                                 );
                             })}

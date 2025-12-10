@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Icon } from '@/components/icons/LocalIcon';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { projects } from '@/data/portfolio';
 import { SectionHeader, ProjectCard, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
@@ -230,7 +230,7 @@ export function PortfolioSection() {
                             className="absolute left-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out z-10"
                             aria-label="Previous project"
                         >
-                            <ChevronLeft className="w-5 h-5" />
+                            <Icon icon="mdi:chevron-left" className="w-5 h-5" />
                         </button>
                     )}
                     {currentSlide < projects.length - 1 && (
@@ -239,7 +239,7 @@ export function PortfolioSection() {
                             className="absolute right-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out z-10"
                             aria-label="Next project"
                         >
-                            <ChevronRight className="w-5 h-5" />
+                            <Icon icon="mdi:chevron-right" className="w-5 h-5" />
                         </button>
                     )}
 
@@ -295,7 +295,7 @@ export function PortfolioSection() {
                                 className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
                                 aria-label="Scroll left"
                             >
-                                <ChevronLeft className="w-6 h-6" />
+                                <Icon icon="mdi:chevron-left" className="w-6 h-6" />
                             </button>
                         )}
                         {canScrollRight && (
@@ -304,7 +304,7 @@ export function PortfolioSection() {
                                 className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
                                 aria-label="Scroll right"
                             >
-                                <ChevronRight className="w-6 h-6" />
+                                <Icon icon="mdi:chevron-right" className="w-6 h-6" />
                             </button>
                         )}
 

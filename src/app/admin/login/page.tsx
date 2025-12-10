@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { Icon } from '@/components/icons/LocalIcon';
 
 declare global {
     interface Window {
@@ -82,7 +82,7 @@ export default function AdminLogin() {
                     href="/"
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
                 >
-                    <ArrowLeft className="w-4 h-4" />
+                    <Icon icon="lucide:arrow-left" className="w-4 h-4" />
                     Zurück zur Startseite
                 </Link>
 
