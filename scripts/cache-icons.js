@@ -47,6 +47,7 @@ const iconCategories = {
         { name: 'vscode-icons:file-type-node', filename: 'service-backend.svg', keepColors: true },
         { name: 'token-branded:wallet-connect', filename: 'service-wallet.svg', keepColors: true },
         { name: 'skill-icons:expressjs-dark', filename: 'brand-express.svg', keepColors: true },
+        { name: 'logos:visual-studio-code', filename: 'brand-vscode.svg', keepColors: true },
     ],
 
     // Service Category Icons (for ServicesSection cube)
@@ -114,6 +115,8 @@ const iconCategories = {
         { name: 'mdi:close', filename: 'chat-close.svg' },
         { name: 'mdi:window-minimize', filename: 'chat-minimize.svg' },
         { name: 'mdi:window-maximize', filename: 'chat-maximize.svg' },
+        { name: 'mdi:wifi-off', filename: 'chat-wifi-off.svg' },
+        { name: 'mdi:message-outline', filename: 'chat-message-outline.svg' },
     ],
 
     // Admin Panel Icons
@@ -126,15 +129,34 @@ const iconCategories = {
         { name: 'mdi:check-circle', filename: 'admin-check.svg' },
         { name: 'mdi:alert-circle', filename: 'admin-alert.svg' },
         { name: 'mdi:loading', filename: 'admin-loader.svg' },
+        { name: 'mdi:shield-account', filename: 'admin-shield-account.svg' },
+        { name: 'mdi:logout', filename: 'admin-logout.svg' },
+        { name: 'mdi:account-group', filename: 'admin-account-group.svg' },
+        { name: 'mdi:circle', filename: 'admin-circle.svg' },
+        { name: 'mdi:clock-fast', filename: 'admin-clock-fast.svg' },
+        { name: 'mdi:chat-processing', filename: 'admin-chat-processing.svg' },
+        { name: 'mdi:email-outline', filename: 'admin-email-outline.svg' },
+        { name: 'mdi:chart-line', filename: 'admin-chart-line.svg' },
+        { name: 'mdi:cog', filename: 'admin-cog.svg' },
+        { name: 'mdi:arrow-right', filename: 'admin-arrow-right.svg' },
+        { name: 'mdi:arrow-left', filename: 'admin-arrow-left.svg' },
+        { name: 'mdi:delete-sweep', filename: 'admin-delete-sweep.svg' },
+        { name: 'mdi:delete-alert', filename: 'admin-delete-alert.svg' },
+        { name: 'mdi:block-helper', filename: 'admin-block-helper.svg' },
     ],
 
     // Legal Pages Icons
     legal: [
         { name: 'mdi:file-document', filename: 'legal-document.svg' },
         { name: 'mdi:gavel', filename: 'legal-gavel.svg' },
-        { name: 'mdi:shield-check', filename: 'legal-shield.svg' },
         { name: 'mdi:cookie', filename: 'legal-cookie.svg' },
         { name: 'mdi:lock', filename: 'legal-lock.svg' },
+        { name: 'mdi:account', filename: 'legal-account.svg' },
+        { name: 'mdi:email', filename: 'legal-email.svg' },
+        { name: 'mdi:phone', filename: 'legal-phone.svg' },
+        { name: 'mdi:file-document-edit', filename: 'legal-document-edit.svg' },
+        { name: 'mdi:shield-alert', filename: 'legal-shield-alert.svg' },
+        { name: 'mdi:open-in-new', filename: 'legal-open-new.svg' },
     ],
 };
 
@@ -145,10 +167,8 @@ function downloadIcon(iconName, filename, category, keepColors = false) {
     return new Promise((resolve, reject) => {
         // Iconify API endpoint
         // keepColors = true: Download mit originalen Farben (kein color parameter)
-        // keepColors = false: Download mit currentColor für Theme-Kompatibilität
-        const url = keepColors 
-            ? `https://api.iconify.design/${iconName}.svg`
-            : `https://api.iconify.design/${iconName}.svg?color=%23currentColor`;
+        // keepColors = false: Download OHNE color parameter (SVG behält fill/stroke Attribute für CSS mask)
+        const url = `https://api.iconify.design/${iconName}.svg`;
         
         console.log(`  [${category}] ${iconName} → ${filename}${keepColors ? ' (colors)' : ''}`);
         
@@ -164,11 +184,6 @@ function downloadIcon(iconName, filename, category, keepColors = false) {
             });
             
             res.on('end', () => {
-                // Nur bei currentColor Icons: Fix #currentColor → currentColor
-                if (!keepColors) {
-                    data = data.replace(/#currentColor/g, 'currentColor');
-                }
-                
                 const filepath = path.join(outputDir, filename);
                 fs.writeFileSync(filepath, data);
                 resolve();

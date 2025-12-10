@@ -128,14 +128,14 @@ export function LanguageToggle() {
                                 ? 'linear-gradient(to bottom right, #1d4ed8, #ffffff, #dc2626)'
                                 : locale === 'es'
                                     ? 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)'
-                                    : 'radial-gradient(circle at center, #dc2626 30%, #ffffff 30%)', // Japan flag
+                                    : 'radial-gradient(circle at center, #dc2626 0%, #dc262680 35%, #ffffff00 50%)', // Japan flag - soft fade
                     opacity: isActive ? 1 : 0,
                 }}
             />
 
             {/* Current language text */}
             <span
-                className={`relative z-10 font-bold ${isActive ? (locale === 'ja' ? 'text-red-600 drop-shadow-[0_2px_4px_rgba(255,255,255,0.8)]' : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]') : 'text-foreground'
+                className={`relative z-10 font-bold ${isActive ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-foreground'
                     }`}
             >
                 {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : locale === 'es' ? 'ES' : 'JA'}

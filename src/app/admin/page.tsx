@@ -173,7 +173,7 @@ export default function AdminPage() {
                                     {stats.totalSessions}
                                 </p>
                             </div>
-                            <Icon icon="mdi:account-group" className="w-12 h-12 text-blue-500 opacity-50" />
+                            <Icon icon="mdi:account-group" className="w-12 h-12 opacity-30" style={{ color: isDark ? '#60a5fa' : '#3b82f6' }} />
                         </div>
                     </div>
 
@@ -199,7 +199,7 @@ export default function AdminPage() {
                                     {stats.messagesToday}
                                 </p>
                             </div>
-                            <Icon icon="mdi:message-text" className="w-12 h-12 text-green-500 opacity-50" />
+                            <Icon icon="mdi:message-text" className="w-12 h-12 opacity-30" style={{ color: isDark ? '#34d399' : '#10b981' }} />
                         </div>
                     </div>
 
@@ -225,7 +225,7 @@ export default function AdminPage() {
                                     {stats.activeNow}
                                 </p>
                             </div>
-                            <Icon icon="mdi:circle" className="w-12 h-12 text-green-500" />
+                            <Icon icon="mdi:circle" className="w-12 h-12" style={{ color: isDark ? '#34d399' : '#10b981' }} />
                         </div>
                     </div>
 
@@ -251,7 +251,7 @@ export default function AdminPage() {
                                     {stats.avgResponseTime}
                                 </p>
                             </div>
-                            <Icon icon="mdi:clock-fast" className="w-12 h-12 text-amber-500 opacity-50" />
+                            <Icon icon="mdi:clock-fast" className="w-12 h-12 opacity-30" style={{ color: isDark ? '#fbbf24' : '#f59e0b' }} />
                         </div>
                     </div>
                 </div>

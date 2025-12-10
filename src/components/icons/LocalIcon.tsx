@@ -60,6 +60,7 @@ const ICON_MAP: Record<string, { file: string; colored?: boolean }> = {
     'vscode-icons:file-type-node': { file: 'service-backend', colored: true },
     'token-branded:wallet-connect': { file: 'service-wallet', colored: true },
     'skill-icons:expressjs-dark': { file: 'brand-express', colored: true },
+    'logos:visual-studio-code': { file: 'brand-vscode', colored: true },
 
     // Service Category Icons (use currentColor)
     'mdi:cube-outline': { file: 'ui-cube-outline' },
@@ -117,6 +118,8 @@ const ICON_MAP: Record<string, { file: string; colored?: boolean }> = {
     'mdi:chat-outline': { file: 'chat-outline' },
     'mdi:window-minimize': { file: 'chat-minimize' },
     'mdi:window-maximize': { file: 'chat-maximize' },
+    'mdi:wifi-off': { file: 'chat-wifi-off' },
+    'mdi:message-outline': { file: 'chat-message-outline' },
 
     // Admin Panel Icons (use currentColor)
     'mdi:account-circle': { file: 'admin-user' },
@@ -127,12 +130,32 @@ const ICON_MAP: Record<string, { file: string; colored?: boolean }> = {
     'mdi:check-circle': { file: 'admin-check' },
     'mdi:alert-circle': { file: 'admin-alert' },
     'mdi:loading': { file: 'admin-loader' },
+    'mdi:shield-account': { file: 'admin-shield-account' },
+    'mdi:logout': { file: 'admin-logout' },
+    'mdi:account-group': { file: 'admin-account-group' },
+    'mdi:circle': { file: 'admin-circle' },
+    'mdi:clock-fast': { file: 'admin-clock-fast' },
+    'mdi:chat-processing': { file: 'admin-chat-processing' },
+    'mdi:email-outline': { file: 'admin-email-outline' },
+    'mdi:chart-line': { file: 'admin-chart-line' },
+    'mdi:cog': { file: 'admin-cog' },
+    'mdi:arrow-right': { file: 'admin-arrow-right' },
+    'mdi:arrow-left': { file: 'admin-arrow-left' },
+    'mdi:delete-sweep': { file: 'admin-delete-sweep' },
+    'mdi:delete-alert': { file: 'admin-delete-alert' },
+    'mdi:block-helper': { file: 'admin-block-helper' },
 
     // Legal Pages Icons (use currentColor)
     'mdi:file-document': { file: 'legal-document' },
     'mdi:gavel': { file: 'legal-gavel' },
     'mdi:cookie': { file: 'legal-cookie' },
     'mdi:lock': { file: 'legal-lock' },
+    'mdi:account': { file: 'legal-account' },
+    'mdi:email': { file: 'legal-email' },
+    'mdi:phone': { file: 'legal-phone' },
+    'mdi:file-document-edit': { file: 'legal-document-edit' },
+    'mdi:shield-alert': { file: 'legal-shield-alert' },
+    'mdi:open-in-new': { file: 'legal-open-new' },
 };
 
 /**
@@ -191,15 +214,23 @@ export function Icon({ icon, className = '', width, height, style }: IconProps) 
         );
     }
 
-    // Monochrome icons: use <img> tag
-    // SVGs with stroke="currentColor" or fill="currentColor" will inherit text color
+    // Monochrome icons: use inline style with color
+    // The SVG files have currentColor which will inherit from the text color
     return (
-        <img
-            src={`/icons/${localIcon}.svg`}
-            alt=""
+        <span
             className={className}
-            style={inlineStyle}
-            draggable={false}
+            style={{
+                ...inlineStyle,
+                maskImage: `url(/icons/${localIcon}.svg)`,
+                WebkitMaskImage: `url(/icons/${localIcon}.svg)`,
+                maskRepeat: 'no-repeat',
+                WebkitMaskRepeat: 'no-repeat',
+                maskPosition: 'center',
+                WebkitMaskPosition: 'center',
+                maskSize: 'contain',
+                WebkitMaskSize: 'contain',
+                backgroundColor: 'currentColor',
+            }}
             aria-hidden="true"
         />
     );
