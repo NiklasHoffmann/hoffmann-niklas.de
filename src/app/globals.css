@@ -34,10 +34,11 @@ body {
   min-height: 100dvh;
 }
 
-/* Mobile: Fixed height for better snap behavior */
+/* Mobile: Use largest viewport height to prevent jumping when browser UI appears/disappears */
 @media (max-width: 1023px) {
   .scroll-snap-section {
-    height: 100dvh;
+    height: 100vh;
+    height: 100lvh; /* Large viewport height - ignores browser UI */
   }
 }
 
