@@ -23,13 +23,14 @@
 
 ### 🎨 Portfolio & Präsentation
 - **Moderne One-Page-Website** mit Scroll-Snap-Navigation
-- **Mehrsprachigkeit** (Deutsch/Englisch) mit next-intl
-- **Dark/Light Mode** mit next-themes
+- **Mehrsprachigkeit** (Deutsch/Englisch/Spanisch) mit next-intl
+- **Dark/Light Mode** mit 700ms smooth transitions
 - **Responsive Design** für alle Geräte
 - **Animierte Chain-Dekoration** als Navigation-Guide
 - **Portfolio-Showcase** mit Projekt-Cards
 - **YouTube-Integration** für Video-Content
 - **Kontaktformular** mit MongoDB-Speicherung
+- **Local Icon Caching** - Keine CORS-Probleme, Theme-aware Icons
 
 ### 💬 Live-Chat-System
 - **Real-time Chat** mit Socket.io
@@ -40,6 +41,7 @@
 - **Quick-Reply-Templates** (DE/EN)
 - **Session-Persistenz** mit LocalStorage
 - **User-Blocking** für Moderation
+- **Mobile-optimiert** mit Touch-Gesten
 
 ### 🛠️ Admin-Features
 - **Dediziertes Admin-Panel** (`/admin`) ohne Sprach-Prefix
@@ -48,6 +50,7 @@
 - **Message-History** mit Read/Unread Status
 - **Bulk-Operations** (Delete, Block)
 - **Auto-Refresh** alle 30 Sekunden
+- **Analytics-Dashboard** mit Besucherstatistiken
 
 ## 🔧 Tech Stack
 
@@ -58,8 +61,7 @@
 - **Tailwind CSS** - Utility-First Styling
 - **next-intl** - Internationalisierung
 - **next-themes** - Theme Management
-- **Iconify** - Icon Library
-- **Lucide React** - Icon Components
+- **Local Icon Caching** - Cached SVG Icons (eliminiert CORS-Probleme)
 
 ### Backend & Real-time
 - **Socket.io** - WebSocket-Verbindungen
@@ -109,6 +111,8 @@ hoffmann-niklas.de/
 │   │   │   ├── ProjectCard.tsx
 │   │   │   └── SectionHeader.tsx
 │   │   ├── icons/              # Icon-Komponenten
+│   │   │   ├── LocalIcon.tsx   # Lokales Icon-System
+│   │   │   └── TechIcons.tsx   # Tech-Stack Icons
 │   │   ├── AboutSection.tsx
 │   │   ├── ChatWidget.tsx
 │   │   ├── ChatWindow.tsx
@@ -159,10 +163,14 @@ hoffmann-niklas.de/
 │       └── request.ts
 │
 ├── public/                     # Statische Assets
-├── docs/                       # Dokumentation
-├── server.js                   # Socket.io Server
-├── ecosystem.config.js         # PM2 Configuration
-├── middleware.ts               # Next.js Middleware (i18n)
+│   ├── icons/                 # Cached SVG Icons (auto-generated)
+│   └── favicons/              # Favicon Varianten
+├── scripts/                   # Build & Setup Scripts
+│   └── cache-icons.js         # Icon-Caching-System
+├── docs/                      # Dokumentation
+├── server.js                  # Socket.io Server
+├── ecosystem.config.js        # PM2 Configuration
+├── middleware.ts              # Next.js Middleware (i18n)
 └── package.json
 
 ```
@@ -217,10 +225,13 @@ Die Website ist jetzt unter [http://localhost:3000](http://localhost:3000) errei
 
 ```bash
 # Development Server (Next.js + Socket.io)
-npm run dev
+npm run dev              # Startet Server (cached Icons automatisch)
+
+# Icon-System
+npm run cache-icons      # Lädt alle Icons von Iconify API
 
 # Production Build
-npm run build
+npm run build            # Erstellt Production Build (cached Icons automatisch)
 
 # Production Server starten
 npm run start
@@ -283,10 +294,19 @@ docker run -p 3000:3000 --env-file .env.local portfolio
 
 Detaillierte Dokumentation findest du in den folgenden Dateien:
 
+### Hauptdokumentation
 - **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deployment-Anleitung
 - **[TESTING.md](./TESTING.md)** - Testing-Guide
 - **[MIGRATION.md](./MIGRATION.md)** - Migration von Express zu Next.js
+
+### Technische Dokumentation
+- **[docs/ICON_SYSTEM.md](./docs/ICON_SYSTEM.md)** - Icon-Caching-System
 - **[docs/CHAIN_CONFIG.md](./docs/CHAIN_CONFIG.md)** - Chain-Rendering-Konfiguration
+- **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - System-Architektur
+- **[docs/COMPONENTS.md](./docs/COMPONENTS.md)** - Component-Übersicht
+- **[docs/API_REFERENCE.md](./docs/API_REFERENCE.md)** - API-Dokumentation
+- **[docs/PERFORMANCE.md](./docs/PERFORMANCE.md)** - Performance-Optimierungen
+- **[docs/TRANSITIONS.md](./docs/TRANSITIONS.md)** - Theme-Transition-System
 
 ## 🔌 API Referenz
 

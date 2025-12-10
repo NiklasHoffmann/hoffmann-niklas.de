@@ -14,11 +14,9 @@
     "cache-icons": "node scripts/cache-icons.js"
   },
   "dependencies": {
-    "@iconify/react": "^6.0.2",
     "axios": "^1.13.1",
     "clsx": "^2.1.1",
     "ethers": "^6.15.0",
-    "lucide-react": "^0.548.0",
     "mongoose": "^8.19.2",
     "nanoid": "^5.1.6",
     "next": "16.0.1",

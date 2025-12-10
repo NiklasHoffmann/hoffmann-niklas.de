@@ -293,8 +293,8 @@ npm start
    - Shows fallback font until custom font loads
 
 4. **Package Import Optimization**
-   - `optimizePackageImports: ['@iconify/react', 'lucide-react']`
-   - Next.js automatically tree-shakes unused icons
+   - `optimizePackageImports: ['lucide-react', 'next-intl', 'zod', 'clsx', 'tailwind-merge']`
+   - Next.js automatically tree-shakes unused components
    - Reduces bundle size significantly
 
 5. **CSS Optimization**
