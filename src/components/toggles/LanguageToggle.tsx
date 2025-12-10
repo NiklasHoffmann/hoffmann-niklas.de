@@ -128,7 +128,7 @@ export function LanguageToggle() {
                                 ? 'linear-gradient(to bottom right, #1d4ed8, #ffffff, #dc2626)'
                                 : locale === 'es'
                                     ? 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)'
-                                    : 'radial-gradient(circle at center, #dc2626 0%, #dc262680 35%, #ffffff00 50%)', // Japan flag - soft fade
+                                    : 'radial-gradient(circle at center, #dc2626 0%, #dc2626 35%, #ffffff 50%)', // Japan flag - white background with red circle
                     opacity: isActive ? 1 : 0,
                 }}
             />
@@ -141,7 +141,7 @@ export function LanguageToggle() {
                 {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : locale === 'es' ? 'ES' : 'JA'}
             </span>
 
-            {isActive && (
+            {isActive && locale !== 'ja' && (
                 <span className="absolute inset-0 rounded-lg bg-white/10 blur-sm transition-opacity duration-700 ease-in-out" />
             )}
         </button>
