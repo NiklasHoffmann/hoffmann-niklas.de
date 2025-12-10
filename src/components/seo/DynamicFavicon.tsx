@@ -79,16 +79,22 @@ export function DynamicFavicon() {
 
                 let activeSection = 'hero';
 
-                for (const sectionId of sections) {
-                    const element = document.getElementById(sectionId);
-                    if (element) {
-                        const rect = element.getBoundingClientRect();
-                        const elementTop = rect.top + scrollY;
+                // OPTIMIZATION: Batch all getBoundingClientRect calls together
+                const sectionElements = sections.map(sectionId => document.getElementById(sectionId));
+                const sectionPositions = sectionElements.map((element, index) => {
+                    if (!element) return null;
+                    const rect = element.getBoundingClientRect();
+                    return {
+                        sectionId: sections[index],
+                        elementTop: rect.top + scrollY
+                    };
+                }).filter(Boolean) as Array<{ sectionId: string; elementTop: number }>;
 
-                        // Section is active if its top is above middle of viewport
-                        if (scrollY >= elementTop - windowHeight / 2) {
-                            activeSection = sectionId;
-                        }
+                // Now iterate over cached positions (no layout reads in loop)
+                for (const { sectionId, elementTop } of sectionPositions) {
+                    // Section is active if its top is above middle of viewport
+                    if (scrollY >= elementTop - windowHeight / 2) {
+                        activeSection = sectionId;
                     }
                 }
 

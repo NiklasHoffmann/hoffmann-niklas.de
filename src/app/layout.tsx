@@ -76,9 +76,13 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
+        {/* Preconnect to external domains for faster resource loading */}
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
+        
         {/* DNS Prefetch for external resources */}
         <link rel="dns-prefetch" href="https://api.iconify.design" />
-        <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
 
         {/* Expanded critical inline CSS for instant first paint - prevents FOUC and render blocking */}
         <style dangerouslySetInnerHTML={{
@@ -114,8 +118,8 @@ export default async function RootLayout({
           }
           *{border-color:hsl(var(--border))}
           html{
-            scroll-behavior:smooth;
-            scroll-snap-type:y mandatory;
+            scroll-behavior:smooth !important;
+            scroll-snap-type:y mandatory !important;
             margin:0;
             padding:0;
             width:100%;
@@ -132,8 +136,8 @@ export default async function RootLayout({
             transition:background-color var(--transition-slow) ease-in-out,color var(--transition-slow) ease-in-out;
           }
           .scroll-snap-section{
-            scroll-snap-align:start;
-            scroll-snap-stop:normal;
+            scroll-snap-align:start !important;
+            scroll-snap-stop:normal !important;
             min-height:100vh;
             min-height:100dvh;
           }

@@ -47,6 +47,7 @@ export function scrollToSectionById(sectionId: string) {
         // Fallback für Mobile/Tablet wenn globalScrollToSection noch nicht initialisiert ist
         const section = document.getElementById(sectionId);
         if (section) {
+            // OPTIMIZATION: Read offsetTop only once, not in a loop
             const targetY = section.offsetTop;
             window.scrollTo({
                 top: targetY,
@@ -84,8 +85,12 @@ export function useSectionScroll() {
                 let closestIndex = 0;
                 let minDistance = Infinity;
 
-                sections.forEach((section, i) => {
-                    const sectionTop = (section as HTMLElement).offsetTop;
+                // OPTIMIZATION: Batch all offsetTop reads together
+                const sectionOffsets = Array.from(sections).map(section => 
+                    (section as HTMLElement).offsetTop
+                );
+
+                sectionOffsets.forEach((sectionTop, i) => {
                     const distance = Math.abs(scrollY - sectionTop);
 
                     if (distance < minDistance) {

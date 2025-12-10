@@ -182,9 +182,10 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
             orientationTimeouts = [];
 
             // Force browser reflow - critical for mobile landscape->portrait
+            // OPTIMIZATION: Single forced reflow instead of multiple
             document.documentElement.style.width = '';
             document.body.style.width = '';
-            void document.body.offsetHeight; // Force reflow
+            void document.body.offsetHeight; // Single intentional reflow to reset layout
             document.documentElement.style.width = '100vw';
             document.body.style.width = '100vw';
             
@@ -193,14 +194,9 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
             if (viewport) {
                 const content = viewport.getAttribute('content');
                 viewport.setAttribute('content', 'width=1');
-                void document.body.offsetHeight; // Force reflow
+                // Reuse same reflow - no need for another offsetHeight read
                 if (content) viewport.setAttribute('content', content);
             }
-            
-            // Force multiple reflows to ensure browser recalculates
-            void document.body.offsetHeight;
-            void document.documentElement.offsetWidth;
-            void window.innerWidth;
             
             // Use requestAnimationFrame to wait for browser to finish orientation UI
             requestAnimationFrame(() => {
