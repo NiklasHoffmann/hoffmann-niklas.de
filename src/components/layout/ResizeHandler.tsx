@@ -4,10 +4,14 @@ import { useEffect } from 'react';
 
 /**
  * Handles resize and orientation change events to keep user in current section
+ * Disabled on mobile - native behavior is better
  */
 export function ResizeHandler() {
     useEffect(() => {
+        // Disable on mobile - let browser handle orientation changes natively
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) return;
+
         let resizeTimeout: NodeJS.Timeout;
 
         const handleResizeOrOrientation = () => {
@@ -16,36 +20,9 @@ export function ResizeHandler() {
                 clearTimeout(resizeTimeout);
             }
 
-            // On mobile: Don't use hash (causes jumps), instead track by scroll position
-            // On desktop: Use hash for accurate section tracking
-            const getCurrentSection = () => {
-                if (isMobile) {
-                    // Find section based on current scroll position
-                    const mainContainer = document.getElementById('main-scroll-container');
-                    if (!mainContainer) return 'hero';
-                    
-                    const scrollTop = mainContainer.scrollTop;
-                    const sections = document.querySelectorAll('.scroll-snap-section');
-                    
-                    for (let i = sections.length - 1; i >= 0; i--) {
-                        const section = sections[i] as HTMLElement;
-                        const rect = section.getBoundingClientRect();
-                        const containerRect = mainContainer.getBoundingClientRect();
-                        const sectionTop = rect.top - containerRect.top + scrollTop;
-                        
-                        if (scrollTop >= sectionTop - 50) {
-                            return section.id || 'hero';
-                        }
-                    }
-                    return 'hero';
-                } else {
-                    // Desktop: Use hash
-                    const currentHash = window.location.hash.substring(1);
-                    return currentHash || 'hero';
-                }
-            };
-
-            const currentSection = getCurrentSection();
+            // Get current section from hash (desktop only)
+            const currentHash = window.location.hash.substring(1);
+            const currentSection = currentHash || 'hero';
 
             // Debounce to avoid multiple rapid scrolls during resize
             resizeTimeout = setTimeout(() => {
@@ -54,19 +31,18 @@ export function ResizeHandler() {
 
                 if (element && mainContainer) {
                     // Scroll to the current section after resize/orientation change
-                    // Use scrollTop instead of scrollIntoView for better control
                     const rect = element.getBoundingClientRect();
                     const containerRect = mainContainer.getBoundingClientRect();
                     const elementTop = rect.top - containerRect.top + mainContainer.scrollTop;
 
                     mainContainer.scrollTo({
                         top: elementTop,
-                        behavior: 'auto' // Instant scroll, no animation
+                        behavior: 'auto'
                     });
 
                     console.log('🔄 ResizeHandler: Restored position to section:', currentSection);
                 }
-            }, 100); // Small delay to ensure layout is recalculated
+            }, 100);
         };
 
         // Listen to resize and orientation change events

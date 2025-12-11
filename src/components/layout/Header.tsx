@@ -48,6 +48,10 @@ function HeaderComponent() {
 
     // Track active section
     useEffect(() => {
+        // Disable section tracking on mobile - prevents issues with browser UI
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) return;
+
         const updateActiveSection = () => {
             const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
             const mainContainer = document.getElementById('main-scroll-container');
@@ -72,7 +76,7 @@ function HeaderComponent() {
                     const sectionTop = rect.top - containerRect.top + scrollTop;
                     const sectionBottom = sectionTop + rect.height;
 
-                    // Section ist aktiv wenn Viewport-Mitte innerhalb der Section ist
+                    // Section ist aktiv wenn scroll position innerhalb der Section ist
                     if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
                         currentSection = sectionId;
                         break;

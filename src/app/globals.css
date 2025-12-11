@@ -24,6 +24,7 @@ body {
     /* NO scroll-behavior here - JavaScript handles smooth scroll */
     scroll-snap-type: y mandatory;
     scroll-padding: 0;
+    overscroll-behavior-y: none; /* Prevent bounce/overscroll at top and bottom */
   }
 }
 

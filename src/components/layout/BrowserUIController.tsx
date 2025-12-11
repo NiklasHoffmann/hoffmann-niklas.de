@@ -1,14 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
-
 /**
- * BrowserUIController - Disabled on mobile
+ * BrowserUIController - Disabled
  * 
- * Mobile now uses scroll-snap-stop: always in CSS to prevent multi-section jumps
- * No hash updates on mobile to prevent scroll jumps when browser UI appears
+ * Mobile uses native browser behavior (better performance, no JS interference)
+ * Desktop uses SmoothScrollEnhancer for custom scroll
  */
 export function BrowserUIController() {
-    // Component disabled - scroll behavior handled via CSS
     return null;
 }

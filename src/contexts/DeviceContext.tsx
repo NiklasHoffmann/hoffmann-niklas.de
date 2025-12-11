@@ -158,9 +158,18 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
         let resizeTimeout: NodeJS.Timeout;
         let orientationTimeouts: NodeJS.Timeout[] = [];
         let isHandlingOrientation = false;
+        let lastOrientation = window.matchMedia('(orientation: landscape)').matches ? 'landscape' : 'portrait';
 
         const handleResize = () => {
-            // Debounce resize events
+            // On mobile, ignore resize events from browser UI changes
+            // Only handle real orientation changes (detected via visualViewport listener)
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                console.log('📱 DeviceContext: Ignoring window resize on mobile (handled by visualViewport)');
+                return;
+            }
+            
+            // Debounce resize events (desktop only)
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 setDeviceInfo(getDeviceInfo());
@@ -168,6 +177,18 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
         };
 
         const handleOrientationChange = () => {
+            // Check if this is a real orientation change (portrait ↔ landscape)
+            // or just browser UI appearing/disappearing
+            const currentOrientation = window.matchMedia('(orientation: landscape)').matches ? 'landscape' : 'portrait';
+            
+            if (currentOrientation === lastOrientation) {
+                // Same orientation = just browser UI change, not a real rotation
+                console.log('📱 DeviceContext: Ignoring visualViewport resize (browser UI change, not rotation)');
+                return;
+            }
+            
+            lastOrientation = currentOrientation;
+
             // Prevent duplicate calls
             if (isHandlingOrientation) {
                 console.log('📱 DeviceContext: Ignoring duplicate orientation event');
@@ -175,7 +196,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
             }
 
             isHandlingOrientation = true;
-            console.log('📱 DeviceContext: Orientation change detected');
+            console.log('📱 DeviceContext: Real orientation change detected:', currentOrientation);
 
             // Clear any pending timeouts
             orientationTimeouts.forEach(t => clearTimeout(t));

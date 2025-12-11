@@ -13,6 +13,7 @@ export function SmoothScrollEnhancer() {
 
         // Only disable on actual mobile devices, not desktop with touch screen
         const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        console.log('🌍 SmoothScrollEnhancer: isMobileDevice =', isMobileDevice);
         if (isMobileDevice) {
             // On mobile devices, let native scroll-snap handle everything
             return;

@@ -5,6 +5,7 @@ import { ClientProvider } from "./client-provider";
 import { ResizeHandler } from "@/components/layout/ResizeHandler";
 import { ClientChainBackground } from "@/components/background/ClientChainBackground";
 import { BrowserUIController } from "@/components/layout/BrowserUIController";
+import { ScrollSnapProtector } from "@/components/layout/ScrollSnapProtector";
 
 // Lazy load below-the-fold components for better FCP/LCP
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => ({ default: mod.AboutSection })), {
@@ -37,6 +38,7 @@ export default async function HomePage({
         <ClientProvider locale={locale}>
             <ResizeHandler />
             <SmoothScrollEnhancer />
+            <ScrollSnapProtector />
             {/* Skip to content link for keyboard navigation */}
             <a
                 href="#hero"
