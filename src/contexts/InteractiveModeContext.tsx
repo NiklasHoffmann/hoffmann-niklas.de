@@ -15,22 +15,32 @@ const InteractiveModeContext = createContext<InteractiveModeContextType | undefi
 
 export function InteractiveModeProvider({ children }: { children: ReactNode }) {
     const [mounted, setMounted] = useState(false);
-    const [isInteractive, setIsInteractive] = useState<boolean>(INTERACTIVE_MODE.SSR_DEFAULT);
+    
+    // Disable interactive mode on mobile devices for better performance
+    const isMobileDevice = typeof window !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const [isInteractive, setIsInteractive] = useState<boolean>(isMobileDevice ? false : INTERACTIVE_MODE.SSR_DEFAULT);
 
-    // Load from localStorage on mount
+    // Load from localStorage on mount (but only on desktop)
     useEffect(() => {
+        if (isMobileDevice) {
+            // Force off on mobile, don't load from storage
+            setIsInteractive(false);
+            setMounted(true);
+            return;
+        }
+        
         const saved = localStorage.getItem(INTERACTIVE_MODE.STORAGE_KEY);
         if (saved !== null) {
             setIsInteractive(saved === 'true');
         }
         setMounted(true);
-    }, []);
+    }, [isMobileDevice]);
 
-    // Save to localStorage when changed (after initial mount)
+    // Save to localStorage when changed (after initial mount, desktop only)
     useEffect(() => {
-        if (!mounted) return;
+        if (!mounted || isMobileDevice) return;
         localStorage.setItem(INTERACTIVE_MODE.STORAGE_KEY, String(isInteractive));
-    }, [isInteractive, mounted]);
+    }, [isInteractive, mounted, isMobileDevice]);
 
     const showActive = mounted && isInteractive;
 

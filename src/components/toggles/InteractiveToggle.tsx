@@ -3,13 +3,23 @@
 import { Icon } from '@/components/icons/LocalIcon';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useTheme } from 'next-themes';
+import { useState, useEffect } from 'react';
 
 export function InteractiveToggle() {
     const { isInteractive, setIsInteractive, showActive, mounted } = useInteractiveMode();
     const { theme } = useTheme();
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Hide button on mobile devices
+    useEffect(() => {
+        setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    }, []);
 
     // Use mounted check to avoid hydration mismatch
     const isActive = mounted && showActive;
+
+    // Don't render on mobile
+    if (isMobile) return null;
 
     // Shadow color based on theme - only after mount to avoid hydration mismatch
     const getBaseShadow = () => {

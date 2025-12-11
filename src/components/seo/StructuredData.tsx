@@ -34,8 +34,51 @@ export function StructuredData({ locale }: { locale: string }) {
         ],
         "address": {
             "@type": "PostalAddress",
+            "addressLocality": "Neustadt an der Weinstraße",  // z.B. "München", "Berlin", etc.
+            "addressRegion": "Rheinland-Pfalz",      // z.B. "Bayern", "NRW", etc.
+            "postalCode": "67433",                // Deine Postleitzahl
             "addressCountry": "DE"
-        }
+        },
+        "telephone": "+49-151-56593771",          // Optional: Deine Telefonnummer
+        "email": "mail@hoffmann-niklas.de"    // Deine E-Mail
+    };
+
+    // LocalBusiness Schema für bessere lokale Auffindbarkeit
+    const localBusinessData = {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Niklas Hoffmann - Full-Stack & Web3 Development",
+        "image": "https://hoffmann-niklas.de/og-image.jpg",
+        "url": "https://hoffmann-niklas.de",
+        "telephone": "+49-151-56593771",
+        "email": "mail@hoffmann-niklas.de",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Fröbelstraße 20",    // Optional
+            "addressLocality": "Neustadt an der Weinstraße",
+            "addressRegion": "Rheinland-Pfalz",
+            "postalCode": "67433",
+            "addressCountry": "DE"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "49.351222",
+            "longitude": "8.134167"
+        },
+        "areaServed": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": "49.351222",
+                "longitude": "8.134167"
+            },
+            "geoRadius": "50000"                  // 50km Umkreis in Metern
+        },
+        "priceRange": "450 EUR -1500 EUR",
+        "openingHours": "Mo-Fr 09:00-18:00",
+        "sameAs": [
+            // Deine Social Media Profile
+        ]
     };
 
     const websiteData = {
@@ -83,6 +126,10 @@ export function StructuredData({ locale }: { locale: string }) {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessData) }}
             />
             <script
                 type="application/ld+json"

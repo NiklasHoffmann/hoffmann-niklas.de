@@ -11,10 +11,10 @@ export function SmoothScrollEnhancer() {
         const mainContainer = document.getElementById('main-scroll-container');
         if (!mainContainer) return;
 
-        // Only apply custom scroll on desktop with mouse/trackpad
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        if (isTouchDevice) {
-            // On touch devices, let native scroll-snap handle everything
+        // Only disable on actual mobile devices, not desktop with touch screen
+        const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobileDevice) {
+            // On mobile devices, let native scroll-snap handle everything
             return;
         }
 

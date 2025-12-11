@@ -30,11 +30,43 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Niklas Hoffmann | Full-Stack & Web3 Developer",
+    default: "Niklas Hoffmann | Full-Stack & Web3 Developer Neustadt an der Weinstraße",
     template: "%s | Niklas Hoffmann"
   },
-  description: "Full-Stack Developer mit Expertise in Web3, React, Next.js und modernen Web-Technologien. Spezialisiert auf dApp-Entwicklung und Blockchain-Integration.",
-  keywords: ["Web Development", "Full-Stack Developer", "Web3", "React", "Next.js", "TypeScript", "Blockchain", "Ethereum", "dApp Development"],
+  description: "Full-Stack Developer aus Neustadt an der Weinstraße mit Expertise in Web3, React, Next.js und modernen Web-Technologien. Spezialisiert auf dApp-Entwicklung und Blockchain-Integration in Rheinland-Pfalz.",
+  keywords: [
+    // Tech Keywords
+    "Web Development",
+    "Full-Stack Developer",
+    "Web3",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "Blockchain",
+    "Ethereum",
+    "dApp Development",
+    // Lokale Tech Keywords
+    "Webentwickler Neustadt an der Weinstraße",
+    "Web Developer Rheinland-Pfalz",
+    "Full-Stack Entwickler Neustadt an der Weinstraße",
+    "Web3 Entwickler Deutschland",
+    "Webentwicklung Neustadt",
+    "React Developer Pfalz",
+    // Einfache/Allgemeine Keywords
+    "Website erstellen lassen Neustadt",
+    "Homepage erstellen Neustadt",
+    "Webdesign Neustadt an der Weinstraße",
+    "Internetseite erstellen Pfalz",
+    "Professionelle Website Neustadt",
+    "Moderne Homepage erstellen",
+    "Responsive Webdesign Neustadt",
+    "Website Programmierer Neustadt",
+    "Webseite erstellen lassen Rheinland-Pfalz",
+    "Online Shop erstellen Neustadt",
+    "Firmenwebsite erstellen Pfalz",
+    "SEO Optimierung Neustadt",
+    "Website Wartung Neustadt"
+  ],
   authors: [{ name: "Niklas Hoffmann", url: "https://hoffmann-niklas.de" }],
   creator: "Niklas Hoffmann",
   metadataBase: new URL("https://hoffmann-niklas.de"),
@@ -44,8 +76,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "de_DE",
     url: "https://hoffmann-niklas.de",
-    title: "Niklas Hoffmann | Full-Stack & Web3 Developer",
-    description: "Full-Stack Developer mit Expertise in Web3, React, Next.js und modernen Web-Technologien",
+    title: "Niklas Hoffmann | Full-Stack & Web3 Developer Neustadt an der Weinstraße",
+    description: "Full-Stack Developer aus Neustadt an der Weinstraße mit Expertise in Web3, React, Next.js und modernen Web-Technologien",
     siteName: "Niklas Hoffmann Portfolio",
   },
   robots: {

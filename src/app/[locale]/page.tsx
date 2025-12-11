@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/sections";
 import { ClientProvider } from "./client-provider";
 import { ResizeHandler } from "@/components/layout/ResizeHandler";
 import { ClientChainBackground } from "@/components/background/ClientChainBackground";
+import { BrowserUIController } from "@/components/layout/BrowserUIController";
 
 // Lazy load below-the-fold components for better FCP/LCP
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => ({ default: mod.AboutSection })), {
@@ -45,6 +46,9 @@ export default async function HomePage({
             </a>
 
             <Header />
+
+            {/* Browser UI Controller - hides browser chrome on mobile when not in hero */}
+            <BrowserUIController />
 
             {/* MAIN is the scroll container with scroll-snap */}
             <main

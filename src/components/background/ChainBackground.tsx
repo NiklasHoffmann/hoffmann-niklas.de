@@ -335,12 +335,26 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   }, []);
 
   // Draw animation - chain draws from top to bottom on initial load (20 seconds)
+  // On mobile: skip animation and show immediately
   useEffect(() => {
     if (!isReady) return;
     if (globalDrawAnimationComplete) return;
     if (globalDrawAnimationStarted) return;
 
     globalDrawAnimationStarted = true;
+
+    // Skip animation on mobile devices - show immediately
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      globalDrawAnimationComplete = true;
+      globalDrawProgress = 1;
+      globalAnimationVisible = true;
+      setDrawProgress(1);
+      setAnimationVisible(true);
+      needsRedrawRef.current = true;
+      return;
+    }
+
     const duration = 20000;
     const startTime = performance.now();
 
