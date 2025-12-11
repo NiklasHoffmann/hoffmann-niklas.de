@@ -41,7 +41,8 @@ export function Section({
             id={id}
             key={sectionKey}
             className={`
-                scroll-snap-section section-padding relative w-full h-screen max-h-screen
+                scroll-snap-section section-padding relative w-full 
+                ${asFooter ? 'min-h-screen' : 'h-screen max-h-screen'}
                 flex items-center justify-center outline-none
                 ${backgroundClasses[background]}
                 ${isMobileLandscape ? 'pt-16' : ''}
