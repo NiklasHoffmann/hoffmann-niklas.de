@@ -11,6 +11,13 @@ export function SmoothScrollEnhancer() {
         const mainContainer = document.getElementById('main-scroll-container');
         if (!mainContainer) return;
 
+        // Only apply custom scroll on desktop with mouse/trackpad
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouchDevice) {
+            // On touch devices, let native scroll-snap handle everything
+            return;
+        }
+
         let isScrolling = false;
         let animationFrameId: number | null = null;
         let sections: HTMLElement[] = [];
@@ -114,15 +121,6 @@ export function SmoothScrollEnhancer() {
             return false;
         };
 
-        // Prevent touch scrolling during animation
-        const handleTouchMove = (e: TouchEvent) => {
-            if (isScrolling) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-        };
-
         // Intercept anchor link clicks
         const handleAnchorClick = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
@@ -159,13 +157,12 @@ export function SmoothScrollEnhancer() {
         // Cache sections at start
         sections = Array.from(document.querySelectorAll('.scroll-snap-section')) as HTMLElement[];
 
+        // Only add wheel listener on desktop (touch detection already returned early)
         mainContainer.addEventListener('wheel', handleWheel, { passive: false });
-        mainContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
         document.addEventListener('click', handleAnchorClick);
 
         return () => {
             mainContainer.removeEventListener('wheel', handleWheel);
-            mainContainer.removeEventListener('touchmove', handleTouchMove);
             document.removeEventListener('click', handleAnchorClick);
             if (animationFrameId) {
                 cancelAnimationFrame(animationFrameId);
