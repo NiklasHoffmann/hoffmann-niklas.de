@@ -10,27 +10,21 @@ import { ScrollSnapProtector } from "@/components/layout/ScrollSnapProtector";
 // Lazy load below-the-fold components for better FCP/LCP
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => ({ default: mod.AboutSection })), {
     loading: () => <div className="min-h-screen" />,
-    ssr: false, // Skip SSR - load only on client after hero is visible
 });
 const ServicesSection = dynamic(() => import("@/components/sections/ServicesSection").then(mod => ({ default: mod.ServicesSection })), {
     loading: () => <div className="min-h-screen" />,
-    ssr: false,
 });
 const PackagesSection = dynamic(() => import("@/components/sections/PackagesSection").then(mod => ({ default: mod.PackagesSection })), {
     loading: () => <div className="min-h-screen" />,
-    ssr: false,
 });
 const PortfolioSection = dynamic(() => import("@/components/sections/PortfolioSection").then(mod => ({ default: mod.PortfolioSection })), {
     loading: () => <div className="min-h-screen" />,
-    ssr: false,
 });
 const ContactSection = dynamic(() => import("@/components/sections/ContactSection").then(mod => ({ default: mod.ContactSection })), {
     loading: () => <div className="min-h-screen" />,
-    ssr: false,
 });
 const Footer = dynamic(() => import("@/components/layout/Footer").then(mod => ({ default: mod.Footer })), {
     loading: () => <div className="h-32" />,
-    ssr: false,
 });
 
 export default async function HomePage({
