@@ -29,16 +29,16 @@ body {
 
 .scroll-snap-section {
   scroll-snap-align: start;
-  scroll-snap-stop: normal;
+  scroll-snap-stop: always; /* Force stop at each section - prevents multi-section jumps */
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh; /* Small viewport height - ignores browser UI */
 }
 
-/* Mobile: Fixed height for consistent scroll-snap behavior */
+/* Mobile: Fixed height with scroll-snap */
 @media (max-width: 1023px) {
   .scroll-snap-section {
     height: 100vh;
-    height: 100dvh;
+    height: 100svh; /* Small viewport height - prevents jumps when browser UI appears */
   }
 }
 

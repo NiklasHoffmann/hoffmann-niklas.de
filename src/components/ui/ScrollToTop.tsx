@@ -12,13 +12,14 @@ export function ScrollToTop() {
 
     useEffect(() => {
         const toggleVisibility = () => {
-            // Show button after scrolling 300px
+            // Show button after scrolling past hero section (lower threshold for mobile)
             const mainContainer = document.getElementById('main-scroll-container');
             if (mainContainer) {
-                setIsVisible(mainContainer.scrollTop > 300);
+                // On mobile with svh, sections might be shorter - use 200px threshold
+                setIsVisible(mainContainer.scrollTop > 200);
             } else {
                 // Fallback for non-homepage
-                setIsVisible(window.scrollY > 300);
+                setIsVisible(window.scrollY > 200);
             }
         };
 

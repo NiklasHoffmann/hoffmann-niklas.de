@@ -5,10 +5,10 @@ import { useEffect } from 'react';
 /**
  * BrowserUIController - Disabled on mobile
  * 
- * Mobile devices use native browser UI behavior (auto-hide on scroll down, show on scroll up)
- * Desktop keeps the custom smooth scroll from SmoothScrollEnhancer
+ * Mobile now uses scroll-snap-stop: always in CSS to prevent multi-section jumps
+ * No hash updates on mobile to prevent scroll jumps when browser UI appears
  */
 export function BrowserUIController() {
-    // Component disabled - native mobile behavior is better
+    // Component disabled - scroll behavior handled via CSS
     return null;
 }

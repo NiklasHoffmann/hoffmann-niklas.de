@@ -84,15 +84,19 @@ function HeaderComponent() {
                 cachedActiveSection = currentSection;
                 setActiveSection(currentSection);
 
-                // Update browser URL hash
-                // Remove hash when at hero (top of page), otherwise set hash
-                if (currentSection === 'hero') {
-                    // Remove hash - clean URL like on initial page load
-                    if (window.location.hash) {
-                        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                // Update browser URL hash - ONLY ON DESKTOP
+                // On mobile, hash updates can cause scroll jumps when browser UI appears/disappears
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (!isMobile) {
+                    // Remove hash when at hero (top of page), otherwise set hash
+                    if (currentSection === 'hero') {
+                        // Remove hash - clean URL like on initial page load
+                        if (window.location.hash) {
+                            window.history.replaceState(null, '', window.location.pathname + window.location.search);
+                        }
+                    } else if (window.location.hash !== `#${currentSection}`) {
+                        window.history.replaceState(null, '', `#${currentSection}`);
                     }
-                } else if (window.location.hash !== `#${currentSection}`) {
-                    window.history.replaceState(null, '', `#${currentSection}`);
                 }
             }
         };

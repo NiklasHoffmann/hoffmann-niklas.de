@@ -7,6 +7,7 @@ import { useEffect } from 'react';
  */
 export function ResizeHandler() {
     useEffect(() => {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         let resizeTimeout: NodeJS.Timeout;
 
         const handleResizeOrOrientation = () => {
@@ -15,9 +16,36 @@ export function ResizeHandler() {
                 clearTimeout(resizeTimeout);
             }
 
-            // Get current section before resize
-            const currentHash = window.location.hash.substring(1); // Remove #
-            const currentSection = currentHash || 'hero';
+            // On mobile: Don't use hash (causes jumps), instead track by scroll position
+            // On desktop: Use hash for accurate section tracking
+            const getCurrentSection = () => {
+                if (isMobile) {
+                    // Find section based on current scroll position
+                    const mainContainer = document.getElementById('main-scroll-container');
+                    if (!mainContainer) return 'hero';
+                    
+                    const scrollTop = mainContainer.scrollTop;
+                    const sections = document.querySelectorAll('.scroll-snap-section');
+                    
+                    for (let i = sections.length - 1; i >= 0; i--) {
+                        const section = sections[i] as HTMLElement;
+                        const rect = section.getBoundingClientRect();
+                        const containerRect = mainContainer.getBoundingClientRect();
+                        const sectionTop = rect.top - containerRect.top + scrollTop;
+                        
+                        if (scrollTop >= sectionTop - 50) {
+                            return section.id || 'hero';
+                        }
+                    }
+                    return 'hero';
+                } else {
+                    // Desktop: Use hash
+                    const currentHash = window.location.hash.substring(1);
+                    return currentHash || 'hero';
+                }
+            };
+
+            const currentSection = getCurrentSection();
 
             // Debounce to avoid multiple rapid scrolls during resize
             resizeTimeout = setTimeout(() => {
