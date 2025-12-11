@@ -171,7 +171,7 @@ export function PortfolioSection() {
                 </div>
                 {/* Navigation dots */}
                 <div className="flex gap-1.5">
-                    {projects.map((_, index) => (
+                    {projects.map((project, index) => (
                         <button
                             key={index}
                             onClick={() => setCurrentSlide(index)}
@@ -180,6 +180,8 @@ export function PortfolioSection() {
                                 : 'bg-secondary border-border'
                                 }`}
                             style={{ transition: 'all 300ms ease-in-out' }}
+                            aria-label={`Go to ${project.title}`}
+                            aria-current={index === currentSlide ? 'true' : 'false'}
                         />
                     ))}
                 </div>
@@ -321,6 +323,7 @@ export function PortfolioSection() {
                                             }`}
                                         style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, width 700ms ease-in-out' }}
                                         aria-label={`Go to page ${pageIndex + 1}`}
+                                        aria-current={pageIndex === currentPage ? 'true' : 'false'}
                                     />
                                 ))}
                             </div>
