@@ -12,14 +12,15 @@ export function ScrollToTop() {
 
     useEffect(() => {
         const toggleVisibility = () => {
-            // Show button after scrolling past hero section (lower threshold for mobile)
+            // Show button after scrolling past hero section
             const mainContainer = document.getElementById('main-scroll-container');
             if (mainContainer) {
-                // On mobile with svh, sections might be shorter - use 200px threshold
-                setIsVisible(mainContainer.scrollTop > 200);
+                // Lower threshold for mobile - show after first section
+                const shouldShow = mainContainer.scrollTop > 100;
+                setIsVisible(shouldShow);
             } else {
                 // Fallback for non-homepage
-                setIsVisible(window.scrollY > 200);
+                setIsVisible(window.scrollY > 100);
             }
         };
 
@@ -34,18 +35,20 @@ export function ScrollToTop() {
         return () => scrollElement.removeEventListener('scroll', toggleVisibility);
     }, []);
 
-    // Don't render on server or when not visible
-    if (!mounted || !isVisible) {
+    // Don't render when not visible
+    if (!isVisible) {
         return null;
     }
+
+    // Don't show active effects until mounted (prevent hydration mismatch)
+    const showActiveEffects = mounted && showActive;
 
     // Neon color for interactive mode (same orange as footer section)
     const neonColor = '#ff8000';
 
     return (
-        <a
-            href="#hero"
-            className="fixed bottom-[104px] z-50 group"
+        <button
+            className="fixed bottom-[104px] z-[51] group"
             style={{
                 right: 'calc(1.5rem + 8px)', // Centered above chat button (chat is w-16, this is w-12, difference is 16px / 2 = 8px)
                 opacity: isVisible ? 1 : 0,
@@ -55,7 +58,6 @@ export function ScrollToTop() {
             }}
             aria-label="Scroll to top"
             onClick={(e) => {
-                e.preventDefault();
                 const mainContainer = document.getElementById('main-scroll-container');
                 if (mainContainer) {
                     mainContainer.scrollTo({ top: 0, behavior: 'smooth' });
@@ -68,8 +70,8 @@ export function ScrollToTop() {
                 className="relative flex items-center justify-center w-12 h-12 rounded-full shadow-lg border-2 group-hover:scale-105"
                 style={{
                     backgroundColor: isDark ? '#090909' : '#ffffff',
-                    borderColor: showActive ? neonColor : (isDark ? '#1a1a1a' : '#d1d5db'),
-                    boxShadow: showActive
+                    borderColor: showActiveEffects ? neonColor : (isDark ? '#1a1a1a' : '#d1d5db'),
+                    boxShadow: showActiveEffects
                         ? `0 0 12px 2px ${neonColor}80, 0 4px 6px -1px rgba(0, 0, 0, 0.1)`
                         : '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                     transition: 'transform 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
@@ -79,7 +81,7 @@ export function ScrollToTop() {
                 <svg
                     className="w-5 h-5"
                     fill="none"
-                    stroke={showActive ? neonColor : (isDark ? '#ffffff' : '#000000')}
+                    stroke={showActiveEffects ? neonColor : (isDark ? '#ffffff' : '#000000')}
                     strokeWidth={2.5}
                     viewBox="0 0 24 24"
                     style={{ transition: 'stroke 700ms ease-in-out' }}
@@ -87,6 +89,6 @@ export function ScrollToTop() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
                 </svg>
             </div>
-        </a>
+        </button>
     );
 }
