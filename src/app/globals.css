@@ -606,6 +606,10 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
   }
 
   @keyframes gpu-ping {
+    0% {
+      transform: scale(1) translateZ(0);
+      opacity: 1;
+    }
 
     75%,
     100% {
@@ -632,11 +636,10 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
   }
 
   /* Reduce motion for users who prefer it */
+  /* Note: gpu-ping is excluded as it's a subtle indicator, not disruptive */
   @media (prefers-reduced-motion: reduce) {
 
-    .gpu-ping,
     .gpu-pulse,
-    .animate-ping,
     .animate-pulse {
       animation: none !important;
     }

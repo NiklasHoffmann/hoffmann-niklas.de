@@ -224,13 +224,13 @@ export function PackagesSection() {
                                         >
                                             {/* Flip Indicator */}
                                             <div className={`absolute pointer-events-none z-20 ${isMobileLandscape ? 'bottom-1.5 right-1.5' : 'bottom-2 sm:bottom-3 right-2 sm:right-3'}`}>
-                                                <div className={`relative flex items-center justify-center ${isMobileLandscape ? 'w-2.5 h-2.5' : 'w-3 h-3 sm:w-4 sm:h-4'}`}>
+                                                <div className={`relative flex items-center justify-center ${isMobileLandscape ? 'w-3 h-3' : 'w-4 h-4 sm:w-5 sm:h-5'}`}>
                                                     <div
                                                         className="absolute inset-0 rounded-full gpu-ping"
                                                         style={{ backgroundColor: isActiveAndHydrated ? `${cardColor}50` : 'rgba(59, 130, 246, 0.5)' }}
                                                     />
                                                     <div
-                                                        className={`relative rounded-full ${isMobileLandscape ? 'w-1.5 h-1.5' : 'w-2 h-2 sm:w-2.5 sm:h-2.5'}`}
+                                                        className={`relative rounded-full ${isMobileLandscape ? 'w-1.5 h-1.5' : 'w-2 h-2 sm:w-3 sm:h-3'}`}
                                                         style={{ backgroundColor: isActiveAndHydrated ? cardColor : '#3b82f6' }}
                                                     />
                                                 </div>
