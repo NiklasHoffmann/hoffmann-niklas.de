@@ -41,9 +41,9 @@ function HeaderComponent() {
         { id: "about", label: t('about'), color: neonColors[1] },
         { id: "services", label: t('services'), color: neonColors[2] },
         { id: "packages", label: t('packages'), color: neonColors[3] },
-        { id: "portfolio", label: t('portfolio'), color: neonColors[4] },
+        // { id: "portfolio", label: t('portfolio'), color: neonColors[4] }, // Hidden until projects are ready
         // { id: "videos", label: t('videos'), color: neonColors[5] },
-        { id: "contact", label: t('contact'), color: neonColors[5] },
+        { id: "contact", label: t('contact'), color: neonColors[4] },
     ], [neonColors, t]);
 
     // Track active section
@@ -53,7 +53,7 @@ function HeaderComponent() {
         if (isMobile) return;
 
         const updateActiveSection = () => {
-            const sections = ['hero', 'about', 'services', 'packages', 'portfolio', 'contact', 'footer'];
+            const sections = ['hero', 'about', 'services', 'packages', 'contact', 'footer']; // 'portfolio' removed
             const mainContainer = document.getElementById('main-scroll-container');
 
             if (!mainContainer) {

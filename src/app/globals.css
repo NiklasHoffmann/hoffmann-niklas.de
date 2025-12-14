@@ -24,22 +24,26 @@ body {
     /* NO scroll-behavior here - JavaScript handles smooth scroll */
     scroll-snap-type: y mandatory;
     scroll-padding: 0;
-    overscroll-behavior-y: none; /* Prevent bounce/overscroll at top and bottom */
+    overscroll-behavior-y: none;
+    /* Prevent bounce/overscroll at top and bottom */
   }
 }
 
 .scroll-snap-section {
   scroll-snap-align: start;
-  scroll-snap-stop: always; /* Force stop at each section - prevents multi-section jumps */
+  scroll-snap-stop: always;
+  /* Force stop at each section - prevents multi-section jumps */
   min-height: 100vh;
-  min-height: 100svh; /* Small viewport height - ignores browser UI */
+  min-height: 100svh;
+  /* Small viewport height - ignores browser UI */
 }
 
 /* Mobile: Fixed height with scroll-snap */
 @media (max-width: 1023px) {
   .scroll-snap-section {
     height: 100vh;
-    height: 100svh; /* Small viewport height - prevents jumps when browser UI appears */
+    height: 100svh;
+    /* Small viewport height - prevents jumps when browser UI appears */
   }
 }
 

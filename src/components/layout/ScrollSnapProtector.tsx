@@ -20,7 +20,7 @@ export function ScrollSnapProtector() {
         const handleViewportResize = () => {
             // Temporarily disable scroll-snap during resize
             mainContainer.style.scrollSnapType = 'none';
-            
+
             // Clear previous timeout
             if (resizeTimeout) {
                 clearTimeout(resizeTimeout);

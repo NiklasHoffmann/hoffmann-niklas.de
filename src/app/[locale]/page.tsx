@@ -7,6 +7,9 @@ import { ClientChainBackground } from "@/components/background/ClientChainBackgr
 import { BrowserUIController } from "@/components/layout/BrowserUIController";
 import { ScrollSnapProtector } from "@/components/layout/ScrollSnapProtector";
 
+// Feature flags - set to true to show sections
+const SHOW_PORTFOLIO = false; // TODO: Set to true when portfolio projects are ready
+
 // Lazy load below-the-fold components for better FCP/LCP
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection").then(mod => ({ default: mod.AboutSection })), {
     loading: () => <div className="min-h-screen" />,
@@ -90,7 +93,7 @@ export default async function HomePage({
                         <AboutSection />
                         <ServicesSection />
                         <PackagesSection />
-                        <PortfolioSection />
+                        {SHOW_PORTFOLIO && <PortfolioSection />}
                         <ContactSection />
                         <Footer />
                     </div>

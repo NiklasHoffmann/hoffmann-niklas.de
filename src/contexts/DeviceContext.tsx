@@ -168,7 +168,7 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
                 console.log('📱 DeviceContext: Ignoring window resize on mobile (handled by visualViewport)');
                 return;
             }
-            
+
             // Debounce resize events (desktop only)
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
@@ -180,13 +180,13 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
             // Check if this is a real orientation change (portrait ↔ landscape)
             // or just browser UI appearing/disappearing
             const currentOrientation = window.matchMedia('(orientation: landscape)').matches ? 'landscape' : 'portrait';
-            
+
             if (currentOrientation === lastOrientation) {
                 // Same orientation = just browser UI change, not a real rotation
                 console.log('📱 DeviceContext: Ignoring visualViewport resize (browser UI change, not rotation)');
                 return;
             }
-            
+
             lastOrientation = currentOrientation;
 
             // Prevent duplicate calls

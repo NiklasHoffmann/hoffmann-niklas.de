@@ -15,7 +15,7 @@ const InteractiveModeContext = createContext<InteractiveModeContextType | undefi
 
 export function InteractiveModeProvider({ children }: { children: ReactNode }) {
     const [mounted, setMounted] = useState(false);
-    
+
     // Disable interactive mode on mobile devices for better performance
     const isMobileDevice = typeof window !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const [isInteractive, setIsInteractive] = useState<boolean>(isMobileDevice ? false : INTERACTIVE_MODE.SSR_DEFAULT);
@@ -28,7 +28,7 @@ export function InteractiveModeProvider({ children }: { children: ReactNode }) {
             setMounted(true);
             return;
         }
-        
+
         const saved = localStorage.getItem(INTERACTIVE_MODE.STORAGE_KEY);
         if (saved !== null) {
             setIsInteractive(saved === 'true');
