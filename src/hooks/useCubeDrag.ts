@@ -78,6 +78,7 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
     const isUsingMotionRef = useRef(false); // Track if motion is being used
     const motionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const baseRotationRef = useRef<Rotation>(rotation); // Store base rotation when motion starts
+    const lockedXRotationRef = useRef<number>(rotation.x); // Lock X rotation for auto-rotate
 
     // Update global cache immediately on every rotation change
     useEffect(() => {
@@ -101,10 +102,18 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
         let rafId: number;
         const animate = () => {
             if (!isDraggingRef.current && !isUsingMotionRef.current) {
-                setRotation((prev: Rotation) => ({
-                    x: prev.x,
-                    y: prev.y + autoRotateSpeed
-                }));
+                setRotation((prev: Rotation) => {
+                    // Determine rotation direction based on X rotation
+                    // When rotateX is applied first, if X > 90° or X < -90°, the Y rotation direction reverses
+                    const normalizedX = ((prev.x % 360) + 360) % 360;
+                    const isFlipped = normalizedX > 90 && normalizedX < 270;
+                    const direction = isFlipped ? -1 : 1;
+                    
+                    return {
+                        x: prev.x,
+                        y: prev.y + (autoRotateSpeed * direction)
+                    };
+                });
             }
             rafId = requestAnimationFrame(animate);
         };
@@ -131,9 +140,12 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
             const deltaX = e.clientX - lastPosRef.current.x;
             const deltaY = e.clientY - lastPosRef.current.y;
 
+            // True trackball rotation: drag vector determines rotation axis
+            // The perpendicular to the drag direction is the rotation axis
+            // deltaX affects X rotation, deltaY affects Y rotation (inverted for natural feel)
             setRotation((prev: Rotation) => ({
-                x: prev.x - deltaY * 0.5,
-                y: prev.y + deltaX * 0.5,
+                x: prev.x - deltaY * 0.8, // Drag down = rotate forward (negative X)
+                y: prev.y + deltaX * 0.8, // Drag right = rotate right (positive Y)
             }));
 
             lastPosRef.current = { x: e.clientX, y: e.clientY };
@@ -164,8 +176,8 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
             const deltaY = e.touches[0].clientY - lastPosRef.current.y;
 
             setRotation((prev: Rotation) => ({
-                x: prev.x - deltaY * 0.5,
-                y: prev.y + deltaX * 0.5,
+                x: prev.x - deltaY * 0.8, // Drag down = rotate forward
+                y: prev.y + deltaX * 0.8, // Drag right = rotate right
             }));
 
             lastPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };

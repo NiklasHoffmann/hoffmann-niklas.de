@@ -30,8 +30,8 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
     const { mounted } = useInteractiveMode();
     const { rotation, containerRef, cubeRef } = useCubeDrag({
         autoRotate: true,
-        autoRotateSpeed: 0.15,
-        initialRotation: { x: -10, y: 15 },
+        autoRotateSpeed: 0.09,
+        initialRotation: { x: 0, y: 15 },
     });
 
     // Use first 6 services for cube faces - memoize to prevent re-creation
@@ -44,13 +44,13 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
                 <div
                     className="absolute left-1/2 top-1/2 -translate-x-1/2 pointer-events-none"
                     style={{
-                        width: 'min(55vw, 280px)',
-                        height: 'min(55vw, 280px)',
+                        width: 'clamp(180px, 22vw, 380px)',
+                        height: 'clamp(180px, 22vw, 380px)',
                         background:
                             theme === 'dark'
                                 ? 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 80%)'
                                 : 'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 80%)',
-                        marginTop: '160px',
+                        marginTop: 'clamp(110px, 14vw, 220px)',
                         borderRadius: '10%',
                         filter: 'blur(30px)',
                         opacity: '0.9',
@@ -68,8 +68,8 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
             {/* Perspective container */}
             <div
                 ref={containerRef}
-                style={{ perspective: '1200px' }}
-                className="relative z-10 cursor-grab active:cursor-grabbing w-[min(55vw,280px)] aspect-square"
+                style={{ perspective: 'clamp(900px, 110vw, 1700px)' }}
+                className="relative z-10 cursor-grab active:cursor-grabbing w-[clamp(180px,22vw,380px)] aspect-square"
             >
                 {/* Cube wrapper */}
                 <div
@@ -84,22 +84,22 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
                     }}
                 >
                     {/* Front Face - Service 0 */}
-                    <CubeFace service={cubeServices[0]} transform="rotateY(0deg) translateZ(min(27.5vw, 140px))" t={t} />
+                    <CubeFace service={cubeServices[0]} transform="rotateY(0deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
 
                     {/* Back Face - Service 1 */}
-                    <CubeFace service={cubeServices[1]} transform="rotateY(180deg) translateZ(min(27.5vw, 140px))" t={t} />
+                    <CubeFace service={cubeServices[1]} transform="rotateY(180deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
 
                     {/* Top Face - Service 2 */}
-                    <CubeFace service={cubeServices[2]} transform="rotateX(90deg) translateZ(min(27.5vw, 140px))" t={t} />
+                    <CubeFace service={cubeServices[2]} transform="rotateX(90deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
 
                     {/* Bottom Face - Service 3 */}
-                    <CubeFace service={cubeServices[3]} transform="rotateX(-90deg) translateZ(min(27.5vw, 140px))" t={t} />
+                    <CubeFace service={cubeServices[3]} transform="rotateX(-90deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
 
                     {/* Left Face - Service 4 */}
-                    <CubeFace service={cubeServices[4]} transform="rotateY(-90deg) translateZ(min(27.5vw, 140px))" t={t} />
+                    <CubeFace service={cubeServices[4]} transform="rotateY(-90deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
 
                     {/* Right Face - Service 5 */}
-                    <CubeFace service={cubeServices[5]} transform="rotateY(90deg) translateZ(min(27.5vw, 140px))" t={t} />
+                    <CubeFace service={cubeServices[5]} transform="rotateY(90deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
                 </div>
             </div>
         </div>
@@ -115,12 +115,13 @@ interface CubeFaceProps {
 const CubeFace = memo(function CubeFace({ service, transform, t }: CubeFaceProps) {
     return (
         <div
-            className="absolute inset-0 p-3.5 md:p-4 bg-card rounded-sm border-2 border-border select-none overflow-hidden"
+            className="absolute inset-0 bg-card rounded-sm border-2 border-border select-none overflow-hidden"
             style={{
                 transform,
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
                 transition: TRANSITIONS.colors,
+                padding: 'clamp(8px, 1.2vw, 20px)',
             }}
         >
             <div
@@ -130,27 +131,79 @@ const CubeFace = memo(function CubeFace({ service, transform, t }: CubeFaceProps
                 }}
             />
             <div className="relative z-10 h-full flex flex-col">
-                <Icon
-                    icon={service.icon}
-                    className="w-8 h-8 md:w-10 md:h-10 mb-1.5 flex-shrink-0"
-                />
-                <h3 className="text-sm md:text-base font-bold mb-1 leading-tight">{service.title}</h3>
-                <p className="text-[10px] md:text-xs text-muted-foreground mb-2 leading-tight flex-shrink-0 line-clamp-2">{service.description}</p>
+                {/* Top Half - Service Info (centered) */}
+                <div className="flex-1 flex flex-col items-center justify-center text-center">
+                    <Icon
+                        icon={service.icon}
+                        style={{
+                            width: 'clamp(24px, 2.8vw, 48px)',
+                            height: 'clamp(24px, 2.8vw, 48px)',
+                            marginBottom: 'clamp(4px, 0.5vw, 10px)',
+                        }}
+                        className="flex-shrink-0"
+                    />
+                    <h3
+                        className="font-bold leading-tight"
+                        style={{
+                            fontSize: 'clamp(11px, 1.3vw, 20px)',
+                            marginBottom: 'clamp(4px, 0.5vw, 10px)',
+                        }}
+                    >
+                        {service.title}
+                    </h3>
+                    <p
+                        className="text-muted-foreground leading-tight flex-shrink-0 line-clamp-3"
+                        style={{
+                            fontSize: 'clamp(9px, 1vw, 15px)',
+                        }}
+                    >
+                        {service.description}
+                    </p>
+                </div>
+
+                {/* Bottom Half - Tech Stack (centered) */}
                 {service.techStack.length > 0 && (
-                    <div className="mt-auto overflow-hidden">
-                        <p className="text-[10px] font-semibold text-muted-foreground mb-1 flex-shrink-0">{t('techStack')}:</p>
-                        <div className="flex flex-wrap gap-1 max-h-[60px] overflow-hidden">{service.techStack.slice(0, 6).map((tech) => {
-                            const TechIcon = tech.icon;
-                            return (
-                                <div
-                                    key={tech.name}
-                                    className="flex items-center gap-0.5 px-1.5 py-0.5 bg-secondary/50 rounded-md flex-shrink-0"
-                                >
-                                    <TechIcon className="w-3 h-3" />
-                                    <span className="text-[9px]">{tech.name}</span>
-                                </div>
-                            );
-                        })}
+                    <div className="flex-1 flex flex-col items-center justify-center">
+                        <p
+                            className="font-semibold text-muted-foreground flex-shrink-0"
+                            style={{
+                                fontSize: 'clamp(8px, 0.9vw, 13px)',
+                                marginBottom: 'clamp(3px, 0.4vw, 7px)',
+                            }}
+                        >
+                            {t('techStack')}:
+                        </p>
+                        <div
+                            className="flex flex-wrap justify-center"
+                            style={{
+                                gap: 'clamp(2px, 0.3vw, 5px)',
+                                maxWidth: '100%',
+                            }}
+                        >
+                            {service.techStack.slice(0, 6).map((tech) => {
+                                const TechIcon = tech.icon;
+                                return (
+                                    <div
+                                        key={tech.name}
+                                        className="flex items-center bg-secondary/50 rounded-md flex-shrink-0"
+                                        style={{
+                                            gap: 'clamp(4px, 0.5vw, 8px)',
+                                            padding: 'clamp(4px, 0.6vw, 9px) clamp(7px, 0.9vw, 13px)',
+                                        }}
+                                    >
+                                        <div
+                                            className="flex items-center justify-center flex-shrink-0"
+                                            style={{
+                                                width: 'clamp(14px, 1.7vw, 22px)',
+                                                height: 'clamp(14px, 1.7vw, 22px)',
+                                            }}
+                                        >
+                                            <TechIcon className="w-full h-full" />
+                                        </div>
+                                        <span style={{ fontSize: 'clamp(10px, 1.2vw, 16px)', lineHeight: 1 }}>{tech.name}</span>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 )}

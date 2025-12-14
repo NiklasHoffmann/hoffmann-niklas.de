@@ -240,13 +240,13 @@ export function ServicesSection() {
             </SectionRight>
 
             {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
-            <SectionDefault className="h-full flex flex-col max-w-6xl">
+            <SectionDefault className="h-full flex flex-col max-w-7xl">
                 <div className="w-full min-h-full flex flex-col relative">
                     {isInteractive && (
                         <button
                             onClick={toggleView}
                             disabled={isTransitioning}
-                            className="absolute top-0 right-0 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                            className="absolute top-4 right-4 lg:top-16 xl:top-24 lg:right-8 xl:right-12 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                             title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
                             aria-label={showCube ? 'Switch to Grid View' : 'Switch to 3D Cube View'}
                             suppressHydrationWarning
@@ -269,17 +269,17 @@ export function ServicesSection() {
                         className={`w-full h-full flex flex-col ${displayContent && isInteractive ? 'justify-around' : 'justify-center'}`}
                     >
                         {displayContent && isInteractive ? (
-                            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-12 lg:gap-0 py-6 sm:py-12 lg:py-16 h-full">
-                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-28 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs order-1 lg:order-none">
-                                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground">
+                            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-12 sm:gap-16 lg:gap-0 py-8 sm:py-12 lg:py-16 h-full">
+                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-y-2 sm:space-y-3 text-center lg:text-left max-w-sm order-1 lg:order-none px-4 lg:px-0">
+                                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground">
                                         {t('title')}
                                     </h2>
-                                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
+                                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                                         {t('subtitle')}
                                     </p>
                                 </div>
 
-                                <div className="flex items-center justify-center order-2 mb-4 sm:mb-8 lg:mb-0">
+                                <div className="flex items-center justify-center order-2">
                                     <ServicesCube
                                         key="services-cube-stable"
                                         services={serviceCategories}
@@ -287,12 +287,12 @@ export function ServicesSection() {
                                     />
                                 </div>
 
-                                <div className="lg:absolute lg:right-8 xl:right-12 lg:bottom-24 text-center lg:text-right max-w-xs order-3">
-                                    <div className="relative mb-4">
+                                <div className="lg:absolute lg:right-8 xl:right-12 lg:bottom-20 text-center lg:text-right max-w-sm order-3 px-4 lg:px-0">
+                                    <div className="relative mb-3 sm:mb-4">
                                         <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
                                         <div className="relative h-px bg-gradient-to-l from-accent via-accent to-transparent" />
                                     </div>
-                                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                                         {t('cubeHint')}
                                     </p>
                                 </div>
