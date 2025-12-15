@@ -107,9 +107,6 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        {/* Favicon - Static fallback for browsers and search engines */}
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        
         {/* Preconnect to external domains for faster resource loading */}
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
