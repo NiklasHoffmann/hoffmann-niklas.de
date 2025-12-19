@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { buildCanonical, buildLocalePath } from '@/lib/seo';
 
 export async function generateMetadata({
     params,
@@ -31,11 +32,11 @@ export async function generateMetadata({
             follow: true,
         },
         alternates: {
-            canonical: `https://hoffmann-niklas.de/${locale}/impressum`,
+            canonical: buildCanonical(buildLocalePath(locale, 'impressum')),
             languages: {
-                'de': 'https://hoffmann-niklas.de/de/impressum',
-                'en': 'https://hoffmann-niklas.de/en/impressum',
-                'es': 'https://hoffmann-niklas.de/es/impressum',
+                'de': buildCanonical(buildLocalePath('de', 'impressum')),
+                'en': buildCanonical(buildLocalePath('en', 'impressum')),
+                'es': buildCanonical(buildLocalePath('es', 'impressum')),
             },
         },
     };

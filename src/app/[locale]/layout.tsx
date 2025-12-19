@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { StructuredData } from '@/components/seo';
+import { buildCanonical, buildLocalePath } from '@/lib/seo';
 import { ScrollToTop } from '@/components/ui';
 import { locales } from '@/i18n/config';
 
@@ -109,12 +110,12 @@ export async function generateMetadata({
             },
         },
         alternates: {
-            canonical: `https://hoffmann-niklas.de/${locale}`,
+            canonical: buildCanonical(buildLocalePath(locale)),
             languages: {
-                'de': 'https://hoffmann-niklas.de/de',
-                'en': 'https://hoffmann-niklas.de/en',
-                'es': 'https://hoffmann-niklas.de/es',
-                'x-default': 'https://hoffmann-niklas.de/en',
+                'de': buildCanonical(buildLocalePath('de')),
+                'en': buildCanonical(buildLocalePath('en')),
+                'es': buildCanonical(buildLocalePath('es')),
+                'x-default': buildCanonical(buildLocalePath('en')),
             },
         },
         verification: {

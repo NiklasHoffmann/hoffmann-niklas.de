@@ -28,6 +28,8 @@ const geistMono = Geist_Mono({
   adjustFontFallback: true, // Reduce layout shift with font metric override
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hoffmann-niklas.de';
+
 export const metadata: Metadata = {
   title: {
     default: "Niklas Hoffmann | Full-Stack & Web3 Developer Neustadt an der Weinstraße",
@@ -69,13 +71,13 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Niklas Hoffmann", url: "https://hoffmann-niklas.de" }],
   creator: "Niklas Hoffmann",
-  metadataBase: new URL("https://hoffmann-niklas.de"),
+  metadataBase: new URL(siteUrl),
   // Note: Favicon is handled dynamically by DynamicFavicon component
   // Do NOT set icons here as it causes flashing during hydration
   openGraph: {
     type: "website",
     locale: "de_DE",
-    url: "https://hoffmann-niklas.de",
+    url: siteUrl,
     title: "Niklas Hoffmann | Full-Stack & Web3 Developer Neustadt an der Weinstraße",
     description: "Full-Stack Developer aus Neustadt an der Weinstraße mit Expertise in Web3, React, Next.js und modernen Web-Technologien",
     siteName: "Niklas Hoffmann Portfolio",

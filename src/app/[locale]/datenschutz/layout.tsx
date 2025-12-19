@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { buildCanonical, buildLocalePath } from '@/lib/seo';
 
 export async function generateMetadata({
     params,
@@ -31,11 +32,11 @@ export async function generateMetadata({
             follow: true,
         },
         alternates: {
-            canonical: `https://hoffmann-niklas.de/${locale}/datenschutz`,
+            canonical: buildCanonical(buildLocalePath(locale, 'datenschutz')),
             languages: {
-                'de': 'https://hoffmann-niklas.de/de/datenschutz',
-                'en': 'https://hoffmann-niklas.de/en/datenschutz',
-                'es': 'https://hoffmann-niklas.de/es/datenschutz',
+                'de': buildCanonical(buildLocalePath('de', 'datenschutz')),
+                'en': buildCanonical(buildLocalePath('en', 'datenschutz')),
+                'es': buildCanonical(buildLocalePath('es', 'datenschutz')),
             },
         },
     };
