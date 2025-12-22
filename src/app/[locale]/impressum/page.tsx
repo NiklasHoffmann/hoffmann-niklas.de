@@ -17,10 +17,14 @@ export default function ImpressumPage() {
         setMounted(true);
         window.scrollTo(0, 0);
 
-        // Disable scroll-snap on this page
+        // Enable scrolling on this page
+        document.documentElement.style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
         document.documentElement.classList.add('no-scroll-snap');
 
         return () => {
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
             document.documentElement.classList.remove('no-scroll-snap');
         };
     }, []);
@@ -40,7 +44,7 @@ export default function ImpressumPage() {
             <div className="max-w-4xl mx-auto px-4 xs:px-6 sm:px-8 lg:px-12">
                 {/* Back Button */}
                 <button
-                    onClick={() => router.back()}
+                    onClick={() => router.push('/#footer')}
                     className="inline-flex items-center gap-1.5 xs:gap-2 mb-6 xs:mb-8 text-accent hover:underline cursor-pointer touch-target"
                 >
                     <Icon icon="mdi:arrow-left" className="w-4 xs:w-5 h-4 xs:h-5" />

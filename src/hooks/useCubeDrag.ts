@@ -162,6 +162,9 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
             isDraggingRef.current = true;
             lastPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
 
+            // Prevent page scroll when starting to drag cube
+            e.preventDefault();
+
             // Add touchmove listener only when dragging starts
             window.addEventListener('touchmove', handleTouchMove, { passive: false });
         };
@@ -191,7 +194,7 @@ export function useCubeDrag(options: CubeDragOptions = {}) {
 
         // Attach mousedown to CONTAINER (doesn't rotate!)
         container.addEventListener('mousedown', handleMouseDown);
-        container.addEventListener('touchstart', handleTouchStart, { passive: true });
+        container.addEventListener('touchstart', handleTouchStart, { passive: false });
 
         // Move and up still on window (for mouse)
         window.addEventListener('mousemove', handleMouseMove);

@@ -43,7 +43,7 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
             <div
                 ref={containerRef}
                 style={{ perspective: 'clamp(900px, 110vw, 1700px)' }}
-                className="relative z-10 cursor-grab active:cursor-grabbing w-[clamp(180px,22vw,380px)] aspect-square"
+                className="relative z-10 cursor-grab active:cursor-grabbing w-[clamp(240px,28vw,380px)] aspect-square"
             >
                 {/* Cube wrapper */}
                 <div
@@ -58,22 +58,22 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
                     }}
                 >
                     {/* Front Face - Service 0 */}
-                    <CubeFace service={cubeServices[0]} transform="rotateY(0deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
+                    <CubeFace service={cubeServices[0]} transform="rotateY(0deg) translateZ(clamp(120px, 14vw, 190px))" t={t} />
 
                     {/* Back Face - Service 1 */}
-                    <CubeFace service={cubeServices[1]} transform="rotateY(180deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
+                    <CubeFace service={cubeServices[1]} transform="rotateY(180deg) translateZ(clamp(120px, 14vw, 190px))" t={t} />
 
                     {/* Top Face - Service 2 */}
-                    <CubeFace service={cubeServices[2]} transform="rotateX(90deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
+                    <CubeFace service={cubeServices[2]} transform="rotateX(90deg) translateZ(clamp(120px, 14vw, 190px))" t={t} />
 
                     {/* Bottom Face - Service 3 */}
-                    <CubeFace service={cubeServices[3]} transform="rotateX(-90deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
+                    <CubeFace service={cubeServices[3]} transform="rotateX(-90deg) translateZ(clamp(120px, 14vw, 190px))" t={t} />
 
                     {/* Left Face - Service 4 */}
-                    <CubeFace service={cubeServices[4]} transform="rotateY(-90deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
+                    <CubeFace service={cubeServices[4]} transform="rotateY(-90deg) translateZ(clamp(120px, 14vw, 190px))" t={t} />
 
                     {/* Right Face - Service 5 */}
-                    <CubeFace service={cubeServices[5]} transform="rotateY(90deg) translateZ(clamp(90px, 11vw, 190px))" t={t} />
+                    <CubeFace service={cubeServices[5]} transform="rotateY(90deg) translateZ(clamp(120px, 14vw, 190px))" t={t} />
                 </div>
             </div>
         </div>
