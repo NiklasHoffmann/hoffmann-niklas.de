@@ -269,8 +269,8 @@ export const ServicesSection = memo(function ServicesSection() {
                         className={`w-full h-full flex flex-col ${displayContent && isInteractive ? 'justify-around' : 'justify-center'}`}
                     >
                         {displayContent && isInteractive ? (
-                            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-responsive-md lg:gap-0 py-6 xs:py-8 sm:py-12 lg:py-16 h-full">
-                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-responsive-sm text-center lg:text-left max-w-xs xs:max-w-sm order-1 lg:order-none">
+                            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-12 md:gap-16 lg:gap-0 py-6 xs:py-8 sm:py-12 lg:py-16 h-full">
+                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-responsive-sm text-center lg:text-left max-w-xs xs:max-w-sm order-1 lg:order-none px-4 lg:px-0">
                                     <h2 className="text-responsive-2xl font-bold leading-tight text-foreground">
                                         {t('title')}
                                     </h2>
@@ -279,7 +279,7 @@ export const ServicesSection = memo(function ServicesSection() {
                                     </p>
                                 </div>
 
-                                <div className="flex items-center justify-center order-2">
+                                <div className="flex items-center justify-center order-2 my-4 sm:my-6 lg:my-0">
                                     <ServicesCube
                                         key="services-cube-stable"
                                         services={serviceCategories}
@@ -287,7 +287,7 @@ export const ServicesSection = memo(function ServicesSection() {
                                     />
                                 </div>
 
-                                <div className="lg:absolute lg:right-0 lg:bottom-32 xl:bottom-40 text-center lg:text-right max-w-xs xs:max-w-sm lg:pr-2 order-3">
+                                <div className="lg:absolute lg:right-0 lg:bottom-32 xl:bottom-40 text-center lg:text-right max-w-xs xs:max-w-sm lg:pr-2 order-3 px-4 lg:px-0">
                                     <div className="relative mb-2 xs:mb-3 sm:mb-4">
                                         <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
                                         <div className="relative h-px bg-gradient-to-l from-accent via-accent to-transparent" />
