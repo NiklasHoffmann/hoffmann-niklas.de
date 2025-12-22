@@ -354,6 +354,8 @@ export const ServicesSection = memo(function ServicesSection() {
                                                             style={{
                                                                 backfaceVisibility: 'hidden',
                                                                 WebkitBackfaceVisibility: 'hidden',
+                                                                transform: 'rotateY(0deg)',
+                                                                transformStyle: 'preserve-3d',
                                                                 transition: 'border-color 700ms ease-in-out',
                                                             }}
                                                         >
@@ -390,6 +392,7 @@ export const ServicesSection = memo(function ServicesSection() {
                                                                 backfaceVisibility: 'hidden',
                                                                 WebkitBackfaceVisibility: 'hidden',
                                                                 transform: 'rotateY(180deg)',
+                                                                transformStyle: 'preserve-3d',
                                                                 transition: 'border-color 700ms ease-in-out',
                                                             }}
                                                         >
