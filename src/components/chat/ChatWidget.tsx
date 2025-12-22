@@ -147,8 +147,8 @@ export default function ChatWidget() {
                         {/* Icon */}
                         <Icon
                             icon="mdi:chat-outline"
-                            className="w-8 h-8 relative z-10 text-foreground transition-colors"
-
+                            className="w-8 h-8 relative z-10 text-foreground"
+                            style={{ transition: 'color 700ms ease-in-out' }}
                         />
                     </div>
                 </div>
@@ -183,10 +183,10 @@ export default function ChatWidget() {
                         >
                             <Icon
                                 icon="mdi:chat-outline"
-                                className="w-5 h-5 text-foreground transition-colors"
-
+                                className="w-5 h-5 text-foreground"
+                                style={{ transition: 'color 700ms ease-in-out' }}
                             />
-                            <span className="font-medium text-foreground transition-colors">
+                            <span className="font-medium text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
                                 Chat Support
                             </span>
                             {unreadCount > 0 && (
@@ -199,17 +199,19 @@ export default function ChatWidget() {
                         <div className="flex items-center gap-2" style={{ transition: 'none' }}>
                             <button
                                 onClick={toggleMinimize}
-                                className="p-1 rounded text-foreground transition-colors"
+                                className="p-1 rounded text-foreground"
+                                style={{ transition: 'color 700ms ease-in-out' }}
                                 aria-label="Maximize"
                             >
-                                <Icon icon="mdi:window-maximize" className="w-5 h-5" />
+                                <Icon icon="mdi:window-maximize" className="w-5 h-5" style={{ transition: 'color 700ms ease-in-out' }} />
                             </button>
                             <button
                                 onClick={closeChat}
-                                className="p-1 rounded text-foreground transition-colors"
+                                className="p-1 rounded text-foreground"
+                                style={{ transition: 'color 700ms ease-in-out' }}
                                 aria-label="Close"
                             >
-                                <Icon icon="mdi:close" className="w-5 h-5" />
+                                <Icon icon="mdi:close" className="w-5 h-5" style={{ transition: 'color 700ms ease-in-out' }} />
                             </button>
                         </div>
                     </div>

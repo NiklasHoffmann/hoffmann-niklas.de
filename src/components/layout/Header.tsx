@@ -258,28 +258,31 @@ function HeaderComponent() {
                                 <div className="relative w-5 h-5">
                                     {/* Top line */}
                                     <span
-                                        className="absolute left-0 w-5 h-0.5 transition-all duration-300 ease-in-out"
+                                        className="absolute left-0 w-5 h-0.5 ease-in-out"
                                         style={{
                                             backgroundColor: !mounted ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#000000'),
                                             top: (isMenuOpen || isMenuClosing) ? '50%' : '20%',
-                                            transform: (isMenuOpen || isMenuClosing) ? 'translateY(-50%) rotate(45deg)' : 'translateY(-50%) rotate(0deg)'
+                                            transform: (isMenuOpen || isMenuClosing) ? 'translateY(-50%) rotate(45deg)' : 'translateY(-50%) rotate(0deg)',
+                                            transition: 'all 300ms ease-in-out, background-color 700ms ease-in-out'
                                         }}
                                     />
                                     {/* Middle line */}
                                     <span
-                                        className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-0.5 transition-all duration-300 ease-in-out"
+                                        className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-0.5 ease-in-out"
                                         style={{
                                             backgroundColor: !mounted ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#000000'),
-                                            opacity: (isMenuOpen || isMenuClosing) ? 0 : 1
+                                            opacity: (isMenuOpen || isMenuClosing) ? 0 : 1,
+                                            transition: 'all 300ms ease-in-out, background-color 700ms ease-in-out'
                                         }}
                                     />
                                     {/* Bottom line */}
                                     <span
-                                        className="absolute left-0 w-5 h-0.5 transition-all duration-300 ease-in-out"
+                                        className="absolute left-0 w-5 h-0.5 ease-in-out"
                                         style={{
                                             backgroundColor: !mounted ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#000000'),
                                             top: (isMenuOpen || isMenuClosing) ? '50%' : '80%',
-                                            transform: (isMenuOpen || isMenuClosing) ? 'translateY(-50%) rotate(-45deg)' : 'translateY(-50%) rotate(0deg)'
+                                            transform: (isMenuOpen || isMenuClosing) ? 'translateY(-50%) rotate(-45deg)' : 'translateY(-50%) rotate(0deg)',
+                                            transition: 'all 300ms ease-in-out, background-color 700ms ease-in-out'
                                         }}
                                     />
                                 </div>

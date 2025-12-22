@@ -97,7 +97,7 @@ export function HeroSection() {
                     className="touch-target inline-flex items-center gap-1.5 xs:gap-2 px-3 py-2 rounded-full bg-background border border-border group"
                     style={{
                         boxShadow: getBaseShadow(),
-                        transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out'
+                        transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
                     aria-label={t('cta')}
                 >
@@ -105,7 +105,7 @@ export function HeroSection() {
                         <div className="absolute w-2 h-2 bg-green-500/30 rounded-full gpu-ping" />
                         <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full" />
                     </div>
-                    <span className="text-[11px] xs:text-xs font-semibold text-foreground">{t('cta')}</span>
+                    <span className="text-[11px] xs:text-xs font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>{t('cta')}</span>
                     <Icon
                         icon="mdi:chevron-right"
                         className="w-3 h-3 flex-shrink-0"
