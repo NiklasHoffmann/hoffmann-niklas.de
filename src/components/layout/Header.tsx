@@ -290,7 +290,7 @@ function HeaderComponent() {
                     className="fixed left-0 right-0 bottom-0 md:hidden flex flex-col border-t border-border safe-bottom"
                     role="navigation"
                     aria-label="Mobile menu"
-                    aria-hidden={isMenuClosing}
+                    aria-hidden={mounted && isMenuClosing}
                     style={{
                         top: '56px',
                         zIndex: 9999,
