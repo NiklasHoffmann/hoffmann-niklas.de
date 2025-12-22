@@ -109,8 +109,8 @@ export function AboutSection() {
                 {/* Stats Grid - 2x2 compact */}
                 <div className="grid grid-cols-2 gap-2 xs:gap-3">
                     {[
-                        { label: t('stats.projects'), value: '15+', color: neonColors[0] },
-                        { label: t('stats.clients'), value: '20+', color: neonColors[1] },
+                        { label: t('stats.projects'), value: '5+', color: neonColors[0] },
+                        { label: t('stats.clients'), value: '3+', color: neonColors[1] },
                         { label: t('stats.experience'), value: '5+', color: neonColors[2] },
                         { label: t('stats.passion'), value: '∞', color: neonColors[3] }
                     ].map((stat, i) => (
@@ -184,8 +184,8 @@ export function AboutSection() {
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-4 xs:gap-5 sm:gap-6">
                             {[
-                                { label: t('stats.projects'), value: '15+', color: neonColors[0] },
-                                { label: t('stats.clients'), value: '20+', color: neonColors[1] },
+                                { label: t('stats.projects'), value: '5+', color: neonColors[0] },
+                                { label: t('stats.clients'), value: '3+', color: neonColors[1] },
                                 { label: t('stats.experience'), value: '5+', color: neonColors[2] },
                                 { label: t('stats.passion'), value: '∞', color: neonColors[3] }
                             ].map((stat, i) => (

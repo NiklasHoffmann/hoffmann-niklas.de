@@ -450,7 +450,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           // Berechne den tatsächlichen Abstand vom Bildschirmrand (0) bis zum Content-Start
           // contentRect.left gibt die Position des Contents vom linken Viewport-Rand
           contentOffsetLeft = contentRect.left;
-          
+
           // Bottom Padding aus der Section selbst
           const computedStyle = window.getComputedStyle(referenceSection);
           const paddingBottom = parseFloat(computedStyle.paddingBottom);
@@ -462,7 +462,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
       // Chain Position berechnen - immer genau in der Mitte des verfügbaren Platzes
       const horizontalOffset = availableSpace / 2;
-      
+
       // Dynamischer Kurvenradius basierend auf verfügbarem Platz
       // Je mehr Platz, desto größer die Kurve (aber maximal 40% des verfügbaren Platzes)
       // Minimum: 15px für sehr enge Räume

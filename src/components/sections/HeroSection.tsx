@@ -13,7 +13,7 @@ import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components
 // Icons are deferred to avoid blocking main thread on initial load
 // Container has fixed height to prevent CLS (Cumulative Layout Shift)
 const TechIcons = ({ compact = false, visible = true }: { compact?: boolean; visible?: boolean }) => (
-    <div 
+    <div
         className={`flex items-center justify-center gap-responsive-sm ${compact ? 'mb-0' : 'mb-6 xs:mb-8 sm:mb-10'} transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}
         style={{ minHeight: compact ? '16px' : '24px' }}
         role="list"
