@@ -240,7 +240,7 @@ export function ServicesSection() {
             </SectionRight>
 
             {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
-            <SectionDefault className="h-full flex flex-col 2xl:max-w-7xl">
+            <SectionDefault className="h-full flex flex-col">
                 <div className="w-full min-h-full flex flex-col relative">
                     {isInteractive && (
                         <button

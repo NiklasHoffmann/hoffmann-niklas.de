@@ -158,7 +158,7 @@ export function PackagesSection() {
 
             {/* Default Layout (Desktop, Tablet Portrait, Mobile Portrait) */}
             {!useCompactLayout && (
-                <SectionDefault className="h-full flex flex-col justify-center xl:max-w-7xl">
+                <SectionDefault className="h-full flex flex-col justify-center">
                     {/* Header */}
                     <SectionHeader
                         title={t('title')}

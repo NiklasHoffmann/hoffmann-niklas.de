@@ -188,7 +188,7 @@ export function PortfolioSection() {
             </SectionRight>
 
             {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
-            <SectionDefault className="h-full flex flex-col justify-center 2xl:max-w-7xl">
+            <SectionDefault className="h-full flex flex-col justify-center">
                 {/* Header */}
                 <SectionHeader
                     title={t('title')}

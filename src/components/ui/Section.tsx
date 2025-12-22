@@ -65,7 +65,7 @@ export function Section({
                 relative z-10 w-full h-full
                 ${isMobileLandscape
                     ? 'flex items-center px-5 xs:px-6'
-                    : 'flex flex-col items-center justify-center px-5 xs:px-6 sm:px-20 lg:px-[150px]'
+                    : 'flex flex-col items-center justify-center px-5 xs:px-6 md:px-20 lg:px-[150px]'
                 }
             `.trim().replace(/\s+/g, ' ')}>
                 {children}
@@ -115,8 +115,12 @@ export function SectionDefault({ children, className = '' }: { children: ReactNo
 
     if (isMobileLandscape) return null;
 
+    // Chain-safe max-widths: Ensure content stays within chain boundaries
+    // Mobile (320px): 320 - 40 (2×20px) = 280px → max-w-xs (320px) OK
+    // Tablet (768px): 768 - 160 (2×80px) = 608px → max-w-2xl (672px) TIGHT
+    // Desktop (1920px): 1920 - 300 (2×150px) = 1620px → max-w-6xl (1152px) SAFE
     return (
-        <div className={`text-center w-full mx-auto max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl ${className}`}>
+        <div className={`text-center w-full mx-auto max-w-xs xs:max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl ${className}`}>
             {children}
         </div>
     );
