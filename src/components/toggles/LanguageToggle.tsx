@@ -2,7 +2,7 @@
 
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
-import { useTransition } from 'react';
+import { useTransition, useEffect } from 'react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useTheme } from 'next-themes';
 
@@ -16,6 +16,21 @@ export function LanguageToggle() {
 
     // Use mounted check to avoid hydration mismatch
     const isActive = mounted && showActive;
+
+    // Scroll to saved section after language change
+    useEffect(() => {
+        const targetSection = sessionStorage.getItem('targetSection');
+        if (targetSection) {
+            sessionStorage.removeItem('targetSection');
+            // Wait for content to be fully rendered
+            setTimeout(() => {
+                const element = document.getElementById(targetSection);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 300);
+        }
+    }, [locale]); // Re-run when locale changes
 
     const handleLocaleChange = () => {
         // Cycle through DE -> EN -> ES -> JA -> UK -> DE
@@ -49,18 +64,14 @@ export function LanguageToggle() {
             }
         }
 
+        // Save current section to localStorage before navigation
+        if (currentSection && currentSection !== 'hero') {
+            sessionStorage.setItem('targetSection', currentSection);
+        }
+
         startTransition(() => {
             router.replace(newPath, { scroll: false });
             router.refresh();
-            // Navigate to the same section after language change
-            setTimeout(() => {
-                if (currentSection && currentSection !== 'hero') {
-                    const element = document.getElementById(currentSection);
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'instant', block: 'start' });
-                    }
-                }
-            }, 100);
         });
     };
 
