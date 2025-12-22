@@ -449,7 +449,7 @@ export function ContactSection() {
     <>
       <Section id="contact" sectionKey={key} background="secondary">
         {/* Mobile Landscape Layout */}
-        <SectionLeft className="w-1/2 pr-3 xs:pr-4">
+        <SectionLeft className="w-1/2">
           <h2 className="text-lg xs:text-xl font-bold mb-0.5 xs:mb-1">{t('title')}</h2>
           <p className="text-[11px] xs:text-xs text-muted-foreground mb-1.5 xs:mb-2">{t('subtitle')}</p>
           <p className="text-[9px] xs:text-[10px] text-muted-foreground">{t('pricingHint')}</p>

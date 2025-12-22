@@ -83,7 +83,7 @@ export function AboutSection() {
     return (
         <Section id="about" sectionKey={`${device.layout}-${device.width}`} background="none">
             {/* Mobile Landscape Layout */}
-            <SectionLeft className="w-1/2 pr-3 xs:pr-4">
+            <SectionLeft className="w-1/2">
                 {/* Compact Profile */}
                 <div className="flex items-center gap-2 xs:gap-3 mb-2 xs:mb-3">
                     <div
@@ -105,7 +105,7 @@ export function AboutSection() {
                 </p>
             </SectionLeft>
 
-            <SectionRight className="w-1/2 pr-3 xs:pr-4">
+            <SectionRight className="w-1/2">
                 {/* Stats Grid - 2x2 compact */}
                 <div className="grid grid-cols-2 gap-2 xs:gap-3">
                     {[

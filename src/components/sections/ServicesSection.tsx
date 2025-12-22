@@ -230,12 +230,12 @@ export function ServicesSection() {
     return (
         <Section id="services" sectionKey={key} background="none">
             {/* Mobile Landscape Layout */}
-            <SectionLeft className="w-1/3 pr-3 xs:pr-4">
+            <SectionLeft className="w-1/3">
                 <h2 className="text-lg xs:text-xl font-bold mb-1">{t('title')}</h2>
                 <p className="text-[10px] xs:text-xs text-muted-foreground">{t('subtitle')}</p>
             </SectionLeft>
 
-            <SectionRight className="w-2/3 pr-3 xs:pr-4">
+            <SectionRight className="w-2/3">
                 {renderCompactGrid()}
             </SectionRight>
 
@@ -306,7 +306,7 @@ export function ServicesSection() {
                                 />
 
                                 <div className="flex flex-col justify-center overflow-hidden">
-                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1.5 xs:gap-2 sm:gap-3 lg:gap-4 p-2 xs:p-3">
+                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1.5 xs:gap-2 sm:gap-3 lg:gap-4">
                                         {gridServiceCategories.map((service, i) => {
                                             const isFlipped = flippedCard === i;
 

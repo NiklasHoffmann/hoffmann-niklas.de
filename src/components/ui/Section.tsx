@@ -64,8 +64,8 @@ export function Section({
             <div className={`
                 relative z-10 w-full h-full
                 ${isMobileLandscape
-                    ? 'flex items-center px-5 xs:px-6'
-                    : 'flex flex-col items-center justify-center px-5 xs:px-6 md:px-20 lg:px-[150px]'
+                    ? 'flex items-center px-20'
+                    : 'flex flex-col items-center justify-center px-5 md:px-20 lg:px-[150px]'
                 }
             `.trim().replace(/\s+/g, ' ')}>
                 {children}

@@ -79,7 +79,7 @@ export function HeroSection() {
     return (
         <Section id="hero" sectionKey={`${device.layout}-${device.width}`} animatedBackground>
             {/* Mobile Landscape Layout */}
-            <SectionLeft className="w-2/3 pr-3 xs:pr-4">
+            <SectionLeft className="w-2/3">
                 <h1 className="text-xl xs:text-2xl font-bold mb-2 leading-tight text-foreground">
                     {title}
                 </h1>

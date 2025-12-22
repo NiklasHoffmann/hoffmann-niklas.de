@@ -60,12 +60,12 @@ export function PackagesSection() {
             {/* Compact Layout for tablet/small screens in landscape */}
             {useCompactLayout && (
                 <>
-                    <SectionLeft className="w-1/3 pr-4">
+                    <SectionLeft className="w-1/3">
                         <h2 className="text-lg xs:text-xl font-bold mb-1">{t('title')}</h2>
                         <p className="text-[11px] xs:text-xs text-muted-foreground mb-2 xs:mb-3">{t('subtitle')}</p>
                     </SectionLeft>
 
-                    <SectionRight className="w-2/3 pr-4">
+                    <SectionRight className="w-2/3">
                         {/* Compact 2x2 package grid for mobile landscape */}
                         <div className="grid grid-cols-2 gap-2 xs:gap-2.5">
                             {PACKAGE_KEYS.map((pkgKey, index) => {
