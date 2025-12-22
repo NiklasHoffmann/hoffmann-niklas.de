@@ -13,17 +13,21 @@ import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components
 // Icons are deferred to avoid blocking main thread on initial load
 // Container has fixed height to prevent CLS (Cumulative Layout Shift)
 const TechIcons = ({ compact = false, visible = true }: { compact?: boolean; visible?: boolean }) => (
-    <div className={`flex items-center justify-center gap-3 ${compact ? 'mb-0' : 'mb-8 sm:mb-10'} transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}
-        style={{ minHeight: compact ? '16px' : '24px' }}>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+    <div 
+        className={`flex items-center justify-center gap-responsive-sm ${compact ? 'mb-0' : 'mb-6 xs:mb-8 sm:mb-10'} transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}
+        style={{ minHeight: compact ? '16px' : '24px' }}
+        role="list"
+        aria-label="Technology stack"
+    >
+        <div className="flex items-center gap-1.5 xs:gap-2 sm:gap-3 text-xs text-muted-foreground">
             {visible && (
                 <>
-                    <Icon icon="logos:react" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
-                    <Icon icon="logos:nextjs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
-                    <Icon icon="logos:typescript-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
-                    <Icon icon="logos:tailwindcss-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
-                    <Icon icon="logos:nodejs-icon" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
-                    <Icon icon="logos:ethereum" className={`${compact ? 'w-4 h-4' : 'w-6 h-6'}`} />
+                    <Icon icon="logos:react" className={`${compact ? 'w-3.5 h-3.5 xs:w-4 xs:h-4' : 'w-5 h-5 xs:w-6 xs:h-6'}`} />
+                    <Icon icon="logos:nextjs-icon" className={`${compact ? 'w-3.5 h-3.5 xs:w-4 xs:h-4' : 'w-5 h-5 xs:w-6 xs:h-6'}`} />
+                    <Icon icon="logos:typescript-icon" className={`${compact ? 'w-3.5 h-3.5 xs:w-4 xs:h-4' : 'w-5 h-5 xs:w-6 xs:h-6'}`} />
+                    <Icon icon="logos:tailwindcss-icon" className={`${compact ? 'w-3.5 h-3.5 xs:w-4 xs:h-4' : 'w-5 h-5 xs:w-6 xs:h-6'}`} />
+                    <Icon icon="logos:nodejs-icon" className={`${compact ? 'w-3.5 h-3.5 xs:w-4 xs:h-4' : 'w-5 h-5 xs:w-6 xs:h-6'}`} />
+                    <Icon icon="logos:ethereum" className={`${compact ? 'w-3.5 h-3.5 xs:w-4 xs:h-4' : 'w-5 h-5 xs:w-6 xs:h-6'}`} />
                 </>
             )}
         </div>
@@ -75,32 +79,33 @@ export function HeroSection() {
     return (
         <Section id="hero" sectionKey={`${device.layout}-${device.width}`} animatedBackground>
             {/* Mobile Landscape Layout */}
-            <SectionLeft className="w-2/3 pr-4">
-                <h1 className="text-2xl font-bold mb-2 leading-tight text-foreground">
+            <SectionLeft className="w-2/3 pr-3 xs:pr-4">
+                <h1 className="text-xl xs:text-2xl font-bold mb-2 leading-tight text-foreground">
                     {title}
                 </h1>
-                <p className="text-xs text-muted-foreground mb-2 max-w-sm">
+                <p className="text-[10px] xs:text-xs text-muted-foreground mb-2 max-w-sm">
                     {subtitle}
                 </p>
-                <p className="text-xs text-accent font-medium">
+                <p className="text-[10px] xs:text-xs text-accent font-medium">
                     {priceNote}
                 </p>
             </SectionLeft>
 
-            <SectionRight className="w-1/3 gap-3">
+            <SectionRight className="w-1/3 gap-2 xs:gap-3">
                 <button
                     onClick={openChat}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-border group"
+                    className="touch-target inline-flex items-center gap-1.5 xs:gap-2 px-3 py-2 rounded-full bg-background border border-border group"
                     style={{
                         boxShadow: getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out'
                     }}
+                    aria-label={t('cta')}
                 >
                     <div className="relative flex items-center justify-center">
                         <div className="absolute w-2 h-2 bg-green-500/30 rounded-full gpu-ping" />
                         <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full" />
                     </div>
-                    <span className="text-xs font-semibold text-foreground">{t('cta')}</span>
+                    <span className="text-[10px] xs:text-xs font-semibold text-foreground">{t('cta')}</span>
                     <Icon
                         icon="mdi:chevron-right"
                         className="w-3 h-3 flex-shrink-0"
@@ -117,42 +122,43 @@ export function HeroSection() {
                     onClick={openChat}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    className="mb-6 sm:mb-8 inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-background border border-border group"
+                    className="touch-target mb-5 xs:mb-6 sm:mb-8 inline-flex items-center gap-2 px-3 xs:px-4 sm:px-5 py-2.5 xs:py-3 sm:py-3 rounded-full bg-background border border-border group"
                     style={{
                         boxShadow: isHovered ? getHoverShadow() : getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
+                    aria-label={t('cta')}
                 >
                     <div className="relative flex items-center justify-center">
-                        <div className="absolute w-3 h-3 bg-green-500/30 rounded-full gpu-ping" />
-                        <div className="relative w-2 h-2 bg-green-500 rounded-full" />
+                        <div className="absolute w-2.5 xs:w-3 h-2.5 xs:h-3 bg-green-500/30 rounded-full gpu-ping" />
+                        <div className="relative w-1.5 xs:w-2 h-1.5 xs:h-2 bg-green-500 rounded-full" />
                     </div>
                     <span className="text-xs sm:text-sm font-semibold text-foreground" style={{ transition: 'color 700ms ease-in-out' }}>
                         {t('cta')}
                     </span>
                     <Icon
                         icon="mdi:chevron-right"
-                        className="w-4 h-4 flex-shrink-0 group-hover:translate-x-1 transition-transform duration-200"
+                        className="w-3.5 xs:w-4 h-3.5 xs:h-4 flex-shrink-0 group-hover:translate-x-1 transition-transform duration-200"
                         style={{ color: 'hsl(var(--accent))', transition: 'color 700ms ease-in-out, transform 200ms ease-in-out' }}
                     />
                 </button>
 
                 {/* Title - text-balance ensures consistent line breaks regardless of font loading */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-foreground text-balance">
+                <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-3 xs:mb-4 sm:mb-6 leading-tight text-foreground text-balance">
                     {title}
                 </h1>
 
                 {/* Subtitle with icon */}
-                <div className="flex items-center justify-center gap-3 mb-4 sm:mb-5">
-                    <div className="hidden sm:block w-12 h-[2px] bg-gradient-to-r from-transparent to-accent/50" />
-                    <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
+                <div className="flex items-center justify-center gap-2 xs:gap-3 mb-3 xs:mb-4 sm:mb-5">
+                    <div className="hidden sm:block w-8 md:w-12 h-[2px] bg-gradient-to-r from-transparent to-accent/50" />
+                    <p className="text-sm xs:text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xs xs:max-w-sm sm:max-w-2xl">
                         {subtitle}
                     </p>
-                    <div className="hidden sm:block w-12 h-[2px] bg-gradient-to-l from-transparent to-accent/50" />
+                    <div className="hidden sm:block w-8 md:w-12 h-[2px] bg-gradient-to-l from-transparent to-accent/50" />
                 </div>
 
                 {/* Price Note */}
-                <p className="text-sm sm:text-base text-accent font-medium mb-6 sm:mb-8">
+                <p className="text-sm xs:text-base sm:text-lg md:text-xl text-accent font-medium mb-6 xs:mb-8 sm:mb-10">
                     {priceNote}
                 </p>
 

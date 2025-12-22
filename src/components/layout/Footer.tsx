@@ -36,10 +36,10 @@ function FooterComponent() {
         <Section id="footer" background="secondary" asFooter>
             {/* Mobile Landscape Layout */}
             <SectionLeft className='w-1/2'>
-                <h3 className="text-lg font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-1">
+                <h3 className="text-base xs:text-lg font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-1">
                     {t('name')}
                 </h3>
-                <p className="text-xs text-muted-foreground mb-2">{t('brand')}</p>
+                <p className="text-[10px] xs:text-xs text-muted-foreground mb-2">{t('brand')}</p>
                 <div className="flex gap-2">
                     {isMounted && socialLinks.map((social) => {
                         return (
@@ -48,7 +48,8 @@ function FooterComponent() {
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2 rounded-lg bg-secondary/50 border border-border"
+                                className="touch-target flex items-center justify-center rounded-lg bg-secondary/50 border border-border hover:bg-accent hover:border-accent/50"
+                                style={{ transition: TRANSITIONS.backgroundAndBorder }}
                                 aria-label={social.label}
                             >
                                 <Icon icon={social.icon} className="w-4 h-4" />
@@ -60,10 +61,10 @@ function FooterComponent() {
 
             <SectionRight className='w-1/2'>
                 <div className="text-center text-[10px] text-muted-foreground space-y-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap justify-center">
                         <Link
                             href={`/${locale}/impressum`}
-                            className="link-underline hover:text-accent"
+                            className="link-underline hover:text-accent py-2 touch-target"
                             data-glow={isMounted && showActive ? 'true' : undefined}
                             style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
@@ -72,7 +73,7 @@ function FooterComponent() {
                         <span>•</span>
                         <Link
                             href={`/${locale}/datenschutz`}
-                            className="link-underline hover:text-accent"
+                            className="link-underline hover:text-accent py-2 touch-target"
                             data-glow={isMounted && showActive ? 'true' : undefined}
                             style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
@@ -89,23 +90,23 @@ function FooterComponent() {
             </SectionRight>
 
             {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
-            <SectionDefault className="max-w-4xl">
+            <SectionDefault className="max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl">
                 {/* Content Stack */}
-                <div className="flex flex-col items-center text-center space-y-6 sm:space-y-8 mb-8 sm:mb-10">
+                <div className="flex flex-col items-center text-center space-responsive-md mb-8 sm:mb-10">
                     {/* Brand */}
                     <div>
-                        <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-2 sm:mb-3">
+                        <h3 className="text-responsive-xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-2 sm:mb-3">
                             {t('name')}
                         </h3>
-                        <p className="text-muted-foreground text-sm sm:text-base max-w-md">
+                        <p className="text-muted-foreground text-responsive-sm max-w-md">
                             {t('brand')}
                         </p>
                     </div>
 
                     {/* Social Links */}
                     <div>
-                        <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">{t('followMe')}</h4>
-                        <div className="flex gap-3 sm:gap-4 justify-center">
+                        <h4 className="font-semibold mb-3 sm:mb-4 text-responsive-sm">{t('followMe')}</h4>
+                        <div className="flex gap-responsive-sm justify-center flex-wrap">
                             {socialLinks.map((social) => {
                                 return (
                                     <a
@@ -113,11 +114,11 @@ function FooterComponent() {
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="p-3 rounded-lg bg-secondary/50 hover:bg-accent hover:text-accent-foreground border border-border hover:border-accent/50"
+                                        className="touch-target flex items-center justify-center rounded-lg bg-secondary/50 hover:bg-accent hover:text-accent-foreground border border-border hover:border-accent/50"
                                         style={{ transition: TRANSITIONS.backgroundAndBorder }}
                                         aria-label={social.label}
                                     >
-                                        <Icon icon={social.icon} className="w-5 h-5" />
+                                        <Icon icon={social.icon} className="w-5 h-5 sm:w-6 sm:h-6" />
                                     </a>
                                 );
                             })}
@@ -129,11 +130,11 @@ function FooterComponent() {
                 <div className="border-t border-border mb-6" style={{ transition: TRANSITIONS.border }} />
 
                 {/* Copyright & Legal Links - Centered */}
-                <div className="text-center text-xs sm:text-sm text-muted-foreground space-y-2">
-                    <div className="flex items-center justify-center gap-4 mb-2">
+                <div className="text-center text-responsive-xs text-muted-foreground space-responsive-sm">
+                    <div className="flex items-center justify-center gap-3 xs:gap-4 mb-2 flex-wrap">
                         <Link
                             href={`/${locale}/impressum`}
-                            className="link-underline hover:text-accent"
+                            className="link-underline hover:text-accent py-2 touch-target"
                             data-glow={isMounted && showActive ? 'true' : undefined}
                             style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >
@@ -142,7 +143,7 @@ function FooterComponent() {
                         <span className="text-muted-foreground/40">•</span>
                         <Link
                             href={`/${locale}/datenschutz`}
-                            className="link-underline hover:text-accent"
+                            className="link-underline hover:text-accent py-2 touch-target"
                             data-glow={isMounted && showActive ? 'true' : undefined}
                             style={{ color: 'hsl(var(--muted-foreground))', transition: 'color 700ms ease-in-out' }}
                         >

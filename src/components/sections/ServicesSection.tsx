@@ -204,22 +204,22 @@ export function ServicesSection() {
 
     // Compact grid for mobile landscape - show 6 small icons in 3x2 grid
     const renderCompactGrid = () => (
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-1.5 xs:gap-2">
             {gridServiceCategories.map((service, i) => (
                 <div
                     key={i}
-                    className="flex flex-col items-center justify-center p-2 bg-card/50 rounded-lg border border-border"
+                    className="flex flex-col items-center justify-center p-1.5 xs:p-2 bg-card/50 rounded-lg border border-border"
                     style={{ transition: 'border-color 700ms ease-in-out' }}
                 >
-                    <div className="h-6 flex items-center mb-1">
+                    <div className="h-5 xs:h-6 flex items-center mb-1">
                         <Icon
                             icon={service.icon}
-                            className="text-2xl"
+                            className="text-xl xs:text-2xl"
                             width="1em"
                             height="1em"
                         />
                     </div>
-                    <span className="text-[9px] text-center leading-tight text-muted-foreground">
+                    <span className="text-[8px] xs:text-[9px] text-center leading-tight text-muted-foreground">
                         {service.title}
                     </span>
                 </div>
@@ -230,12 +230,12 @@ export function ServicesSection() {
     return (
         <Section id="services" sectionKey={key} background="none">
             {/* Mobile Landscape Layout */}
-            <SectionLeft className="w-1/3 pr-4">
-                <h2 className="text-xl font-bold mb-1">{t('title')}</h2>
-                <p className="text-xs text-muted-foreground">{t('subtitle')}</p>
+            <SectionLeft className="w-1/3 pr-3 xs:pr-4">
+                <h2 className="text-lg xs:text-xl font-bold mb-1">{t('title')}</h2>
+                <p className="text-[10px] xs:text-xs text-muted-foreground">{t('subtitle')}</p>
             </SectionLeft>
 
-            <SectionRight className="w-2/3 pr-4">
+            <SectionRight className="w-2/3 pr-3 xs:pr-4">
                 {renderCompactGrid()}
             </SectionRight>
 
@@ -246,7 +246,7 @@ export function ServicesSection() {
                         <button
                             onClick={toggleView}
                             disabled={isTransitioning}
-                            className="absolute top-4 right-4 lg:top-16 xl:top-24 lg:right-8 xl:right-12 z-50 px-4 py-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                            className="touch-target absolute top-3 right-3 xs:top-4 xs:right-4 lg:top-16 xl:top-24 lg:right-8 xl:right-12 z-50 flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                             title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
                             aria-label={showCube ? 'Switch to Grid View' : 'Switch to 3D Cube View'}
                             suppressHydrationWarning
@@ -269,12 +269,12 @@ export function ServicesSection() {
                         className={`w-full h-full flex flex-col ${displayContent && isInteractive ? 'justify-around' : 'justify-center'}`}
                     >
                         {displayContent && isInteractive ? (
-                            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-12 sm:gap-16 lg:gap-0 py-8 sm:py-12 lg:py-16 h-full">
-                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-y-2 sm:space-y-3 text-center lg:text-left max-w-sm order-1 lg:order-none px-4 lg:px-0">
-                                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground">
+                            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-responsive-md lg:gap-0 py-6 xs:py-8 sm:py-12 lg:py-16 h-full">
+                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-responsive-sm text-center lg:text-left max-w-xs xs:max-w-sm order-1 lg:order-none px-3 xs:px-4 lg:px-0">
+                                    <h2 className="text-responsive-2xl font-bold leading-tight text-foreground">
                                         {t('title')}
                                     </h2>
-                                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+                                    <p className="text-responsive-sm text-muted-foreground leading-relaxed">
                                         {t('subtitle')}
                                     </p>
                                 </div>
@@ -287,12 +287,12 @@ export function ServicesSection() {
                                     />
                                 </div>
 
-                                <div className="lg:absolute lg:right-8 xl:right-12 lg:bottom-20 text-center lg:text-right max-w-sm order-3 px-4 lg:px-0">
-                                    <div className="relative mb-3 sm:mb-4">
+                                <div className="lg:absolute lg:right-8 xl:right-12 lg:bottom-20 text-center lg:text-right max-w-xs xs:max-w-sm order-3 px-3 xs:px-4 lg:px-0">
+                                    <div className="relative mb-2 xs:mb-3 sm:mb-4">
                                         <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
                                         <div className="relative h-px bg-gradient-to-l from-accent via-accent to-transparent" />
                                     </div>
-                                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+                                    <p className="text-responsive-sm text-muted-foreground leading-relaxed">
                                         {t('cubeHint')}
                                     </p>
                                 </div>
@@ -306,7 +306,7 @@ export function ServicesSection() {
                                 />
 
                                 <div className="flex flex-col justify-center overflow-hidden">
-                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 sm:gap-3 lg:gap-4 sm:p-3">
+                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1.5 xs:gap-2 sm:gap-3 lg:gap-4 p-2 xs:p-3">
                                         {gridServiceCategories.map((service, i) => {
                                             const isFlipped = flippedCard === i;
 
@@ -341,7 +341,7 @@ export function ServicesSection() {
                                                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : i); } }}
                                                         onMouseEnter={handleMouseEnter}
                                                         onMouseLeave={handleMouseLeave}
-                                                        className="relative w-full aspect-square max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-xl"
+                                                        className="relative w-full aspect-square max-h-44 xs:max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg xs:rounded-xl"
                                                         style={{
                                                             transformStyle: 'preserve-3d',
                                                             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -349,60 +349,60 @@ export function ServicesSection() {
                                                         }}
                                                     >
                                                         <div
-                                                            className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-card rounded-xl border border-border backface-hidden flex flex-col"
+                                                            className="absolute inset-0 w-full h-full p-2.5 xs:p-3 sm:p-4 bg-card rounded-lg xs:rounded-xl border border-border backface-hidden flex flex-col"
                                                             style={{
                                                                 backfaceVisibility: 'hidden',
                                                                 transition: 'border-color 700ms ease-in-out',
                                                             }}
                                                         >
                                                             {service.techStack.length > 0 && (
-                                                                <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 pointer-events-none z-20">
-                                                                    <div className="relative flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6">
+                                                                <div className="absolute bottom-2.5 xs:bottom-3 sm:bottom-4 right-2.5 xs:right-3 sm:right-4 pointer-events-none z-20">
+                                                                    <div className="relative flex items-center justify-center w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6">
                                                                         <div className="absolute inset-0 bg-blue-500/50 rounded-full gpu-ping" />
-                                                                        <div className="relative w-2.5 h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-full" />
+                                                                        <div className="relative w-2 h-2 xs:w-2.5 xs:h-2.5 sm:w-3 sm:h-3 bg-blue-500 rounded-full" />
                                                                     </div>
                                                                 </div>
                                                             )}
 
-                                                            <div className="mb-2 sm:mb-3 flex-shrink-0 h-[30px] sm:h-[40px] lg:h-[48px] flex items-center">
+                                                            <div className="mb-1.5 xs:mb-2 sm:mb-3 flex-shrink-0 h-[28px] xs:h-[30px] sm:h-[40px] lg:h-[48px] flex items-center">
                                                                 <Icon
                                                                     icon={service.icon}
-                                                                    className="text-3xl sm:text-4xl lg:text-5xl"
+                                                                    className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl"
                                                                     width="1em"
                                                                     height="1em"
                                                                 />
                                                             </div>
 
-                                                            <h3 className="text-sm sm:text-base lg:text-lg font-bold mb-1 sm:mb-2 leading-tight flex-shrink-0">
+                                                            <h3 className="text-xs xs:text-sm sm:text-base lg:text-lg font-bold mb-1 sm:mb-2 leading-tight flex-shrink-0">
                                                                 {service.title}
                                                             </h3>
 
-                                                            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1">
+                                                            <p className="text-[10px] xs:text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1">
                                                                 {service.description}
                                                             </p>
                                                         </div>
 
                                                         <div
-                                                            className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-secondary/50 rounded-xl border border-accent/50 shadow-lg shadow-accent/10 backface-hidden overflow-hidden flex flex-col"
+                                                            className="absolute inset-0 w-full h-full p-2.5 xs:p-3 sm:p-4 bg-secondary/50 rounded-lg xs:rounded-xl border border-accent/50 shadow-lg shadow-accent/10 backface-hidden overflow-hidden flex flex-col"
                                                             style={{
                                                                 backfaceVisibility: 'hidden',
                                                                 transform: 'rotateY(180deg)',
                                                                 transition: 'border-color 700ms ease-in-out',
                                                             }}
                                                         >
-                                                            <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 rounded-xl`} />
+                                                            <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-5 rounded-lg xs:rounded-xl`} />
 
                                                             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center overflow-hidden">
-                                                                <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center max-h-full overflow-y-auto">
+                                                                <div className="flex flex-wrap gap-1 xs:gap-1.5 sm:gap-2 justify-center max-h-full overflow-y-auto">
                                                                     {service.techStack.map((tech) => {
                                                                         const TechIcon = tech.icon;
                                                                         return (
                                                                             <div
                                                                                 key={tech.name}
-                                                                                className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 bg-accent/10 rounded-md flex-shrink-0"
+                                                                                className="flex items-center gap-0.5 xs:gap-1 sm:gap-1.5 px-1.5 xs:px-2 sm:px-2.5 py-0.5 xs:py-1 sm:py-1.5 bg-accent/10 rounded-md flex-shrink-0"
                                                                             >
-                                                                                <TechIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                                                                                <span className="text-[10px] sm:text-xs font-medium whitespace-nowrap">
+                                                                                <TechIcon className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                                                                                <span className="text-[9px] xs:text-[10px] sm:text-xs font-medium whitespace-nowrap">
                                                                                     {tech.name}
                                                                                 </span>
                                                                             </div>

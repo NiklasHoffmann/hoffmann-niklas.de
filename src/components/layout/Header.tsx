@@ -172,19 +172,19 @@ function HeaderComponent() {
     return (
         <>
             <header
-                className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
+                className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border safe-top"
                 style={{
                     transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out',
                     maxWidth: '100vw',
                     width: '100%'
                 }}
             >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-14 sm:h-16">
+                <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-14 xs:h-15 sm:h-16 md:h-18">
                         {/* Logo */}
                         <a
                             href="#hero"
-                            className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text cursor-pointer"
+                            className="text-base xs:text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text cursor-pointer touch-target flex items-center justify-center"
                             aria-label="Scroll to top"
                         >
                             NH
@@ -193,7 +193,7 @@ function HeaderComponent() {
                         {/* Desktop Navigation */}
                         <nav
                             ref={navRef}
-                            className="hidden md:flex items-center gap-4 lg:gap-6 relative"
+                            className="hidden md:flex items-center gap-3 lg:gap-5 xl:gap-6 relative"
                             style={{ paddingBottom: '3px' }}
                             aria-label="Main navigation"
                         >
@@ -203,7 +203,7 @@ function HeaderComponent() {
                                     <a
                                         key={section.id}
                                         href={`#${section.id}`}
-                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10 rounded px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10 rounded px-2 lg:px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent touch-target"
                                         style={isActive && isInteractiveActive ? {
                                             color: section.color,
                                             transition: 'all 0.7s ease-out',
@@ -234,7 +234,7 @@ function HeaderComponent() {
                         </nav>
 
                         {/* Controls */}
-                        <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
                             <InteractiveToggle />
                             <ThemeToggle />
                             <LanguageToggle />
@@ -242,7 +242,7 @@ function HeaderComponent() {
                             {/* Mobile Menu Button - Animated Icon */}
                             <button
                                 onClick={handleToggleMenu}
-                                className="md:hidden p-2 rounded-lg hover:bg-secondary/50 transition-colors relative w-10 h-10 flex items-center justify-center"
+                                className="md:hidden p-2 rounded-lg hover:bg-secondary/50 transition-colors relative touch-target flex items-center justify-center"
                                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                                 aria-expanded={isMenuOpen}
                                 aria-controls="mobile-menu"
@@ -284,7 +284,7 @@ function HeaderComponent() {
             {/* Full-Screen Mobile Navigation Overlay - Outside Header */}
             {(isMenuOpen || isMenuClosing) && (
                 <div
-                    className="fixed left-0 right-0 bottom-0 md:hidden flex flex-col border-t border-border"
+                    className="fixed left-0 right-0 bottom-0 md:hidden flex flex-col border-t border-border safe-bottom"
                     style={{
                         top: '56px',
                         zIndex: 9999,
@@ -298,7 +298,7 @@ function HeaderComponent() {
                     {/* Centered Navigation */}
                     <nav
                         id="mobile-menu"
-                        className="flex-1 flex flex-col items-center justify-center gap-6 w-full px-8"
+                        className="flex-1 flex flex-col items-center justify-center gap-5 xs:gap-6 w-full px-6 xs:px-8"
                         aria-label="Mobile navigation"
                     >
                         {sections.map((section, index) => {
@@ -309,7 +309,7 @@ function HeaderComponent() {
                                     key={section.id}
                                     href={`#${section.id}`}
                                     onClick={handleCloseMenu}
-                                    className="text-2xl sm:text-3xl font-bold relative text-foreground"
+                                    className="text-xl xs:text-2xl sm:text-3xl font-bold relative text-foreground touch-target py-2"
                                     style={{
                                         color: isActive && isInteractiveActive ? section.color : undefined,
                                         textShadow: isActive && isInteractiveActive ? `0 0 20px ${section.color}, 0 0 40px ${section.color}` : 'none',
@@ -327,7 +327,7 @@ function HeaderComponent() {
                                     {/* Active Indicator Dot */}
                                     {isActive && (
                                         <span
-                                            className="absolute -left-8 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
+                                            className="absolute -left-6 xs:-left-8 top-1/2 -translate-y-1/2 w-2 xs:w-2.5 h-2 xs:h-2.5 rounded-full"
                                             style={{
                                                 backgroundColor: isInteractiveActive ? section.color : 'currentColor',
                                                 boxShadow: isInteractiveActive ? `0 0 8px ${section.color}, 0 0 16px ${section.color}` : 'none',

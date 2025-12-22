@@ -83,11 +83,11 @@ export function AboutSection() {
     return (
         <Section id="about" sectionKey={`${device.layout}-${device.width}`} background="none">
             {/* Mobile Landscape Layout */}
-            <SectionLeft className="w-1/2 pr-4">
+            <SectionLeft className="w-1/2 pr-3 xs:pr-4">
                 {/* Compact Profile */}
-                <div className="flex items-center gap-3 mb-3">
+                <div className="flex items-center gap-2 xs:gap-3 mb-2 xs:mb-3">
                     <div
-                        className="w-16 h-16 rounded-full bg-secondary/30 flex items-center justify-center border border-border text-xl font-bold"
+                        className="w-14 h-14 xs:w-16 xs:h-16 rounded-full bg-secondary/30 flex items-center justify-center border border-border text-lg xs:text-xl font-bold"
                         style={{
                             borderColor: isActiveAndHydrated ? neonColors[0] : 'hsl(var(--border))',
                             transition: 'border-color 700ms ease-in-out'
@@ -96,18 +96,18 @@ export function AboutSection() {
                         NH
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold">Niklas Hoffmann</h3>
-                        <p className="text-xs text-muted-foreground">{t('role')}</p>
+                        <h3 className="text-base xs:text-lg font-bold">Niklas Hoffmann</h3>
+                        <p className="text-[10px] xs:text-xs text-muted-foreground">{t('role')}</p>
                     </div>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
+                <p className="text-[10px] xs:text-xs text-muted-foreground leading-relaxed max-w-xs">
                     {t('description')}
                 </p>
             </SectionLeft>
 
-            <SectionRight className="w-1/2 pr-4">
+            <SectionRight className="w-1/2 pr-3 xs:pr-4">
                 {/* Stats Grid - 2x2 compact */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2 xs:gap-3">
                     {[
                         { label: t('stats.projects'), value: '15+', color: neonColors[0] },
                         { label: t('stats.clients'), value: '20+', color: neonColors[1] },
@@ -116,7 +116,7 @@ export function AboutSection() {
                     ].map((stat, i) => (
                         <div key={i} className="text-center">
                             <div
-                                className="text-xl font-bold"
+                                className="text-lg xs:text-xl font-bold"
                                 style={{
                                     color: isActiveAndHydrated ? stat.color : 'inherit',
                                     textShadow: isActiveAndHydrated ? `0 0 15px ${stat.color}40` : 'none',
@@ -125,29 +125,29 @@ export function AboutSection() {
                             >
                                 {stat.value}
                             </div>
-                            <div className="text-[10px] text-muted-foreground">{stat.label}</div>
+                            <div className="text-[9px] xs:text-[10px] text-muted-foreground">{stat.label}</div>
                         </div>
                     ))}
                 </div>
             </SectionRight>
 
             {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
-            <SectionDefault className="h-full flex flex-col justify-center max-w-6xl">
+            <SectionDefault className="h-full flex flex-col justify-center">
                 {/* Header */}
                 <SectionHeader
                     title={t('title')}
-                    className="mb-4 sm:mb-6 md:mb-8 flex-shrink-0 text-center"
+                    className="flex-shrink-0"
                 />
 
                 {/* Main Content */}
-                <div className="flex flex-col lg:flex-row gap-6 md:gap-12 lg:gap-16">
+                <div className="flex flex-col lg:flex-row gap-responsive-md lg:gap-16">
                     {/* Left Column - Profile (full width on mobile portrait, 2/5 on desktop) */}
                     <div className="w-full lg:w-2/5 flex flex-col justify-center">
                         {/* Avatar & Name */}
-                        <div className="flex flex-col items-center text-center mb-4 sm:mb-8">
-                            <div className="relative mb-4">
+                        <div className="flex flex-col items-center text-center mb-4 xs:mb-6 sm:mb-8">
+                            <div className="relative mb-3 xs:mb-4">
                                 <div
-                                    className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-secondary/30 flex items-center justify-center border border-border"
+                                    className="w-28 h-28 xs:w-32 xs:h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full bg-secondary/30 flex items-center justify-center border border-border"
                                     style={{
                                         borderColor: isActiveAndHydrated
                                             ? neonColors[0]
@@ -158,10 +158,10 @@ export function AboutSection() {
                                             : 'none'
                                     }}
                                 >
-                                    <div className="text-4xl md:text-5xl font-bold">NH</div>
+                                    <div className="text-3xl xs:text-4xl md:text-5xl font-bold">NH</div>
                                 </div>
                                 <div
-                                    className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-foreground px-4 py-1.5 rounded-full font-semibold text-sm whitespace-nowrap border border-border"
+                                    className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-foreground px-3 xs:px-4 py-1 xs:py-1.5 rounded-full font-semibold text-xs xs:text-sm whitespace-nowrap border border-border"
                                     style={{
                                         borderColor: isActiveAndHydrated
                                             ? neonColors[0]
@@ -173,16 +173,16 @@ export function AboutSection() {
                                 </div>
                             </div>
 
-                            <h3 className="text-2xl md:text-3xl font-bold mb-3">
+                            <h3 className="text-xl xs:text-2xl md:text-3xl font-bold mb-2 xs:mb-3">
                                 Niklas Hoffmann
                             </h3>
-                            <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-md">
+                            <p className="text-responsive-sm text-muted-foreground leading-relaxed max-w-xs xs:max-w-sm md:max-w-md">
                                 {t('description')}
                             </p>
                         </div>
 
                         {/* Stats */}
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-2 gap-4 xs:gap-5 sm:gap-6">
                             {[
                                 { label: t('stats.projects'), value: '15+', color: neonColors[0] },
                                 { label: t('stats.clients'), value: '20+', color: neonColors[1] },
@@ -191,7 +191,7 @@ export function AboutSection() {
                             ].map((stat, i) => (
                                 <div key={i} className="text-center">
                                     <div
-                                        className="text-3xl md:text-4xl font-bold mb-1"
+                                        className="text-2xl xs:text-3xl md:text-4xl font-bold mb-1"
                                         style={{
                                             color: isActiveAndHydrated ? stat.color : 'inherit',
                                             textShadow: isActiveAndHydrated
@@ -203,7 +203,7 @@ export function AboutSection() {
                                     >
                                         {stat.value}
                                     </div>
-                                    <div className="text-xs text-muted-foreground">
+                                    <div className="text-responsive-xs text-muted-foreground">
                                         {stat.label}
                                     </div>
                                 </div>
@@ -213,14 +213,14 @@ export function AboutSection() {
 
                     {/* Right Column - What I Do (hidden on mobile portrait) */}
                     <div className="hidden lg:flex lg:w-3/5 flex-col justify-center">
-                        <h3 className="text-xl md:text-2xl font-bold mb-8">
+                        <h3 className="text-responsive-xl font-bold mb-6 md:mb-8">
                             {t('whatIDoTitle', { default: 'What I Do' })}
                         </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-responsive-sm md:gap-6">
                             {highlights.map((item, index) => (
                                 <div
                                     key={item.key}
-                                    className="flex items-center gap-3 p-4 rounded-lg border border-border hover:border-accent/30 transition-all duration-300"
+                                    className="flex items-center gap-2 xs:gap-3 p-3 xs:p-4 rounded-lg border border-border hover:border-accent/30 transition-all duration-300"
                                     style={{
                                         borderColor: isActiveAndHydrated
                                             ? `${neonColors[index % neonColors.length]}20`
@@ -229,7 +229,7 @@ export function AboutSection() {
                                     }}
                                 >
                                     <div
-                                        className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary/50 flex items-center justify-center"
+                                        className="flex-shrink-0 w-9 h-9 xs:w-10 xs:h-10 rounded-full bg-secondary/50 flex items-center justify-center"
                                         style={{
                                             backgroundColor: isActiveAndHydrated
                                                 ? `${neonColors[index % neonColors.length]}10`
@@ -239,7 +239,7 @@ export function AboutSection() {
                                     >
                                         <Icon
                                             icon={item.icon}
-                                            className="w-5 h-5"
+                                            className="w-4 h-4 xs:w-5 xs:h-5"
                                             style={{
                                                 color: isActiveAndHydrated
                                                     ? neonColors[index % neonColors.length]
@@ -249,7 +249,7 @@ export function AboutSection() {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-sm md:text-base font-medium leading-relaxed">
+                                        <p className="text-responsive-sm font-medium leading-relaxed">
                                             {t(item.key)}
                                         </p>
                                     </div>

@@ -61,13 +61,13 @@ export function PackagesSection() {
             {useCompactLayout && (
                 <>
                     <SectionLeft className="w-1/3 pr-4">
-                        <h2 className="text-xl font-bold mb-1">{t('title')}</h2>
-                        <p className="text-xs text-muted-foreground mb-3">{t('subtitle')}</p>
+                        <h2 className="text-lg xs:text-xl font-bold mb-1">{t('title')}</h2>
+                        <p className="text-[11px] xs:text-xs text-muted-foreground mb-2 xs:mb-3">{t('subtitle')}</p>
                     </SectionLeft>
 
                     <SectionRight className="w-2/3 pr-4">
                         {/* Compact 2x2 package grid for mobile landscape */}
-                        <div className="grid grid-cols-2 gap-2.5">
+                        <div className="grid grid-cols-2 gap-2 xs:gap-2.5">
                             {PACKAGE_KEYS.map((pkgKey, index) => {
                                 const cardColor = neonColors[index % neonColors.length];
                                 const includes = t.raw(`packages.${pkgKey}.includes`) as string[];
@@ -80,7 +80,7 @@ export function PackagesSection() {
                                         tabIndex={0}
                                         onClick={() => setFlippedCard(isFlipped ? null : index)}
                                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : index); } }}
-                                        className="relative p-2.5 rounded-lg border bg-card/50 cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                                        className="relative p-2 xs:p-2.5 rounded-lg border bg-card/50 cursor-pointer transition-all duration-300 hover:scale-[1.02] min-h-[44px]"
                                         style={{
                                             borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
                                             transition: 'border-color 700ms ease-in-out, transform 300ms ease-out'
@@ -90,7 +90,7 @@ export function PackagesSection() {
                                             // Front: Title + Price
                                             <>
                                                 <h3
-                                                    className="text-sm font-semibold mb-1.5 leading-tight"
+                                                    className="text-xs xs:text-sm font-semibold mb-1 xs:mb-1.5 leading-tight"
                                                     style={{
                                                         color: isActiveAndHydrated ? cardColor : 'inherit',
                                                         transition: 'color 700ms ease-in-out'
@@ -98,11 +98,11 @@ export function PackagesSection() {
                                                 >
                                                     {t(`packages.${pkgKey}.label`)}
                                                 </h3>
-                                                <p className="text-[10px] text-muted-foreground mb-2 leading-tight">
+                                                <p className="text-[9px] xs:text-[10px] text-muted-foreground mb-1.5 xs:mb-2 leading-tight">
                                                     {t(`packages.${pkgKey}.target`)}
                                                 </p>
                                                 <div
-                                                    className="text-xs font-semibold mt-auto pt-2 border-t"
+                                                    className="text-[11px] xs:text-xs font-semibold mt-auto pt-1.5 xs:pt-2 border-t"
                                                     style={{
                                                         color: isActiveAndHydrated ? cardColor : 'inherit',
                                                         borderColor: isActiveAndHydrated ? `${cardColor}30` : 'hsl(var(--border) / 0.6)',
@@ -163,12 +163,12 @@ export function PackagesSection() {
                     <SectionHeader
                         title={t('title')}
                         subtitle={t('subtitle')}
-                        className="text-center mb-4 sm:mb-6 lg:mb-8"
+                        className="text-center mb-3 xs:mb-4 sm:mb-6 lg:mb-8"
                     />
 
                     {/* Cards */}
                     <div className="flex items-center justify-center">
-                        <div className="w-full grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 md:grid-cols-2 xl:grid-cols-4">
+                        <div className="w-full grid grid-cols-2 gap-1.5 xs:gap-2 sm:gap-3 md:gap-4 md:grid-cols-2 xl:grid-cols-4">
                             {PACKAGE_KEYS.map((pkgKey, index) => {
                                 const includes = t.raw(
                                     `packages.${pkgKey}.includes`,
@@ -206,7 +206,7 @@ export function PackagesSection() {
                                             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : index); } }}
                                             onMouseEnter={handleMouseEnter}
                                             onMouseLeave={handleMouseLeave}
-                                            className="md:hidden relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 preserve-3d focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl"
+                                            className="md:hidden relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 preserve-3d focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-xl xs:rounded-2xl touch-target"
                                             style={{
                                                 transformStyle: 'preserve-3d',
                                                 transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -214,7 +214,7 @@ export function PackagesSection() {
                                         >
                                             {/* Front Side - Title, Target, Price */}
                                             <div
-                                                className={`absolute inset-0 w-full h-full rounded-2xl border bg-card/70 backdrop-blur-sm backface-hidden flex flex-col ${isMobileLandscape ? 'p-2' : 'p-2.5 sm:p-4'}`}
+                                                className={`absolute inset-0 w-full h-full rounded-xl xs:rounded-2xl border bg-card/70 backdrop-blur-sm backface-hidden flex flex-col ${isMobileLandscape ? 'p-2' : 'p-2 xs:p-2.5 sm:p-4'}`}
                                                 style={{
                                                     backfaceVisibility: 'hidden',
                                                     borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
@@ -230,7 +230,7 @@ export function PackagesSection() {
                                                             style={{ backgroundColor: isActiveAndHydrated ? `${cardColor}50` : 'rgba(59, 130, 246, 0.5)' }}
                                                         />
                                                         <div
-                                                            className={`relative rounded-full ${isMobileLandscape ? 'w-1.5 h-1.5' : 'w-2 h-2 sm:w-3 sm:h-3'}`}
+                                                            className={`relative rounded-full ${isMobileLandscape ? 'w-1.5 h-1.5' : 'w-1.5 xs:w-2 h-1.5 xs:h-2 sm:w-3 sm:h-3'}`}
                                                             style={{ backgroundColor: isActiveAndHydrated ? cardColor : '#3b82f6' }}
                                                         />
                                                     </div>
@@ -238,7 +238,7 @@ export function PackagesSection() {
 
                                                 <div className="flex-1 flex flex-col justify-center">
                                                     <h3
-                                                        className={`font-semibold ${isMobileLandscape ? 'text-xs mb-0.5' : 'text-sm sm:text-lg mb-1 sm:mb-2'}`}
+                                                        className={`font-semibold ${isMobileLandscape ? 'text-xs mb-0.5' : 'text-xs xs:text-sm sm:text-lg mb-0.5 xs:mb-1 sm:mb-2'}`}
                                                         style={{
                                                             color: isActiveAndHydrated ? cardColor : 'inherit',
                                                             textShadow: isActiveAndHydrated ? `0 0 15px ${cardColor}40` : 'none',
@@ -247,7 +247,7 @@ export function PackagesSection() {
                                                     >
                                                         {t(`packages.${pkgKey}.label`)}
                                                     </h3>
-                                                    <p className={`text-muted-foreground ${isMobileLandscape ? 'text-[9px] mb-1' : 'text-[10px] sm:text-xs mb-2 sm:mb-4'}`}>
+                                                    <p className={`text-muted-foreground ${isMobileLandscape ? 'text-[9px] mb-1' : 'text-[9px] xs:text-[10px] sm:text-xs mb-1.5 xs:mb-2 sm:mb-4'}`}>
                                                         {t(`packages.${pkgKey}.target`)}
                                                     </p>
                                                 </div>
@@ -260,7 +260,7 @@ export function PackagesSection() {
                                                     }}
                                                 >
                                                     <div
-                                                        className={`font-semibold ${isMobileLandscape ? 'text-[10px]' : 'text-xs sm:text-sm'}`}
+                                                        className={`font-semibold ${isMobileLandscape ? 'text-[10px]' : 'text-[11px] xs:text-xs sm:text-sm'}`}
                                                         style={{
                                                             color: isActiveAndHydrated ? cardColor : 'inherit',
                                                             textShadow: isActiveAndHydrated ? `0 0 15px ${cardColor}40` : 'none',
@@ -274,7 +274,7 @@ export function PackagesSection() {
 
                                             {/* Back Side - Includes List */}
                                             <div
-                                                className={`absolute inset-0 w-full h-full rounded-2xl border bg-secondary/50 backdrop-blur-sm backface-hidden overflow-hidden flex flex-col ${isMobileLandscape ? 'p-2' : 'p-2.5 sm:p-4'}`}
+                                                className={`absolute inset-0 w-full h-full rounded-xl xs:rounded-2xl border bg-secondary/50 backdrop-blur-sm backface-hidden overflow-hidden flex flex-col ${isMobileLandscape ? 'p-2' : 'p-2 xs:p-2.5 sm:p-4'}`}
                                                 style={{
                                                     backfaceVisibility: 'hidden',
                                                     transform: 'rotateY(180deg)',
@@ -284,13 +284,13 @@ export function PackagesSection() {
                                                 }}
                                             >
                                                 <div
-                                                    className="absolute inset-0 opacity-5 rounded-2xl"
+                                                    className="absolute inset-0 opacity-5 rounded-xl xs:rounded-2xl"
                                                     style={{ background: `linear-gradient(135deg, ${cardColor}, transparent)` }}
                                                 />
 
                                                 <div className="relative z-10 flex flex-col h-full items-center">
                                                     <h4
-                                                        className={`font-semibold text-center ${isMobileLandscape ? 'text-[9px] mb-1' : 'text-[10px] sm:text-xs mb-1.5 sm:mb-2'}`}
+                                                        className={`font-semibold text-center ${isMobileLandscape ? 'text-[9px] mb-1' : 'text-[9px] xs:text-[10px] sm:text-xs mb-1 xs:mb-1.5 sm:mb-2'}`}
                                                         style={{
                                                             color: isActiveAndHydrated ? cardColor : 'inherit',
                                                             transition: 'color 700ms ease-in-out'
@@ -298,11 +298,11 @@ export function PackagesSection() {
                                                     >
                                                         {t(`packages.${pkgKey}.label`)}
                                                     </h4>
-                                                    <ul className={`flex-1 overflow-y-auto text-left ${isMobileLandscape ? 'space-y-0.5 text-[8px]' : 'space-y-1 sm:space-y-1.5 text-[9px] sm:text-[11px]'}`}>
+                                                    <ul className={`flex-1 overflow-y-auto text-left ${isMobileLandscape ? 'space-y-0.5 text-[8px]' : 'space-y-0.5 xs:space-y-1 sm:space-y-1.5 text-[8px] xs:text-[9px] sm:text-[11px]'}`}>
                                                         {includes.map((item, idx) => (
-                                                            <li key={idx} className={`flex items-start ${isMobileLandscape ? 'gap-1' : 'gap-1 sm:gap-1.5'}`}>
+                                                            <li key={idx} className={`flex items-start ${isMobileLandscape ? 'gap-1' : 'gap-0.5 xs:gap-1 sm:gap-1.5'}`}>
                                                                 <span
-                                                                    className={`mt-0.5 ${isMobileLandscape ? 'text-[6px]' : 'text-[7px] sm:text-[8px]'}`}
+                                                                    className={`mt-0.5 ${isMobileLandscape ? 'text-[6px]' : 'text-[6px] xs:text-[7px] sm:text-[8px]'}`}
                                                                     style={{
                                                                         color: isActiveAndHydrated ? cardColor : 'currentColor',
                                                                         transition: 'color 700ms ease-in-out'
@@ -320,16 +320,16 @@ export function PackagesSection() {
 
                                         {/* Desktop: Normal Card */}
                                         <div
-                                            className="hidden md:flex flex-col h-full rounded-2xl border border-border bg-card/70 backdrop-blur-sm p-3 lg:p-5"
+                                            className="hidden md:flex flex-col h-full rounded-xl xs:rounded-2xl border border-border bg-card/70 backdrop-blur-sm p-2.5 xs:p-3 lg:p-5"
                                             style={{
                                                 borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
                                                 boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}15` : 'none',
                                                 transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                                             }}
                                         >
-                                            <div className="mb-2 lg:mb-3">
+                                            <div className="mb-1.5 xs:mb-2 lg:mb-3">
                                                 <h3
-                                                    className="text-sm lg:text-lg font-semibold"
+                                                    className="text-xs xs:text-sm lg:text-lg font-semibold"
                                                     style={{
                                                         color: isActiveAndHydrated ? cardColor : 'inherit',
                                                         textShadow: isActiveAndHydrated ? `0 0 15px ${cardColor}40` : 'none',

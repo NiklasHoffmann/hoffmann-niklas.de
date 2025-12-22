@@ -75,7 +75,7 @@ const ModalForm = memo(function ModalForm({
 
       {/* Modal Content */}
       <div
-        className='relative w-full text-foreground rounded-t-2xl p-4 pb-6 max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-300'
+        className='relative w-full text-foreground rounded-t-xl xs:rounded-t-2xl p-3 xs:p-4 pb-5 xs:pb-6 max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-300'
         style={{
           backgroundColor: theme === 'light' ? '#ffffff' : '#090909',
           boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.2)',
@@ -84,7 +84,7 @@ const ModalForm = memo(function ModalForm({
       >
         {/* Handle bar */}
         <div
-          className='w-12 h-1 bg-border rounded-full mx-auto mb-3'
+          className='w-10 xs:w-12 h-1 bg-border rounded-full mx-auto mb-2 xs:mb-3'
           style={{ transition: 'background-color 700ms ease-in-out' }}
           aria-hidden="true"
         />
@@ -92,17 +92,17 @@ const ModalForm = memo(function ModalForm({
         {/* Close button */}
         <button
           onClick={onClose}
-          className='absolute top-4 right-4 p-2 rounded-full bg-secondary hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-accent'
+          className='absolute top-3 xs:top-4 right-3 xs:right-4 p-2 rounded-full bg-secondary hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-accent touch-target'
           style={{ transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out' }}
           aria-label="Close modal"
         >
-          <Icon icon="lucide:x" className='w-4 h-4' />
+          <Icon icon="lucide:x" className='w-3.5 xs:w-4 h-3.5 xs:h-4' />
         </button>
 
         {/* Modal Header */}
         <h3
           id="contact-modal-title"
-          className='text-lg font-bold mb-4 pr-10'
+          className='text-base xs:text-lg font-bold mb-3 xs:mb-4 pr-10'
           style={{ transition: 'color 700ms ease-in-out' }}
         >
           {t('writeMe')}
@@ -110,11 +110,11 @@ const ModalForm = memo(function ModalForm({
 
         {/* Form */}
         <form onSubmit={handleSubmit} className='space-y-3' aria-label="Contact form">
-          <div className='grid grid-cols-2 gap-3'>
+          <div className='grid grid-cols-2 gap-2 xs:gap-3'>
             <div>
               <label
                 htmlFor='name-modal'
-                className='block text-xs font-medium mb-1'
+                className='block text-[11px] xs:text-xs font-medium mb-0.5 xs:mb-1'
                 style={{ transition: 'color 700ms ease-in-out' }}
               >
                 {t('form.name')}
@@ -130,14 +130,14 @@ const ModalForm = memo(function ModalForm({
                 autoComplete="name"
                 autoCapitalize="words"
                 spellCheck="false"
-                className='w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
+                className='w-full px-2.5 xs:px-3 py-2 text-xs xs:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none touch-target'
                 style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
               />
             </div>
             <div>
               <label
                 htmlFor='email-modal'
-                className='block text-xs font-medium mb-1'
+                className='block text-[11px] xs:text-xs font-medium mb-0.5 xs:mb-1'
                 style={{ transition: 'color 700ms ease-in-out' }}
               >
                 {t('form.email')}
@@ -155,7 +155,7 @@ const ModalForm = memo(function ModalForm({
                 autoCapitalize="off"
                 spellCheck="false"
                 inputMode="email"
-                className='w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
+                className='w-full px-2.5 xs:px-3 py-2 text-xs xs:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none touch-target'
                 style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
               />
             </div>
@@ -164,7 +164,7 @@ const ModalForm = memo(function ModalForm({
           <div>
             <label
               htmlFor='message-modal'
-              className='block text-xs font-medium mb-1'
+              className='block text-[11px] xs:text-xs font-medium mb-0.5 xs:mb-1'
               style={{ transition: 'color 700ms ease-in-out' }}
             >
               {t('form.message')}
@@ -181,21 +181,21 @@ const ModalForm = memo(function ModalForm({
               autoCorrect="on"
               autoCapitalize="sentences"
               spellCheck="true"
-              className='w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none'
+              className='w-full px-2.5 xs:px-3 py-2 text-xs xs:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none touch-target'
               style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
             />
           </div>
 
           {submitState === 'success' && (
-            <div className='flex items-center gap-2 p-2.5 bg-green-500/10 border border-green-500/50 rounded-lg text-green-500 text-xs'>
-              <Icon icon="lucide:check-circle" className='w-3.5 h-3.5 flex-shrink-0' />
+            <div className='flex items-center gap-1.5 xs:gap-2 p-2 xs:p-2.5 bg-green-500/10 border border-green-500/50 rounded-lg text-green-500 text-[11px] xs:text-xs'>
+              <Icon icon="lucide:check-circle" className='w-3 xs:w-3.5 h-3 xs:h-3.5 flex-shrink-0' />
               <p className='font-medium'>{t('form.success')}</p>
             </div>
           )}
 
           {submitState === 'error' && (
-            <div className='flex items-center gap-2 p-2.5 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500 text-xs'>
-              <Icon icon="lucide:alert-circle" className='w-3.5 h-3.5 flex-shrink-0' />
+            <div className='flex items-center gap-1.5 xs:gap-2 p-2 xs:p-2.5 bg-red-500/10 border border-red-500/50 rounded-lg text-red-500 text-[11px] xs:text-xs'>
+              <Icon icon="lucide:alert-circle" className='w-3 xs:w-3.5 h-3 xs:h-3.5 flex-shrink-0' />
               <p className='font-medium'>{errorMessage || t('form.error')}</p>
             </div>
           )}
@@ -210,11 +210,11 @@ const ModalForm = memo(function ModalForm({
                 : '0 2px 8px rgba(255, 255, 255, 0.15)',
               transition: 'all 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out, color 700ms ease-in-out'
             }}
-            className="w-full px-4 py-3 text-sm text-foreground rounded-lg font-semibold hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full px-3 xs:px-4 py-2.5 xs:py-3 text-xs xs:text-sm text-foreground rounded-lg font-semibold hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 touch-target"
           >
             {loading ? (
               <>
-                <Icon icon="lucide:loader-2" className='w-4 h-4 animate-spin' />
+                <Icon icon="lucide:loader-2" className='w-3.5 xs:w-4 h-3.5 xs:h-4 animate-spin' />
                 {t('form.sending')}
               </>
             ) : (
@@ -295,9 +295,9 @@ export function ContactSection() {
   const renderForm = (inModal: boolean) => (
     <form onSubmit={handleSubmit} className='space-y-2 sm:space-y-3' aria-label="Contact form">
       {/* Name & Email - Side by side */}
-      <div className='grid grid-cols-2 gap-2 sm:gap-3'>
+      <div className='grid grid-cols-2 gap-1.5 xs:gap-2 sm:gap-3'>
         <div>
-          <label htmlFor={inModal ? 'name-modal' : 'name'} className='block text-[10px] sm:text-xs font-medium mb-1'>{t('form.name')}</label>
+          <label htmlFor={inModal ? 'name-modal' : 'name'} className='block text-responsive-xs font-medium mb-0.5 xs:mb-1'>{t('form.name')}</label>
           <input
             type='text'
             id={inModal ? 'name-modal' : 'name'}
@@ -316,7 +316,7 @@ export function ContactSection() {
         </div>
 
         <div>
-          <label htmlFor={inModal ? 'email-modal' : 'email'} className='block text-[10px] sm:text-xs font-medium mb-1'>{t('form.email')}</label>
+          <label htmlFor={inModal ? 'email-modal' : 'email'} className='block text-responsive-xs font-medium mb-0.5 xs:mb-1'>{t('form.email')}</label>
           <input
             type='email'
             id={inModal ? 'email-modal' : 'email'}
@@ -338,7 +338,7 @@ export function ContactSection() {
       </div>
 
       <div>
-        <label htmlFor={inModal ? 'message-modal' : 'message'} className='block text-[10px] sm:text-xs font-medium mb-1'>{t('form.message')}</label>
+        <label htmlFor={inModal ? 'message-modal' : 'message'} className='block text-responsive-xs font-medium mb-0.5 xs:mb-1'>{t('form.message')}</label>
         <textarea
           id={inModal ? 'message-modal' : 'message'}
           name='message'
@@ -351,7 +351,7 @@ export function ContactSection() {
           autoCorrect="on"
           autoCapitalize="sentences"
           spellCheck="true"
-          className='w-full px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none'
+          className='w-full px-2 xs:px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none touch-target'
           style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
           aria-required="true"
         />
@@ -381,7 +381,7 @@ export function ContactSection() {
             : '0 2px 8px rgba(255, 255, 255, 0.15)',
           transition: 'all 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
         }}
-        className="w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-foreground rounded-lg font-semibold hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative"
+        className="w-full px-2.5 xs:px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-foreground rounded-lg font-semibold hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative touch-target"
         aria-label={loading ? t('form.sending') : t('form.submit')}
       >
         {loading ? (
@@ -400,17 +400,17 @@ export function ContactSection() {
     <>
       <Section id="contact" sectionKey={key} background="secondary">
         {/* Mobile Landscape Layout */}
-        <SectionLeft className="w-1/2 pr-4">
-          <h2 className="text-xl font-bold mb-1">{t('title')}</h2>
-          <p className="text-xs text-muted-foreground mb-2">{t('subtitle')}</p>
-          <p className="text-[10px] text-muted-foreground">{t('pricingHint')}</p>
+        <SectionLeft className="w-1/2 pr-3 xs:pr-4">
+          <h2 className="text-lg xs:text-xl font-bold mb-0.5 xs:mb-1">{t('title')}</h2>
+          <p className="text-[11px] xs:text-xs text-muted-foreground mb-1.5 xs:mb-2">{t('subtitle')}</p>
+          <p className="text-[9px] xs:text-[10px] text-muted-foreground">{t('pricingHint')}</p>
         </SectionLeft>
 
-        <SectionRight className="w-1/2 gap-3">
+        <SectionRight className="w-1/2 gap-2 xs:gap-3">
           {/* Compact contact info + button */}
-          <div className="flex gap-2 text-[10px]">
+          <div className="flex gap-1.5 xs:gap-2 text-[9px] xs:text-[10px]">
             <div className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded border border-border">
-              <Icon icon="lucide:mail" className="w-3 h-3 text-accent" />
+              <Icon icon="lucide:mail" className="w-2.5 xs:w-3 h-2.5 xs:h-3 text-accent" />
               <span className="text-muted-foreground">Email</span>
             </div>
             <div className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded border border-border">

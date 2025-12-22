@@ -77,6 +77,47 @@ body.contact-modal-open .chat-widget-button {
 }
 
 @layer base {
+  /* ============================================
+     RESPONSIVE TYPOGRAPHY SCALE
+     Mobile-First Base Font Sizes
+     ============================================ */
+  html {
+    /* Base: 14px for small mobile devices */
+    font-size: 14px;
+  }
+  
+  @media (min-width: 480px) {
+    html {
+      /* xs: 14.5px for larger phones */
+      font-size: 14.5px;
+    }
+  }
+  
+  @media (min-width: 640px) {
+    html {
+      /* sm/tablet: 15px for tablets */
+      font-size: 15px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    html {
+      /* lg/laptop: 16px for laptops and desktops */
+      font-size: 16px;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    html {
+      /* xl/desktop: 16px for large desktops */
+      font-size: 16px;
+    }
+  }
+  
+  /* ============================================
+     End RESPONSIVE TYPOGRAPHY SCALE
+     ============================================ */
+
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.6%;
@@ -667,3 +708,107 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
     }
   }
 }
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+@layer components {
+  /* Touch Target Minimum Size (WCAG AAA) */
+  .touch-target {
+    @apply min-w-[44px] min-h-[44px];
+  }
+  
+  /* Responsive Section Padding */
+  .section-padding {
+    @apply px-4 py-12 sm:px-6 sm:py-16 md:px-8 md:py-20 lg:px-12 lg:py-24;
+  }
+  
+  /* Responsive Container with proper max-widths */
+  .container-responsive {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-7xl;
+  }
+  
+  /* Responsive Text Utilities - maintains readability across breakpoints */
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+  
+  .text-responsive-2xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  /* Responsive Spacing Utilities */
+  .space-responsive-sm {
+    @apply space-y-2 sm:space-y-3 md:space-y-4;
+  }
+  
+  .space-responsive-md {
+    @apply space-y-4 sm:space-y-6 md:space-y-8;
+  }
+  
+  .space-responsive-lg {
+    @apply space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12;
+  }
+  
+  /* Responsive Gap Utilities */
+  .gap-responsive-sm {
+    @apply gap-2 sm:gap-3 md:gap-4;
+  }
+  
+  .gap-responsive-md {
+    @apply gap-3 sm:gap-4 md:gap-6 lg:gap-8;
+  }
+  
+  .gap-responsive-lg {
+    @apply gap-4 sm:gap-6 md:gap-8 lg:gap-10;
+  }
+}
+
+@layer utilities {
+  /* Safe Area Insets for Notch Devices (iPhone X+, etc.) */
+  .safe-top {
+    padding-top: max(env(safe-area-inset-top), 0px);
+  }
+  
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+  
+  .safe-left {
+    padding-left: max(env(safe-area-inset-left), 0px);
+  }
+  
+  .safe-right {
+    padding-right: max(env(safe-area-inset-right), 0px);
+  }
+  
+  /* Combine all safe areas */
+  .safe-area {
+    padding-top: max(env(safe-area-inset-top), 0px);
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+    padding-left: max(env(safe-area-inset-left), 0px);
+    padding-right: max(env(safe-area-inset-right), 0px);
+  }
+}
+
+/* ============================================
+   End RESPONSIVE UTILITIES
+   ============================================ */

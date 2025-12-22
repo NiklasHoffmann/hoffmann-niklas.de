@@ -41,7 +41,7 @@ export function Section({
             id={id}
             key={sectionKey}
             className={`
-                scroll-snap-section section-padding relative w-full 
+                scroll-snap-section relative w-full 
                 ${asFooter ? 'min-h-screen' : 'h-screen max-h-screen'}
                 flex items-center justify-center outline-none
                 ${backgroundClasses[background]}
@@ -64,8 +64,8 @@ export function Section({
             <div className={`
                 relative z-10 w-full h-full
                 ${isMobileLandscape
-                    ? 'flex items-center px-6'
-                    : 'flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8'
+                    ? 'flex items-center px-4 xs:px-6'
+                    : 'flex flex-col items-center justify-center px-3 xs:px-4 sm:px-6 lg:px-8'
                 }
             `.trim().replace(/\s+/g, ' ')}>
                 {children}
@@ -116,7 +116,7 @@ export function SectionDefault({ children, className = '' }: { children: ReactNo
     if (isMobileLandscape) return null;
 
     return (
-        <div className={`text-center max-w-5xl mx-auto w-full ${className}`}>
+        <div className={`text-center w-full mx-auto px-3 xs:px-4 sm:px-6 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl ${className}`}>
             {children}
         </div>
     );

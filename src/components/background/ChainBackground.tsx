@@ -57,11 +57,9 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     return {
       ...CHAIN_PRESETS[activePreset],
       ...customConfig,
-      horizontalOffset: responsiveConfig.horizontalOffset,
-      curveSize: responsiveConfig.curveSize,
-      sectionPadding: responsiveConfig.sectionPadding,
+      // Don't use fixed values - we calculate horizontalOffset, curveSize, sectionPadding dynamically
     };
-  }, [preset, isInteractive, customConfig, responsiveConfig]);
+  }, [preset, isInteractive, customConfig]);
 
   // Handle smooth transition when interactive mode or theme changes
   useEffect(() => {
@@ -449,34 +447,30 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
         if (contentBox) {
           const contentRect = contentBox.getBoundingClientRect();
-          // Berechne das tatsächliche Padding der Section (nicht der zentrierte Container)
+          // Berechne den tatsächlichen Abstand vom Bildschirmrand (0) bis zum Content-Start
+          // contentRect.left gibt die Position des Contents vom linken Viewport-Rand
+          contentOffsetLeft = contentRect.left;
+          
+          // Bottom Padding aus der Section selbst
           const computedStyle = window.getComputedStyle(referenceSection);
-          const paddingLeft = parseFloat(computedStyle.paddingLeft);
           const paddingBottom = parseFloat(computedStyle.paddingBottom);
-          contentOffsetLeft = paddingLeft || 150;
           contentOffsetBottom = paddingBottom || 100;
         }
       } const screenWidth = width;
       // Verfügbarer Platz vom Bildschirmrand bis zum Content-Anfang
       const availableSpace = contentOffsetLeft;
 
-      // Chain Position berechnen - in der Mitte des verfügbaren Platzes
-      let horizontalOffset: number;
+      // Chain Position berechnen - immer genau in der Mitte des verfügbaren Platzes
+      const horizontalOffset = availableSpace / 2;
+      
+      // Dynamischer Kurvenradius basierend auf verfügbarem Platz
+      // Je mehr Platz, desto größer die Kurve (aber maximal 40% des verfügbaren Platzes)
+      // Minimum: 15px für sehr enge Räume
+      const dynamicCurveSize = Math.max(15, Math.min(availableSpace * 0.4, 120));
 
-      if (availableSpace >= 80) {
-        // Viel Platz (Desktop): Chain genau in der Mitte
-        horizontalOffset = availableSpace / 2;
-      } else if (availableSpace >= 40) {
-        // Mittlerer Platz (Tablet): Chain in der Mitte
-        horizontalOffset = availableSpace / 2;
-      } else {
-        // Wenig Platz (Mobile): Chain genau in der Mitte
-        horizontalOffset = availableSpace / 2;
-      }
-
-      // Für die horizontale Linie: Volle Padding-Distanz minus halbe Padding-Distanz = Mitte
-      // sectionBottom - (paddingBottom - paddingBottom/2) = sectionBottom - paddingBottom/2
-      const dynamicSectionPadding = contentOffsetBottom / 2;
+      // Für die horizontale Linie: Halber Abstand wie zur Seite, damit sie zwischen Content-Ende und Section-Rand liegt
+      // Voller seitlicher Abstand würde die Chain durch den Content führen
+      const dynamicSectionPadding = horizontalOffset / 2;
 
       const pathPoints: { x: number; y: number; sectionIndex: number }[] = [];
       pathPoints.push({ x: horizontalOffset, y: 0, sectionIndex: 0 });
@@ -488,48 +482,43 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         const sectionTop = section.offsetTop;
         const sectionBottom = sectionTop + section.offsetHeight;
 
-        // Lese bottom-padding für jede Section individuell aus
-        const sectionStyle = window.getComputedStyle(section);
-        let sectionBottomPadding = parseFloat(sectionStyle.paddingBottom);
-
-        // Fallback wenn paddingBottom nicht ausgelesen werden kann
-        if (isNaN(sectionBottomPadding) || sectionBottomPadding === 0) {
-          sectionBottomPadding = contentOffsetBottom;
-        }
-
-        // Mitte des Bottom-Paddings: halbe Distanz vom unteren Rand nach innen
-        const sectionDynamicPadding = sectionBottomPadding / 2;
+        // Verwende den gleichen Abstand wie seitlich (horizontalOffset) für konsistente Positionierung
+        // Die horizontale Linie ist dann genauso weit vom unteren Section-Rand entfernt wie die vertikale vom seitlichen Rand
 
         if (i % 2 === 0) {
           if (i < sections.length - 1) {
             const targetX = width - horizontalOffset;
-            const horizontalY = sectionBottom - sectionDynamicPadding;
+            const horizontalY = sectionBottom - dynamicSectionPadding;
             const verticalStart = pathPoints[pathPoints.length - 1].y;
-            const verticalEnd = horizontalY - curveSize;
+            const verticalEnd = horizontalY - dynamicCurveSize;
 
+            // Vertikale Linie bis zur Kurve
             for (let y = verticalStart; y <= verticalEnd; y += 10) {
               pathPoints.push({ x: horizontalOffset, y, sectionIndex: i });
             }
             pathPoints.push({ x: horizontalOffset, y: verticalEnd, sectionIndex: i });
 
-            for (let angle = 0; angle <= 90; angle += 5) {
+            // Erste Kurve (von vertikal nach horizontal) - feinere Schritte für smoothere Kurven
+            for (let angle = 0; angle <= 90; angle += 2) {
               const rad = (angle * Math.PI) / 180;
-              const x = horizontalOffset + curveSize - curveSize * Math.cos(rad);
-              const y = horizontalY - curveSize + curveSize * Math.sin(rad);
+              const x = horizontalOffset + dynamicCurveSize - dynamicCurveSize * Math.cos(rad);
+              const y = horizontalY - dynamicCurveSize + dynamicCurveSize * Math.sin(rad);
               pathPoints.push({ x, y, sectionIndex: i });
             }
 
-            const horizontalStart = horizontalOffset + curveSize;
-            const horizontalEnd = targetX - curveSize;
+            // Horizontale Linie
+            const horizontalStart = horizontalOffset + dynamicCurveSize;
+            const horizontalEnd = targetX - dynamicCurveSize;
             for (let x = horizontalStart; x <= horizontalEnd; x += 10) {
               pathPoints.push({ x, y: horizontalY, sectionIndex: i });
             }
             pathPoints.push({ x: horizontalEnd, y: horizontalY, sectionIndex: i });
 
-            for (let angle = 0; angle <= 90; angle += 5) {
+            // Zweite Kurve (von horizontal nach vertikal) - feinere Schritte
+            for (let angle = 0; angle <= 90; angle += 2) {
               const rad = (angle * Math.PI) / 180;
-              const x = targetX - curveSize + curveSize * Math.sin(rad);
-              const y = horizontalY + curveSize - curveSize * Math.cos(rad);
+              const x = targetX - dynamicCurveSize + dynamicCurveSize * Math.sin(rad);
+              const y = horizontalY + dynamicCurveSize - dynamicCurveSize * Math.cos(rad);
               pathPoints.push({ x, y, sectionIndex: i });
             }
           } else {
@@ -542,33 +531,37 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         } else {
           if (i < sections.length - 1) {
             const targetX = horizontalOffset;
-            const horizontalY = sectionBottom - sectionDynamicPadding;
+            const horizontalY = sectionBottom - dynamicSectionPadding;
             const verticalStart = pathPoints[pathPoints.length - 1].y;
-            const verticalEnd = horizontalY - curveSize;
+            const verticalEnd = horizontalY - dynamicCurveSize;
 
+            // Vertikale Linie bis zur Kurve
             for (let y = verticalStart; y <= verticalEnd; y += 10) {
               pathPoints.push({ x: width - horizontalOffset, y, sectionIndex: i });
             }
             pathPoints.push({ x: width - horizontalOffset, y: verticalEnd, sectionIndex: i });
 
-            for (let angle = 0; angle <= 90; angle += 5) {
+            // Erste Kurve (von vertikal nach horizontal) - feinere Schritte
+            for (let angle = 0; angle <= 90; angle += 2) {
               const rad = (angle * Math.PI) / 180;
-              const x = width - horizontalOffset - curveSize + curveSize * Math.cos(rad);
-              const y = horizontalY - curveSize + curveSize * Math.sin(rad);
+              const x = width - horizontalOffset - dynamicCurveSize + dynamicCurveSize * Math.cos(rad);
+              const y = horizontalY - dynamicCurveSize + dynamicCurveSize * Math.sin(rad);
               pathPoints.push({ x, y, sectionIndex: i });
             }
 
-            const horizontalStart = width - horizontalOffset - curveSize;
-            const horizontalEnd = targetX + curveSize;
+            // Horizontale Linie
+            const horizontalStart = width - horizontalOffset - dynamicCurveSize;
+            const horizontalEnd = targetX + dynamicCurveSize;
             for (let x = horizontalStart; x >= horizontalEnd; x -= 10) {
               pathPoints.push({ x, y: horizontalY, sectionIndex: i });
             }
             pathPoints.push({ x: horizontalEnd, y: horizontalY, sectionIndex: i });
 
-            for (let angle = 0; angle <= 90; angle += 5) {
+            // Zweite Kurve (von horizontal nach vertikal) - feinere Schritte
+            for (let angle = 0; angle <= 90; angle += 2) {
               const rad = (angle * Math.PI) / 180;
-              const x = targetX + curveSize - curveSize * Math.sin(rad);
-              const y = horizontalY + curveSize - curveSize * Math.cos(rad);
+              const x = targetX + dynamicCurveSize - dynamicCurveSize * Math.sin(rad);
+              const y = horizontalY + dynamicCurveSize - dynamicCurveSize * Math.cos(rad);
               pathPoints.push({ x, y, sectionIndex: i });
             }
           } else {

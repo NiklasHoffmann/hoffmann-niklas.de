@@ -10,6 +10,16 @@ const config: Config = {
     theme: {
         extend: {
             screens: {
+                // Extra small devices (large phones)
+                'xs': '480px',
+                // Small devices (tablets)
+                'tablet': '640px',
+                // Medium devices (landscape tablets)
+                // 'md': '768px', // Already defined by Tailwind
+                // Large devices (laptops)
+                'laptop': '1024px',
+                // Extra large devices (desktops)
+                'desktop': '1280px',
                 // Mobile landscape: landscape orientation AND max height 500px (typical mobile)
                 'mobile-landscape': { 'raw': '(orientation: landscape) and (max-height: 500px)' },
             },
