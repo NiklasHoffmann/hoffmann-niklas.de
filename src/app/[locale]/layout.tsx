@@ -39,6 +39,7 @@ export async function generateMetadata({
         es: 'Niklas Hoffmann | Desarrollador Full-Stack & Web3 Frontend',
         ja: 'Niklas Hoffmann | フルスタック & Web3 フロントエンド開発者',
         uk: 'Niklas Hoffmann | Full-Stack & Web3 Frontend розробник',
+        fa: 'Niklas Hoffmann | توسعه‌دهنده Full-Stack و Web3 Frontend',
     };
 
     const descriptions: Record<string, string> = {
@@ -47,6 +48,7 @@ export async function generateMetadata({
         es: 'Desarrollador Full-Stack – Especializado en aplicaciones web modernas, integración Web3 frontend y conectividad de wallet. React, Next.js, TypeScript, Wagmi, MetaMask, Ethereum.',
         ja: 'フルスタック開発者 – モダンなウェブアプリ、Web3フロントエンド統合、ウォレット接続に特化。React、Next.js、TypeScript、Wagmi、MetaMask、Ethereum。',
         uk: 'Full-Stack розробник – Спеціалізація на сучасних веб-додатках, Web3 frontend інтеграції та підключенні гаманців. React, Next.js, TypeScript, Wagmi, MetaMask, Ethereum.',
+        fa: 'توسعه‌دهنده Full-Stack – تخصص در اپلیکیشن‌های وب مدرن، یکپارچه‌سازی فرانت‌اند Web3 و اتصال کیف پول. React، Next.js، TypeScript، Wagmi، MetaMask، Ethereum.',
     };
 
     const keywordsList: Record<string, string> = {
@@ -55,6 +57,7 @@ export async function generateMetadata({
         es: 'Desarrollador Web, Desarrollador Full-Stack, Web3 Frontend, Integración Wallet, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Fotografía, Desarrollo Web, Alemania, Desarrollador Blockchain, Integración Smart Contract',
         ja: 'ウェブ開発者, フルスタック開発者, Web3フロントエンド, ウォレット統合, dAppフロントエンド, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, 写真撮影, ウェブ開発, ドイツ, ブロックチェーン開発者, スマートコントラクト統合',
         uk: 'Веб-розробник, Full-Stack розробник, Web3 Frontend, Інтеграція гаманців, dApp Frontend, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, Фотографія, Веб-розробка, Німеччина, Blockchain розробник, Інтеграція смарт-контрактів',
+        fa: 'توسعه‌دهنده وب, توسعه‌دهنده Full-Stack, فرانت‌اند Web3, یکپارچه‌سازی کیف پول, فرانت‌اند dApp, React, Next.js, TypeScript, Wagmi, Ethereum, Web3.js, MetaMask, IPFS, عکاسی, توسعه وب, آلمان, توسعه‌دهنده بلاکچین, یکپارچه‌سازی قرارداد هوشمند',
     };
 
     const title = titles[locale] || titles.en;
@@ -84,7 +87,7 @@ export async function generateMetadata({
         },
         openGraph: {
             type: 'website',
-            locale: locale === 'de' ? 'de_DE' : locale === 'es' ? 'es_ES' : locale === 'ja' ? 'ja_JP' : locale === 'uk' ? 'uk_UA' : 'en_US',
+            locale: locale === 'de' ? 'de_DE' : locale === 'es' ? 'es_ES' : locale === 'ja' ? 'ja_JP' : locale === 'uk' ? 'uk_UA' : locale === 'fa' ? 'fa_IR' : 'en_US',
             url: `https://hoffmann-niklas.de/${locale}`,
             title,
             description,

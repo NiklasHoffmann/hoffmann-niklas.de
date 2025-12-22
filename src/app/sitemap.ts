@@ -5,7 +5,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hoffmann-niklas.de';
     const lastModified = new Date();
 
-    const locales = ['de', 'en', 'es', 'ja', 'uk'];
+    const locales = ['de', 'en', 'es', 'ja', 'uk', 'fa'];
 
     const makeLocaleEntry = (locale: string) => ({
         url: buildCanonical(buildLocalePath(locale)),

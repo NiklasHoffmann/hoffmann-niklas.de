@@ -365,23 +365,30 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     // Try to restore from sessionStorage first
     if (!baseChainCanvas.current && globalDrawAnimationComplete) {
       try {
-        const savedDataUrl = sessionStorage.getItem('chainCanvasData');
-        if (savedDataUrl) {
-          const img = new Image();
-          img.onload = () => {
-            // Create canvas from saved image
-            const canvas = document.createElement('canvas');
-            canvas.width = dimensions.width;
-            canvas.height = dimensions.height;
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-              ctx.drawImage(img, 0, 0);
-              baseChainCanvas.current = canvas;
-              globalBaseChainCanvas = canvas;
-              needsRedrawRef.current = true;
-            }
-          };
-          img.src = savedDataUrl;
+        const savedData = sessionStorage.getItem('chainCanvasData');
+        if (savedData) {
+          const cacheData = JSON.parse(savedData);
+          // Validate dimensions match current canvas
+          if (cacheData.width === dimensions.width && cacheData.height === dimensions.height) {
+            const img = new Image();
+            img.onload = () => {
+              // Create canvas from saved image
+              const canvas = document.createElement('canvas');
+              canvas.width = dimensions.width;
+              canvas.height = dimensions.height;
+              const ctx = canvas.getContext('2d');
+              if (ctx) {
+                ctx.drawImage(img, 0, 0);
+                baseChainCanvas.current = canvas;
+                globalBaseChainCanvas = canvas;
+                needsRedrawRef.current = true;
+              }
+            };
+            img.src = cacheData.dataUrl;
+          } else {
+            console.log('🔄 Cached canvas dimensions mismatch, clearing sessionStorage');
+            sessionStorage.removeItem('chainCanvasData');
+          }
         }
       } catch (e) {
         // Ignore errors
@@ -485,6 +492,16 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
 
+    // Clear cache when dimensions change to force redraw
+    // This ensures the cache is cleared AFTER canvas dimensions are updated
+    if (baseChainCanvas.current) {
+      if (baseChainCanvas.current.width !== dimensions.width || baseChainCanvas.current.height !== dimensions.height) {
+        console.log('🔄 Dimensions changed, clearing cache');
+        baseChainCanvas.current = null;
+        globalBaseChainCanvas = null;
+      }
+    }
+
     let lastScrollProgress = scrollProgress;
 
     const draw = () => {
@@ -498,8 +515,9 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         return;
       }
 
-      // During animation, always redraw. After animation, only on scroll change or forced redraw
-      if (globalDrawAnimationComplete && !needsRedrawRef.current && !scrollChanged) {
+      // During animation, always redraw. After animation in interactive mode, ALWAYS redraw (for shimmer animation)
+      // In non-interactive mode, only redraw on scroll change or forced redraw
+      if (globalDrawAnimationComplete && !isInteractive && !needsRedrawRef.current && !scrollChanged) {
         animationFrameRef.current = requestAnimationFrame(draw);
         return;
       }
@@ -671,7 +689,9 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       const pointsToDraw = Math.floor(pathPoints.length * drawProgress);
       const visiblePoints = globalDrawAnimationComplete ? pathPoints : pathPoints.slice(0, pointsToDraw);
 
-      // Cache base chain after animation completes (only once)
+      // Cache base chain after animation completes (only once per resize)
+      // We always need to recalculate pathPoints on resize, even if we use cached canvas
+      // This ensures visiblePoints is always up-to-date for the highlight rendering
       if (globalDrawAnimationComplete && !baseChainCanvas.current) {
         console.log('💾 Caching base chain to prevent redraw on every scroll');
         baseChainCanvas.current = document.createElement('canvas');
@@ -704,7 +724,12 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           // Save canvas as data URL to sessionStorage for persistence across page reloads
           try {
             const dataUrl = baseChainCanvas.current.toDataURL('image/png', 0.8);
-            sessionStorage.setItem('chainCanvasData', dataUrl);
+            const cacheData = {
+              dataUrl,
+              width,
+              height
+            };
+            sessionStorage.setItem('chainCanvasData', JSON.stringify(cacheData));
           } catch (e) {
             // Ignore if storage fails
           }
@@ -712,21 +737,31 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       }
 
       // If animation complete and we have cached canvas, use it instead of redrawing
+      // But first validate that cached canvas dimensions match current canvas
       if (globalDrawAnimationComplete && baseChainCanvas.current) {
-        // Draw cached base chain
-        ctx.drawImage(baseChainCanvas.current, 0, 0);
+        // Check if cached canvas dimensions match current dimensions
+        if (baseChainCanvas.current.width !== width || baseChainCanvas.current.height !== height) {
+          // Dimensions changed (resize), invalidate cache and redraw
+          console.log('🔄 Cache dimensions mismatch, clearing cache and redrawing');
+          baseChainCanvas.current = null;
+          globalBaseChainCanvas = null;
+          // Fall through to redraw base chain below
+        } else {
+          // Draw cached base chain
+          ctx.drawImage(baseChainCanvas.current, 0, 0);
 
-        // Only draw highlight if in interactive mode
-        if (!isInteractive) {
-          animationFrameRef.current = requestAnimationFrame(draw);
-          return;
+          // Only draw highlight if in interactive mode
+          if (!isInteractive) {
+            animationFrameRef.current = requestAnimationFrame(draw);
+            return;
+          }
+
+          // Continue to draw interactive highlight below...
         }
-
-        // Continue to draw interactive highlight below...
       }
 
-      // Line-Stil: Zeichne durchgehenden Pfad (only during animation or if no cache)
-      if (style === 'line' && !globalDrawAnimationComplete) {
+      // Line-Stil: Zeichne durchgehenden Pfad (during animation OR after cache invalidation)
+      if (style === 'line' && (!globalDrawAnimationComplete || !baseChainCanvas.current)) {
         if (visiblePoints.length < 2) {
           animationFrameRef.current = requestAnimationFrame(draw);
           return;
@@ -801,16 +836,33 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         for (const section of sectionGroups) {
           const sectionLength = section.endIndex - section.startIndex;
           if (sectionLength < 10) continue; // Skip very short sections
+          
+          // Check if this is the last section (Footer)
+          const isLastSection = section.sectionIndex === 6;
 
-          // Highlight is 25% of this section's length (5% fade + 15% solid + 5% fade)
-          const highlightLength = Math.floor(sectionLength * 0.25);
-          if (highlightLength < 5) continue;
+          // Use FIXED highlight length (in points) instead of percentage
+          // This ensures consistent visual length across all sections (including curves)
+          // For last section, make it much longer
+          const fixedHighlightLength = isLastSection 
+            ? Math.min(Math.floor(sectionLength * 0.6), 250) // 60% or 250 points for footer
+            : Math.min(Math.floor(sectionLength * 0.3), 120); // 30% or 120 points for others
+          if (fixedHighlightLength < 5) continue;
 
           // Position based on GLOBAL scroll progress (same for all sections)
-          // scrollProgress is already 0-1 from the component state
-          const maxStart = sectionLength - highlightLength;
-          const highlightStart = section.startIndex + Math.floor(scrollProgress * maxStart);
-          const highlightEnd = Math.min(highlightStart + highlightLength, section.endIndex);
+          // For last section, always extend to the very end
+          let highlightStart: number;
+          let highlightEnd: number;
+          
+          if (isLastSection) {
+            // Last section: always stick to the end
+            highlightEnd = section.endIndex;
+            highlightStart = Math.max(section.startIndex, section.endIndex - fixedHighlightLength);
+          } else {
+            // Other sections: scroll normally
+            const maxStart = sectionLength - fixedHighlightLength;
+            highlightStart = section.startIndex + Math.floor(scrollProgress * maxStart);
+            highlightEnd = Math.min(highlightStart + fixedHighlightLength, section.endIndex);
+          }
 
           // Get section neon color
           const neonColor = neonColors[section.sectionIndex % neonColors.length];
@@ -818,31 +870,70 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
           // Fade zones: 5% on each end, 15% solid in middle
           // Total: 5% + 15% + 5% = 25%
 
-          // Draw highlight segments
+          // First pass: Draw smooth base layer with gradient fade at ends (20% each side)
+          // Draw in segments to apply gradient
           for (let i = highlightStart; i < highlightEnd - 1; i++) {
             const posInHighlight = i - highlightStart;
-            const highlightProgress = posInHighlight / highlightLength;
+            const totalLength = highlightEnd - highlightStart;
+            const progress = posInHighlight / totalLength;
+            
+            // 20% fade in at start, 20% fade out at end (but not for last section)
+            let fadeOpacity = 1.0;
+            if (progress < 0.2) {
+              fadeOpacity = progress / 0.2;
+            } else if (progress > 0.8 && !isLastSection) {
+              fadeOpacity = (1 - progress) / 0.2;
+            }
+            
+            ctx.beginPath();
+            ctx.moveTo(visiblePoints[i].x, visiblePoints[i].y);
+            ctx.lineTo(visiblePoints[i + 1].x, visiblePoints[i + 1].y);
+            
+            ctx.strokeStyle = neonColor;
+            ctx.lineWidth = (config.linkWidth || CHAIN_COLORS.line.width) + 1;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.globalAlpha = 0.7 * fadeOpacity;
+            
+            ctx.shadowColor = neonColor;
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.stroke();
+          }
+          
+          // Second pass: Add static glow on top
+          for (let i = highlightStart; i < highlightEnd - 1; i++) {
+            const posInHighlight = i - highlightStart;
+            const totalLength = highlightEnd - highlightStart;
+            const highlightProgress = posInHighlight / totalLength;
 
-            // Calculate opacity: 5% fade in (0-0.2), 15% solid (0.2-0.8), 5% fade out (0.8-1.0)
-            let opacity = 1;
+            // Calculate opacity: 20% fade in, 20% fade out (but not for last section)
+            let fadeOpacity = 1;
             if (highlightProgress < 0.2) {
-              // Fade in zone (first 5% of 25% = 20% of highlight)
-              opacity = highlightProgress / 0.2;
-            } else if (highlightProgress > 0.8) {
-              // Fade out zone (last 5% of 25% = 20% of highlight)
-              opacity = (1 - highlightProgress) / 0.2;
+              fadeOpacity = highlightProgress / 0.2;
+            } else if (highlightProgress > 0.8 && !isLastSection) {
+              fadeOpacity = (1 - highlightProgress) / 0.2;
             }
 
             ctx.beginPath();
             ctx.moveTo(visiblePoints[i].x, visiblePoints[i].y);
             ctx.lineTo(visiblePoints[i + 1].x, visiblePoints[i + 1].y);
 
+            // Static glow effect
             ctx.strokeStyle = neonColor;
-            ctx.globalAlpha = opacity * 0.8; // Max 80% opacity
             ctx.lineWidth = (config.linkWidth || CHAIN_COLORS.line.width) + 1;
+            ctx.shadowColor = neonColor;
+            ctx.shadowBlur = 20;
+            ctx.globalAlpha = fadeOpacity * 0.8;
             ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
             ctx.stroke();
           }
+
+          // Reset shadow
+          ctx.shadowColor = 'transparent';
+          ctx.shadowBlur = 0;
         }
 
         // Reset global alpha
@@ -900,23 +991,8 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       animationFrameRef.current = requestAnimationFrame(draw);
     };
 
-    // FPS Limiter für bessere Performance (30fps statt 60fps)
-    let lastFrameTime = 0;
-    const targetFPS = 30;
-    const frameInterval = 1000 / targetFPS;
-
-    const limitedDraw = (currentTime: number) => {
-      const elapsed = currentTime - lastFrameTime;
-
-      if (elapsed > frameInterval) {
-        lastFrameTime = currentTime - (elapsed % frameInterval);
-        draw();
-      } else {
-        animationFrameRef.current = requestAnimationFrame(limitedDraw);
-      }
-    };
-
-    animationFrameRef.current = requestAnimationFrame(limitedDraw);
+    // Start the animation
+    animationFrameRef.current = requestAnimationFrame(draw);
 
     return () => {
       if (animationFrameRef.current) {
@@ -926,17 +1002,16 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
   }, [dimensions, config, theme, drawProgress, scrollProgress, isInteractive]);
 
   // Don't render chain if not mounted
+  // Chain becomes visible when animation starts (animationVisible)
   if (!mounted) {
     return null;
   }
 
   // Chain becomes visible when animation starts (animationVisible)
   // After animation is complete, use isReady for subsequent visibility
-  // CRITICAL: Once animation is complete globally, always show the chain
-  const shouldShow = globalDrawAnimationComplete ? true : (globalDrawAnimationStarted ? true : animationVisible);
+  const shouldShow = animationVisible && isReady;
   const targetOpacity = shouldShow ? 1.0 : 0;
-  // Don't apply transition opacity if animation is already complete - prevents flashing on re-mount
-  const finalOpacity = globalDrawAnimationComplete ? 1.0 : (targetOpacity * transitionOpacity);
+  const finalOpacity = targetOpacity * transitionOpacity;
 
   return (
     <canvas
@@ -946,12 +1021,12 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       className="absolute inset-0 pointer-events-none chain-reveal-animation"
       style={{
         opacity: finalOpacity,
-        transition: 'none',
+        transition: 'opacity 0.3s ease-out',
         willChange: 'opacity',
         transform: 'translateZ(0)', // Force GPU acceleration
         backfaceVisibility: 'hidden',
         WebkitBackfaceVisibility: 'hidden',
-        animation: shouldShow ? 'chainReveal 5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none'
+        animation: shouldShow ? 'chainReveal 5s ease-in-out forwards' : 'none'
       }}
       suppressHydrationWarning
     />

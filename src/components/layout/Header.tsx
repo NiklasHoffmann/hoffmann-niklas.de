@@ -244,6 +244,7 @@ function HeaderComponent() {
                         <div className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
                             <InteractiveToggle />
                             <ThemeToggle />
+                            <div className={`h-6 w-px ${theme === 'dark' ? 'bg-white/20' : 'bg-black/20'} transition-colors duration-700`} />
                             <LanguageToggle />
 
                             {/* Mobile Menu Button - Animated Icon */}

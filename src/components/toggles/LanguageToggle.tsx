@@ -1,196 +1,275 @@
 'use client';
 
-import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
-import { useTransition, useEffect } from 'react';
-import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
+import { useParams, usePathname, useRouter } from 'next/navigation';
+import { useTransition, useEffect, useState, useRef } from 'react';
 import { useTheme } from 'next-themes';
+import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 
-export function LanguageToggle() {
-    const locale = useLocale();
+type Locale = 'de' | 'en' | 'es' | 'ja' | 'uk' | 'fa';
+
+const LOCALE_NAMES: Record<Locale, string> = {
+    de: 'Deutsch',
+    en: 'English',
+    es: 'Español',
+    ja: '日本語',
+    uk: 'Українська',
+    fa: 'فارسی'
+};
+
+const LOCALE_CODES: Record<Locale, string> = {
+    de: 'DE',
+    en: 'EN',
+    es: 'ES',
+    ja: 'JA',
+    uk: 'UK',
+    fa: 'FA'
+};
+
+const GRADIENTS: Record<Locale, string> = {
+    de: 'linear-gradient(to bottom right, #000000, #dc2626, #eab308)',
+    en: 'linear-gradient(to bottom right, #1d4ed8, #ffffff, #dc2626)',
+    es: 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)',
+    ja: 'radial-gradient(circle at 50% 50%, #dc2626 0%, #dc2626 25%, #ef4444 30%, #f87171 33%, #fca5a5 35%, #fecaca 37%, #ffffff 40%, #ffffff 100%)',
+    uk: 'linear-gradient(to bottom, #0057b7 0%, #0057b7 30%, #1a6bb3 40%, #3580b0 45%, #5095ad 48%, #6ba9aa 50%, #87bda7 52%, #a3c9a4 55%, #c4d6a2 60%, #e5e3a0 70%, #ffd700 100%)',
+    fa: 'linear-gradient(to bottom, #239f40 0%, #2ba548 5%, #33ab50 10%, #3fb15a 15%, #51b969 18%, #65c17a 21%, #7bc98c 24%, #92d19f 27%, #abd9b3 29%, #c5e1c8 31%, #dfeadd 33%, #f2f2f2 35%, #ffffff 40%, #ffffff 60%, #fff2f2 65%, #ffeaea 67%, #ffdede 69%, #ffc9c9 71%, #ffb0b0 73%, #ff9494 75%, #ff7575 77%, #f55555 79%, #ea3636 81%, #de1d1d 83%, #d00a0a 85%, #c50000 88%, #bb0000 91%, #b10000 94%, #a80000 97%, #da0000 100%)'
+};
+
+const ALL_LOCALES: Locale[] = ['de', 'en', 'es', 'ja', 'uk', 'fa'];
+
+export function LanguageToggle({ showActive = false }: { showActive?: boolean }) {
     const pathname = usePathname();
+    const params = useParams();
+    const locale = params.locale as Locale;
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
-    const { showActive, mounted } = useInteractiveMode();
+    const [isOpen, setIsOpen] = useState(false);
+    const [isActive, setIsActive] = useState(false);
     const { theme } = useTheme();
+    const { isInteractive } = useInteractiveMode();
+    const [mounted, setMounted] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Use mounted check to avoid hydration mismatch
-    const isActive = mounted && showActive;
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
-    // Restore scroll position after language change
+    useEffect(() => {
+        if (showActive) {
+            setTimeout(() => setIsActive(true), 100);
+        }
+    }, [showActive]);
+
+    // Restore scroll position after locale change
     useEffect(() => {
         const savedScrollPosition = sessionStorage.getItem('scrollPosition');
         if (savedScrollPosition) {
-            const targetScroll = parseInt(savedScrollPosition, 10);
-            
             const mainContainer = document.getElementById('main-scroll-container');
-            if (!mainContainer) return;
-            
-            // Temporarily disable scroll-snap to prevent interference
-            const originalScrollSnap = mainContainer.style.scrollSnapType;
-            mainContainer.style.scrollSnapType = 'none';
-            
-            // Immediately restore position
-            mainContainer.scrollTop = targetScroll;
-            
-            // Retry multiple times to ensure it sticks
-            const retryIntervals = [0, 10, 50, 100, 200];
-            retryIntervals.forEach(delay => {
+            if (mainContainer) {
+                const scrollTop = parseInt(savedScrollPosition, 10);
+                const originalScrollSnap = mainContainer.style.scrollSnapType;
+                mainContainer.style.scrollSnapType = 'none';
+                const intervals = [0, 10, 50, 100, 200];
+                intervals.forEach((delay) => {
+                    setTimeout(() => {
+                        if (mainContainer) {
+                            mainContainer.scrollTop = scrollTop;
+                        }
+                    }, delay);
+                });
                 setTimeout(() => {
-                    const container = document.getElementById('main-scroll-container');
-                    if (container) {
-                        container.scrollTop = targetScroll;
+                    if (mainContainer) {
+                        mainContainer.style.scrollSnapType = originalScrollSnap;
                     }
-                }, delay);
-            });
-            
-            // Re-enable scroll-snap after position is stable
-            setTimeout(() => {
-                if (mainContainer) {
-                    mainContainer.style.scrollSnapType = originalScrollSnap;
-                }
-                sessionStorage.removeItem('scrollPosition');
-            }, 250);
+                    sessionStorage.removeItem('scrollPosition');
+                }, 250);
+            }
         }
-    }, [locale]); // Re-run when locale changes
+    }, [locale]);
 
-    const handleLocaleChange = () => {
-        // Cycle through DE -> EN -> ES -> JA -> UK -> DE
-        const newLocale = locale === 'de' ? 'en' : locale === 'en' ? 'es' : locale === 'es' ? 'ja' : locale === 'ja' ? 'uk' : 'de';
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
+
+    const handleLocaleChange = (newLocale: Locale) => {
+        if (newLocale === locale) {
+            setIsOpen(false);
+            return;
+        }
 
         const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
-        
-        // Preserve current hash (section)
         const currentHash = window.location.hash;
         const newPath = `/${newLocale}${pathnameWithoutLocale}${currentHash}`;
 
-        // Save exact scroll position
         const mainContainer = document.getElementById('main-scroll-container');
         if (mainContainer) {
             sessionStorage.setItem('scrollPosition', mainContainer.scrollTop.toString());
         }
 
+        setIsOpen(false);
         startTransition(() => {
             router.replace(newPath, { scroll: false });
             router.refresh();
         });
     };
 
-    // Shadow color based on theme - only after mount to avoid hydration mismatch
     const getBaseShadow = () => {
         if (!mounted) return '0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.2)';
+        
+        // In Interactive Mode: colored shadow based on entire flag colors
+        if (isInteractive) {
+            if (theme === 'dark') {
+                // Germany: Black, Red, Gold
+                if (locale === 'de') return '0 0 6px 1px rgba(0, 0, 0, 0.6), 0 0 10px 2px rgba(220, 38, 38, 0.5), 0 0 14px 3px rgba(234, 179, 8, 0.4), 0 8px 12px -3px rgba(220, 38, 38, 0.3)';
+                // UK: Blue, White, Red
+                if (locale === 'en') return '0 0 6px 1px rgba(29, 78, 216, 0.6), 0 0 10px 2px rgba(255, 255, 255, 0.4), 0 0 14px 3px rgba(220, 38, 38, 0.5), 0 8px 12px -3px rgba(29, 78, 216, 0.3)';
+                // Spain: Red, Gold
+                if (locale === 'es') return '0 0 6px 1px rgba(220, 38, 38, 0.6), 0 0 10px 2px rgba(234, 179, 8, 0.6), 0 0 14px 3px rgba(220, 38, 38, 0.5), 0 8px 12px -3px rgba(234, 179, 8, 0.3)';
+                // Japan: Red (circle)
+                if (locale === 'ja') return '0 0 6px 1px rgba(220, 38, 38, 0.6), 0 0 10px 2px rgba(239, 68, 68, 0.5), 0 0 14px 3px rgba(248, 113, 113, 0.3), 0 8px 12px -3px rgba(220, 38, 38, 0.4)';
+                // Ukraine: Blue, Yellow
+                if (locale === 'uk') return '0 0 6px 1px rgba(0, 87, 183, 0.6), 0 0 10px 2px rgba(59, 130, 246, 0.5), 0 0 14px 3px rgba(255, 215, 0, 0.6), 0 8px 12px -3px rgba(59, 130, 246, 0.3)';
+                // Iran: Green, White, Red
+                return '0 0 6px 1px rgba(35, 159, 64, 0.6), 0 0 10px 2px rgba(255, 255, 255, 0.3), 0 0 14px 3px rgba(218, 0, 0, 0.6), 0 8px 12px -3px rgba(35, 159, 64, 0.3)';
+            }
+            // Light theme
+            if (locale === 'de') return '0 0 5px 1px rgba(0, 0, 0, 0.5), 0 0 8px 2px rgba(220, 38, 38, 0.4), 0 0 12px 3px rgba(234, 179, 8, 0.3), 0 6px 10px -3px rgba(220, 38, 38, 0.25)';
+            if (locale === 'en') return '0 0 5px 1px rgba(29, 78, 216, 0.5), 0 0 8px 2px rgba(255, 255, 255, 0.3), 0 0 12px 3px rgba(220, 38, 38, 0.4), 0 6px 10px -3px rgba(29, 78, 216, 0.25)';
+            if (locale === 'es') return '0 0 5px 1px rgba(220, 38, 38, 0.5), 0 0 8px 2px rgba(234, 179, 8, 0.5), 0 0 12px 3px rgba(220, 38, 38, 0.4), 0 6px 10px -3px rgba(234, 179, 8, 0.25)';
+            if (locale === 'ja') return '0 0 5px 1px rgba(220, 38, 38, 0.5), 0 0 8px 2px rgba(239, 68, 68, 0.4), 0 0 12px 3px rgba(248, 113, 113, 0.25), 0 6px 10px -3px rgba(220, 38, 38, 0.3)';
+            if (locale === 'uk') return '0 0 5px 1px rgba(0, 87, 183, 0.5), 0 0 8px 2px rgba(59, 130, 246, 0.4), 0 0 12px 3px rgba(255, 215, 0, 0.5), 0 6px 10px -3px rgba(59, 130, 246, 0.25)';
+            return '0 0 5px 1px rgba(35, 159, 64, 0.5), 0 0 8px 2px rgba(255, 255, 255, 0.25), 0 0 12px 3px rgba(218, 0, 0, 0.5), 0 6px 10px -3px rgba(35, 159, 64, 0.25)';
+        }
+        
+        // Default: white shadow like other buttons (matching ThemeToggle and InteractiveToggle)
         return theme === 'dark'
             ? '0 0 8px 1px rgba(255, 255, 255, 0.35), 0 10px 15px -3px rgba(255, 255, 255, 0.2), 0 4px 6px -4px rgba(255, 255, 255, 0.15)'
             : '0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.2)';
     };
 
-    // Hover shadow styles - stronger glow effect, theme-aware
-    const getHoverShadow = () => {
-        if (showActive) {
-            if (theme === 'dark') {
-                if (locale === 'de') {
-                    return '0 0 16px 3px rgba(220, 38, 38, 0.9), 0 12px 18px -3px rgba(220, 38, 38, 0.7), 0 6px 8px -4px rgba(220, 38, 38, 0.6)';
-                } else if (locale === 'en') {
-                    return '0 0 16px 3px rgba(29, 78, 216, 0.9), 0 12px 18px -3px rgba(29, 78, 216, 0.7), 0 6px 8px -4px rgba(29, 78, 216, 0.6)';
-                } else if (locale === 'es') {
-                    return '0 0 16px 3px rgba(234, 179, 8, 0.9), 0 12px 18px -3px rgba(234, 179, 8, 0.7), 0 6px 8px -4px rgba(234, 179, 8, 0.6)';
-                } else if (locale === 'ja') {
-                    return '0 0 16px 3px rgba(220, 38, 38, 0.9), 0 12px 18px -3px rgba(220, 38, 38, 0.7), 0 6px 8px -4px rgba(220, 38, 38, 0.6)';
-                } else {
-                    return '0 0 16px 3px rgba(59, 130, 246, 0.9), 0 12px 18px -3px rgba(59, 130, 246, 0.7), 0 6px 8px -4px rgba(59, 130, 246, 0.6)';
-                }
-            }
-            if (locale === 'de') {
-                return '0 0 12px 2px rgba(220, 38, 38, 0.7), 0 12px 18px -3px rgba(220, 38, 38, 0.6), 0 6px 8px -4px rgba(220, 38, 38, 0.5)';
-            } else if (locale === 'en') {
-                return '0 0 12px 2px rgba(29, 78, 216, 0.7), 0 12px 18px -3px rgba(29, 78, 216, 0.6), 0 6px 8px -4px rgba(29, 78, 216, 0.5)';
-            } else if (locale === 'es') {
-                return '0 0 12px 2px rgba(234, 179, 8, 0.7), 0 12px 18px -3px rgba(234, 179, 8, 0.6), 0 6px 8px -4px rgba(234, 179, 8, 0.5)';
-            } else if (locale === 'ja') {
-                return '0 0 12px 2px rgba(220, 38, 38, 0.7), 0 12px 18px -3px rgba(220, 38, 38, 0.6), 0 6px 8px -4px rgba(220, 38, 38, 0.5)';
-            } else {
-                return '0 0 12px 2px rgba(59, 130, 246, 0.7), 0 12px 18px -3px rgba(59, 130, 246, 0.6), 0 6px 8px -4px rgba(59, 130, 246, 0.5)';
-            }
-        }
-        return 'none';
-    };
-
-    // Active shadow based on theme - stronger in dark mode for better visibility
-    const getActiveShadow = () => {
+    const otherLocales = ALL_LOCALES.filter(l => l !== locale);
+    
+    // Get button colors based on theme and interactive mode
+    const getButtonColors = () => {
+        if (!mounted) return { bg: 'bg-black/20', text: 'text-white' };
+        
         if (theme === 'dark') {
-            if (locale === 'de') return '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)';
-            if (locale === 'en') return '0 0 12px 2px rgba(29, 78, 216, 0.8), 0 10px 15px -3px rgba(29, 78, 216, 0.6), 0 4px 6px -4px rgba(29, 78, 216, 0.5)';
-            if (locale === 'es') return '0 0 12px 2px rgba(234, 179, 8, 0.8), 0 10px 15px -3px rgba(234, 179, 8, 0.6), 0 4px 6px -4px rgba(234, 179, 8, 0.5)';
-            if (locale === 'ja') return '0 0 12px 2px rgba(220, 38, 38, 0.8), 0 10px 15px -3px rgba(220, 38, 38, 0.6), 0 4px 6px -4px rgba(220, 38, 38, 0.5)';
-            return '0 0 12px 2px rgba(59, 130, 246, 0.8), 0 10px 15px -3px rgba(59, 130, 246, 0.6), 0 4px 6px -4px rgba(59, 130, 246, 0.5)'; // UK
+            return { bg: 'bg-black/20 hover:bg-black/30', text: 'text-white' };
+        } else {
+            // Light mode
+            return { bg: 'bg-white/90 hover:bg-white', text: 'text-black' };
         }
-        if (locale === 'de') return '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)';
-        if (locale === 'en') return '0 0 8px 1px rgba(29, 78, 216, 0.6), 0 10px 15px -3px rgba(29, 78, 216, 0.5), 0 4px 6px -4px rgba(29, 78, 216, 0.4)';
-        if (locale === 'es') return '0 0 8px 1px rgba(234, 179, 8, 0.6), 0 10px 15px -3px rgba(234, 179, 8, 0.5), 0 4px 6px -4px rgba(234, 179, 8, 0.4)';
-        if (locale === 'ja') return '0 0 8px 1px rgba(220, 38, 38, 0.6), 0 10px 15px -3px rgba(220, 38, 38, 0.5), 0 4px 6px -4px rgba(220, 38, 38, 0.4)';
-        return '0 0 8px 1px rgba(59, 130, 246, 0.6), 0 10px 15px -3px rgba(59, 130, 246, 0.5), 0 4px 6px -4px rgba(59, 130, 246, 0.4)'; // UK
     };
+    
+    const buttonColors = getButtonColors();
 
     return (
-        <button
-            onClick={handleLocaleChange}
-            disabled={isPending}
-            onMouseEnter={(e) => {
-                if (showActive) {
-                    e.currentTarget.style.boxShadow = getHoverShadow();
-                }
-            }}
-            onMouseLeave={(e) => {
-                if (showActive) {
-                    e.currentTarget.style.boxShadow = getActiveShadow();
-                } else {
-                    e.currentTarget.style.boxShadow = getBaseShadow();
-                }
-            }}
-            style={{
-                position: 'relative',
-                backgroundColor: 'transparent',
-                boxShadow: showActive ? getActiveShadow() : getBaseShadow(),
-                transition: 'all 700ms ease-in-out, box-shadow 700ms ease-in-out',
-            }}
-            className={`
-                px-3 py-2 rounded-lg font-medium text-sm disabled:opacity-50 relative
-                w-[60px] h-[36px] flex items-center justify-center
-                overflow-hidden
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background
-            `}
-            aria-label={`Switch to ${locale === 'de' ? 'English' : locale === 'en' ? 'Spanish' : locale === 'es' ? 'Japanese' : locale === 'ja' ? 'Ukrainian' : 'German'}`}
-            title={locale === 'de' ? 'Sprache auf Englisch wechseln' : locale === 'en' ? 'Switch language to Spanish' : locale === 'es' ? 'Cambiar idioma a Japonés' : locale === 'ja' ? '日本語からウクライナ語に切り替え' : 'Змінити мову на німецьку'}
-        >
-            {/* Gradient Background - Always rendered, opacity controlled */}
-            <span
-                className="absolute inset-0 rounded-lg transition-opacity duration-700 ease-in-out"
+        <div ref={dropdownRef} className="relative">
+            {/* Current Language Button */}
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                disabled={isPending}
+                className={`
+                    relative flex items-center gap-2 px-3 py-2 rounded-lg
+                    transition-all duration-700 ease-in-out
+                    disabled:opacity-50
+                    ${buttonColors.bg}
+                    backdrop-blur-sm border border-white/10
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30
+                `}
                 style={{
-                    backgroundImage:
-                        locale === 'de'
-                            ? 'linear-gradient(to bottom right, #000000, #dc2626, #eab308)'
-                            : locale === 'en'
-                                ? 'linear-gradient(to bottom right, #1d4ed8, #ffffff, #dc2626)'
-                                : locale === 'es'
-                                    ? 'linear-gradient(to bottom right, #dc2626, #eab308, #000000)'
-                                    : locale === 'ja'
-                                        ? 'radial-gradient(circle at 50% 50%, #dc2626 0%, #dc2626 25%, #ef4444 30%, #f87171 33%, #fca5a5 35%, #fecaca 37%, #ffffff 40%, #ffffff 100%)' // Japan flag - very soft red circle fade to white
-                                        : 'linear-gradient(to bottom, #0057b7 0%, #0057b7 30%, #1a6bb3 40%, #3580b0 45%, #5095ad 48%, #6ba9aa 50%, #87bda7 52%, #a3c9a4 55%, #c4d6a2 60%, #e5e3a0 70%, #ffd700 100%)', // Ukraine flag - smooth blue to yellow transition via gradient steps
-                    opacity: isActive ? 1 : 0,
+                    boxShadow: getBaseShadow(),
+                    transition: 'all 700ms ease-in-out, box-shadow 700ms ease-in-out',
                 }}
-            />
-
-            {/* Current language text */}
-            <span
-                className={`relative z-10 font-bold ${isActive ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-foreground'
-                    }`}
+                aria-label="Select language"
             >
-                {locale === 'de' ? 'DE' : locale === 'en' ? 'EN' : locale === 'es' ? 'ES' : locale === 'ja' ? 'JA' : 'UK'}
-            </span>
+                {/* Flag */}
+                <div className="relative w-8 h-5 rounded overflow-hidden">
+                    <div 
+                        className="absolute inset-0 transition-all duration-700 ease-in-out"
+                        style={{ backgroundImage: GRADIENTS[locale] }}
+                    />
+                    {locale === 'fa' && (
+                        <div
+                            className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+                            style={{
+                                backgroundImage: 'radial-gradient(ellipse 40% 25% at 50% 50%, rgba(220, 38, 38, 0.35) 0%, rgba(220, 38, 38, 0.25) 20%, rgba(220, 38, 38, 0.15) 40%, rgba(220, 38, 38, 0.05) 60%, transparent 80%)'
+                            }}
+                        />
+                    )}
+                </div>
 
-            {isActive && locale !== 'ja' && locale !== 'uk' && (
-                <span className="absolute inset-0 rounded-lg bg-white/10 blur-sm transition-opacity duration-700 ease-in-out" />
+                {/* Language Code */}
+                <span className="font-bold text-sm text-foreground w-6 inline-block text-center transition-colors duration-700">
+                    {LOCALE_CODES[locale]}
+                </span>
+
+                {/* Chevron */}
+                <svg
+                    className={`w-4 h-4 text-foreground transition-all duration-700 ${isOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            {/* Dropdown Menu */}
+            {isOpen && (
+                <div
+                    className="absolute top-full right-0 mt-2 min-w-[180px] rounded-lg overflow-hidden bg-black/90 backdrop-blur-md border border-white/10 shadow-xl z-50 animate-in fade-in-0 zoom-in-95 duration-200"
+                    style={{
+                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5)'
+                    }}
+                >
+                    {otherLocales.map((loc) => (
+                        <button
+                            key={loc}
+                            onClick={() => handleLocaleChange(loc)}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 transition-colors duration-150 hover:bg-white/10 active:bg-white/15 text-left"
+                        >
+                            {/* Flag */}
+                            <div className="relative w-8 h-5 rounded overflow-hidden flex-shrink-0">
+                                <div 
+                                    className="absolute inset-0"
+                                    style={{ backgroundImage: GRADIENTS[loc] }}
+                                />
+                                {loc === 'fa' && (
+                                    <div
+                                        className="absolute inset-0"
+                                        style={{
+                                            backgroundImage: 'radial-gradient(ellipse 40% 25% at 50% 50%, rgba(220, 38, 38, 0.35) 0%, rgba(220, 38, 38, 0.25) 20%, rgba(220, 38, 38, 0.15) 40%, rgba(220, 38, 38, 0.05) 60%, transparent 80%)'
+                                        }}
+                                    />
+                                )}
+                            </div>
+
+                            {/* Language Name */}
+                            <div className="flex flex-col gap-0.5">
+                                <span className="text-sm font-medium text-white">
+                                    {LOCALE_NAMES[loc]}
+                                </span>
+                                <span className="text-xs text-white/60">
+                                    {LOCALE_CODES[loc]}
+                                </span>
+                            </div>
+                        </button>
+                    ))}
+                </div>
             )}
-        </button>
+        </div>
     );
 }
