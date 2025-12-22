@@ -219,6 +219,8 @@ export const PackagesSection = memo(function PackagesSection() {
                                                 style={{
                                                     backfaceVisibility: 'hidden',
                                                     WebkitBackfaceVisibility: 'hidden',
+                                                    transform: 'rotateY(0deg)',
+                                                    transformStyle: 'preserve-3d',
                                                     borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
                                                     boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}15` : 'none',
                                                     transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out',
@@ -281,6 +283,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                                     backfaceVisibility: 'hidden',
                                                     WebkitBackfaceVisibility: 'hidden',
                                                     transform: 'rotateY(180deg)',
+                                                    transformStyle: 'preserve-3d',
                                                     borderColor: isActiveAndHydrated ? `${cardColor}50` : 'hsl(var(--accent) / 0.5)',
                                                     boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}20` : '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                                                     transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out',
