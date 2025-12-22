@@ -48,9 +48,11 @@ function HeaderComponent() {
 
     // Track active section
     useEffect(() => {
-        // Disable section tracking on mobile - prevents issues with browser UI
+        // Disable section tracking ONLY on mobile portrait - prevents issues with browser UI
+        // Mobile landscape doesn't have these issues, so we keep tracking enabled
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (isMobile) return;
+        const isPortrait = window.innerHeight > window.innerWidth;
+        if (isMobile && isPortrait) return;
 
         const updateActiveSection = () => {
             const sections = ['hero', 'about', 'services', 'packages', 'contact', 'footer']; // 'portfolio' removed
