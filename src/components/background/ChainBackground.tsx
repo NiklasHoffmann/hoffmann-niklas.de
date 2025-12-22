@@ -347,6 +347,18 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
     
     // Use requestIdleCallback to defer chain drawing until browser is idle
     const idleCallback = () => {
+      // PERFORMANCE: Draw chain fully but animate clip-path for visual reveal
+      globalDrawAnimationComplete = true;
+      globalDrawProgress = 1;
+      setDrawProgress(1);
+      needsRedrawRef.current = true;
+      
+      // Show chain immediately, CSS animation will handle the reveal
+      globalAnimationVisible = true;
+      setAnimationVisible(true);
+      return;
+
+      /* Original animation code - disabled for performance
       if (isMobile) {
         globalDrawAnimationComplete = true;
         globalDrawProgress = 1;
@@ -357,7 +369,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
         return;
       }
 
-      const duration = 15000; // Reduced from 20s to 15s for faster initial load
+      const duration = 3000; // Reduced from 15s to 3s - chain appears quickly without blocking
       const startTime = performance.now();
 
       globalAnimationVisible = true;
@@ -382,6 +394,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
       // Start animation immediately
       requestAnimationFrame(animate);
+      */
     };
 
     // Defer chain animation to idle time
@@ -859,14 +872,15 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       ref={canvasRef}
       width={dimensions.width}
       height={dimensions.height}
-      className="absolute inset-0 pointer-events-none"
+      className="absolute inset-0 pointer-events-none chain-reveal-animation"
       style={{
         opacity: finalOpacity,
         transition: 'none',
         willChange: 'opacity',
         transform: 'translateZ(0)', // Force GPU acceleration
         backfaceVisibility: 'hidden',
-        WebkitBackfaceVisibility: 'hidden'
+        WebkitBackfaceVisibility: 'hidden',
+        animation: shouldShow ? 'chainReveal 5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none'
       }}
       suppressHydrationWarning
     />

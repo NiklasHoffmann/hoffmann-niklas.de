@@ -479,6 +479,24 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
   }
 }
 
+/* Chain reveal animation - top to bottom with smooth reveal */
+@keyframes chainReveal {
+  0% {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.3;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
 /* Slide In From Top Animation für Mobile Menu */
 @keyframes slideInFromTop {
   0% {
