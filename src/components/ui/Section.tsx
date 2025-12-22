@@ -116,7 +116,7 @@ export function SectionDefault({ children, className = '' }: { children: ReactNo
     if (isMobileLandscape) return null;
 
     return (
-        <div className={`text-center w-full mx-auto px-3 xs:px-4 sm:px-6 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl ${className}`}>
+        <div className={`text-center w-full mx-auto px-3 xs:px-4 sm:px-6 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl ${className}`}>
             {children}
         </div>
     );

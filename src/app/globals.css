@@ -734,15 +734,45 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
 
   /* Responsive Text Utilities - maintains readability across breakpoints */
   .text-responsive-xs {
-    @apply text-xs sm:text-sm;
+    font-size: 0.75rem; /* 12px */
+  }
+  @media (min-width: 480px) {
+    .text-responsive-xs {
+      font-size: 0.8125rem; /* 13px */
+    }
+  }
+  @media (min-width: 768px) {
+    .text-responsive-xs {
+      font-size: 0.875rem; /* 14px */
+    }
   }
 
   .text-responsive-sm {
-    @apply text-sm sm:text-base;
+    font-size: 0.875rem; /* 14px */
+  }
+  @media (min-width: 480px) {
+    .text-responsive-sm {
+      font-size: 0.9375rem; /* 15px */
+    }
+  }
+  @media (min-width: 768px) {
+    .text-responsive-sm {
+      font-size: 1rem; /* 16px */
+    }
   }
 
   .text-responsive-base {
-    @apply text-base sm:text-lg;
+    font-size: 1rem; /* 16px */
+  }
+  @media (min-width: 768px) {
+    .text-responsive-base {
+      font-size: 1.0625rem; /* 17px */
+    }
+  }
+  @media (min-width: 1024px) {
+    .text-responsive-base {
+      font-size: 1.125rem; /* 18px */
+    }
   }
 
   .text-responsive-lg {

@@ -211,12 +211,12 @@ export function AboutSection() {
                         </div>
                     </div>
 
-                    {/* Right Column - What I Do (hidden on mobile portrait) */}
-                    <div className="hidden lg:flex lg:w-3/5 flex-col justify-center">
+                    {/* Right Column - What I Do (hidden on mobile portrait, visible from tablet landscape) */}
+                    <div className="hidden md:flex lg:w-3/5 flex-col justify-center">
                         <h3 className="text-responsive-xl font-bold mb-6 md:mb-8">
                             {t('whatIDoTitle', { default: 'What I Do' })}
                         </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-responsive-sm md:gap-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-responsive-sm lg:gap-6">
                             {highlights.map((item, index) => (
                                 <div
                                     key={item.key}

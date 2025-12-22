@@ -435,7 +435,7 @@ export function ContactSection() {
         </SectionRight>
 
         {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
-        <SectionDefault className="max-w-6xl">
+        <SectionDefault className="xl:max-w-6xl">
           {/* Header */}
           <SectionHeader
             title={t('title')}
