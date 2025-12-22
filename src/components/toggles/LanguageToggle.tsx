@@ -24,16 +24,43 @@ export function LanguageToggle() {
         const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
         const newPath = `/${newLocale}${pathnameWithoutLocale}`;
 
-        const currentHash = window.location.hash;
-        const currentScrollY = window.scrollY;
+        // Get current section by checking which section is in the viewport
+        let currentSection = 'hero';
+        const mainContainer = document.getElementById('main-scroll-container');
+        if (mainContainer) {
+            const sections = ['hero', 'about', 'services', 'packages', 'contact', 'footer'];
+            const scrollTop = mainContainer.scrollTop;
+            const viewportHeight = mainContainer.clientHeight;
+            const scrollPosition = scrollTop + viewportHeight / 2;
+
+            for (const sectionId of sections) {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    const containerRect = mainContainer.getBoundingClientRect();
+                    const sectionTop = rect.top - containerRect.top + scrollTop;
+                    const sectionBottom = sectionTop + rect.height;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        currentSection = sectionId;
+                        break;
+                    }
+                }
+            }
+        }
 
         startTransition(() => {
-            router.replace(newPath + currentHash, { scroll: false });
-            // Force refresh to clear Next.js router cache and reload translations
+            router.replace(newPath, { scroll: false });
             router.refresh();
+            // Navigate to the same section after language change
             setTimeout(() => {
-                window.scrollTo(0, currentScrollY);
-            }, 50);
+                if (currentSection && currentSection !== 'hero') {
+                    const element = document.getElementById(currentSection);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'instant', block: 'start' });
+                    }
+                }
+            }, 100);
         });
     };
 
