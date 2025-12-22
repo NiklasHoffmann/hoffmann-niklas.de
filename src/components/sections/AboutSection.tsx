@@ -100,7 +100,7 @@ export function AboutSection() {
                         <p className="text-[10px] xs:text-xs text-muted-foreground">{t('role')}</p>
                     </div>
                 </div>
-                <p className="text-[10px] xs:text-xs text-muted-foreground leading-relaxed max-w-xs">
+                <p className="text-[11px] xs:text-xs text-muted-foreground leading-relaxed max-w-xs">
                     {t('description')}
                 </p>
             </SectionLeft>
@@ -116,7 +116,7 @@ export function AboutSection() {
                     ].map((stat, i) => (
                         <div key={i} className="text-center">
                             <div
-                                className="text-lg xs:text-xl font-bold"
+                                className="text-base xs:text-lg font-bold"
                                 style={{
                                     color: isActiveAndHydrated ? stat.color : 'inherit',
                                     textShadow: isActiveAndHydrated ? `0 0 15px ${stat.color}40` : 'none',
@@ -125,7 +125,7 @@ export function AboutSection() {
                             >
                                 {stat.value}
                             </div>
-                            <div className="text-[9px] xs:text-[10px] text-muted-foreground">{stat.label}</div>
+                            <div className="text-[10px] xs:text-xs text-muted-foreground">{stat.label}</div>
                         </div>
                     ))}
                 </div>

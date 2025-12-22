@@ -193,7 +193,7 @@ function HeaderComponent() {
                         {/* Desktop Navigation */}
                         <nav
                             ref={navRef}
-                            className="hidden md:flex items-center gap-3 lg:gap-5 xl:gap-6 relative"
+                            className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 relative"
                             style={{ paddingBottom: '3px' }}
                             aria-label="Main navigation"
                         >
@@ -203,7 +203,7 @@ function HeaderComponent() {
                                     <a
                                         key={section.id}
                                         href={`#${section.id}`}
-                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10 rounded px-2 lg:px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent touch-target"
+                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10 rounded px-3 lg:px-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent touch-target"
                                         style={isActive && isInteractiveActive ? {
                                             color: section.color,
                                             transition: 'all 0.7s ease-out',

@@ -48,11 +48,11 @@ function FooterComponent() {
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="touch-target flex items-center justify-center rounded-lg bg-secondary/50 border border-border hover:bg-accent hover:border-accent/50"
+                                className="touch-target flex items-center justify-center p-2 rounded-lg bg-secondary/50 border border-border hover:bg-accent hover:border-accent/50"
                                 style={{ transition: TRANSITIONS.backgroundAndBorder }}
                                 aria-label={social.label}
                             >
-                                <Icon icon={social.icon} className="w-4 h-4" />
+                                <Icon icon={social.icon} className="w-4 h-4 xs:w-5 xs:h-5" />
                             </a>
                         );
                     })}

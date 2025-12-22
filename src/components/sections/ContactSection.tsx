@@ -297,7 +297,7 @@ export function ContactSection() {
       {/* Name & Email - Side by side */}
       <div className='grid grid-cols-2 gap-1.5 xs:gap-2 sm:gap-3'>
         <div>
-          <label htmlFor={inModal ? 'name-modal' : 'name'} className='block text-responsive-xs font-medium mb-0.5 xs:mb-1'>{t('form.name')}</label>
+          <label htmlFor={inModal ? 'name-modal' : 'name'} className='block text-xs sm:text-sm font-medium mb-1 xs:mb-1.5'>{t('form.name')}</label>
           <input
             type='text'
             id={inModal ? 'name-modal' : 'name'}
@@ -309,14 +309,14 @@ export function ContactSection() {
             autoComplete="name"
             autoCapitalize="words"
             spellCheck="false"
-            className='w-full px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
+            className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none touch-target'
             style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
             aria-required="true"
           />
         </div>
 
         <div>
-          <label htmlFor={inModal ? 'email-modal' : 'email'} className='block text-responsive-xs font-medium mb-0.5 xs:mb-1'>{t('form.email')}</label>
+          <label htmlFor={inModal ? 'email-modal' : 'email'} className='block text-xs sm:text-sm font-medium mb-1 xs:mb-1.5'>{t('form.email')}</label>
           <input
             type='email'
             id={inModal ? 'email-modal' : 'email'}
@@ -330,7 +330,7 @@ export function ContactSection() {
             autoCapitalize="off"
             spellCheck="false"
             inputMode="email"
-            className='w-full px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none'
+            className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none touch-target'
             style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
             aria-required="true"
           />
@@ -338,7 +338,7 @@ export function ContactSection() {
       </div>
 
       <div>
-        <label htmlFor={inModal ? 'message-modal' : 'message'} className='block text-responsive-xs font-medium mb-0.5 xs:mb-1'>{t('form.message')}</label>
+        <label htmlFor={inModal ? 'message-modal' : 'message'} className='block text-xs sm:text-sm font-medium mb-1 xs:mb-1.5'>{t('form.message')}</label>
         <textarea
           id={inModal ? 'message-modal' : 'message'}
           name='message'
@@ -351,7 +351,7 @@ export function ContactSection() {
           autoCorrect="on"
           autoCapitalize="sentences"
           spellCheck="true"
-          className='w-full px-2 xs:px-2.5 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none touch-target'
+          className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none min-h-[100px]'
           style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
           aria-required="true"
         />

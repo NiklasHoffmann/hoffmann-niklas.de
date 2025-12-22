@@ -37,7 +37,7 @@ export default function DatenschutzPage() {
                 minHeight: 'calc(100vh - 80px)'
             }}
         >
-            <div className="max-w-4xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto px-4 xs:px-6 sm:px-8 lg:px-12">
                 {/* Back Button */}
                 <button
                     onClick={() => router.back()}
@@ -87,7 +87,7 @@ export default function DatenschutzPage() {
 
                     {/* Contact Form */}
                     <section
-                        className="p-4 xs:p-6 rounded-lg xs:rounded-xl border xs:border-2"
+                        className="p-5 xs:p-7 md:p-8 rounded-xl border xs:border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
@@ -107,7 +107,7 @@ export default function DatenschutzPage() {
 
                     {/* Cookies */}
                     <section
-                        className="p-4 xs:p-6 rounded-lg xs:rounded-xl border xs:border-2"
+                        className="p-5 xs:p-7 md:p-8 rounded-xl border xs:border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
@@ -127,7 +127,7 @@ export default function DatenschutzPage() {
 
                     {/* Your Rights */}
                     <section
-                        className="p-4 xs:p-6 rounded-lg xs:rounded-xl border xs:border-2"
+                        className="p-5 xs:p-7 md:p-8 rounded-xl border xs:border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'

@@ -810,6 +810,21 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
     padding-left: max(env(safe-area-inset-left), 0px);
     padding-right: max(env(safe-area-inset-right), 0px);
   }
+
+  /* Text Hyphenation & Word Breaking */
+  .hyphens-auto {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .hyphens-none {
+    hyphens: none;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+  }
 }
 
 /* ============================================

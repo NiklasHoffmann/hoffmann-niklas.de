@@ -83,10 +83,10 @@ export function HeroSection() {
                 <h1 className="text-xl xs:text-2xl font-bold mb-2 leading-tight text-foreground">
                     {title}
                 </h1>
-                <p className="text-[10px] xs:text-xs text-muted-foreground mb-2 max-w-sm">
+                <p className="text-[11px] xs:text-xs text-muted-foreground mb-2 max-w-sm leading-relaxed">
                     {subtitle}
                 </p>
-                <p className="text-[10px] xs:text-xs text-accent font-medium">
+                <p className="text-[11px] xs:text-xs text-accent font-medium">
                     {priceNote}
                 </p>
             </SectionLeft>
@@ -105,7 +105,7 @@ export function HeroSection() {
                         <div className="absolute w-2 h-2 bg-green-500/30 rounded-full gpu-ping" />
                         <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full" />
                     </div>
-                    <span className="text-[10px] xs:text-xs font-semibold text-foreground">{t('cta')}</span>
+                    <span className="text-[11px] xs:text-xs font-semibold text-foreground">{t('cta')}</span>
                     <Icon
                         icon="mdi:chevron-right"
                         className="w-3 h-3 flex-shrink-0"

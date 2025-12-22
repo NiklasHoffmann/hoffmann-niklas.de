@@ -298,7 +298,7 @@ export function PackagesSection() {
                                                     >
                                                         {t(`packages.${pkgKey}.label`)}
                                                     </h4>
-                                                    <ul className={`flex-1 overflow-y-auto text-left ${isMobileLandscape ? 'space-y-0.5 text-[8px]' : 'space-y-0.5 xs:space-y-1 sm:space-y-1.5 text-[8px] xs:text-[9px] sm:text-[11px]'}`}>
+                                                    <ul className={`flex-1 overflow-y-auto text-left ${isMobileLandscape ? 'space-y-0.5 text-[9px]' : 'space-y-1 xs:space-y-1.5 sm:space-y-2 text-[10px] xs:text-xs sm:text-sm'}`}>
                                                         {includes.map((item, idx) => (
                                                             <li key={idx} className={`flex items-start ${isMobileLandscape ? 'gap-1' : 'gap-0.5 xs:gap-1 sm:gap-1.5'}`}>
                                                                 <span

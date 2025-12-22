@@ -37,7 +37,7 @@ export default function ImpressumPage() {
                 minHeight: 'calc(100vh - 80px)'
             }}
         >
-            <div className="max-w-4xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto px-4 xs:px-6 sm:px-8 lg:px-12">
                 {/* Back Button */}
                 <button
                     onClick={() => router.back()}
@@ -67,14 +67,14 @@ export default function ImpressumPage() {
                 <div className="space-y-5 xs:space-y-8">
                     {/* Contact Information */}
                     <section
-                        className="p-6 rounded-xl border-2"
+                        className="p-5 xs:p-7 md:p-8 rounded-xl border xs:border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
                         }}
                     >
                         <h2
-                            className="text-2xl font-bold mb-4 flex items-center gap-2"
+                            className="text-xl xs:text-2xl font-bold mb-3 xs:mb-4 flex items-center gap-1.5 xs:gap-2"
                             style={{ color: isDark ? '#ffffff' : '#111827' }}
                         >
                             <Icon icon="mdi:account" className="w-5 xs:w-6 h-5 xs:h-6 text-accent" />
@@ -109,7 +109,7 @@ export default function ImpressumPage() {
 
                     {/* Responsible for Content */}
                     <section
-                        className="p-4 xs:p-6 rounded-lg xs:rounded-xl border xs:border-2"
+                        className="p-5 xs:p-7 md:p-8 rounded-xl border xs:border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
@@ -129,7 +129,7 @@ export default function ImpressumPage() {
 
                     {/* Disclaimer */}
                     <section
-                        className="p-4 xs:p-6 rounded-lg xs:rounded-xl border xs:border-2"
+                        className="p-5 xs:p-7 md:p-8 rounded-xl border xs:border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'
@@ -163,7 +163,7 @@ export default function ImpressumPage() {
 
                     {/* Online Dispute Resolution */}
                     <section
-                        className="p-4 xs:p-6 rounded-lg xs:rounded-xl border xs:border-2"
+                        className="p-5 xs:p-7 md:p-8 rounded-xl border xs:border-2"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#e5e7eb'

@@ -377,7 +377,7 @@ export function ServicesSection() {
                                                                 {service.title}
                                                             </h3>
 
-                                                            <p className="text-[10px] xs:text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1">
+                                                            <p className="text-[10px] xs:text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1 hyphens-auto break-words">
                                                                 {service.description}
                                                             </p>
                                                         </div>
