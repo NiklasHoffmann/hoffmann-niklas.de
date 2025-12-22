@@ -21,14 +21,29 @@ export function LanguageToggle() {
     useEffect(() => {
         const savedScrollPosition = sessionStorage.getItem('scrollPosition');
         if (savedScrollPosition) {
-            sessionStorage.removeItem('scrollPosition');
-            // Wait for content to be fully rendered
+            const targetScroll = parseInt(savedScrollPosition, 10);
+            
+            // Immediately try to restore position
+            const mainContainer = document.getElementById('main-scroll-container');
+            if (mainContainer) {
+                mainContainer.scrollTop = targetScroll;
+            }
+            
+            // Retry multiple times to ensure it sticks
+            const retryIntervals = [0, 10, 50, 100];
+            retryIntervals.forEach(delay => {
+                setTimeout(() => {
+                    const container = document.getElementById('main-scroll-container');
+                    if (container) {
+                        container.scrollTop = targetScroll;
+                    }
+                }, delay);
+            });
+            
+            // Clean up after final attempt
             setTimeout(() => {
-                const mainContainer = document.getElementById('main-scroll-container');
-                if (mainContainer) {
-                    mainContainer.scrollTop = parseInt(savedScrollPosition, 10);
-                }
-            }, 100);
+                sessionStorage.removeItem('scrollPosition');
+            }, 150);
         }
     }, [locale]); // Re-run when locale changes
 
