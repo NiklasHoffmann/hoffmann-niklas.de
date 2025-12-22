@@ -203,7 +203,7 @@ function HeaderComponent() {
                                     <a
                                         key={section.id}
                                         href={`#${section.id}`}
-                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10 rounded px-3 lg:px-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent touch-target"
+                                        className="text-xs lg:text-sm font-bold whitespace-nowrap relative z-10 rounded px-3 lg:px-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent touch-target inline-flex items-center justify-center"
                                         style={isActive && isInteractiveActive ? {
                                             color: section.color,
                                             transition: 'all 0.7s ease-out',
