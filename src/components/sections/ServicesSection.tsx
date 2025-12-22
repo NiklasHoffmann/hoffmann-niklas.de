@@ -287,7 +287,7 @@ export const ServicesSection = memo(function ServicesSection() {
                                     />
                                 </div>
 
-                                <div className="lg:absolute lg:right-0 lg:bottom-20 text-center lg:text-right max-w-xs xs:max-w-sm order-3">
+                                <div className="lg:absolute lg:right-0 lg:bottom-32 xl:bottom-40 text-center lg:text-right max-w-xs xs:max-w-sm lg:pr-2 order-3">
                                     <div className="relative mb-2 xs:mb-3 sm:mb-4">
                                         <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
                                         <div className="relative h-px bg-gradient-to-l from-accent via-accent to-transparent" />
@@ -306,7 +306,7 @@ export const ServicesSection = memo(function ServicesSection() {
                                 />
 
                                 <div className="flex flex-col justify-center">
-                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1.5 xs:gap-2 sm:gap-3 lg:gap-4 p-2">
+                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1.5 xs:gap-2 sm:gap-3 lg:gap-4">
                                         {gridServiceCategories.map((service, i) => {
                                             const isFlipped = flippedCard === i;
 

@@ -39,32 +39,6 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
 
     return (
         <div className="flex items-center justify-center relative">
-            {/* Dynamic floating shadow/glow - changes based on theme */}
-            {mounted && (
-                <div
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 pointer-events-none"
-                    style={{
-                        width: 'clamp(180px, 22vw, 380px)',
-                        height: 'clamp(180px, 22vw, 380px)',
-                        background:
-                            theme === 'dark'
-                                ? 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 80%)'
-                                : 'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 80%)',
-                        marginTop: 'clamp(110px, 14vw, 220px)',
-                        borderRadius: '10%',
-                        filter: 'blur(30px)',
-                        opacity: '0.9',
-                        transform: `translate3d(0, 0, 0) rotateX(70deg) rotateZ(${-rotation.y}deg) scaleX(1.2)`,
-                        transformStyle: 'preserve-3d',
-                        willChange: 'transform',
-                        backfaceVisibility: 'hidden',
-                        WebkitBackfaceVisibility: 'hidden',
-                        zIndex: -1,
-                        transition: 'none', // No transition for transform - move with cube
-                    }}
-                />
-            )}
-
             {/* Perspective container */}
             <div
                 ref={containerRef}
