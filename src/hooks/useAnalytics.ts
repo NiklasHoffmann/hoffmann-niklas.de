@@ -158,11 +158,14 @@ async function trackEvent(eventType: string, data: any = {}, currentTheme?: stri
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
             // Fire-and-forget (kein await)
-            keepalive: true
+            keepalive: true,
+            signal: AbortSignal.timeout(5000) // 5 second timeout
         });
     } catch (error) {
         // Silent fail - Analytics sollten die UX nicht beeinträchtigen
-        console.debug('Analytics tracking failed:', error);
+        if (error instanceof Error && error.name !== 'AbortError') {
+            console.debug('Analytics tracking failed:', error);
+        }
     }
 }
 
