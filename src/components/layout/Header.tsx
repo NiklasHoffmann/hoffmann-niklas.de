@@ -112,8 +112,8 @@ function HeaderComponent() {
             }
         };
 
-        // Initial check after a short delay to ensure DOM is ready
-        const initialTimeout = setTimeout(updateActiveSection, 100);
+        // Delay initial check to allow scroll position restoration after language change
+        const initialTimeout = setTimeout(updateActiveSection, 350);
 
         // Update on scroll
         const mainContainer = document.getElementById('main-scroll-container');

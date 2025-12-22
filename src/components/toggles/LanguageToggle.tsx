@@ -23,14 +23,18 @@ export function LanguageToggle() {
         if (savedScrollPosition) {
             const targetScroll = parseInt(savedScrollPosition, 10);
             
-            // Immediately try to restore position
             const mainContainer = document.getElementById('main-scroll-container');
-            if (mainContainer) {
-                mainContainer.scrollTop = targetScroll;
-            }
+            if (!mainContainer) return;
+            
+            // Temporarily disable scroll-snap to prevent interference
+            const originalScrollSnap = mainContainer.style.scrollSnapType;
+            mainContainer.style.scrollSnapType = 'none';
+            
+            // Immediately restore position
+            mainContainer.scrollTop = targetScroll;
             
             // Retry multiple times to ensure it sticks
-            const retryIntervals = [0, 10, 50, 100];
+            const retryIntervals = [0, 10, 50, 100, 200];
             retryIntervals.forEach(delay => {
                 setTimeout(() => {
                     const container = document.getElementById('main-scroll-container');
@@ -40,10 +44,13 @@ export function LanguageToggle() {
                 }, delay);
             });
             
-            // Clean up after final attempt
+            // Re-enable scroll-snap after position is stable
             setTimeout(() => {
+                if (mainContainer) {
+                    mainContainer.style.scrollSnapType = originalScrollSnap;
+                }
                 sessionStorage.removeItem('scrollPosition');
-            }, 150);
+            }, 250);
         }
     }, [locale]); // Re-run when locale changes
 
@@ -52,7 +59,10 @@ export function LanguageToggle() {
         const newLocale = locale === 'de' ? 'en' : locale === 'en' ? 'es' : locale === 'es' ? 'ja' : locale === 'ja' ? 'uk' : 'de';
 
         const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
-        const newPath = `/${newLocale}${pathnameWithoutLocale}`;
+        
+        // Preserve current hash (section)
+        const currentHash = window.location.hash;
+        const newPath = `/${newLocale}${pathnameWithoutLocale}${currentHash}`;
 
         // Save exact scroll position
         const mainContainer = document.getElementById('main-scroll-container');

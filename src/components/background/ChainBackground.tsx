@@ -8,12 +8,48 @@ import { throttle, isMobileDevice } from '@/lib/utils';
 import { getChainConfig } from '@/config/chain';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 
+// Try to restore from sessionStorage
+const getInitialDrawState = () => {
+  if (typeof window === 'undefined') return { started: false, complete: false, progress: 0, visible: false };
+  try {
+    const saved = sessionStorage.getItem('chainDrawState');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Only restore if animation was complete
+      if (parsed.complete) {
+        return { started: true, complete: true, progress: 1, visible: true };
+      }
+    }
+  } catch (e) {
+    // Ignore errors
+  }
+  return { started: false, complete: false, progress: 0, visible: false };
+};
+
+const initialState = getInitialDrawState();
+
 // Global animation state - persists across component re-mounts (e.g., language changes)
-let globalDrawAnimationStarted = false;
-let globalDrawAnimationComplete = false;
-let globalDrawProgress = 0;
-let globalAnimationVisible = false; // Controls when to show the chain
+let globalDrawAnimationStarted = initialState.started;
+let globalDrawAnimationComplete = initialState.complete;
+let globalDrawProgress = initialState.progress;
+let globalAnimationVisible = initialState.visible;
 let globalBaseChainCanvas: HTMLCanvasElement | null = null; // Cache base chain across re-mounts
+
+// Save state to sessionStorage
+const saveDrawState = () => {
+  if (typeof window !== 'undefined') {
+    try {
+      sessionStorage.setItem('chainDrawState', JSON.stringify({
+        started: globalDrawAnimationStarted,
+        complete: globalDrawAnimationComplete,
+        progress: globalDrawProgress,
+        visible: globalAnimationVisible
+      }));
+    } catch (e) {
+      // Ignore errors
+    }
+  }
+};
 
 interface ChainBackgroundProps {
   preset?: keyof typeof CHAIN_PRESETS;
@@ -326,11 +362,37 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
   // Sync local baseChainCanvas ref with global cache on mount
   useEffect(() => {
+    // Try to restore from sessionStorage first
+    if (!baseChainCanvas.current && globalDrawAnimationComplete) {
+      try {
+        const savedDataUrl = sessionStorage.getItem('chainCanvasData');
+        if (savedDataUrl) {
+          const img = new Image();
+          img.onload = () => {
+            // Create canvas from saved image
+            const canvas = document.createElement('canvas');
+            canvas.width = dimensions.width;
+            canvas.height = dimensions.height;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.drawImage(img, 0, 0);
+              baseChainCanvas.current = canvas;
+              globalBaseChainCanvas = canvas;
+              needsRedrawRef.current = true;
+            }
+          };
+          img.src = savedDataUrl;
+        }
+      } catch (e) {
+        // Ignore errors
+      }
+    }
+    
     if (globalBaseChainCanvas && !baseChainCanvas.current) {
       baseChainCanvas.current = globalBaseChainCanvas;
       needsRedrawRef.current = true;
     }
-  }, []);
+  }, [dimensions.width, dimensions.height]);
 
   // Draw animation - chain draws from top to bottom on initial load (20 seconds)
   // On mobile: skip animation and show immediately
@@ -356,6 +418,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
       // Show chain immediately, CSS animation will handle the reveal
       globalAnimationVisible = true;
       setAnimationVisible(true);
+      saveDrawState(); // Persist state across page reloads
       return;
 
       /* Original animation code - disabled for performance
@@ -637,6 +700,14 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
           // Store in global cache
           globalBaseChainCanvas = baseChainCanvas.current;
+          
+          // Save canvas as data URL to sessionStorage for persistence across page reloads
+          try {
+            const dataUrl = baseChainCanvas.current.toDataURL('image/png', 0.8);
+            sessionStorage.setItem('chainCanvasData', dataUrl);
+          } catch (e) {
+            // Ignore if storage fails
+          }
         }
       }
 

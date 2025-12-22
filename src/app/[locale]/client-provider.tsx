@@ -14,11 +14,13 @@ export function ClientProvider({
     // Use device context to force re-render on orientation/layout change
     const device = useDevice();
 
+    // Only remount on device layout changes, not on locale changes
+    // This keeps the Chain background persistent across language switches
     return (
         <NextIntlClientProvider locale={locale}>
-            {/* Key forces re-mount on layout change (portrait<->landscape) */}
+            {/* Key forces re-mount ONLY on layout change (portrait<->landscape), not on locale */}
             <div
-                key={`${device.layout}-${device.width}-${device.height}`}
+                key={`${device.layout}`}
                 style={{
                     width: '100%',
                     maxWidth: '100vw',
