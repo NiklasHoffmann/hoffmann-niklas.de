@@ -2,13 +2,13 @@
 
 import { useTranslations } from 'next-intl';
 import { Icon } from '@/components/icons/LocalIcon';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, memo } from 'react';
 import { projects } from '@/data/portfolio';
 import { SectionHeader, ProjectCard, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useDevice } from '@/contexts/DeviceContext';
 
-export function PortfolioSection() {
+export const PortfolioSection = memo(function PortfolioSection() {
     const t = useTranslations('portfolio');
     const [currentSlide, setCurrentSlide] = useState(0);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -349,4 +349,4 @@ export function PortfolioSection() {
             </SectionDefault>
         </Section>
     );
-}
+});

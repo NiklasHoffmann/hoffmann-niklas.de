@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { Icon } from '@/components/icons/LocalIcon';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, memo } from 'react';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useTheme } from 'next-themes';
 import { NEON_COLORS } from '@/config/ui.constants';
@@ -12,7 +12,7 @@ import { useDevice } from '@/contexts/DeviceContext';
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);
 const NEON_COLORS_LIGHT = Object.values(NEON_COLORS.LIGHT);
 
-export function AboutSection() {
+export const AboutSection = memo(function AboutSection() {
     const t = useTranslations('about');
     const device = useDevice();
     const { showActive, mounted: interactiveMounted } = useInteractiveMode();
@@ -261,4 +261,4 @@ export function AboutSection() {
             </SectionDefault>
         </Section>
     );
-}
+});

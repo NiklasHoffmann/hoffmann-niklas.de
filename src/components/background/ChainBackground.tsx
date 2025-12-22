@@ -334,6 +334,7 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
   // Draw animation - chain draws from top to bottom on initial load (20 seconds)
   // On mobile: skip animation and show immediately
+  // OPTIMIZATION: Defer to requestIdleCallback to allow critical rendering first
   useEffect(() => {
     if (!isReady) return;
     if (globalDrawAnimationComplete) return;
@@ -341,43 +342,57 @@ export function ChainBackground({ preset, customConfig }: ChainBackgroundProps) 
 
     globalDrawAnimationStarted = true;
 
-    // Skip animation on mobile devices - show immediately
+    // Skip animation on mobile devices - show immediately (but still defer)
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-      globalDrawAnimationComplete = true;
-      globalDrawProgress = 1;
-      globalAnimationVisible = true;
-      setDrawProgress(1);
-      setAnimationVisible(true);
-      needsRedrawRef.current = true;
-      return;
-    }
-
-    const duration = 20000;
-    const startTime = performance.now();
-
-    globalAnimationVisible = true;
-    setAnimationVisible(true);
-
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      globalDrawProgress = progress;
-      setDrawProgress(progress);
-      needsRedrawRef.current = true;
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
+    
+    // Use requestIdleCallback to defer chain drawing until browser is idle
+    const idleCallback = () => {
+      if (isMobile) {
         globalDrawAnimationComplete = true;
         globalDrawProgress = 1;
+        globalAnimationVisible = true;
         setDrawProgress(1);
+        setAnimationVisible(true);
+        needsRedrawRef.current = true;
+        return;
       }
+
+      const duration = 15000; // Reduced from 20s to 15s for faster initial load
+      const startTime = performance.now();
+
+      globalAnimationVisible = true;
+      setAnimationVisible(true);
+
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        globalDrawProgress = progress;
+        setDrawProgress(progress);
+        needsRedrawRef.current = true;
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          globalDrawAnimationComplete = true;
+          globalDrawProgress = 1;
+          setDrawProgress(1);
+        }
+      };
+
+      // Start animation immediately
+      requestAnimationFrame(animate);
     };
 
-    // Start animation immediately
-    requestAnimationFrame(animate);
+    // Defer chain animation to idle time
+    if ('requestIdleCallback' in window) {
+      const idleId = requestIdleCallback(idleCallback, { timeout: 2000 });
+      return () => cancelIdleCallback(idleId);
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      const timeoutId = setTimeout(idleCallback, 100);
+      return () => clearTimeout(timeoutId);
+    }
   }, [isReady]);
 
   useEffect(() => {

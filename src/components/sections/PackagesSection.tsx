@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect, memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
@@ -19,7 +19,7 @@ const PACKAGE_KEYS = [
     'web3Integration',
 ] as const;
 
-export function PackagesSection() {
+export const PackagesSection = memo(function PackagesSection() {
     const t = useTranslations('packages');
     const { showActive, mounted: interactiveMounted } = useInteractiveMode();
     const { theme } = useTheme();
@@ -396,4 +396,4 @@ export function PackagesSection() {
             )}
         </Section>
     );
-}
+});

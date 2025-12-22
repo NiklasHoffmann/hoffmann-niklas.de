@@ -80,7 +80,7 @@ const techStack: TechItem[] = [
     { name: 'Figma', category: 'tools', icon: FigmaIcon },
 ];
 
-export function ServicesSection() {
+export const ServicesSection = memo(function ServicesSection() {
     const t = useTranslations('services');
     const { isInteractive, mounted } = useInteractiveMode();
     const { key } = useOrientationResize();
@@ -427,4 +427,4 @@ export function ServicesSection() {
             </SectionDefault>
         </Section>
     );
-}
+});
