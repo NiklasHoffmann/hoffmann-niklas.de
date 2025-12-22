@@ -96,7 +96,7 @@ export const AboutSection = memo(function AboutSection() {
                         NH
                     </div>
                     <div>
-                        <h3 className="text-base xs:text-lg font-bold">Niklas Hoffmann</h3>
+                        <h2 className="text-base xs:text-lg font-bold">Niklas Hoffmann</h2>
                         <p className="text-[10px] xs:text-xs text-muted-foreground">{t('role')}</p>
                     </div>
                 </div>
@@ -173,9 +173,9 @@ export const AboutSection = memo(function AboutSection() {
                                 </div>
                             </div>
 
-                            <h3 className="text-xl xs:text-2xl md:text-3xl font-bold mb-2 xs:mb-3">
+                            <h2 className="text-xl xs:text-2xl md:text-3xl font-bold mb-2 xs:mb-3">
                                 Niklas Hoffmann
-                            </h3>
+                            </h2>
                             <p className="text-responsive-sm text-muted-foreground leading-relaxed max-w-xs xs:max-w-sm md:max-w-md">
                                 {t('description')}
                             </p>
@@ -213,9 +213,9 @@ export const AboutSection = memo(function AboutSection() {
 
                     {/* Right Column - What I Do (hidden on mobile portrait, visible from tablet landscape) */}
                     <div className="hidden md:flex lg:w-3/5 flex-col justify-center">
-                        <h3 className="text-responsive-xl font-bold mb-6 md:mb-8">
+                        <h2 className="text-responsive-xl font-bold mb-6 md:mb-8">
                             {t('whatIDoTitle', { default: 'What I Do' })}
-                        </h3>
+                        </h2>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-responsive-sm lg:gap-6">
                             {highlights.map((item, index) => (
                                 <div
