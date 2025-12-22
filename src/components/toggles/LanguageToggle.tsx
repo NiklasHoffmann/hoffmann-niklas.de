@@ -17,18 +17,18 @@ export function LanguageToggle() {
     // Use mounted check to avoid hydration mismatch
     const isActive = mounted && showActive;
 
-    // Scroll to saved section after language change
+    // Restore scroll position after language change
     useEffect(() => {
-        const targetSection = sessionStorage.getItem('targetSection');
-        if (targetSection) {
-            sessionStorage.removeItem('targetSection');
+        const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+        if (savedScrollPosition) {
+            sessionStorage.removeItem('scrollPosition');
             // Wait for content to be fully rendered
             setTimeout(() => {
-                const element = document.getElementById(targetSection);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'instant', block: 'start' });
+                const mainContainer = document.getElementById('main-scroll-container');
+                if (mainContainer) {
+                    mainContainer.scrollTop = parseInt(savedScrollPosition, 10);
                 }
-            }, 300);
+            }, 100);
         }
     }, [locale]); // Re-run when locale changes
 
@@ -39,34 +39,10 @@ export function LanguageToggle() {
         const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
         const newPath = `/${newLocale}${pathnameWithoutLocale}`;
 
-        // Get current section by checking which section is in the viewport
-        let currentSection = 'hero';
+        // Save exact scroll position
         const mainContainer = document.getElementById('main-scroll-container');
         if (mainContainer) {
-            const sections = ['hero', 'about', 'services', 'packages', 'contact', 'footer'];
-            const scrollTop = mainContainer.scrollTop;
-            const viewportHeight = mainContainer.clientHeight;
-            const scrollPosition = scrollTop + viewportHeight / 2;
-
-            for (const sectionId of sections) {
-                const element = document.getElementById(sectionId);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    const containerRect = mainContainer.getBoundingClientRect();
-                    const sectionTop = rect.top - containerRect.top + scrollTop;
-                    const sectionBottom = sectionTop + rect.height;
-
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                        currentSection = sectionId;
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Save current section to localStorage before navigation
-        if (currentSection && currentSection !== 'hero') {
-            sessionStorage.setItem('targetSection', currentSection);
+            sessionStorage.setItem('scrollPosition', mainContainer.scrollTop.toString());
         }
 
         startTransition(() => {
