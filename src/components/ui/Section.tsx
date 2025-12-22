@@ -64,8 +64,8 @@ export function Section({
             <div className={`
                 relative z-10 w-full h-full
                 ${isMobileLandscape
-                    ? 'flex items-center px-4 xs:px-6'
-                    : 'flex flex-col items-center justify-center px-3 xs:px-4 sm:px-6 lg:px-8'
+                    ? 'flex items-center px-5 xs:px-6'
+                    : 'flex flex-col items-center justify-center px-5 xs:px-6 sm:px-20 lg:px-[150px]'
                 }
             `.trim().replace(/\s+/g, ' ')}>
                 {children}
@@ -116,7 +116,7 @@ export function SectionDefault({ children, className = '' }: { children: ReactNo
     if (isMobileLandscape) return null;
 
     return (
-        <div className={`text-center w-full mx-auto px-3 xs:px-4 sm:px-6 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl ${className}`}>
+        <div className={`text-center w-full mx-auto max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl ${className}`}>
             {children}
         </div>
     );

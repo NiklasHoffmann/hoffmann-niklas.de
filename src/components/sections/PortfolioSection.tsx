@@ -294,7 +294,7 @@ export function PortfolioSection() {
                         {canScrollLeft && (
                             <button
                                 onClick={scrollLeft}
-                                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
+                                className="absolute left-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
                                 aria-label="Scroll left"
                             >
                                 <Icon icon="mdi:chevron-left" className="w-6 h-6" />
@@ -303,7 +303,7 @@ export function PortfolioSection() {
                         {canScrollRight && (
                             <button
                                 onClick={scrollRight}
-                                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
+                                className="absolute right-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
                                 aria-label="Scroll right"
                             >
                                 <Icon icon="mdi:chevron-right" className="w-6 h-6" />

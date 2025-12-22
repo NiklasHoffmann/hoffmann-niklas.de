@@ -246,7 +246,7 @@ export function ServicesSection() {
                         <button
                             onClick={toggleView}
                             disabled={isTransitioning}
-                            className="touch-target absolute top-3 right-3 xs:top-4 xs:right-4 lg:top-16 xl:top-24 lg:right-8 xl:right-12 z-50 flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                            className="touch-target absolute top-3 right-3 xs:top-4 xs:right-4 lg:top-16 xl:top-24 lg:right-0 z-50 flex items-center justify-center bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg transition-all duration-700 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                             title={showCube ? 'Show Grid View' : 'Show 3D Cube'}
                             aria-label={showCube ? 'Switch to Grid View' : 'Switch to 3D Cube View'}
                             suppressHydrationWarning
@@ -270,7 +270,7 @@ export function ServicesSection() {
                     >
                         {displayContent && isInteractive ? (
                             <div className="relative flex flex-col lg:flex-row items-center justify-center gap-responsive-md lg:gap-0 py-6 xs:py-8 sm:py-12 lg:py-16 h-full">
-                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-responsive-sm text-center lg:text-left max-w-xs xs:max-w-sm order-1 lg:order-none px-3 xs:px-4 lg:px-0">
+                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-responsive-sm text-center lg:text-left max-w-xs xs:max-w-sm order-1 lg:order-none">
                                     <h2 className="text-responsive-2xl font-bold leading-tight text-foreground">
                                         {t('title')}
                                     </h2>
@@ -287,7 +287,7 @@ export function ServicesSection() {
                                     />
                                 </div>
 
-                                <div className="lg:absolute lg:right-8 xl:right-12 lg:bottom-20 text-center lg:text-right max-w-xs xs:max-w-sm order-3 px-3 xs:px-4 lg:px-0">
+                                <div className="lg:absolute lg:right-0 lg:bottom-20 text-center lg:text-right max-w-xs xs:max-w-sm order-3">
                                     <div className="relative mb-2 xs:mb-3 sm:mb-4">
                                         <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
                                         <div className="relative h-px bg-gradient-to-l from-accent via-accent to-transparent" />
