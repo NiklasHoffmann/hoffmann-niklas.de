@@ -168,7 +168,7 @@ export const PackagesSection = memo(function PackagesSection() {
 
                     {/* Cards */}
                     <div className="flex items-center justify-center">
-                        <div className="w-full grid grid-cols-2 gap-1.5 xs:gap-2 sm:gap-3 md:gap-4 md:grid-cols-2 xl:grid-cols-4">
+                        <div className="w-full grid grid-cols-2 gap-1.5 xs:gap-2 sm:gap-3 md:gap-4 md:grid-cols-2 xl:grid-cols-4 p-2">
                             {PACKAGE_KEYS.map((pkgKey, index) => {
                                 const includes = t.raw(
                                     `packages.${pkgKey}.includes`,
@@ -195,7 +195,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                 };
 
                                 return (
-                                    <div key={pkgKey} className="perspective-1000 md:perspective-none">
+                                    <div key={pkgKey} className="perspective-1000 md:perspective-none" style={{ padding: '12px', margin: '-12px' }}>
                                         {/* Mobile: Flip Card */}
                                         <div
                                             role="button"

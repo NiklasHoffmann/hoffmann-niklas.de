@@ -305,8 +305,8 @@ export const ServicesSection = memo(function ServicesSection() {
                                     className="text-center mb-2 sm:mb-3 lg:mb-4"
                                 />
 
-                                <div className="flex flex-col justify-center overflow-hidden">
-                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1.5 xs:gap-2 sm:gap-3 lg:gap-4">
+                                <div className="flex flex-col justify-center">
+                                    <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1.5 xs:gap-2 sm:gap-3 lg:gap-4 p-2">
                                         {gridServiceCategories.map((service, i) => {
                                             const isFlipped = flippedCard === i;
 
@@ -331,7 +331,7 @@ export const ServicesSection = memo(function ServicesSection() {
                                             };
 
                                             return (
-                                                <div key={i} className="perspective-1000">
+                                                <div key={i} className="perspective-1000" style={{ padding: '12px', margin: '-12px' }}>
                                                     <div
                                                         role="button"
                                                         tabIndex={0}
