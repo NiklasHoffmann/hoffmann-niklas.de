@@ -173,6 +173,15 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
         }
     };
     
+    // Get flag shadow based on theme
+    const getFlagShadow = () => {
+        if (!mounted) return '0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(0, 0, 0, 0.3)';
+        
+        return theme === 'dark'
+            ? '0 0 0 1px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.3)'
+            : '0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(0, 0, 0, 0.3)';
+    };
+    
     const buttonColors = getButtonColors();
 
     return (
@@ -196,7 +205,13 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
                 aria-label="Select language"
             >
                 {/* Flag */}
-                <div className="relative w-8 h-5 rounded overflow-hidden">
+                <div 
+                    className="relative w-8 h-5 rounded overflow-hidden"
+                    style={{
+                        boxShadow: getFlagShadow(),
+                        transition: 'box-shadow 700ms ease-in-out'
+                    }}
+                >
                     <div 
                         className="absolute inset-0 transition-all duration-700 ease-in-out"
                         style={{ backgroundImage: GRADIENTS[locale] }}
@@ -242,7 +257,13 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
                             className="w-full flex items-center gap-3 px-4 py-2.5 transition-colors duration-150 hover:bg-white/10 active:bg-white/15 text-left"
                         >
                             {/* Flag */}
-                            <div className="relative w-8 h-5 rounded overflow-hidden flex-shrink-0">
+                            <div 
+                                className="relative w-8 h-5 rounded overflow-hidden flex-shrink-0"
+                                style={{
+                                    boxShadow: getFlagShadow(),
+                                    transition: 'box-shadow 700ms ease-in-out'
+                                }}
+                            >
                                 <div 
                                     className="absolute inset-0"
                                     style={{ backgroundImage: GRADIENTS[loc] }}
