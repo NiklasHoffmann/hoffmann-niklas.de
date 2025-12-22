@@ -14,7 +14,6 @@
     "cache-icons": "node scripts/cache-icons.js"
   },
   "dependencies": {
-    "axios": "^1.13.1",
     "clsx": "^2.1.1",
     "ethers": "^6.15.0",
     "mongoose": "^8.19.2",

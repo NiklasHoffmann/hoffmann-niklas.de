@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useState, useEffect, useMemo, memo, useRef, useLayoutEffect } from 'react';
 import { Icon } from '@/components/icons/LocalIcon';
 import { useTranslations } from 'next-intl';
@@ -8,7 +9,11 @@ import { useTheme } from 'next-themes';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
 import { useDevice } from '@/contexts/DeviceContext';
 import { NEON_COLORS } from '@/config/ui.constants';
-import { ThemeToggle, LanguageToggle, InteractiveToggle } from '@/components/toggles';
+
+// Lazy load toggles - they're not critical for initial render
+const ThemeToggle = dynamic(() => import('@/components/toggles/ThemeToggle').then(mod => ({ default: mod.ThemeToggle })), { ssr: false });
+const LanguageToggle = dynamic(() => import('@/components/toggles/LanguageToggle').then(mod => ({ default: mod.LanguageToggle })), { ssr: false });
+const InteractiveToggle = dynamic(() => import('@/components/toggles/InteractiveToggle').then(mod => ({ default: mod.InteractiveToggle })), { ssr: false });
 
 // Convert neon color objects to arrays for easy indexing
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);

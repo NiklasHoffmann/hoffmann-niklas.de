@@ -70,12 +70,16 @@ function getDeviceInfo(): DeviceInfo {
     const isActuallyPortrait = actualOrientation.includes('portrait');
     const isActuallyLandscape = actualOrientation.includes('landscape');
 
-    // If dimensions don't match actual orientation, swap them
+    // If dimensions don't match actual orientation, swap them (only log in dev)
     if (isActuallyPortrait && width > height) {
-        console.log('⚠️ Swapping dimensions for portrait orientation:', { before: `${width}x${height}`, after: `${height}x${width}` });
+        if (process.env.NODE_ENV !== 'production') {
+            console.log('⚠️ Swapping dimensions for portrait orientation:', { before: `${width}x${height}`, after: `${height}x${width}` });
+        }
         [width, height] = [height, width];
     } else if (isActuallyLandscape && height > width) {
-        console.log('⚠️ Swapping dimensions for landscape orientation:', { before: `${width}x${height}`, after: `${height}x${width}` });
+        if (process.env.NODE_ENV !== 'production') {
+            console.log('⚠️ Swapping dimensions for landscape orientation:', { before: `${width}x${height}`, after: `${height}x${width}` });
+        }
         [width, height] = [height, width];
     }
 
@@ -165,7 +169,6 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
             // Only handle real orientation changes (detected via visualViewport listener)
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
-                console.log('📱 DeviceContext: Ignoring window resize on mobile (handled by visualViewport)');
                 return;
             }
 
@@ -183,7 +186,6 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
 
             if (currentOrientation === lastOrientation) {
                 // Same orientation = just browser UI change, not a real rotation
-                console.log('📱 DeviceContext: Ignoring visualViewport resize (browser UI change, not rotation)');
                 return;
             }
 
@@ -191,12 +193,13 @@ export function DeviceProvider({ children }: { children: ReactNode }) {
 
             // Prevent duplicate calls
             if (isHandlingOrientation) {
-                console.log('📱 DeviceContext: Ignoring duplicate orientation event');
                 return;
             }
 
             isHandlingOrientation = true;
-            console.log('📱 DeviceContext: Real orientation change detected:', currentOrientation);
+            if (process.env.NODE_ENV !== 'production') {
+                console.log('📱 DeviceContext: Real orientation change detected:', currentOrientation);
+            }
 
             // Clear any pending timeouts
             orientationTimeouts.forEach(t => clearTimeout(t));

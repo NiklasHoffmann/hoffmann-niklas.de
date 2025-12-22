@@ -47,7 +47,7 @@ const nextConfig: NextConfig = {
               priority: 40,
               enforce: true,
             },
-            // Heavy libraries bundle
+            // Heavy libraries bundle - split by package
             lib: {
               test: /[\\/]node_modules[\\/]/,
               name: (module: any) => {
@@ -68,8 +68,15 @@ const nextConfig: NextConfig = {
             },
           },
         },
+        // Minimize duplicate code
+        runtimeChunk: { name: 'runtime' },
       }),
     };
+
+    // Minimize bundle size by removing unused code
+    if (!dev) {
+      config.optimization.minimize = true;
+    }
 
     return config;
   },

@@ -3,9 +3,14 @@ import { Header, SmoothScrollEnhancer } from "@/components/layout";
 import { HeroSection } from "@/components/sections";
 import { ClientProvider } from "./client-provider";
 import { ResizeHandler } from "@/components/layout/ResizeHandler";
-import { ClientChainBackground } from "@/components/background/ClientChainBackground";
 import { BrowserUIController } from "@/components/layout/BrowserUIController";
 import { ScrollSnapProtector } from "@/components/layout/ScrollSnapProtector";
+
+// Lazy load chain background - it's decorative and can load after critical content
+const ClientChainBackground = dynamic(() => import("@/components/background/ClientChainBackground").then(mod => ({ default: mod.ClientChainBackground })), {
+    ssr: false,
+    loading: () => null,
+});
 
 // Feature flags - set to true to show sections
 const SHOW_PORTFOLIO = false; // TODO: Set to true when portfolio projects are ready
