@@ -44,6 +44,9 @@ export function ServicesCube({ services, t }: ServicesCubeProps) {
                 ref={containerRef}
                 style={{ perspective: 'clamp(900px, 110vw, 1700px)' }}
                 className="relative z-10 cursor-grab active:cursor-grabbing w-[clamp(240px,28vw,380px)] aspect-square"
+                role="img"
+                aria-label="Interactive 3D service cube - drag to rotate"
+                tabIndex={0}
             >
                 {/* Cube wrapper */}
                 <div

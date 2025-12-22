@@ -78,9 +78,11 @@ export const PackagesSection = memo(function PackagesSection() {
                                         key={pkgKey}
                                         role="button"
                                         tabIndex={0}
+                                        aria-expanded={isFlipped}
+                                        aria-label={`${t(`packages.${pkgKey}.label`)} - ${isFlipped ? 'Hide details' : 'Show details'}`}
                                         onClick={() => setFlippedCard(isFlipped ? null : index)}
                                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : index); } }}
-                                        className="relative p-2 xs:p-2.5 rounded-lg border bg-card/50 cursor-pointer transition-all duration-300 hover:scale-[1.02] min-h-[44px]"
+                                        className="relative p-2 xs:p-2.5 rounded-lg border bg-card/50 cursor-pointer transition-all duration-300 hover:scale-[1.02] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                                         style={{
                                             borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
                                             transition: 'border-color 700ms ease-in-out, transform 300ms ease-out'

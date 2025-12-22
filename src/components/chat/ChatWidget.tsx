@@ -120,6 +120,8 @@ export default function ChatWidget() {
                 onClick={openChat}
                 className="chat-widget-button fixed bottom-6 right-6 z-50 group"
                 aria-label="Open chat"
+                aria-expanded="false"
+                aria-haspopup="dialog"
             >
                 {/* Floating Chat Button */}
                 <div className="relative">

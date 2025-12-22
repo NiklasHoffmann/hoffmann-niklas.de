@@ -286,7 +286,11 @@ function HeaderComponent() {
             {/* Full-Screen Mobile Navigation Overlay - Outside Header */}
             {(isMenuOpen || isMenuClosing) && (
                 <div
+                    id="mobile-menu"
                     className="fixed left-0 right-0 bottom-0 md:hidden flex flex-col border-t border-border safe-bottom"
+                    role="navigation"
+                    aria-label="Mobile menu"
+                    aria-hidden={isMenuClosing}
                     style={{
                         top: '56px',
                         zIndex: 9999,
