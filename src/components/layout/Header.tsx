@@ -299,7 +299,7 @@ function HeaderComponent() {
                     style={{
                         top: '56px',
                         zIndex: 9999,
-                        backgroundColor: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                        backgroundColor: !mounted ? '#0a0a0a' : (theme === 'dark' ? '#0a0a0a' : '#ffffff'),
                         opacity: isMenuClosing ? 0 : 1,
                         transform: isMenuClosing ? 'translateY(20px)' : 'translateY(0)',
                         transition: 'opacity 500ms ease-out, transform 500ms ease-out, background-color 700ms ease-in-out, border-color 700ms ease-in-out',
