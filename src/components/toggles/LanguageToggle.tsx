@@ -26,7 +26,7 @@ export function LanguageToggle() {
             setTimeout(() => {
                 const element = document.getElementById(targetSection);
                 if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    element.scrollIntoView({ behavior: 'instant', block: 'start' });
                 }
             }, 300);
         }
