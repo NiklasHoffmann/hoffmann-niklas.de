@@ -54,8 +54,57 @@ const ModalForm = memo(function ModalForm({
   // Body-Klasse setzen um Chat-Widget zu verstecken
   useEffect(() => {
     document.body.classList.add('contact-modal-open');
+
+    // Focus trap: Save currently focused element
+    const previouslyFocusedElement = document.activeElement as HTMLElement;
+
+    // Get all focusable elements within modal
+    const getFocusableElements = () => {
+      const modal = document.querySelector('[role="dialog"]');
+      if (!modal) return [];
+      
+      return Array.from(
+        modal.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+    };
+
+    // Focus first element
+    const focusableElements = getFocusableElements();
+    if (focusableElements.length > 0) {
+      focusableElements[0].focus();
+    }
+
+    // Trap focus within modal
+    const handleTabKey = (e: KeyboardEvent) => {
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleTabKey);
+
     return () => {
       document.body.classList.remove('contact-modal-open');
+      document.removeEventListener('keydown', handleTabKey);
+      
+      // Restore focus to previously focused element
+      if (previouslyFocusedElement) {
+        previouslyFocusedElement.focus();
+      }
     };
   }, []);
 

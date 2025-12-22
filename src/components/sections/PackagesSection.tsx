@@ -210,6 +210,7 @@ export function PackagesSection() {
                                             style={{
                                                 transformStyle: 'preserve-3d',
                                                 transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                                                willChange: 'transform',
                                             }}
                                         >
                                             {/* Front Side - Title, Target, Price */}
@@ -217,6 +218,7 @@ export function PackagesSection() {
                                                 className={`absolute inset-0 w-full h-full rounded-xl xs:rounded-2xl border bg-card/70 backdrop-blur-sm backface-hidden flex flex-col ${isMobileLandscape ? 'p-2' : 'p-2 xs:p-2.5 sm:p-4'}`}
                                                 style={{
                                                     backfaceVisibility: 'hidden',
+                                                    WebkitBackfaceVisibility: 'hidden',
                                                     borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
                                                     boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}15` : 'none',
                                                     transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out',
@@ -277,6 +279,7 @@ export function PackagesSection() {
                                                 className={`absolute inset-0 w-full h-full rounded-xl xs:rounded-2xl border bg-secondary/50 backdrop-blur-sm backface-hidden overflow-hidden flex flex-col ${isMobileLandscape ? 'p-2' : 'p-2 xs:p-2.5 sm:p-4'}`}
                                                 style={{
                                                     backfaceVisibility: 'hidden',
+                                                    WebkitBackfaceVisibility: 'hidden',
                                                     transform: 'rotateY(180deg)',
                                                     borderColor: isActiveAndHydrated ? `${cardColor}50` : 'hsl(var(--accent) / 0.5)',
                                                     boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}20` : '0 10px 15px -3px rgba(0, 0, 0, 0.1)',

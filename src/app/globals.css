@@ -492,6 +492,33 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
   }
 }
 
+/* ============================================
+   WCAG 2.1 2.3.3 Compliance: Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations and transitions that move content */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Keep opacity transitions for fade effects (acceptable per WCAG) */
+  .gpu-pulse,
+  .animate-pulse {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Disable transform animations */
+  .gpu-ping {
+    animation: none !important;
+  }
+}
+
 /* Link Styles mit feinem Underline und Glow-Effekt */
 @layer components {
 
@@ -681,15 +708,7 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
     }
   }
 
-  /* Reduce motion for users who prefer it */
-  /* Note: gpu-ping is excluded as it's a subtle indicator, not disruptive */
-  @media (prefers-reduced-motion: reduce) {
-
-    .gpu-pulse,
-    .animate-pulse {
-      animation: none !important;
-    }
-  }
+  /* Reduce motion for users who prefer it - REMOVED (moved to global section) */
 
   /* Force layout recalculation on orientation change */
   /* This triggers a repaint which helps with width/height updates */

@@ -345,6 +345,7 @@ export function ServicesSection() {
                                                         style={{
                                                             transformStyle: 'preserve-3d',
                                                             transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                                                            willChange: 'transform',
                                                             WebkitTapHighlightColor: 'transparent',
                                                         }}
                                                     >
@@ -352,6 +353,7 @@ export function ServicesSection() {
                                                             className="absolute inset-0 w-full h-full p-2.5 xs:p-3 sm:p-4 bg-card rounded-lg xs:rounded-xl border border-border backface-hidden flex flex-col"
                                                             style={{
                                                                 backfaceVisibility: 'hidden',
+                                                                WebkitBackfaceVisibility: 'hidden',
                                                                 transition: 'border-color 700ms ease-in-out',
                                                             }}
                                                         >
@@ -386,6 +388,7 @@ export function ServicesSection() {
                                                             className="absolute inset-0 w-full h-full p-2.5 xs:p-3 sm:p-4 bg-secondary/50 rounded-lg xs:rounded-xl border border-accent/50 shadow-lg shadow-accent/10 backface-hidden overflow-hidden flex flex-col"
                                                             style={{
                                                                 backfaceVisibility: 'hidden',
+                                                                WebkitBackfaceVisibility: 'hidden',
                                                                 transform: 'rotateY(180deg)',
                                                                 transition: 'border-color 700ms ease-in-out',
                                                             }}
