@@ -11,9 +11,9 @@ import { useDevice } from '@/contexts/DeviceContext';
 import { NEON_COLORS } from '@/config/ui.constants';
 
 // Lazy load toggles - they're not critical for initial render
-const ThemeToggle = dynamic(() => import('@/components/toggles/ThemeToggle').then(mod => ({ default: mod.ThemeToggle })), { ssr: false });
-const LanguageToggle = dynamic(() => import('@/components/toggles/LanguageToggle').then(mod => ({ default: mod.LanguageToggle })), { ssr: false });
-const InteractiveToggle = dynamic(() => import('@/components/toggles/InteractiveToggle').then(mod => ({ default: mod.InteractiveToggle })), { ssr: false });
+const ThemeToggle = dynamic(() => import('@/components/toggles/ThemeToggle').then(mod => ({ default: mod.ThemeToggle })));
+const LanguageToggle = dynamic(() => import('@/components/toggles/LanguageToggle').then(mod => ({ default: mod.LanguageToggle })));
+const InteractiveToggle = dynamic(() => import('@/components/toggles/InteractiveToggle').then(mod => ({ default: mod.InteractiveToggle })));
 
 // Convert neon color objects to arrays for easy indexing
 const NEON_COLORS_DARK = Object.values(NEON_COLORS.DARK);

@@ -8,7 +8,6 @@ import { ScrollSnapProtector } from "@/components/layout/ScrollSnapProtector";
 
 // Lazy load chain background - it's decorative and can load after critical content
 const ClientChainBackground = dynamic(() => import("@/components/background/ClientChainBackground").then(mod => ({ default: mod.ClientChainBackground })), {
-    ssr: false,
     loading: () => null,
 });
 
