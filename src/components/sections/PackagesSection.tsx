@@ -306,15 +306,15 @@ export const PackagesSection = memo(function PackagesSection() {
                                                     </h4>
                                                     <ul className={`flex-1 overflow-y-auto text-left ${isMobileLandscape ? 'space-y-0.5 text-[9px]' : 'space-y-1 xs:space-y-1.5 sm:space-y-2 text-[10px] xs:text-xs sm:text-sm'}`}>
                                                         {includes.map((item, idx) => (
-                                                            <li key={idx} className={`flex items-start ${isMobileLandscape ? 'gap-1' : 'gap-0.5 xs:gap-1 sm:gap-1.5'}`}>
+                                                            <li key={idx} className={`flex items-start ${isMobileLandscape ? 'gap-1.5' : 'gap-1.5 lg:gap-2'}`}>
                                                                 <span
-                                                                    className={`mt-0.5 ${isMobileLandscape ? 'text-[6px]' : 'text-[6px] xs:text-[7px] sm:text-[8px]'}`}
+                                                                    className={`mt-0.5 lg:mt-1 ${isMobileLandscape ? 'text-[8px]' : 'text-[8px] lg:text-[10px]'}`}
                                                                     style={{
                                                                         color: isActiveAndHydrated ? cardColor : 'currentColor',
                                                                         transition: 'color 700ms ease-in-out'
                                                                     }}
                                                                 >
-                                                                    ✓
+                                                                    •
                                                                 </span>
                                                                 <span className="leading-tight">{item}</span>
                                                             </li>
@@ -349,7 +349,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                                 </p>
                                             </div>
 
-                                            <ul className="flex-1 space-y-1 lg:space-y-2 text-[10px] lg:text-sm mb-2 lg:mb-4">
+                                            <ul className="flex-1 space-y-1 lg:space-y-2 text-[10px] lg:text-sm mb-2 lg:mb-4 text-left">
                                                 {includes.map((item, idx) => (
                                                     <li key={idx} className="flex items-start gap-1.5 lg:gap-2">
                                                         <span

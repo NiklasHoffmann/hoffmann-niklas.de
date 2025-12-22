@@ -94,7 +94,7 @@
         "target": "Para coaches, proveedores de servicios y pequeñas empresas.",
         "includes": [
           "Sitio web multipágina (ej. Inicio, Sobre mí, Servicios, Contacto)",
-          "Diseño responsive",
+          "Diseño responsive (móvil y escritorio)",
           "Formulario de contacto o consulta",
           "SEO básico y optimización de rendimiento"
         ],
