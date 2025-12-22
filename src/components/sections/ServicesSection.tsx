@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { SectionHeader } from '@/components/ui';
 import { ServicesCube } from './ServicesCube';
