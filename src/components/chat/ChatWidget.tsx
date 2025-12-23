@@ -134,15 +134,20 @@ export default function ChatWidget() {
 
                     {/* Main Button */}
                     <div
-                        className="relative flex items-center justify-center w-16 h-16 rounded-full shadow-xl border-2 group-hover:scale-105"
+                        className="relative flex items-center justify-center w-16 h-16 rounded-full shadow-xl"
                         style={{
                             backgroundColor: isDark ? '#090909' : '#ffffff',
+                            borderWidth: '2px',
+                            borderStyle: 'solid',
                             borderColor: showActive ? greenColor : (isDark ? '#1a1a1a' : '#d1d5db'),
                             boxShadow: showActive
                                 ? `0 0 12px 2px ${greenColor}80, 0 4px 6px -1px rgba(0, 0, 0, 0.1)`
                                 : undefined,
+                            transform: 'scale(1)',
                             transition: 'transform 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                         }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                     >
                         {/* Icon */}
                         <Icon

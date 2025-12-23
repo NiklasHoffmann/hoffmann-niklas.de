@@ -160,7 +160,15 @@ export const PortfolioSection = memo(function PortfolioSection() {
 
             <SectionRight className="w-1/2 gap-2">
                 {/* Compact project slider for mobile landscape */}
-                <div className="relative w-40 h-24 rounded-lg overflow-hidden border border-border">
+                <div 
+                    className="relative w-40 h-24 rounded-lg overflow-hidden"
+                    style={{
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        borderColor: 'hsl(var(--border))',
+                        transition: 'border-color 700ms ease-in-out'
+                    }}
+                >
                     {projects[currentSlide].image && (
                         <img
                             src={projects[currentSlide].image}
@@ -175,11 +183,16 @@ export const PortfolioSection = memo(function PortfolioSection() {
                         <button
                             key={index}
                             onClick={() => setCurrentSlide(index)}
-                            className={`w-2 h-2 rounded-full border ${index === currentSlide
-                                ? 'bg-accent border-accent'
-                                : 'bg-secondary border-border'
+                            className={`w-2 h-2 rounded-full ${index === currentSlide
+                                ? 'bg-accent'
+                                : 'bg-secondary'
                                 }`}
-                            style={{ transition: 'all 300ms ease-in-out' }}
+                            style={{
+                                borderWidth: '1px',
+                                borderStyle: 'solid',
+                                borderColor: index === currentSlide ? 'hsl(var(--accent))' : 'hsl(var(--border))',
+                                transition: 'all 300ms ease-in-out, border-color 700ms ease-in-out'
+                            }}
                             aria-label={`Go to ${project.title}`}
                             aria-current={index === currentSlide ? 'true' : 'false'}
                         />
@@ -229,7 +242,13 @@ export const PortfolioSection = memo(function PortfolioSection() {
                     {currentSlide > 0 && (
                         <button
                             onClick={prevSlide}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out z-10"
+                            className="absolute left-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm rounded-full p-2 hover:bg-accent hover:text-accent-foreground z-10"
+                            style={{
+                                borderWidth: '1px',
+                                borderStyle: 'solid',
+                                borderColor: 'hsl(var(--border))',
+                                transition: 'all 0.7s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out'
+                            }}
                             aria-label="Previous project"
                         >
                             <Icon icon="mdi:chevron-left" className="w-5 h-5" />
@@ -238,7 +257,13 @@ export const PortfolioSection = memo(function PortfolioSection() {
                     {currentSlide < projects.length - 1 && (
                         <button
                             onClick={nextSlide}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-2 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out z-10"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm rounded-full p-2 hover:bg-accent hover:text-accent-foreground z-10"
+                            style={{
+                                borderWidth: '1px',
+                                borderStyle: 'solid',
+                                borderColor: 'hsl(var(--border))',
+                                transition: 'all 0.7s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out'
+                            }}
                             aria-label="Next project"
                         >
                             <Icon icon="mdi:chevron-right" className="w-5 h-5" />
@@ -294,7 +319,13 @@ export const PortfolioSection = memo(function PortfolioSection() {
                         {canScrollLeft && (
                             <button
                                 onClick={scrollLeft}
-                                className="absolute left-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
+                                className="absolute left-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm rounded-full p-3 hover:bg-accent hover:text-accent-foreground shadow-lg z-10"
+                                style={{
+                                    borderWidth: '1px',
+                                    borderStyle: 'solid',
+                                    borderColor: 'hsl(var(--border))',
+                                    transition: 'all 0.7s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out'
+                                }}
                                 aria-label="Scroll left"
                             >
                                 <Icon icon="mdi:chevron-left" className="w-6 h-6" />
@@ -303,7 +334,13 @@ export const PortfolioSection = memo(function PortfolioSection() {
                         {canScrollRight && (
                             <button
                                 onClick={scrollRight}
-                                className="absolute right-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm border border-border rounded-full p-3 hover:bg-accent hover:text-accent-foreground transition-all duration-700 ease-in-out shadow-lg z-10"
+                                className="absolute right-0 top-1/2 -translate-y-1/2 bg-card/90 backdrop-blur-sm rounded-full p-3 hover:bg-accent hover:text-accent-foreground shadow-lg z-10"
+                                style={{
+                                    borderWidth: '1px',
+                                    borderStyle: 'solid',
+                                    borderColor: 'hsl(var(--border))',
+                                    transition: 'all 0.7s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out'
+                                }}
                                 aria-label="Scroll right"
                             >
                                 <Icon icon="mdi:chevron-right" className="w-6 h-6" />

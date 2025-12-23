@@ -94,8 +94,12 @@ export function HeroSection() {
             <SectionRight className="w-1/3 gap-2 xs:gap-3">
                 <button
                     onClick={openChat}
-                    className="touch-target inline-flex items-center gap-1.5 xs:gap-2 px-3 py-2 rounded-full bg-background border border-border group"
+                    className="touch-target inline-flex items-center gap-1.5 xs:gap-2 px-3 py-2 rounded-full group"
                     style={{
+                        backgroundColor: 'hsl(var(--background))',
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        borderColor: 'hsl(var(--border))',
                         boxShadow: getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
@@ -122,8 +126,12 @@ export function HeroSection() {
                     onClick={openChat}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    className="touch-target mb-5 xs:mb-6 sm:mb-8 inline-flex items-center gap-2 px-3 xs:px-4 sm:px-5 py-2.5 xs:py-3 sm:py-3 rounded-full bg-background border border-border group"
+                    className="touch-target mb-5 xs:mb-6 sm:mb-8 inline-flex items-center gap-2 px-3 xs:px-4 sm:px-5 py-2.5 xs:py-3 sm:py-3 rounded-full group"
                     style={{
+                        backgroundColor: 'hsl(var(--background))',
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        borderColor: 'hsl(var(--border))',
                         boxShadow: isHovered ? getHoverShadow() : getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}

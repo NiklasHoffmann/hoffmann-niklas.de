@@ -458,11 +458,27 @@ export function ContactSection() {
         <SectionRight className="w-1/2 gap-2 xs:gap-3">
           {/* Compact contact info + button */}
           <div className="flex gap-1.5 xs:gap-2 text-[9px] xs:text-[10px]">
-            <div className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded border border-border">
+            <div
+              className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded"
+              style={{
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: 'hsl(var(--border))',
+                transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out'
+              }}
+            >
               <Icon icon="lucide:mail" className="w-2.5 xs:w-3 h-2.5 xs:h-3 text-accent" />
               <span className="text-muted-foreground">Email</span>
             </div>
-            <div className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded border border-border">
+            <div
+              className="flex items-center gap-1 px-2 py-1 bg-card/50 rounded"
+              style={{
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: 'hsl(var(--border))',
+                transition: 'border-color 700ms ease-in-out, background-color 700ms ease-in-out'
+              }}
+            >
               <Icon icon="lucide:map-pin" className="w-3 h-3 text-accent" />
               <span className="text-muted-foreground">DE</span>
             </div>
