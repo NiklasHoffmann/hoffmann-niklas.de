@@ -96,10 +96,10 @@ export function HeroSection() {
                     onClick={openChat}
                     className="touch-target inline-flex items-center gap-1.5 xs:gap-2 px-3 py-2 rounded-full group"
                     style={{
-                        backgroundColor: 'hsl(var(--background))',
+                        backgroundColor: theme === 'dark' ? '#0a0a0a' : '#ffffff',
                         borderWidth: '1px',
                         borderStyle: 'solid',
-                        borderColor: 'hsl(var(--border))',
+                        borderColor: theme === 'dark' ? '#262626' : '#e5e5e5',
                         boxShadow: getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
@@ -128,10 +128,10 @@ export function HeroSection() {
                     onMouseLeave={() => setIsHovered(false)}
                     className="touch-target mb-5 xs:mb-6 sm:mb-8 inline-flex items-center gap-2 px-3 xs:px-4 sm:px-5 py-2.5 xs:py-3 sm:py-3 rounded-full group"
                     style={{
-                        backgroundColor: 'hsl(var(--background))',
+                        backgroundColor: theme === 'dark' ? '#0a0a0a' : '#ffffff',
                         borderWidth: '1px',
                         borderStyle: 'solid',
-                        borderColor: 'hsl(var(--border))',
+                        borderColor: theme === 'dark' ? '#262626' : '#e5e5e5',
                         boxShadow: isHovered ? getHoverShadow() : getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
