@@ -162,62 +162,6 @@ export async function POST(request: NextRequest) {
             utm,
             timestamp: new Date()
         });
-        if (!sessionId || !visitorId || !eventType) {
-            return NextResponse.json(
-                { success: false, error: 'Missing required fields' },
-                { status: 400 }
-            );
-        }
-
-        // User Agent & Device Info
-        const userAgent = request.headers.get('user-agent') || '';
-
-        // Verwende deviceType vom Client (falls vorhanden), sonst Server-Side Detection
-        let deviceType: 'mobile' | 'tablet' | 'desktop' | 'unknown';
-
-        if (body.device?.deviceType && ['mobile', 'tablet', 'desktop'].includes(body.device.deviceType)) {
-            // Client-Side Detection ist genauer (hat Zugriff auf Touch-Support & Screen-Size)
-            deviceType = body.device.deviceType;
-        } else {
-            // Fallback: Server-Side Detection via User-Agent
-            deviceType = getDeviceType(userAgent);
-        }
-
-        // Bots ignorieren
-        if (deviceType === 'unknown') {
-            return NextResponse.json({ success: true, ignored: true });
-        }
-
-        const device = {
-            userAgent,
-            deviceType,
-            browser: getBrowser(userAgent),
-            os: getOS(userAgent),
-            screenResolution: body.device?.screenResolution,
-            theme: body.device?.theme || 'unknown'
-        };
-
-        // Location (nur Timezone, kein IP-Tracking)
-        const location = {
-            timezone: body.location?.timezone,
-            country: body.location?.country // Optional von Client
-        };
-
-        // Event erstellen
-        const event = await AnalyticsEvent.create({
-            sessionId,
-            visitorId,
-            eventType,
-            page,
-            interaction,
-            scrollDepth: scrollDepth || 0,
-            timeOnPage: timeOnPage || 0,
-            sessionDuration: sessionDuration || 0,
-            device,
-            location,
-            utm,
-            timestamp: new Date()
-        });
 
         // Session aktualisieren oder erstellen
         if (eventType === 'session_start') {
