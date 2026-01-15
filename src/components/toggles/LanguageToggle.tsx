@@ -121,7 +121,6 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
         setIsOpen(false);
         startTransition(() => {
             router.replace(newPath, { scroll: false });
-            router.refresh();
         });
     };
 

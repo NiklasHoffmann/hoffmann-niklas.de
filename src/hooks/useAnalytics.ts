@@ -153,14 +153,18 @@ async function trackEvent(eventType: string, data: any = {}, currentTheme?: stri
     };
 
     try {
-        await fetch('/api/analytics/track', {
+        // Fire-and-forget mit 2 Sekunden Timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+        fetch('/api/analytics/track', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-            // Fire-and-forget (kein await)
             keepalive: true,
-            signal: AbortSignal.timeout(5000) // 5 second timeout
-        });
+            signal: controller.signal
+        }).finally(() => clearTimeout(timeoutId));
+
     } catch (error) {
         // Silent fail - Analytics sollten die UX nicht beeinträchtigen
         if (error instanceof Error && error.name !== 'AbortError') {

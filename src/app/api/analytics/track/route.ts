@@ -11,7 +11,11 @@ async function connectDB() {
         throw new Error('MONGODB_URI is not defined');
     }
 
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(MONGODB_URI, {
+        serverSelectionTimeoutMS: 3000, // 3 seconds timeout
+        connectTimeoutMS: 3000,
+        socketTimeoutMS: 3000
+    });
 }
 
 // Helper: Device Type Detection
@@ -82,8 +86,7 @@ function getOS(userAgent: string): string {
  */
 export async function POST(request: NextRequest) {
     try {
-        await connectDB();
-
+        // Quick validation first (before DB connection)
         const body = await request.json();
         const {
             sessionId,
@@ -98,6 +101,67 @@ export async function POST(request: NextRequest) {
         } = body;
 
         // Validierung
+        if (!sessionId || !visitorId || !eventType) {
+            return NextResponse.json(
+                { success: false, error: 'Missing required fields' },
+                { status: 400 }
+            );
+        }
+
+        // User Agent & Device Info
+        const userAgent = request.headers.get('user-agent') || '';
+
+        // Verwende deviceType vom Client (falls vorhanden), sonst Server-Side Detection
+        let deviceType: 'mobile' | 'tablet' | 'desktop' | 'unknown';
+
+        if (body.device?.deviceType && ['mobile', 'tablet', 'desktop'].includes(body.device.deviceType)) {
+            deviceType = body.device.deviceType;
+        } else {
+            deviceType = getDeviceType(userAgent);
+        }
+
+        // Bots ignorieren
+        if (deviceType === 'unknown') {
+            return NextResponse.json({ success: true, ignored: true });
+        }
+
+        // Try to connect to DB with timeout
+        const connectionTimeout = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('DB connection timeout')), 3000)
+        );
+        
+        await Promise.race([connectDB(), connectionTimeout]);
+
+        const device = {
+            userAgent,
+            deviceType,
+            browser: getBrowser(userAgent),
+            os: getOS(userAgent),
+            screenResolution: body.device?.screenResolution,
+            theme: body.device?.theme || 'unknown'
+        };
+
+        // Location (nur Timezone, kein IP-Tracking)
+        const location = {
+            timezone: body.location?.timezone,
+            country: body.location?.country
+        };
+
+        // Event erstellen
+        const event = await AnalyticsEvent.create({
+            sessionId,
+            visitorId,
+            eventType,
+            page,
+            interaction,
+            scrollDepth: scrollDepth || 0,
+            timeOnPage: timeOnPage || 0,
+            sessionDuration: sessionDuration || 0,
+            device,
+            location,
+            utm,
+            timestamp: new Date()
+        });
         if (!sessionId || !visitorId || !eventType) {
             return NextResponse.json(
                 { success: false, error: 'Missing required fields' },

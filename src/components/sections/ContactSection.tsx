@@ -527,6 +527,8 @@ export function ContactSection() {
                       <h3 className='font-semibold text-xs sm:text-sm md:text-base mb-0.5'>{t('email')}</h3>
                       <a
                         href={`mailto:${t('emailAddress')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className='text-[10px] sm:text-xs md:text-sm text-muted-foreground hover:text-accent transition-colors break-all block'
                         style={{ transition: TRANSITIONS.borderAndShadow }}
                         aria-label={`Send email to ${t('emailAddress')}`}
@@ -542,9 +544,18 @@ export function ContactSection() {
                     <div className='p-1.5 sm:p-2 bg-accent/10 rounded-lg group-hover:bg-accent/20 transition-colors flex-shrink-0'>
                       <Icon icon="lucide:map-pin" className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent' />
                     </div>
-                    <div>
+                    <div className='min-w-0 w-full'>
                       <h3 className='font-semibold text-xs sm:text-sm md:text-base mb-0.5'>{t('location')}</h3>
-                      <p className='text-[10px] sm:text-xs md:text-sm text-muted-foreground'>{t('germany')}</p>
+                      <a
+                        href="https://maps.google.com/?q=67433+Neustadt+an+der+Weinstraße"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className='text-[10px] sm:text-xs md:text-sm text-muted-foreground hover:text-accent transition-colors break-words block'
+                        style={{ transition: TRANSITIONS.borderAndShadow }}
+                        aria-label="Open location in Google Maps"
+                      >
+                        {t('city')}
+                      </a>
                     </div>
                   </div>
                 </div>
