@@ -76,6 +76,19 @@ body.contact-modal-open .chat-widget-button {
   initial-value: #000000;
 }
 
+/* CSS Custom Properties für animierbare CTA-Button-Farben */
+@property --cta-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+@property --cta-border {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e5e5e5;
+}
+
 @layer base {
 
   /* ============================================
@@ -154,6 +167,10 @@ body.contact-modal-open .chat-widget-button {
     /* Scrollbar Farben für Light Mode */
     --scrollbar-track: #ffffff;
     --scrollbar-thumb: #090909;
+
+    /* CTA Button colors - pure white/black for maximum contrast */
+    --cta-bg: #ffffff;
+    --cta-border: #e5e5e5;
   }
 
   .dark {
@@ -178,6 +195,10 @@ body.contact-modal-open .chat-widget-button {
     /* Scrollbar Farben für Dark Mode */
     --scrollbar-track: #090909;
     --scrollbar-thumb: #fafafa;
+
+    /* CTA Button colors - pure black for maximum contrast */
+    --cta-bg: #0a0a0a;
+    --cta-border: #262626;
   }
 }
 
@@ -190,7 +211,9 @@ body.contact-modal-open .chat-widget-button {
   html {
     transition:
       --scrollbar-track var(--transition-slow) ease-in-out,
-      --scrollbar-thumb var(--transition-slow) ease-in-out;
+      --scrollbar-thumb var(--transition-slow) ease-in-out,
+      --cta-bg var(--transition-slow) ease-in-out,
+      --cta-border var(--transition-slow) ease-in-out;
   }
 
   /* Überschreibe Tailwinds transition-colors Standard-Duration */

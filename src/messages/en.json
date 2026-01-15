@@ -11,118 +11,118 @@
     }
   },
   "hero": {
-    "title": "Modern Web & Web3 Development",
-    "cta": "Available for Projects",
-    "subtitle": "Full-Stack & Blockchain Developer \u2013 From traditional web apps to decentralized applications",
-    "priceNote": "Websites from \u20ac450 \u00b7 Web Apps from \u20ac1,500",
-    "viewPortfolio": "View Portfolio",
-    "viewContact": "View Contact"
+    "title": "Websites & Web Apps that Win Customers",
+    "cta": "Get Free Consultation",
+    "subtitle": "I develop fast, modern websites and web apps – so you get more inquiries, look professional, and simplify processes digitally. Web3 features optional, when they truly make sense.",
+    "priceNote": "Websites from €450 · Web Apps from €1,500",
+    "viewPortfolio": "View Results",
+    "viewContact": "Request without Obligation"
   },
   "about": {
     "title": "About Me",
-    "description": "I'm a Full-Stack Developer focused on modern web technologies and Web3 integration. I help freelancers, small businesses and startups build performant websites and web apps – from idea to launch.",
+    "description": "I'm Niklas, Full-Stack Developer. I support freelancers, small businesses, and startups in reliably implementing web projects – from clear strategy through design & development to launch. My focus: Performance, clean implementation, and understandable consulting.",
     "role": "Full-Stack Developer",
-    "whatIDoTitle": "What I Do",
+    "whatIDoTitle": "How I Help You Concretely",
     "highlights": {
-      "fullstack": "Full-Stack Web Development",
-      "web3": "Web3 & Blockchain Integration",
-      "uiux": "UI/UX Design",
-      "apis": "RESTful & GraphQL APIs",
-      "database": "Database Architecture",
-      "responsive": "Responsive Design"
+      "fullstack": "Websites & Web Apps (Full-Stack)",
+      "web3": "Web3 Features (Wallet, On-Chain, Data) – optional",
+      "uiux": "UI/UX that Builds Trust",
+      "apis": "Interfaces to Tools & Systems",
+      "database": "Clean Data Structure & Backend Logic",
+      "responsive": "Perfect on Mobile & Desktop"
     },
     "stats": {
       "projects": "Projects",
-      "clients": "Happy Clients",
-      "experience": "Years Experience",
-      "passion": "Passion"
+      "clients": "Satisfied Customers",
+      "experience": "Years Practice",
+      "passion": "Focus: Quality"
     },
     "timeline": {
-      "current": "Current: Full-Stack Development",
-      "web3": "Web3 Integration Deep Dive",
-      "freelance": "Freelance Projects",
-      "start": "First Steps in Coding"
+      "current": "Today: Websites & Web Apps for Client Projects",
+      "web3": "Web3: Wallets, On-Chain Interactions, Data",
+      "freelance": "Freelance & Own Projects",
+      "start": "Start: Programming & Product Thinking"
     }
   },
   "services": {
-    "title": "My Expertise",
-    "subtitle": "Cutting-edge technologies for future-proof solutions",
-    "cubeHint": "Roll the dice & discover services!",
+    "title": "Services",
+    "subtitle": "From first conversation to launch: clear, fast, reliable",
+    "cubeHint": "Rotate & discover (or just inquire 😉)",
     "techStack": "Tech Stack",
-    "servicesTitle": "Services",
-    "frontend": "Frontend Development",
-    "backend": "Backend Development",
-    "web3": "Web3 & Blockchain",
-    "database": "Databases",
-    "tools": "Tools & DevOps",
+    "servicesTitle": "What You Get",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "web3": "Web3",
+    "database": "Data",
+    "tools": "DevOps",
     "design": "Design & UX",
-    "webDev": "Web Apps",
-    "backendService": "Backend",
-    "web3Wallets": "Web3 Wallets & Integration",
-    "web3Blockchain": "Blockchain & Data",
-    "uiux": "UI/UX",
-    "databaseService": "Database",
+    "webDev": "Websites & Web Apps",
+    "backendService": "Backend & APIs",
+    "web3Wallets": "Wallet Login & Integration",
+    "web3Blockchain": "Blockchain Data & Dashboards",
+    "uiux": "Design, UX & Conversion",
+    "databaseService": "Database & Structure",
     "photo": "Photography",
     "web3Tech": "Web3 Technologies",
     "descriptions": {
-      "webDev": "Modern Web Applications",
-      "web3Wallets": "Wallet Integration & Transactions",
-      "web3Blockchain": "Blockchain Data & Infrastructure",
-      "uiux": "Design Systems",
-      "photo": "Product Photography",
-      "databaseService": "Data Management",
-      "backendService": "Server & APIs"
+      "webDev": "Websites and web apps that load fast, look modern, and generate inquiries.",
+      "web3Wallets": "Wallet integration (e.g., MetaMask, WalletConnect) – cleanly embedded in your product.",
+      "web3Blockchain": "Read on-chain data and visualize it understandably (dashboards, analytics, KPIs).",
+      "uiux": "Structure, copy, and UX that guide users – turning visitors into customers.",
+      "photo": "Authentic photos for website & socials – for more trust and strong branding.",
+      "databaseService": "Clean data models, so your system stays stable and scales.",
+      "backendService": "APIs, auth, roles, and server logic – understandably documented and maintainable."
     }
   },
   "packages": {
     "title": "Packages & Pricing",
-    "subtitle": "Clearly structured offers – as a starting point for your project",
+    "subtitle": "Transparent packages as starting point – every project is properly clarified",
     "packages": {
       "websiteStarter": {
         "label": "Website Starter",
-        "target": "Ideal for solo entrepreneurs and local service providers.",
+        "target": "For solo entrepreneurs & local service providers who want to quickly look professional online.",
         "includes": [
-          "Modern one-page website",
-          "Responsive design (mobile & desktop)",
-          "Contact form",
-          "Basic SEO (title, meta description)"
+          "Modern one-page website (clearly structured)",
+          "Mobile-optimized & fast (performance basics)",
+          "Contact form or WhatsApp/Call button",
+          "Basic SEO (title, meta description, indexing)"
         ],
         "priceFrom": "from €450"
       },
       "businessWebsite": {
         "label": "Business Website",
-        "target": "For coaches, service providers and small businesses.",
+        "target": "For service providers, coaches, and small businesses who want regular inquiries.",
         "includes": [
-          "Multi-page website (e.g. Home, About, Services, Contact)",
-          "Responsive design (mobile & desktop)",
-          "Contact or inquiry form",
-          "Basic SEO and performance optimization"
+          "Multi-page website (e.g., Home, About, Services, References, Contact)",
+          "Conversion-optimized structure & clear call-to-actions",
+          "Inquiry form (pre-qualification possible)",
+          "Basic SEO + performance optimization"
         ],
         "priceFrom": "from €850"
       },
       "webAppMvp": {
         "label": "Web App / MVP",
-        "target": "For startups and custom business tools.",
+        "target": "For startups or internal tools: digitize processes, save time, scale.",
         "includes": [
-          "Custom web app (e.g. dashboard, CRM, booking system)",
-          "User login & roles",
-          "API and database integration",
-          "Deployment & handover"
+          "Custom web app (e.g., dashboard, CRM, booking system)",
+          "Login, roles & permissions",
+          "API & database integration",
+          "Deployment, handover & brief introduction"
         ],
         "priceFrom": "from €1,500"
       },
       "web3Integration": {
         "label": "Web3 Integration",
-        "target": "For projects requiring wallet or blockchain functionality.",
+        "target": "When Web3 truly adds value: wallets, on-chain, data – cleanly integrated.",
         "includes": [
-          "Wallet Connect (e.g. MetaMask, WalletConnect)",
+          "Wallet-Connect (e.g., MetaMask, WalletConnect)",
           "Basic on-chain interactions",
-          "Integration into existing frontends"
+          "Integration into existing frontends with UX focus"
         ],
         "priceFrom": "Price on request"
       }
     },
-    "priceNote": "The exact price depends on the scope of the project."
+    "priceNote": "After the initial consultation, you'll get a clear scope and transparent offer."
   },
   "portfolio": {
     "title": "Portfolio",
@@ -173,26 +173,26 @@
   },
   "contact": {
     "title": "Contact",
-    "subtitle": "Let's talk about your project",
+    "subtitle": "Tell me briefly what you're planning – I'll get back with the next sensible steps",
+    "pricingHint": "Unsure which package fits? Just write to me. I'll give you an honest assessment (incl. effort & options).",
     "email": "Email",
     "emailAddress": "mail@hoffmann-niklas.de",
     "location": "Location",
     "germany": "Germany",
-    "quickResponse": "Quick response guaranteed!",
-    "quickResponseText": "I usually respond within 24 hours.",
-    "pricingHint": "Not sure which package is right for you? Just write to me \u2013 we\u2019ll find the right solution together.",
-    "writeMe": "Write to me",
+    "quickResponse": "Response within 24 hours",
+    "quickResponseText": "Usually faster. If it's urgent, write \"URGENT\" in the subject.",
+    "writeMe": "Inquire Now",
     "form": {
       "name": "Name",
-      "namePlaceholder": "Your Name",
+      "namePlaceholder": "What's your name?",
       "email": "Email",
-      "emailPlaceholder": "your@email.com",
-      "message": "Message",
-      "messagePlaceholder": "Tell me about your project...",
-      "submit": "Send Message",
-      "sending": "Sending...",
-      "success": "Message sent successfully!",
-      "error": "An error occurred"
+      "emailPlaceholder": "Where should I reply?",
+      "message": "What's it about?",
+      "messagePlaceholder": "Brief: Industry + goal (e.g., more inquiries/bookings) + what already exists (website/design) + deadline if relevant.",
+      "submit": "Send Inquiry",
+      "sending": "Sending…",
+      "success": "Thanks! I'll get back to you ASAP.",
+      "error": "Oh no – that didn't work. Please try again or email me directly."
     }
   },
   "footer": {

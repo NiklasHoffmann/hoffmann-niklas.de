@@ -11,118 +11,118 @@
     }
   },
   "hero": {
-    "title": "Moderne Websites & Web-Apps für Unternehmen",
-    "cta": "Projekt anfragen",
-    "subtitle": "Ich entwickle performante Websites, Web-Apps und Web3-Frontends – für Selbstständige, kleine Unternehmen und Startups.",
+    "title": "Websites & Web-Apps, die Kunden gewinnen",
+    "cta": "Kostenloses Erstgespräch sichern",
+    "subtitle": "Ich entwickle schnelle, moderne Websites und Web-Apps – damit du mehr Anfragen bekommst, professionell wirkst und Prozesse digital vereinfachst. Web3-Features optional, wenn sie wirklich Sinn ergeben.",
     "priceNote": "Websites ab 450 € · Web-Apps ab 1.500 €",
-    "viewPortfolio": "Portfolio ansehen",
-    "viewContact": "Kontakt aufnehmen"
+    "viewPortfolio": "Ergebnisse ansehen",
+    "viewContact": "Unverbindlich anfragen"
   },
   "about": {
     "title": "Über mich",
-    "description": "Ich bin Full-Stack Developer mit Fokus auf moderne Web-Technologien und Web3-Integration. Ich helfe Selbstständigen, kleinen Unternehmen und Startups dabei, performante Websites und Web-Apps umzusetzen – von der Idee bis zum Launch.",
+    "description": "Ich bin Niklas, Full-Stack Developer. Ich unterstütze Selbstständige, kleine Unternehmen und Startups dabei, Webprojekte zuverlässig umzusetzen – von der klaren Strategie über Design & Entwicklung bis zum Launch. Mein Fokus: Performance, saubere Umsetzung und verständliche Beratung.",
     "role": "Full-Stack Developer",
-    "whatIDoTitle": "Was ich mache",
+    "whatIDoTitle": "Wobei ich dir konkret helfe",
     "highlights": {
-      "fullstack": "Full-Stack Webentwicklung",
-      "web3": "Web3- & Blockchain-Integration",
-      "uiux": "UI/UX Design",
-      "apis": "RESTful- & GraphQL-APIs",
-      "database": "Datenbank-Architektur",
-      "responsive": "Responsives Design"
+      "fullstack": "Websites & Web-Apps (Full-Stack)",
+      "web3": "Web3-Features (Wallet, On-Chain, Daten) – optional",
+      "uiux": "UI/UX, das Vertrauen schafft",
+      "apis": "Schnittstellen zu Tools & Systemen",
+      "database": "Saubere Datenstruktur & Backend-Logik",
+      "responsive": "Perfekt auf Mobile & Desktop"
     },
     "stats": {
       "projects": "Projekte",
       "clients": "Zufriedene Kunden",
-      "experience": "Jahre Erfahrung",
-      "passion": "Begeisterung"
+      "experience": "Jahre Praxis",
+      "passion": "Fokus: Qualität"
     },
     "timeline": {
-      "current": "Aktuell: Full-Stack Development",
-      "web3": "Vertiefung in Web3-Integration",
-      "freelance": "Freelance-Projekte",
-      "start": "Erste Schritte im Programmieren"
+      "current": "Heute: Websites & Web-Apps für Kundenprojekte",
+      "web3": "Web3: Wallets, On-Chain-Interaktionen, Daten",
+      "freelance": "Freelance & eigene Projekte",
+      "start": "Start: Programmieren & Produktdenken"
     }
   },
   "services": {
-    "title": "Meine Expertise",
-    "subtitle": "Moderne Weblösungen, die dir echte Ergebnisse bringen",
-    "cubeHint": "Würfel drehen & Services entdecken!",
+    "title": "Leistungen",
+    "subtitle": "Vom ersten Gespräch bis zum Launch: klar, schnell, zuverlässig",
+    "cubeHint": "Drehen & entdecken (oder einfach anfragen 😉)",
     "techStack": "Tech Stack",
-    "servicesTitle": "Services",
-    "frontend": "Frontend-Entwicklung",
-    "backend": "Backend-Entwicklung",
-    "web3": "Web3-Integration",
-    "database": "Datenbanken",
-    "tools": "Tools & DevOps",
+    "servicesTitle": "Was du bekommst",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "web3": "Web3",
+    "database": "Daten",
+    "tools": "DevOps",
     "design": "Design & UX",
-    "webDev": "Web-Apps",
-    "backendService": "Backend",
-    "web3Wallets": "Web3 Wallets & Integration",
-    "web3Blockchain": "Blockchain & Daten",
-    "uiux": "UI/UX",
-    "databaseService": "Datenbank",
+    "webDev": "Websites & Web-Apps",
+    "backendService": "Backend & APIs",
+    "web3Wallets": "Wallet-Login & Integration",
+    "web3Blockchain": "Blockchain-Daten & Dashboards",
+    "uiux": "Design, UX & Conversion",
+    "databaseService": "Datenbank & Struktur",
     "photo": "Fotografie",
     "web3Tech": "Web3-Technologien",
     "descriptions": {
-      "webDev": "Individuelle Web-Apps und Business-Tools für dein Unternehmen.",
-      "web3Wallets": "Einfache Wallet-Anbindung (z. B. MetaMask, WalletConnect) für deine Nutzer.",
-      "web3Blockchain": "Auslesen und Verarbeiten von Blockchain-Daten für Dashboards und Analytics.",
-      "uiux": "Klares, nutzerfreundliches Design, das auf allen Geräten funktioniert.",
-      "photo": "Authentische Foto-Shootings für Websites und Social Media.",
-      "databaseService": "Strukturierte Speicherung und Verwaltung deiner Daten.",
-      "backendService": "Stabile APIs und Serverlogik für deine Anwendung."
+      "webDev": "Websites und Web-Apps, die schnell laden, modern wirken und Anfragen generieren.",
+      "web3Wallets": "Wallet-Anbindung (z. B. MetaMask, WalletConnect) – sauber eingebettet in dein Produkt.",
+      "web3Blockchain": "On-Chain-Daten auslesen und verständlich visualisieren (Dashboards, Analytics, KPIs).",
+      "uiux": "Struktur, Texte und UX, die Nutzer führen – damit aus Besuchern Kunden werden.",
+      "photo": "Authentische Fotos für Website & Socials – für mehr Vertrauen und ein starkes Branding.",
+      "databaseService": "Saubere Datenmodelle, damit dein System stabil bleibt und mitwächst.",
+      "backendService": "APIs, Auth, Rollen und Serverlogik – verständlich dokumentiert und wartbar."
     }
   },
   "packages": {
     "title": "Pakete & Preise",
-    "subtitle": "Klar strukturierte Angebote – als Ausgangspunkt für dein Projekt",
+    "subtitle": "Transparente Pakete als Startpunkt – jedes Projekt wird sauber abgeklärt",
     "packages": {
       "websiteStarter": {
         "label": "Website Starter",
-        "target": "Ideal für Einzelunternehmer und lokale Dienstleister.",
+        "target": "Für Einzelunternehmer & lokale Dienstleister, die schnell online professionell wirken wollen.",
         "includes": [
-          "Moderne One-Page-Website",
-          "Responsives Design (mobil & Desktop)",
-          "Kontaktformular",
-          "Basis-SEO (Titel, Meta-Description)"
+          "Moderne One-Page-Website (klar strukturiert)",
+          "Mobil-optimiert & schnell (Performance-Basics)",
+          "Kontaktformular oder WhatsApp/Call-Button",
+          "Basis-SEO (Titel, Meta-Description, Indexierung)"
         ],
         "priceFrom": "ab 450 €"
       },
       "businessWebsite": {
         "label": "Business Website",
-        "target": "Für Coaches, Dienstleister und kleine Unternehmen.",
+        "target": "Für Dienstleister, Coaches und kleine Unternehmen, die regelmäßig Anfragen bekommen möchten.",
         "includes": [
-          "Mehrseitige Website (z. B. Start, Über mich, Leistungen, Kontakt)",
-          "Responsives Design (mobil & Desktop)",
-          "Kontakt- oder Anfrageformular",
-          "Basis-SEO und Performance-Optimierung"
+          "Mehrseitige Website (z. B. Start, Über mich, Leistungen, Referenzen, Kontakt)",
+          "Conversion-optimierte Struktur & klare Call-to-Actions",
+          "Anfrageformular (inkl. Vorqualifizierung möglich)",
+          "Basis-SEO + Performance-Optimierung"
         ],
         "priceFrom": "ab 850 €"
       },
       "webAppMvp": {
         "label": "Web-App / MVP",
-        "target": "Für Startups und individuelle Business-Tools.",
+        "target": "Für Startups oder interne Tools: Prozesse digitalisieren, Zeit sparen, skalieren.",
         "includes": [
           "Individuelle Web-App (z. B. Dashboard, CRM, Buchungssystem)",
-          "Benutzer-Login & Rollen",
-          "API- und Datenbankanbindung",
-          "Deployment & Übergabe"
+          "Login, Rollen & Rechte",
+          "API- & Datenbankanbindung",
+          "Deployment, Übergabe & kurze Einweisung"
         ],
         "priceFrom": "ab 1.500 €"
       },
       "web3Integration": {
         "label": "Web3-Integration",
-        "target": "Für Projekte, die Wallet- oder Blockchain-Funktionalität benötigen.",
+        "target": "Wenn Web3 wirklich Mehrwert bringt: Wallets, On-Chain, Daten – sauber integriert.",
         "includes": [
           "Wallet-Connect (z. B. MetaMask, WalletConnect)",
           "Grundlegende On-Chain-Interaktionen",
-          "Integration in bestehende Frontends"
+          "Integration in bestehende Frontends inkl. UX-Fokus"
         ],
         "priceFrom": "Preis auf Anfrage"
       }
     },
-    "priceNote": "Der genaue Preis hängt vom Umfang des Projekts ab."
+    "priceNote": "Nach dem Erstgespräch bekommst du einen klaren Scope (Umfang) und ein transparentes Angebot."
   },
   "portfolio": {
     "title": "Portfolio",
@@ -171,37 +171,37 @@
       }
     }
   },
-  "contact": {
+    "contact": {
     "title": "Kontakt",
-    "subtitle": "Lass uns über dein Projekt sprechen",
-    "pricingHint": "Du bist dir noch unsicher, welches Paket zu dir passt? Schreib mir einfach – wir finden gemeinsam die passende Lösung.",
+    "subtitle": "Erzähl mir kurz, was du vorhast – ich melde mich mit den nächsten sinnvollen Schritten",
+    "pricingHint": "Du bist unsicher, welches Paket passt? Schreib mir einfach. Ich gebe dir eine ehrliche Einschätzung (inkl. Aufwand & Optionen).",
     "email": "E-Mail",
     "emailAddress": "mail@hoffmann-niklas.de",
     "location": "Standort",
     "germany": "Deutschland",
-    "quickResponse": "Schnelle Antwort garantiert!",
-    "quickResponseText": "Ich melde mich in der Regel innerhalb von 24 Stunden.",
-    "writeMe": "Schreib mir",
+    "quickResponse": "Antwort innerhalb von 24 Stunden",
+    "quickResponseText": "Meist schneller. Wenn’s dringend ist, schreib „DRINGEND“ in den Betreff.",
+    "writeMe": "Jetzt anfragen",
     "form": {
       "name": "Name",
-      "namePlaceholder": "Dein Name",
+      "namePlaceholder": "Wie heißt du?",
       "email": "E-Mail",
-      "emailPlaceholder": "deine@email.de",
-      "message": "Nachricht",
-      "messagePlaceholder": "Erzähl mir von deinem Projekt...",
-      "submit": "Nachricht senden",
-      "sending": "Wird versendet...",
-      "success": "Nachricht erfolgreich versendet!",
-      "error": "Ein Fehler ist aufgetreten"
+      "emailPlaceholder": "Wohin soll ich antworten?",
+      "message": "Worum geht’s?",
+      "messagePlaceholder": "Kurz: Branche + Ziel (z. B. mehr Anfragen / Buchungen) + was es schon gibt (Website/Design) + Deadline, falls relevant.",
+      "submit": "Anfrage senden",
+      "sending": "Wird gesendet…",
+      "success": "Danke! Ich melde mich schnellstmöglich.",
+      "error": "Oh nein – das hat nicht geklappt. Bitte versuch’s nochmal oder schreib mir per E-Mail."
     }
   },
-  "footer": {
+   "footer": {
     "copyright": "© 2025 Niklas Hoffmann. Alle Rechte vorbehalten.",
     "quickLinks": "Quick Links",
-    "brand": "Full-Stack Developer – Moderne Web-Apps & Web3-Frontend-Integration",
+    "brand": "Websites & Web-Apps, die Kunden gewinnen – Performance, UX & saubere Umsetzung",
     "navigation": "Navigation",
     "followMe": "Folge mir",
-    "madeWith": "Gemacht mit ❤️, Next.js, TypeScript & Web3 Tech",
+    "madeWith": "Gemacht mit ❤️ · Next.js · TypeScript",
     "impressum": "Impressum",
     "datenschutz": "Datenschutz",
     "name": "Niklas Hoffmann"

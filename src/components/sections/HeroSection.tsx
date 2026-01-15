@@ -37,13 +37,18 @@ const TechIcons = ({ compact = false, visible = true }: { compact?: boolean; vis
 export function HeroSection() {
     const t = useTranslations('hero');
     const { openChat } = useChat();
-    const { theme } = useTheme();
+    const { theme, resolvedTheme } = useTheme();
     const { mounted } = useInteractiveMode();
     const device = useDevice();
     const { isMobileLandscape } = device;
     const [isHovered, setIsHovered] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     // Defer icon loading to not block main thread
     const [showIcons, setShowIcons] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     useEffect(() => {
         // Use requestIdleCallback to load icons after critical content
@@ -61,17 +66,18 @@ export function HeroSection() {
     const subtitle = t('subtitle');
     const priceNote = t('priceNote');
 
+    // Get current theme, using resolvedTheme as fallback and defaulting to 'dark'
+    const currentTheme = isMounted ? (resolvedTheme || theme || 'dark') : 'dark';
+
     // Theme-adaptive shadow
     const getBaseShadow = () => {
-        if (!mounted) return '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)';
-        return theme === 'dark'
+        return currentTheme === 'dark'
             ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)'
             : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)';
     };
 
     const getHoverShadow = () => {
-        if (!mounted) return '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)';
-        return theme === 'dark'
+        return currentTheme === 'dark'
             ? '0 20px 25px -5px rgba(255, 255, 255, 0.15), 0 8px 10px -6px rgba(255, 255, 255, 0.15)'
             : '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)';
     };
@@ -96,10 +102,10 @@ export function HeroSection() {
                     onClick={openChat}
                     className="touch-target inline-flex items-center gap-1.5 xs:gap-2 px-3 py-2 rounded-full group"
                     style={{
-                        backgroundColor: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                        backgroundColor: 'var(--cta-bg)',
                         borderWidth: '1px',
                         borderStyle: 'solid',
-                        borderColor: theme === 'dark' ? '#262626' : '#e5e5e5',
+                        borderColor: 'var(--cta-border)',
                         boxShadow: getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
@@ -128,10 +134,10 @@ export function HeroSection() {
                     onMouseLeave={() => setIsHovered(false)}
                     className="touch-target mb-5 xs:mb-6 sm:mb-8 inline-flex items-center gap-2 px-3 xs:px-4 sm:px-5 py-2.5 xs:py-3 sm:py-3 rounded-full group"
                     style={{
-                        backgroundColor: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+                        backgroundColor: 'var(--cta-bg)',
                         borderWidth: '1px',
                         borderStyle: 'solid',
-                        borderColor: theme === 'dark' ? '#262626' : '#e5e5e5',
+                        borderColor: 'var(--cta-border)',
                         boxShadow: isHovered ? getHoverShadow() : getBaseShadow(),
                         transition: 'all 0.3s ease-in-out, border-color 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
                     }}
