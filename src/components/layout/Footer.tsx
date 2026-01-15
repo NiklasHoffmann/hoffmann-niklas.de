@@ -81,7 +81,14 @@ function FooterComponent() {
                         </Link>
                     </div>
                     <p>
-                        {t('copyright', { year: currentYear })}
+                        {t('copyright', { year: currentYear }).split(currentYear.toString())[0]}
+                        <span
+                            onClick={() => router.push('/admin')}
+                            className="cursor-pointer hover:text-primary transition-colors"
+                        >
+                            {currentYear}
+                        </span>
+                        {t('copyright', { year: currentYear }).split(currentYear.toString())[1]}
                     </p>
                 </div>
             </SectionRight>
@@ -148,7 +155,14 @@ function FooterComponent() {
                         </Link>
                     </div>
                     <p>
-                        {t('copyright', { year: currentYear })}
+                        {t('copyright', { year: currentYear }).split(currentYear.toString())[0]}
+                        <span
+                            onClick={() => router.push('/admin')}
+                            className="cursor-pointer hover:text-primary transition-colors"
+                        >
+                            {currentYear}
+                        </span>
+                        {t('copyright', { year: currentYear }).split(currentYear.toString())[1]}
                     </p>
                     <p className="text-muted-foreground/60 flex items-center justify-center gap-1">
                         {t('madeWith').split('❤️')[0]}
