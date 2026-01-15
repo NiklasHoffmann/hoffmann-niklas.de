@@ -196,7 +196,7 @@
     }
   },
    "footer": {
-    "copyright": "© 2025 Niklas Hoffmann. Alle Rechte vorbehalten.",
+    "copyright": "© {year} Niklas Hoffmann. Alle Rechte vorbehalten.",
     "quickLinks": "Quick Links",
     "brand": "Websites & Web-Apps, die Kunden gewinnen – Performance, UX & saubere Umsetzung",
     "navigation": "Navigation",

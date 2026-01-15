@@ -196,7 +196,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 Niklas Hoffmann. تمامی حقوق محفوظ است.",
+    "copyright": "© {year} Niklas Hoffmann. تمامی حقوق محفوظ است.",
     "quickLinks": "لینک‌های سریع",
     "brand": "توسعه‌دهنده Full-Stack – اپلیکیشن‌های وب مدرن و یکپارچه‌سازی فرانت‌اند Web3",
     "navigation": "ناوبری",

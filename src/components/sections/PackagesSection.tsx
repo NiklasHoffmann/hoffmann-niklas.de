@@ -100,7 +100,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                                 >
                                                     {t(`packages.${pkgKey}.label`)}
                                                 </h3>
-                                                <p className="text-[9px] xs:text-[10px] text-muted-foreground mb-1.5 xs:mb-2 leading-tight">
+                                                <p className="text-[11px] xs:text-xs text-muted-foreground mb-1.5 xs:mb-2 leading-tight">
                                                     {t(`packages.${pkgKey}.target`)}
                                                 </p>
                                                 <div
@@ -127,7 +127,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                                 >
                                                     {t(`packages.${pkgKey}.label`)}
                                                 </h4>
-                                                <ul className="space-y-0.5 text-[9px] leading-tight">
+                                                <ul className="space-y-0.5 text-[11px] leading-tight">
                                                     {includes.slice(0, 4).map((item, idx) => (
                                                         <li key={idx} className="flex items-start gap-1">
                                                             <span
@@ -143,7 +143,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                                         </li>
                                                     ))}
                                                     {includes.length > 4 && (
-                                                        <li className="text-[8px] text-muted-foreground italic mt-1">
+                                                        <li className="text-[11px] text-muted-foreground italic mt-1">
                                                             +{includes.length - 4} weitere...
                                                         </li>
                                                     )}
@@ -253,7 +253,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                                     >
                                                         {t(`packages.${pkgKey}.label`)}
                                                     </h3>
-                                                    <p className={`text-muted-foreground ${isMobileLandscape ? 'text-[9px] mb-1' : 'text-[9px] xs:text-[10px] sm:text-xs mb-1.5 xs:mb-2 sm:mb-4'}`}>
+                                                    <p className={`text-muted-foreground ${isMobileLandscape ? 'text-[11px] mb-1' : 'text-[11px] xs:text-xs sm:text-sm mb-1.5 xs:mb-2 sm:mb-4'}`}>
                                                         {t(`packages.${pkgKey}.target`)}
                                                     </p>
                                                 </div>

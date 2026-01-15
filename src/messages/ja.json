@@ -196,7 +196,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 Niklas Hoffmann. All rights reserved.",
+    "copyright": "© {year} Niklas Hoffmann. All rights reserved.",
     "quickLinks": "クイックリンク",
     "brand": "フルスタック開発者 – モダンウェブアプリ＆Web3フロントエンド統合",
     "navigation": "ナビゲーション",

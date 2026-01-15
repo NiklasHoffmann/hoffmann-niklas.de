@@ -219,7 +219,7 @@ export const ServicesSection = memo(function ServicesSection() {
                             height="1em"
                         />
                     </div>
-                    <span className="text-[8px] xs:text-[9px] text-center leading-tight text-muted-foreground">
+                    <span className="text-[11px] xs:text-xs text-center leading-tight text-muted-foreground">
                         {service.title}
                     </span>
                 </div>
@@ -232,7 +232,7 @@ export const ServicesSection = memo(function ServicesSection() {
             {/* Mobile Landscape Layout */}
             <SectionLeft className="w-1/3">
                 <h2 className="text-lg xs:text-xl font-bold mb-1">{t('title')}</h2>
-                <p className="text-[10px] xs:text-xs text-muted-foreground">{t('subtitle')}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{t('subtitle')}</p>
             </SectionLeft>
 
             <SectionRight className="w-2/3">
@@ -381,7 +381,7 @@ export const ServicesSection = memo(function ServicesSection() {
                                                                 {service.title}
                                                             </h3>
 
-                                                            <p className="text-[10px] xs:text-xs sm:text-sm text-muted-foreground line-clamp-3 flex-1 hyphens-auto break-words">
+                                                            <p className="text-xs sm:text-sm md:text-base text-muted-foreground line-clamp-3 flex-1 hyphens-auto break-words">
                                                                 {service.description}
                                                             </p>
                                                         </div>
@@ -408,7 +408,7 @@ export const ServicesSection = memo(function ServicesSection() {
                                                                                 className="flex items-center gap-0.5 xs:gap-1 sm:gap-1.5 px-1.5 xs:px-2 sm:px-2.5 py-0.5 xs:py-1 sm:py-1.5 bg-accent/10 rounded-md flex-shrink-0"
                                                                             >
                                                                                 <TechIcon className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                                                                                <span className="text-[9px] xs:text-[10px] sm:text-xs font-medium whitespace-nowrap">
+                                                                                <span className="text-[11px] xs:text-xs sm:text-sm font-medium whitespace-nowrap">
                                                                                     {tech.name}
                                                                                 </span>
                                                                             </div>

@@ -196,7 +196,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 Niklas Hoffmann. Todos los derechos reservados.",
+    "copyright": "© {year} Niklas Hoffmann. Todos los derechos reservados.",
     "quickLinks": "Enlaces Rápidos",
     "brand": "Desarrollador Full-Stack – Aplicaciones Web Modernas & Integración Frontend Web3",
     "navigation": "Navegación",

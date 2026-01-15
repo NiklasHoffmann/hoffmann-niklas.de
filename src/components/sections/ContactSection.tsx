@@ -141,7 +141,7 @@ const ModalForm = memo(function ModalForm({
         {/* Close button */}
         <button
           onClick={onClose}
-          className='absolute top-3 xs:top-4 right-3 xs:right-4 p-2 rounded-full bg-secondary hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-accent touch-target'
+          className='absolute top-3 xs:top-4 right-3 xs:right-4 p-2 rounded-full bg-secondary hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 touch-target'
           style={{ transition: 'background-color 700ms ease-in-out, color 700ms ease-in-out' }}
           aria-label="Close modal"
         >
@@ -179,7 +179,7 @@ const ModalForm = memo(function ModalForm({
                 autoComplete="name"
                 autoCapitalize="words"
                 spellCheck="false"
-                className='w-full px-2.5 xs:px-3 py-2 text-xs xs:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none touch-target'
+                className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-transparent focus-visible:outline-none touch-target'
                 style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
               />
             </div>
@@ -204,7 +204,7 @@ const ModalForm = memo(function ModalForm({
                 autoCapitalize="off"
                 spellCheck="false"
                 inputMode="email"
-                className='w-full px-2.5 xs:px-3 py-2 text-xs xs:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none touch-target'
+                className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-transparent focus-visible:outline-none touch-target'
                 style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
               />
             </div>
@@ -230,7 +230,7 @@ const ModalForm = memo(function ModalForm({
               autoCorrect="on"
               autoCapitalize="sentences"
               spellCheck="true"
-              className='w-full px-2.5 xs:px-3 py-2 text-xs xs:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none touch-target'
+              className='w-full px-3 py-2.5 sm:px-4 sm:py-3 text-xs xs:text-sm bg-background border border-border rounded-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-transparent focus-visible:outline-none resize-none touch-target'
               style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out, color 700ms ease-in-out' }}
             />
           </div>
@@ -358,7 +358,7 @@ export function ContactSection() {
             autoComplete="name"
             autoCapitalize="words"
             spellCheck="false"
-            className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none touch-target'
+            className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-transparent focus-visible:outline-none touch-target'
             style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
             aria-required="true"
           />
@@ -379,7 +379,7 @@ export function ContactSection() {
             autoCapitalize="off"
             spellCheck="false"
             inputMode="email"
-            className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none touch-target'
+            className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-transparent focus-visible:outline-none touch-target'
             style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
             aria-required="true"
           />
@@ -400,7 +400,7 @@ export function ContactSection() {
           autoCorrect="on"
           autoCapitalize="sentences"
           spellCheck="true"
-          className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent outline-none resize-none min-h-[100px]'
+          className='w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm bg-background border border-border rounded-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-transparent focus-visible:outline-none resize-none min-h-[100px]'
           style={{ transition: 'border-color 700ms ease-in-out, box-shadow 700ms ease-in-out' }}
           aria-required="true"
         />
@@ -430,7 +430,7 @@ export function ContactSection() {
             : '0 2px 8px rgba(255, 255, 255, 0.15)',
           transition: 'all 700ms ease-in-out, background-color 700ms ease-in-out, box-shadow 700ms ease-in-out'
         }}
-        className="w-full px-2.5 xs:px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-foreground rounded-lg font-semibold hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative touch-target"
+        className="w-full px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm text-foreground rounded-lg font-semibold hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative touch-target"
         aria-label={loading ? t('form.sending') : t('form.submit')}
       >
         {loading ? (

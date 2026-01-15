@@ -46,7 +46,7 @@ export function ProjectCard({
                     {project.tags.slice(0, maxTags).map((tag) => (
                         <span
                             key={tag}
-                            className="px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold bg-accent/10 text-accent rounded"
+                            className="px-1.5 sm:px-2 py-0.5 text-[11px] sm:text-xs font-semibold bg-accent/10 text-accent rounded"
                         >
                             {tag}
                         </span>
@@ -59,7 +59,7 @@ export function ProjectCard({
                 </h3>
 
                 {/* Description */}
-                <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2 flex-grow">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3 line-clamp-2 flex-grow">
                     {descriptionText}
                 </p>
 
@@ -70,7 +70,7 @@ export function ProjectCard({
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 text-[9px] sm:text-[10px] bg-accent/10 text-accent rounded hover:bg-accent hover:text-accent-foreground font-semibold"
+                            className="flex-1 flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 text-[11px] sm:text-xs bg-accent/10 text-accent rounded hover:bg-accent hover:text-accent-foreground font-semibold"
                             style={{
                                 transition: 'background-color 700ms ease-in-out, color 0ms'
                             }}
@@ -85,7 +85,7 @@ export function ProjectCard({
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 text-[9px] sm:text-[10px] border border-border rounded hover:bg-secondary font-semibold"
+                            className="flex-1 flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 text-[11px] sm:text-xs border border-border rounded hover:bg-secondary font-semibold"
                             style={{ transition: 'background-color 700ms ease-in-out, border-color 700ms ease-in-out' }}
                             aria-label={`View ${titleText} source code`}
                         >

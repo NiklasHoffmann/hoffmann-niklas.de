@@ -152,7 +152,7 @@ export const PortfolioSection = memo(function PortfolioSection() {
                     <h3 className="text-sm font-semibold">
                         {t(`projects.${projects[currentSlide].title}.title`)}
                     </h3>
-                    <p className="text-[10px] text-muted-foreground line-clamp-2">
+                    <p className="text-xs text-muted-foreground line-clamp-2">
                         {t(`projects.${projects[currentSlide].title}.description`)}
                     </p>
                 </div>

@@ -173,7 +173,7 @@ export default function ChatWindow() {
                                 autoCapitalize="words"
                                 spellCheck="false"
                                 name="chat-username"
-                                className="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent shadow-sm text-foreground placeholder:text-muted-foreground"
+                                className="w-full px-4 py-3 border-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 shadow-sm text-foreground placeholder:text-muted-foreground"
                                 style={{
                                     backgroundColor: safeIsDark ? '#090909' : '#ffffff',
                                     borderColor: safeIsDark ? '#1a1a1a' : '#d1d5db',
@@ -424,7 +424,7 @@ export default function ChatWindow() {
                         autoCapitalize="sentences"
                         spellCheck="false"
                         name="chat-message"
-                        className="flex-1 px-4 py-2.5 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-sm shadow-sm text-foreground placeholder:text-muted-foreground"
+                        className="flex-1 px-4 py-2.5 border-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:border-transparent focus-visible:ring-offset-2 text-sm shadow-sm text-foreground placeholder:text-muted-foreground"
                         style={{
                             backgroundColor: isDark ? '#0d0d0d' : '#ffffff',
                             borderColor: isDark ? '#262626' : '#d1d5db',
@@ -435,7 +435,7 @@ export default function ChatWindow() {
                     <button
                         type="submit"
                         disabled={!inputMessage.trim() || !isConnected}
-                        className="px-4 py-2.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 bg-background border border-border focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="px-4 py-2.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 bg-background border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                         style={{
                             boxShadow: isDark
                                 ? '0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1)'

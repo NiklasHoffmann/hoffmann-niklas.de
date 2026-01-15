@@ -196,7 +196,7 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 Niklas Hoffmann. Усі права захищені.",
+    "copyright": "© {year} Niklas Hoffmann. Усі права захищені.",
     "quickLinks": "Швидкі посилання",
     "brand": "Full-Stack розробник – Сучасні веб-додатки та Web3-фронтенд інтеграція",
     "navigation": "Навігація",

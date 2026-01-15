@@ -81,10 +81,7 @@ function FooterComponent() {
                         </Link>
                     </div>
                     <p>
-                        © <span
-                            onClick={() => router.push('/admin')}
-                            className="cursor-default hover:text-primary transition-colors"
-                        >{currentYear}</span> {t('name')}
+                        {t('copyright', { year: currentYear })}
                     </p>
                 </div>
             </SectionRight>
@@ -151,15 +148,7 @@ function FooterComponent() {
                         </Link>
                     </div>
                     <p>
-                        {t('copyright').split(currentYear.toString())[0]}
-                        <span
-                            onClick={() => router.push('/admin')}
-                            className="cursor-default hover:text-primary transition-colors"
-                            title=""
-                        >
-                            {currentYear}
-                        </span>
-                        {t('copyright').split(currentYear.toString())[1] || ` Niklas Hoffmann. ${t('copyright').includes('All rights reserved') ? 'All rights reserved.' : 'Alle Rechte vorbehalten.'}`}
+                        {t('copyright', { year: currentYear })}
                     </p>
                     <p className="text-muted-foreground/60 flex items-center justify-center gap-1">
                         {t('madeWith').split('❤️')[0]}
