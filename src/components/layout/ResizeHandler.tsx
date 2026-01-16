@@ -7,8 +7,8 @@ import { useEffect, useRef } from 'react';
  * Provides smooth transitions during window resize and orientation changes
  */
 export function ResizeHandler() {
-    const rafIdRef = useRef<number>();
-    const resizeTimeoutRef = useRef<NodeJS.Timeout>();
+    const rafIdRef = useRef<number | undefined>(undefined);
+    const resizeTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
     useEffect(() => {
         // Disable on mobile - native behavior is better
