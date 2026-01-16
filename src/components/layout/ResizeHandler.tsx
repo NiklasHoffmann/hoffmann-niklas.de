@@ -34,6 +34,10 @@ export function ResizeHandler() {
                 }
 
                 rafIdRef.current = requestAnimationFrame(() => {
+                    // Temporarily disable scroll-snap for smooth repositioning
+                    const originalScrollSnapType = mainContainer.style.scrollSnapType;
+                    mainContainer.style.scrollSnapType = 'none';
+
                     const rect = element.getBoundingClientRect();
                     const containerRect = mainContainer.getBoundingClientRect();
                     const elementTop = rect.top - containerRect.top + mainContainer.scrollTop;
@@ -42,6 +46,11 @@ export function ResizeHandler() {
                         top: elementTop,
                         behavior: 'auto'
                     });
+
+                    // Re-enable scroll-snap after a short delay
+                    setTimeout(() => {
+                        mainContainer.style.scrollSnapType = originalScrollSnapType;
+                    }, 100);
                 });
             }
         };
