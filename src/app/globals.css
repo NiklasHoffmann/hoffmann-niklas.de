@@ -96,8 +96,8 @@ body.contact-modal-open .chat-widget-button {
      Flüssige Übergänge beim Resize/Orientation Change
      ============================================ */
   * {
-    /* Smooth transitions for all size/spacing properties */
-    transition-property: padding, margin, gap, font-size, width, height, max-width, max-height;
+    /* Smooth transitions for spacing properties only - NOT size */
+    transition-property: padding, margin, gap, font-size;
     transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }

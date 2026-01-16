@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
-import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { NEON_COLORS } from '@/config/ui.constants';
 import { useDevice } from '@/contexts/DeviceContext';
 
@@ -23,8 +22,8 @@ export const PackagesSection = memo(function PackagesSection() {
     const t = useTranslations('packages');
     const { showActive, mounted: interactiveMounted } = useInteractiveMode();
     const { theme } = useTheme();
-    const { key } = useOrientationResize();
-    const { isMobileLandscape, layout, width } = useDevice();
+    const device = useDevice();
+    const { isMobileLandscape, layout, width } = device;
     const [flippedCard, setFlippedCard] = useState<number | null>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -56,7 +55,7 @@ export const PackagesSection = memo(function PackagesSection() {
     const isActiveAndHydrated = hydrated && showActive;
 
     return (
-        <Section id="packages" sectionKey={key} background="none">
+        <Section id="packages" background="none">
             {/* Compact Layout for tablet/small screens in landscape */}
             {useCompactLayout && (
                 <>
@@ -160,17 +159,18 @@ export const PackagesSection = memo(function PackagesSection() {
 
             {/* Default Layout (Desktop, Tablet Portrait, Mobile Portrait) */}
             {!useCompactLayout && (
-                <SectionDefault className="h-full flex flex-col justify-start sm:justify-center py-6 sm:py-0">
-                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3">
+                <SectionDefault className="h-full flex flex-col justify-center py-4 sm:py-6">
+                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-center mb-2 sm:mb-3 flex-shrink-0">
                         {t('title')}
                     </h2>
-                    <p className="text-center text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 lg:mb-8 max-w-2xl mx-auto">
+                    <p className="text-center text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4 max-w-2xl mx-auto flex-shrink-0">
                         {t('subtitle')}
                     </p>
 
                     {/* Cards */}
-                    <div className="flex items-center justify-center">
-                        <div className="w-full grid grid-cols-2 gap-1.5 xs:gap-2 sm:gap-3 md:gap-4 md:grid-cols-2 xl:grid-cols-4 p-2">
+                    <div className="flex-1 flex items-center justify-center overflow-hidden">
+                        <div className="w-full overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-track-transparent scrollbar-thumb-accent/30 hover:scrollbar-thumb-accent/50 px-4">
+                            <div className="flex gap-4 sm:gap-5 lg:gap-6 min-w-min pb-2">
                             {PACKAGE_KEYS.map((pkgKey, index) => {
                                 const includes = t.raw(
                                     `packages.${pkgKey}.includes`,
@@ -197,7 +197,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                 };
 
                                 return (
-                                    <div key={pkgKey} className="perspective-1000 md:perspective-none" style={{ padding: '12px', margin: '-12px' }}>
+                                    <div key={pkgKey} className="perspective-1000 md:perspective-none flex-shrink-0 w-[85vw] sm:w-[45vw] md:w-[30vw] lg:w-[22vw] max-w-[400px] min-w-[280px]">
                                         {/* Mobile: Flip Card */}
                                         <div
                                             role="button"
@@ -208,7 +208,7 @@ export const PackagesSection = memo(function PackagesSection() {
                                             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : index); } }}
                                             onMouseEnter={handleMouseEnter}
                                             onMouseLeave={handleMouseLeave}
-                                            className="md:hidden relative w-full aspect-[3/4] cursor-pointer transition-transform duration-500 preserve-3d focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-xl xs:rounded-2xl touch-target"
+                                            className="md:hidden relative w-full h-[50vh] max-h-[350px] min-h-[260px] cursor-pointer transition-transform duration-500 preserve-3d focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-xl touch-target"
                                             style={{
                                                 transformStyle: 'preserve-3d',
                                                 transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -328,7 +328,7 @@ export const PackagesSection = memo(function PackagesSection() {
 
                                         {/* Desktop: Normal Card */}
                                         <div
-                                            className="hidden md:flex flex-col h-full rounded-xl xs:rounded-2xl border border-border bg-card/70 backdrop-blur-sm p-2.5 xs:p-3 lg:p-5"
+                                            className="hidden md:flex flex-col h-[50vh] max-h-[400px] min-h-[280px] rounded-xl border border-border bg-card/70 backdrop-blur-sm p-3 lg:p-4"
                                             style={{
                                                 borderColor: isActiveAndHydrated ? `${cardColor}40` : 'hsl(var(--border))',
                                                 boxShadow: isActiveAndHydrated ? `0 0 20px ${cardColor}15` : 'none',
@@ -397,6 +397,7 @@ export const PackagesSection = memo(function PackagesSection() {
                             })}
                         </div>
                     </div>
+                </div>
                 </SectionDefault>
             )}
         </Section>

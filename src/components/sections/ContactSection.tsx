@@ -8,7 +8,6 @@ import { Icon } from '@/components/icons/LocalIcon';
 import { SectionHeader, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { TRANSITIONS } from '@/lib/transitions';
 import { useTheme } from 'next-themes';
-import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useDevice } from '@/contexts/DeviceContext';
 
 // Separates Modal-Formular mit eigenem State - verhindert Re-Renders der Parent-Komponente
@@ -282,8 +281,8 @@ const ModalForm = memo(function ModalForm({
 export function ContactSection() {
   const t = useTranslations('contact');
   const { theme } = useTheme();
-  const { key } = useOrientationResize();
-  const { isMobileLandscape } = useDevice();
+  const device = useDevice();
+  const { isMobileLandscape } = device;
   const [formData, setFormData] = useState<ContactFormData>({ name: '', email: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [submitState, setSubmitState] = useState<'idle' | 'success' | 'error'>('idle');
@@ -447,7 +446,7 @@ export function ContactSection() {
 
   return (
     <>
-      <Section id="contact" sectionKey={key} background="secondary">
+      <Section id="contact" background="secondary">
         {/* Mobile Landscape Layout */}
         <SectionLeft className="w-1/2">
           <h2 className="text-lg xs:text-xl font-bold mb-0.5 xs:mb-1">{t('title')}</h2>

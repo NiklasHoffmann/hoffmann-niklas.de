@@ -5,7 +5,6 @@ import { Icon } from '@/components/icons/LocalIcon';
 import { useState, useRef, useEffect, useCallback, memo } from 'react';
 import { projects } from '@/data/portfolio';
 import { SectionHeader, ProjectCard, Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
-import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { useDevice } from '@/contexts/DeviceContext';
 
 export const PortfolioSection = memo(function PortfolioSection() {
@@ -15,8 +14,8 @@ export const PortfolioSection = memo(function PortfolioSection() {
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
-    const { key } = useOrientationResize();
-    const { isMobileLandscape } = useDevice();
+    const device = useDevice();
+    const { isMobileLandscape } = device;
 
     // Touch swipe state
     const touchStartX = useRef(0);
@@ -142,7 +141,7 @@ export const PortfolioSection = memo(function PortfolioSection() {
     const showDesktopSlider = projects.length > 3;
 
     return (
-        <Section id="portfolio" sectionKey={key} background="secondary">
+        <Section id="portfolio" background="secondary">
             {/* Mobile Landscape Layout */}
             <SectionLeft className='w-1/2'>
                 <h2 className="text-xl font-bold mb-1">{t('title')}</h2>

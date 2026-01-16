@@ -6,7 +6,6 @@ import { SectionHeader } from '@/components/ui';
 import { ServicesCube } from './ServicesCube';
 import { Icon } from '@/components/icons/LocalIcon';
 import { useInteractiveMode } from '@/contexts/InteractiveModeContext';
-import { useOrientationResize } from '@/hooks/useOrientationResize';
 import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components/ui';
 import { useDevice } from '@/contexts/DeviceContext';
 import {
@@ -82,9 +81,9 @@ const techStack: TechItem[] = [
 
 export const ServicesSection = memo(function ServicesSection() {
     const t = useTranslations('services');
+    const device = useDevice();
+    const { isMobileLandscape } = device;
     const { isInteractive, mounted } = useInteractiveMode();
-    const { key } = useOrientationResize();
-    const { isMobileLandscape } = useDevice();
     const [flippedCard, setFlippedCard] = useState<number | null>(null);
     const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -228,7 +227,7 @@ export const ServicesSection = memo(function ServicesSection() {
     );
 
     return (
-        <Section id="services" sectionKey={key} background="none">
+        <Section id="services" background="none">
             {/* Mobile Landscape Layout */}
             <SectionLeft className="w-1/3">
                 <h2 className="text-lg xs:text-xl font-bold mb-1">{t('title')}</h2>
@@ -312,27 +311,30 @@ export const ServicesSection = memo(function ServicesSection() {
                                             const isFlipped = flippedCard === i;
 
                                             const handleMouseEnter = () => {
+                                                // Clear any existing timeouts
                                                 if (hoverTimeoutRef.current) {
                                                     clearTimeout(hoverTimeoutRef.current);
                                                     hoverTimeoutRef.current = null;
                                                 }
-                                                // Immediate flip on enter for responsiveness
+                                                // Flip immediately on enter
                                                 setFlippedCard(i);
                                             };
 
                                             const handleMouseLeave = () => {
+                                                // Clear any existing timeouts
                                                 if (hoverTimeoutRef.current) {
                                                     clearTimeout(hoverTimeoutRef.current);
+                                                    hoverTimeoutRef.current = null;
                                                 }
-                                                // Delay on leave to prevent flicker when moving between cards
+                                                // Delay on leave to allow moving to the card
                                                 hoverTimeoutRef.current = setTimeout(() => {
                                                     setFlippedCard(null);
                                                     hoverTimeoutRef.current = null;
-                                                }, 150);
+                                                }, 100);
                                             };
 
                                             return (
-                                                <div key={i} className="perspective-1000" style={{ padding: '12px', margin: '-12px' }}>
+                                                <div key={i} className="perspective-1000 group" style={{ padding: '12px', margin: '-12px' }}>
                                                     <div
                                                         role="button"
                                                         tabIndex={0}
@@ -340,12 +342,10 @@ export const ServicesSection = memo(function ServicesSection() {
                                                         aria-label={`${service.title} - ${isFlipped ? 'Details ausblenden' : 'Details anzeigen'}`}
                                                         onClick={() => setFlippedCard(isFlipped ? null : i)}
                                                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFlippedCard(isFlipped ? null : i); } }}
-                                                        onMouseEnter={handleMouseEnter}
-                                                        onMouseLeave={handleMouseLeave}
-                                                        className="relative w-full aspect-square max-h-44 xs:max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg xs:rounded-xl"
+                                                        className={`relative w-full aspect-square max-h-44 xs:max-h-48 lg:max-h-52 cursor-pointer transition-transform duration-500 preserve-3d outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg xs:rounded-xl ${!isFlipped ? 'group-hover:[transform:rotateY(180deg)]' : ''}`}
                                                         style={{
                                                             transformStyle: 'preserve-3d',
-                                                            transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                                                            transform: isFlipped ? 'rotateY(180deg)' : undefined,
                                                             willChange: 'transform',
                                                             WebkitTapHighlightColor: 'transparent',
                                                         }}

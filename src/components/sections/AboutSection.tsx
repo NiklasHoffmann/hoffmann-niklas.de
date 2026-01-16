@@ -81,7 +81,7 @@ export const AboutSection = memo(function AboutSection() {
     ];
 
     return (
-        <Section id="about" sectionKey={`${device.layout}-${device.width}`} background="none">
+        <Section id="about" background="none">
             {/* Mobile Landscape Layout */}
             <SectionLeft className="w-1/2">
                 {/* Compact Profile */}
