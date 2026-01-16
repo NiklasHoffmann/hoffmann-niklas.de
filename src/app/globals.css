@@ -92,6 +92,43 @@ body.contact-modal-open .chat-widget-button {
 @layer base {
 
   /* ============================================
+     SMOOTH RESPONSIVE TRANSITIONS
+     Flüssige Übergänge beim Resize/Orientation Change
+     ============================================ */
+  * {
+    /* Smooth transitions for all size/spacing properties */
+    transition-property: padding, margin, gap, font-size, width, height, max-width, max-height;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Disable transitions for specific properties that should be instant */
+  *[class*="scroll"],
+  *[class*="snap"],
+  *[class*="transform"],
+  *[class*="translate"] {
+    transition-property: none;
+  }
+
+  /* GPU acceleration for transforms */
+  *[class*="transition"],
+  *[class*="hover:"],
+  *[class*="group-hover:"] {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Disable all transitions when user prefers reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition-duration: 0ms !important;
+      animation-duration: 0ms !important;
+      will-change: auto !important;
+    }
+  }
+
+  /* ============================================
      RESPONSIVE TYPOGRAPHY SCALE
      Mobile-First Base Font Sizes
      ============================================ */
@@ -163,6 +200,9 @@ body.contact-modal-open .chat-widget-button {
     /* Scroll timing for ultra-smooth experience */
     --scroll-duration: 1200ms;
     --scroll-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Resize state for conditional transitions */
+    --is-resizing: 0;
 
     /* Scrollbar Farben für Light Mode */
     --scrollbar-track: #ffffff;
@@ -508,12 +548,15 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
     clip-path: inset(0 0 100% 0);
     opacity: 0;
   }
+
   5% {
     opacity: 0.3;
   }
+
   15% {
     opacity: 0.8;
   }
+
   100% {
     clip-path: inset(0 0 0 0);
     opacity: 1;
@@ -537,6 +580,7 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
    WCAG 2.1 2.3.3 Compliance: Reduced Motion
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
+
   /* Disable all animations and transitions that move content */
   *,
   *::before,
@@ -794,44 +838,59 @@ body.is-landscape .scroll-snap-section .max-w-4xl {
 
   /* Responsive Text Utilities - maintains readability across breakpoints */
   .text-responsive-xs {
-    font-size: 0.75rem; /* 12px */
+    font-size: 0.75rem;
+    /* 12px */
   }
+
   @media (min-width: 480px) {
     .text-responsive-xs {
-      font-size: 0.8125rem; /* 13px */
+      font-size: 0.8125rem;
+      /* 13px */
     }
   }
+
   @media (min-width: 768px) {
     .text-responsive-xs {
-      font-size: 0.875rem; /* 14px */
+      font-size: 0.875rem;
+      /* 14px */
     }
   }
 
   .text-responsive-sm {
-    font-size: 0.875rem; /* 14px */
+    font-size: 0.875rem;
+    /* 14px */
   }
+
   @media (min-width: 480px) {
     .text-responsive-sm {
-      font-size: 0.9375rem; /* 15px */
+      font-size: 0.9375rem;
+      /* 15px */
     }
   }
+
   @media (min-width: 768px) {
     .text-responsive-sm {
-      font-size: 1rem; /* 16px */
+      font-size: 1rem;
+      /* 16px */
     }
   }
 
   .text-responsive-base {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
+    /* 16px */
   }
+
   @media (min-width: 768px) {
     .text-responsive-base {
-      font-size: 1.0625rem; /* 17px */
+      font-size: 1.0625rem;
+      /* 17px */
     }
   }
+
   @media (min-width: 1024px) {
     .text-responsive-base {
-      font-size: 1.125rem; /* 18px */
+      font-size: 1.125rem;
+      /* 18px */
     }
   }
 

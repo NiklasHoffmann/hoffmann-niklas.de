@@ -106,48 +106,26 @@ export const AboutSection = memo(function AboutSection() {
             </SectionLeft>
 
             <SectionRight className="w-1/2">
-                {/* Stats Grid - 2x2 compact */}
-                <div className="grid grid-cols-2 gap-2 xs:gap-3">
-                    {[
-                        { label: t('stats.projects'), value: '5+', color: neonColors[0] },
-                        { label: t('stats.clients'), value: '3+', color: neonColors[1] },
-                        { label: t('stats.experience'), value: '5+', color: neonColors[2] },
-                        { label: t('stats.passion'), value: '∞', color: neonColors[3] }
-                    ].map((stat, i) => (
-                        <div key={i} className="text-center">
-                            <div
-                                className="text-base xs:text-lg font-bold"
-                                style={{
-                                    color: isActiveAndHydrated ? stat.color : 'inherit',
-                                    textShadow: isActiveAndHydrated ? `0 0 15px ${stat.color}40` : 'none',
-                                    transition: 'color 700ms ease-in-out, text-shadow 700ms ease-in-out'
-                                }}
-                            >
-                                {stat.value}
-                            </div>
-                            <div className="text-[10px] xs:text-xs text-muted-foreground">{stat.label}</div>
-                        </div>
-                    ))}
+                <div className="text-center text-muted-foreground text-xs">
+                    {/* Stats temporär deaktiviert */}
                 </div>
             </SectionRight>
 
             {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
-            <SectionDefault className="h-full flex flex-col justify-center">
-                {/* Header */}
-                <SectionHeader
-                    title={t('title')}
-                    className="flex-shrink-0"
-                />
+            <SectionDefault className="h-full flex flex-col justify-start sm:justify-center py-6 sm:py-0">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-4 sm:mb-6 md:mb-8">
+                    {t('title')}
+                </h2>
 
                 {/* Main Content */}
-                <div className="flex flex-col lg:flex-row gap-responsive-md lg:gap-16">
+                <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-16">
                     {/* Left Column - Profile (full width on mobile portrait, 2/5 on desktop) */}
                     <div className="w-full lg:w-2/5 flex flex-col justify-center">
                         {/* Avatar & Name */}
-                        <div className="flex flex-col items-center text-center mb-4 xs:mb-6 sm:mb-8">
-                            <div className="relative mb-3 xs:mb-4">
+                        <div className="flex flex-col items-center text-center mb-3 sm:mb-6 md:mb-8">
+                            <div className="relative mb-2 sm:mb-4">
                                 <div
-                                    className="w-28 h-28 xs:w-32 xs:h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full bg-secondary/30 flex items-center justify-center border border-border"
+                                    className="w-20 h-20 xs:w-24 xs:h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-secondary/30 flex items-center justify-center border border-border"
                                     style={{
                                         borderColor: isActiveAndHydrated
                                             ? neonColors[0]
@@ -173,16 +151,17 @@ export const AboutSection = memo(function AboutSection() {
                                 </div>
                             </div>
 
-                            <h2 className="text-xl xs:text-2xl md:text-3xl font-bold mb-2 xs:mb-3">
+                            <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2 md:mb-3">
                                 Niklas Hoffmann
                             </h2>
-                            <p className="text-responsive-sm text-muted-foreground leading-relaxed max-w-xs xs:max-w-sm md:max-w-md">
+                            <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed max-w-xs sm:max-w-sm md:max-w-md">
                                 {t('description')}
                             </p>
                         </div>
 
-                        {/* Stats */}
-                        <div className="grid grid-cols-2 gap-4 xs:gap-5 sm:gap-6">
+                        {/* 
+                        Stats temporär deaktiviert
+                        <div className="grid grid-cols-2 gap-3 xs:gap-4 sm:gap-6">
                             {[
                                 { label: t('stats.projects'), value: '5+', color: neonColors[0] },
                                 { label: t('stats.clients'), value: '3+', color: neonColors[1] },
@@ -191,7 +170,7 @@ export const AboutSection = memo(function AboutSection() {
                             ].map((stat, i) => (
                                 <div key={i} className="text-center">
                                     <div
-                                        className="text-2xl xs:text-3xl md:text-4xl font-bold mb-1"
+                                        className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold mb-0.5 sm:mb-1"
                                         style={{
                                             color: isActiveAndHydrated ? stat.color : 'inherit',
                                             textShadow: isActiveAndHydrated
@@ -203,24 +182,25 @@ export const AboutSection = memo(function AboutSection() {
                                     >
                                         {stat.value}
                                     </div>
-                                    <div className="text-responsive-xs text-muted-foreground">
+                                    <div className="text-[10px] xs:text-xs sm:text-sm text-muted-foreground">
                                         {stat.label}
                                     </div>
                                 </div>
                             ))}
                         </div>
+                        */}
                     </div>
 
-                    {/* Right Column - What I Do (hidden on mobile portrait, visible from tablet landscape) */}
-                    <div className="hidden md:flex lg:w-3/5 flex-col justify-center">
-                        <h2 className="text-responsive-xl font-bold mb-6 md:mb-8">
+                    {/* Right Column - What I Do (show on all screens but compact on mobile) */}
+                    <div className="flex lg:w-3/5 flex-col justify-center mt-4 sm:mt-0">
+                        <h2 className="text-base xs:text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-6 md:mb-8">
                             {t('whatIDoTitle', { default: 'What I Do' })}
                         </h2>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-responsive-sm lg:gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 xs:gap-3 sm:gap-4 lg:gap-6">
                             {highlights.map((item, index) => (
                                 <div
                                     key={item.key}
-                                    className="flex items-center gap-2 xs:gap-3 p-3 xs:p-4 rounded-lg border border-border hover:border-accent/30 transition-all duration-300"
+                                    className="flex items-center gap-2 sm:gap-3 p-2 xs:p-2.5 sm:p-3 md:p-4 rounded-lg border border-border hover:border-accent/30 transition-all duration-300"
                                     style={{
                                         borderColor: isActiveAndHydrated
                                             ? `${neonColors[index % neonColors.length]}20`
@@ -229,7 +209,7 @@ export const AboutSection = memo(function AboutSection() {
                                     }}
                                 >
                                     <div
-                                        className="flex-shrink-0 w-9 h-9 xs:w-10 xs:h-10 rounded-full bg-secondary/50 flex items-center justify-center"
+                                        className="flex-shrink-0 w-7 h-7 xs:w-8 xs:h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-secondary/50 flex items-center justify-center"
                                         style={{
                                             backgroundColor: isActiveAndHydrated
                                                 ? `${neonColors[index % neonColors.length]}10`
@@ -239,7 +219,7 @@ export const AboutSection = memo(function AboutSection() {
                                     >
                                         <Icon
                                             icon={item.icon}
-                                            className="w-4 h-4 xs:w-5 xs:h-5"
+                                            className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5"
                                             style={{
                                                 color: isActiveAndHydrated
                                                     ? neonColors[index % neonColors.length]
@@ -249,7 +229,7 @@ export const AboutSection = memo(function AboutSection() {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-responsive-sm font-medium leading-relaxed">
+                                        <p className="text-[11px] xs:text-xs sm:text-sm font-medium leading-relaxed">
                                             {t(item.key)}
                                         </p>
                                     </div>

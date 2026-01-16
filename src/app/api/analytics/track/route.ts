@@ -126,10 +126,10 @@ export async function POST(request: NextRequest) {
         }
 
         // Try to connect to DB with timeout
-        const connectionTimeout = new Promise((_, reject) => 
+        const connectionTimeout = new Promise((_, reject) =>
             setTimeout(() => reject(new Error('DB connection timeout')), 3000)
         );
-        
+
         await Promise.race([connectDB(), connectionTimeout]);
 
         const device = {

@@ -62,7 +62,7 @@ const ModalForm = memo(function ModalForm({
     const getFocusableElements = () => {
       const modal = document.querySelector('[role="dialog"]');
       if (!modal) return [];
-      
+
       return Array.from(
         modal.querySelectorAll<HTMLElement>(
           'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -100,7 +100,7 @@ const ModalForm = memo(function ModalForm({
     return () => {
       document.body.classList.remove('contact-modal-open');
       document.removeEventListener('keydown', handleTabKey);
-      
+
       // Restore focus to previously focused element
       if (previouslyFocusedElement) {
         previouslyFocusedElement.focus();
@@ -501,12 +501,12 @@ export function ContactSection() {
 
         {/* Default Layout (Desktop, Tablet, Mobile Portrait) */}
         <SectionDefault>
-          {/* Header */}
-          <SectionHeader
-            title={t('title')}
-            subtitle={t('subtitle')}
-            className='mb-2 sm:mb-3 lg:mb-4'
-          />
+          <h2 className='text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3'>
+            {t('title')}
+          </h2>
+          <p className='text-center text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4 lg:mb-6 max-w-2xl mx-auto'>
+            {t('subtitle')}
+          </p>
 
           {/* Pricing Hint */}
           <p className='text-center text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4 lg:mb-6 max-w-2xl mx-auto'>

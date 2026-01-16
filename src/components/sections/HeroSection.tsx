@@ -14,7 +14,7 @@ import { Section, SectionLeft, SectionRight, SectionDefault } from '@/components
 // Container has fixed height to prevent CLS (Cumulative Layout Shift)
 const TechIcons = ({ compact = false, visible = true }: { compact?: boolean; visible?: boolean }) => (
     <div
-        className={`flex items-center justify-center gap-responsive-sm ${compact ? 'mb-0' : 'mb-6 xs:mb-8 sm:mb-10'} transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}
+        className={`flex items-center justify-center gap-2 sm:gap-3 ${compact ? 'mb-0' : 'mb-4 xs:mb-6 sm:mb-8'} transition-all duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}
         style={{ minHeight: compact ? '16px' : '24px' }}
         role="list"
         aria-label="Technology stack"

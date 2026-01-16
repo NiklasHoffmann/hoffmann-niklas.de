@@ -160,13 +160,13 @@ export const PackagesSection = memo(function PackagesSection() {
 
             {/* Default Layout (Desktop, Tablet Portrait, Mobile Portrait) */}
             {!useCompactLayout && (
-                <SectionDefault className="h-full flex flex-col justify-center">
-                    {/* Header */}
-                    <SectionHeader
-                        title={t('title')}
-                        subtitle={t('subtitle')}
-                        className="text-center mb-3 xs:mb-4 sm:mb-6 lg:mb-8"
-                    />
+                <SectionDefault className="h-full flex flex-col justify-start sm:justify-center py-6 sm:py-0">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3">
+                        {t('title')}
+                    </h2>
+                    <p className="text-center text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 lg:mb-8 max-w-2xl mx-auto">
+                        {t('subtitle')}
+                    </p>
 
                     {/* Cards */}
                     <div className="flex items-center justify-center">

@@ -41,14 +41,18 @@ export function Section({
             id={id}
             key={sectionKey}
             className={`
-                scroll-snap-section relative w-full 
+                scroll-snap-section relative w-full @container
                 ${asFooter ? 'min-h-screen' : 'h-screen max-h-screen'}
                 flex items-center justify-center outline-none
                 ${backgroundClasses[background]}
-                ${isMobileLandscape ? 'pt-16' : ''}
+                ${isMobileLandscape ? 'pt-16' : 'pt-14 sm:pt-16'}
                 ${className}
             `.trim().replace(/\s+/g, ' ')}
-            style={{ scrollMarginTop: '0px' }}
+            style={{
+                scrollMarginTop: '0px',
+                willChange: 'auto',
+                contain: 'layout style paint'
+            }}
             tabIndex={-1}
         >
             {/* Animated background elements - hidden on mobile landscape for performance */}

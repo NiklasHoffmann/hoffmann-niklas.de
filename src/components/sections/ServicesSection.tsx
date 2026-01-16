@@ -266,15 +266,15 @@ export const ServicesSection = memo(function ServicesSection() {
                             opacity: opacity,
                             transition: 'opacity 350ms ease-in-out',
                         }}
-                        className={`w-full h-full flex flex-col ${displayContent && isInteractive ? 'justify-around' : 'justify-center'}`}
+                        className={`w-full h-full flex flex-col ${displayContent && isInteractive ? 'justify-around' : 'justify-start sm:justify-center'}`}
                     >
                         {displayContent && isInteractive ? (
-                            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-12 md:gap-16 lg:gap-0 py-6 xs:py-8 sm:py-12 lg:py-16 h-full">
-                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-responsive-sm text-center lg:text-left max-w-xs xs:max-w-sm order-1 lg:order-none px-4 lg:px-0">
-                                    <h2 className="text-responsive-2xl font-bold leading-tight text-foreground">
+                            <div className="relative flex flex-col lg:flex-row items-center justify-start sm:justify-center gap-6 sm:gap-10 md:gap-14 lg:gap-0 py-6 xs:py-8 sm:py-12 lg:py-16 h-full">
+                                <div className="lg:absolute lg:left-0 lg:top-16 xl:top-24 space-y-2 sm:space-y-3 text-center lg:text-left max-w-xs xs:max-w-sm order-1 lg:order-none px-4 lg:px-0">
+                                    <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-foreground">
                                         {t('title')}
                                     </h2>
-                                    <p className="text-responsive-sm text-muted-foreground leading-relaxed">
+                                    <p className="text-xs xs:text-sm sm:text-base text-muted-foreground leading-relaxed">
                                         {t('subtitle')}
                                     </p>
                                 </div>
@@ -292,18 +292,19 @@ export const ServicesSection = memo(function ServicesSection() {
                                         <div className="absolute inset-0 bg-gradient-to-l from-accent/20 via-accent/40 to-accent/20 blur-sm" />
                                         <div className="relative h-px bg-gradient-to-l from-accent via-accent to-transparent" />
                                     </div>
-                                    <p className="text-responsive-sm text-muted-foreground leading-relaxed">
+                                    <p className="text-xs xs:text-sm sm:text-base text-muted-foreground leading-relaxed">
                                         {t('cubeHint')}
                                     </p>
                                 </div>
                             </div>
                         ) : (
                             <>
-                                <SectionHeader
-                                    title={t('title')}
-                                    subtitle={t('subtitle')}
-                                    className="text-center mb-2 sm:mb-3 lg:mb-4"
-                                />
+                                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 sm:mb-3">
+                                    {t('title')}
+                                </h2>
+                                <p className="text-center text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 lg:mb-8 max-w-2xl mx-auto">
+                                    {t('subtitle')}
+                                </p>
 
                                 <div className="flex flex-col justify-center">
                                     <div className="grid grid-cols-2 md:grid-cols-2 md:portrait:grid-cols-2 md:landscape:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1.5 xs:gap-2 sm:gap-3 lg:gap-4">

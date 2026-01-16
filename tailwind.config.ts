@@ -96,6 +96,12 @@ const config: Config = {
             },
         },
     },
-    plugins: [require("tailwindcss/plugin")],
+    plugins: [
+        require("tailwindcss/plugin"),
+        require('@tailwindcss/container-queries'),
+    ],
+    future: {
+        hoverOnlyWhenSupported: true,
+    },
 };
 export default config;

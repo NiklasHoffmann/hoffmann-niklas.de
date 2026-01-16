@@ -126,7 +126,7 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
 
     const getBaseShadow = () => {
         if (!mounted) return '0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.2)';
-        
+
         // In Interactive Mode: colored shadow based on entire flag colors
         if (isInteractive) {
             if (theme === 'dark') {
@@ -151,7 +151,7 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
             if (locale === 'uk') return '0 0 5px 1px rgba(0, 87, 183, 0.5), 0 0 8px 2px rgba(59, 130, 246, 0.4), 0 0 12px 3px rgba(255, 215, 0, 0.5), 0 6px 10px -3px rgba(59, 130, 246, 0.25)';
             return '0 0 5px 1px rgba(35, 159, 64, 0.5), 0 0 8px 2px rgba(255, 255, 255, 0.25), 0 0 12px 3px rgba(218, 0, 0, 0.5), 0 6px 10px -3px rgba(35, 159, 64, 0.25)';
         }
-        
+
         // Default: white shadow like other buttons (matching ThemeToggle and InteractiveToggle)
         return theme === 'dark'
             ? '0 0 8px 1px rgba(255, 255, 255, 0.35), 0 10px 15px -3px rgba(255, 255, 255, 0.2), 0 4px 6px -4px rgba(255, 255, 255, 0.15)'
@@ -159,11 +159,11 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
     };
 
     const otherLocales = ALL_LOCALES.filter(l => l !== locale);
-    
+
     // Get button colors based on theme and interactive mode
     const getButtonColors = () => {
         if (!mounted) return { bg: 'bg-black/20', text: 'text-white' };
-        
+
         if (theme === 'dark') {
             return { bg: 'bg-black/20 hover:bg-black/30', text: 'text-white' };
         } else {
@@ -171,16 +171,16 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
             return { bg: 'bg-white/90 hover:bg-white', text: 'text-black' };
         }
     };
-    
+
     // Get flag shadow based on theme
     const getFlagShadow = () => {
         if (!mounted) return '0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(0, 0, 0, 0.3)';
-        
+
         return theme === 'dark'
             ? '0 0 0 1px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.3)'
             : '0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(0, 0, 0, 0.3)';
     };
-    
+
     const buttonColors = getButtonColors();
 
     return (
@@ -204,14 +204,14 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
                 aria-label="Select language"
             >
                 {/* Flag */}
-                <div 
+                <div
                     className="relative w-8 h-5 rounded overflow-hidden"
                     style={{
                         boxShadow: getFlagShadow(),
                         transition: 'box-shadow 700ms ease-in-out'
                     }}
                 >
-                    <div 
+                    <div
                         className="absolute inset-0 transition-all duration-700 ease-in-out"
                         style={{ backgroundImage: GRADIENTS[locale] }}
                     />
@@ -256,14 +256,14 @@ export function LanguageToggle({ showActive = false }: { showActive?: boolean })
                             className="w-full flex items-center gap-3 px-4 py-2.5 transition-colors duration-150 hover:bg-white/10 active:bg-white/15 text-left"
                         >
                             {/* Flag */}
-                            <div 
+                            <div
                                 className="relative w-8 h-5 rounded overflow-hidden flex-shrink-0"
                                 style={{
                                     boxShadow: getFlagShadow(),
                                     transition: 'box-shadow 700ms ease-in-out'
                                 }}
                             >
-                                <div 
+                                <div
                                     className="absolute inset-0"
                                     style={{ backgroundImage: GRADIENTS[loc] }}
                                 />
